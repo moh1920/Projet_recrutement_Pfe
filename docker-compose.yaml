@@ -1,0 +1,52 @@
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: sayari
+      MONGO_INITDB_ROOT_PASSWORD: sayari
+    networks:
+      - mongodb_network
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: sayari
+      ME_CONFIG_MONGODB_ADMINPASSWORD: sayari
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_BASICAUTH_USERNAME: sayari
+      ME_CONFIG_BASICAUTH_PASSWORD: sayari
+    depends_on:
+      - mongodb
+    networks:
+      - mongodb_network
+
+  keycloak:
+    container_name: keycloak-EspritRecrutement
+    image: quay.io/keycloak/keycloak:24.0.2
+    command: start-dev
+    volumes:
+      - ./themes:/opt/keycloak/themes
+    ports:
+      - "9090:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    networks:
+      - mongodb_network
+
+volumes:
+  data:
+
+networks:
+  mongodb_network:
+    driver: bridge

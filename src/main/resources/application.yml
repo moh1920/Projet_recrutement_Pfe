@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: PfeBackendProject
+
+  data:
+    mongodb:
+      authentication-database: admin
+      username: sayari
+      password: sayari
+      database: pfe_db
+      port: 27017
+      host: localhost
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/espritRecrutement
+
+jwt:
+  auth:
+    converter:
+      principal-attribute: preferred_username
+      resource-id: espritRecrutement
+  
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+server:
+  port: 8020
