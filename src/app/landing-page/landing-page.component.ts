@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import {keycloak} from "../core/services/keycloak-init";
 
 @Component({
   selector: 'app-landing-page',
@@ -11,4 +12,8 @@ import { RouterModule } from '@angular/router';
 })
 export class LandingPageComponent {
   // Logic for the landing page can go here
+
+  login() {
+    keycloak.login();
+  }
 }

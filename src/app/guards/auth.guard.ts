@@ -1,5 +1,5 @@
 import { CanActivateFn } from '@angular/router';
-import {keycloak} from "../core/services/keycloak.service";
+import {keycloak} from "../core/services/keycloak-init";
 
 export const authGuard: CanActivateFn = () => {
   if (!keycloak.authenticated) {

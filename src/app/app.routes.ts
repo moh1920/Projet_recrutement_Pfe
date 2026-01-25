@@ -7,5 +7,18 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: 'home', component: LandingPageComponent },
+  {
+    path: 'admin',
+    component: AdminComponentComponent,
+    canActivate: [authGuard]
+  },
+  // {
+  //   path: 'user',
+  //   component: UserComponent,
+  //   canActivate: [authGuard]
+  // }
 
-  { path: 'login', component: AdminComponentComponent, canActivate: [authGuard] }];
+
+
+
+];

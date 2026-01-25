@@ -1,5 +1,5 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { keycloak } from '../core/services/keycloak.service';
+import { keycloak } from '../core/services/keycloak-init';
 
 export const keycloakInterceptor: HttpInterceptorFn = (req, next) => {
   const token = keycloak.token;
