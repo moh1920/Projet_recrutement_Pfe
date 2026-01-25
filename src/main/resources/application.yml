@@ -22,6 +22,15 @@ jwt:
     converter:
       principal-attribute: preferred_username
       resource-id: espritRecrutement
+
+keycloak-admin:
+  server-url: http://localhost:9090
+  realm: espritRecrutement
+  username: admin
+  password: admin
+  client-id: admin-cli
+
+
   
 
 logging:

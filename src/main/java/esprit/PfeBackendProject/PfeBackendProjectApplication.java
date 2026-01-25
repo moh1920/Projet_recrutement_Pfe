@@ -13,21 +13,7 @@ public class PfeBackendProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PfeBackendProjectApplication.class, args);
 	}
-	@Bean
-	CommandLineRunner runner(CandidatRepo candidatRepo){
-		return args -> {
 
-			Candidat candidat = Candidat.builder()
-					.email("dddd")
-					.nationalite("dddd")
-					.nom("Test")
-					.statut("EN_ATTENTE")
-					.dateCandidature(LocalDate.now())
-					.build();
-
-			candidatRepo.save(candidat);
-		};
-	}
 
 
 
