@@ -1,0 +1,35 @@
+<div class="form-container">
+
+  <h2> Créer un critère de sélection</h2>
+
+  <form [formGroup]="critereForm" (ngSubmit)="create()">
+
+    <label>Nom du critère</label>
+    <input
+      type="text"
+      formControlName="nom"
+      placeholder="Ex: Expérience académique"
+    >
+    <small *ngIf="critereForm.get('nom')?.touched && critereForm.get('nom')?.invalid">
+      Champ obligatoire
+    </small>
+
+    <label>Description</label>
+    <textarea
+      formControlName="description"
+      placeholder="Description du critère">
+    </textarea>
+    <small *ngIf="critereForm.get('description')?.touched && critereForm.get('description')?.invalid">
+      Champ obligatoire
+    </small>
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Création...' : 'Créer le critère' }}
+    </button>
+
+  </form>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+</div>

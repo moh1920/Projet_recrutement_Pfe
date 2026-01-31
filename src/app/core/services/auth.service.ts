@@ -13,15 +13,26 @@ export class AuthService {
     });
   }
 
-  handlePostLoginRedirect() {
-    const roles =
-      keycloak.tokenParsed?.realm_access?.roles || [];
-    console.log(roles);
 
-    if (roles.includes('admin')) {
-      this.router.navigate(['/admin']);
-    } else if (roles.includes('user')) {
-      this.router.navigate(['/home']);
-    }
+  logout() {
+    sessionStorage.removeItem('post_login_redirect');
+    keycloak.logout({
+      redirectUri: window.location.origin
+    });
   }
+
+  isLoggedIn(): boolean {
+    return !!keycloak.authenticated;
+  }
+
+  getUserRoles(): string[] {
+    return keycloak.tokenParsed?.realm_access?.roles || [];
+  }
+
+  hasRole(role: string): boolean {
+    return this.getUserRoles().includes(role);
+  }
+
+
+
 }

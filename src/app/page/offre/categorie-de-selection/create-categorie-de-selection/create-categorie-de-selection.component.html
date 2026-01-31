@@ -1,0 +1,43 @@
+<div class="form-container">
+
+  <h2>➕ Créer une catégorie de sélection</h2>
+
+  <form [formGroup]="categorieForm" (ngSubmit)="create()">
+
+    <label>Nom de la catégorie</label>
+    <input
+      type="text"
+      formControlName="nom"
+      placeholder="Ex: Expérience, Pédagogie"
+    >
+    <small *ngIf="categorieForm.get('nom')?.touched && categorieForm.get('nom')?.invalid">
+      Champ obligatoire
+    </small>
+
+    <label>Description</label>
+    <textarea
+      formControlName="description"
+      placeholder="Description de la catégorie">
+    </textarea>
+    <small *ngIf="categorieForm.get('description')?.touched && categorieForm.get('description')?.invalid">
+      Champ obligatoire
+    </small>
+
+    <label>Poids</label>
+    <input
+      type="number"
+      step="0.1"
+      formControlName="poids"
+      placeholder="Ex: 0.4"
+    >
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Création...' : 'Créer la catégorie' }}
+    </button>
+
+  </form>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+</div>

@@ -1,0 +1,44 @@
+<h2>Créer une offre</h2>
+
+<form [formGroup]="offreForm" (ngSubmit)="create()">
+
+  <input placeholder="Titre" formControlName="titre">
+  <textarea placeholder="Description" formControlName="description"></textarea>
+
+  <input placeholder="Département" formControlName="departement">
+  <input placeholder="Spécialité" formControlName="specialite">
+
+  <select formControlName="typePoste">
+    <option value="Permanent">Permanent</option>
+    <option value="Vacataire">Vacataire</option>
+  </select>
+
+  <input type="number" placeholder="Charge horaire" formControlName="chargeHoraire">
+
+  <select formControlName="niveauRequis">
+    <option>Licence</option>
+    <option>Master</option>
+    <option>Doctorat</option>
+  </select>
+
+  <input placeholder="Modules (ex: IA, Java)" formControlName="modules">
+  <input type="number" placeholder="Années min expérience" formControlName="minAnneesExperience">
+
+  <label>
+    <input type="checkbox" formControlName="experienceAcademique">
+    Expérience académique requise
+  </label>
+
+  <input placeholder="Compétences (ex: Python, NLP)" formControlName="competencesRequises">
+
+  <select formControlName="statut">
+    <option>Ouverte</option>
+    <option>En cours</option>
+    <option>Fermée</option>
+  </select>
+
+  <button type="submit" [disabled]="loading">
+    {{ loading ? 'Création...' : 'Créer' }}
+  </button>
+
+</form>

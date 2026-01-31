@@ -1,0 +1,198 @@
+<div class="offre-container">
+
+  <h2>📋 Liste des offres</h2>
+
+  <div *ngIf="loading">Chargement...</div>
+
+  <table *ngIf="!loading && offres.length > 0">
+    <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Département</th>
+      <th>Spécialité</th>
+      <th>Type poste</th>
+      <th>Charge horaire</th>
+      <th>Niveau requis</th>
+      <th>Modules</th>
+
+      <th>Min exp (ans)</th>
+      <th>Exp académique</th>
+      <th>Compétences</th>
+
+      <th>Date publication</th>
+      <th>Date expiration</th>
+      <th>Statut</th>
+
+      <th>Créé par</th>
+      <th>Date création</th>
+
+      <th>Critères liés</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let offre of offres">
+      <td>{{ offre.titre }}</td>
+      <td>{{ offre.departement }}</td>
+      <td>{{ offre.specialite }}</td>
+      <td>{{ offre.typePoste }}</td>
+      <td>{{ offre.chargeHoraire }} h</td>
+      <td>{{ offre.niveauRequis }}</td>
+
+      <td>
+        <ul>
+          <li *ngFor="let module of offre.modules">{{ module }}</li>
+        </ul>
+      </td>
+
+      <td>{{ offre.minAnneesExperience }}</td>
+      <td>{{ offre.experienceAcademique ? 'Oui' : 'Non' }}</td>
+
+      <td>
+        <ul>
+          <li *ngFor="let c of offre.competencesRequises">{{ c }}</li>
+        </ul>
+      </td>
+
+      <td>{{ offre.datePublication | date:'shortDate' }}</td>
+      <td>{{ offre.dateExpiration | date:'shortDate' }}</td>
+      <td>
+        <span [ngClass]="offre.statut">
+          {{ offre.statut }}
+        </span>
+      </td>
+
+      <td>{{ offre.creePar }}</td>
+      <td>{{ offre.dateCreation | date:'short' }}</td>
+
+      <td>
+       <span *ngIf="offre.criteresDeSelections && offre.criteresDeSelections.length > 0">
+  {{ offre.criteresDeSelections.length }} critères
+</span>
+
+        <span *ngIf="!offre.criteresDeSelections || offre.criteresDeSelections.length === 0">
+  Aucun
+</span>
+
+      </td>
+
+      <td>
+        <button (click)="deleteOffre(offre.id)">🗑️</button>
+        <button (click)="openEditModal(offre)">✏️</button>
+        <button (click)="openAffecterCriteresModal(offre)">🧠</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && offres.length === 0">
+    Aucune offre disponible.
+  </p>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page === 0">
+      ◀ Précédent
+    </button>
+
+    <span>Page {{ page + 1 }} / {{ totalPages }}</span>
+
+    <button (click)="nextPage()" [disabled]="page === totalPages - 1">
+      Suivant ▶
+    </button>
+  </div>
+
+</div>
+
+
+
+
+<!-- MODAL MODIFICATION -->
+<div class="modal-backdrop" *ngIf="showEditModal">
+
+  <div class="modal">
+
+    <h3>✏️ Modifier l’offre</h3>
+
+    <form [formGroup]="editForm" (ngSubmit)="updateOffre()">
+
+      <input formControlName="titre" placeholder="Titre">
+      <textarea formControlName="description" placeholder="Description"></textarea>
+
+      <input formControlName="departement" placeholder="Département">
+      <input formControlName="specialite" placeholder="Spécialité">
+
+      <select formControlName="typePoste">
+        <option value="Permanent">Permanent</option>
+        <option value="Vacataire">Vacataire</option>
+      </select>
+
+      <input type="number" formControlName="chargeHoraire" placeholder="Charge horaire">
+
+      <select formControlName="niveauRequis">
+        <option>Licence</option>
+        <option>Master</option>
+        <option>Doctorat</option>
+      </select>
+
+      <input formControlName="modules" placeholder="Modules (IA, Java)">
+      <input type="number" formControlName="minAnneesExperience" placeholder="Années expérience">
+
+      <label>
+        <input type="checkbox" formControlName="experienceAcademique">
+        Expérience académique requise
+      </label>
+
+      <input formControlName="competencesRequises" placeholder="Compétences (Python, NLP)">
+
+      <select formControlName="statut">
+        <option>Ouverte</option>
+        <option>En cours</option>
+        <option>Fermée</option>
+      </select>
+
+      <div class="modal-actions">
+        <button type="submit">💾 Enregistrer</button>
+        <button type="button" (click)="closeEditModal()">❌ Annuler</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+
+
+
+<!-- MODAL AFFECTER CRITERES -->
+<div class="modal-backdrop" *ngIf="showAffecterModal">
+
+  <div class="modal">
+
+    <h3>🧠 Affecter des critères</h3>
+
+    <div *ngIf="criteres.length === 0">
+      Aucun critère disponible.
+    </div>
+
+    <form (ngSubmit)="affecterCriteres()">
+
+      <label *ngFor="let critere of criteres" class="checkbox">
+        <input
+          type="checkbox"
+          [checked]="isCritereSelected(critere.id!)"
+          (change)="toggleCritere(critere.id!)"
+        >
+        {{ critere.nom }}
+      </label>
+
+      <div class="modal-actions">
+        <button type="submit">💾 Enregistrer</button>
+        <button type="button" (click)="closeAffecterModal()">❌ Annuler</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<h2>Upload CV</h2>
+
+<input
+  type="file"
+  accept=".pdf,.docx"
+  (change)="onFileSelected($event)"
+/>
+
+<br /><br />
+
+<button (click)="uploadCv()" [disabled]="loading">
+  {{ loading ? 'Upload en cours...' : 'Uploader CV' }}
+</button>
+
+<p>{{ message }}</p>

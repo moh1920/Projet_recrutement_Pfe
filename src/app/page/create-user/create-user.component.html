@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>Créer un utilisateur</h2>
+
+  <form [formGroup]="createUserForm" (ngSubmit)="submit()">
+
+    <div>
+      <label>Username</label>
+      <input type="text" formControlName="username">
+    </div>
+
+    <div>
+      <label>Email</label>
+      <input type="email" formControlName="email">
+    </div>
+
+    <div>
+      <label>Mot de passe</label>
+      <input type="password" formControlName="password">
+    </div>
+
+    <div>
+      <label>Rôle</label>
+      <select formControlName="role">
+        <option value="">-- Sélectionner --</option>
+        <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="createUserForm.invalid">
+      Créer
+    </button>
+
+  </form>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+
+</div>

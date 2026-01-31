@@ -1,0 +1,96 @@
+<div class="critere-container">
+
+  <h2>📋 Liste des critères de sélection</h2>
+
+  <div *ngIf="loading">Chargement...</div>
+
+  <table *ngIf="!loading && criteres.length > 0">
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Catégories associées</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let critere of criteres">
+      <td>{{ critere.nom }}</td>
+      <td>{{ critere.description }}</td>
+      <td>
+        <span *ngIf="critere.categorieDeSelections && critere.categorieDeSelections.length  ">
+          {{ critere.categorieDeSelections.length }} catégories
+          {{ getCategorieNoms(critere) }}
+
+        </span>
+        <span *ngIf="!critere.categorieDeSelections?.length">
+          Aucune
+        </span>
+      </td>
+      <td>
+        <button (click)="openEditModal(critere)">✏️</button>
+        <button (click)="deleteCritere(critere.id)">🗑️</button>
+        <button (click)="openAffecterCategoriesModal(critere)">🧠</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && criteres.length === 0">
+    Aucun critère disponible.
+  </p>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page === 0">◀</button>
+    <span>Page {{ page + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page === totalPages - 1">▶</button>
+  </div>
+
+</div>
+
+<!-- MODAL MODIFIER -->
+<div class="modal-backdrop" *ngIf="showEditModal">
+  <div class="modal">
+    <h3>✏️ Modifier critère</h3>
+
+    <form [formGroup]="editForm" (ngSubmit)="updateCritere()">
+      <label>Nom</label>
+      <input formControlName="nom">
+
+      <label>Description</label>
+      <textarea formControlName="description"></textarea>
+
+      <div class="modal-actions">
+        <button type="submit">💾</button>
+        <button type="button" (click)="closeEditModal()">❌</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL AFFECTER CATEGORIES -->
+<div class="modal-backdrop" *ngIf="showAffecterModal">
+  <div class="modal">
+    <h3>🧠 Affecter des catégories</h3>
+
+    <form (ngSubmit)="affecterCategories()">
+
+      <label *ngFor="let categorie of categories" class="checkbox">
+        <input
+          type="checkbox"
+          [checked]="isCategorieSelected(categorie.id!)"
+          (change)="toggleCategorie(categorie.id!)"
+        >
+        {{ categorie.nom }}
+      </label>
+
+      <div class="modal-actions">
+        <button type="submit">💾</button>
+        <button type="button" (click)="closeAffecterModal()">❌</button>
+      </div>
+
+    </form>
+  </div>
+</div>

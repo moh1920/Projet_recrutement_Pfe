@@ -23,12 +23,10 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
 
-    const currentUrl = this.router.url;
 
-    // ✅ Ne pas rediriger si déjà sur une page spécifique
-    if (keycloak.authenticated && currentUrl === '/') {
-      this.auth.handlePostLoginRedirect();
-    }
+    const roles = keycloak.tokenParsed?.realm_access?.roles || [];
+    console.log('User roles:', roles);
+
     this.userService.getCurrentUser().subscribe({
       next: user => {
         console.log('User synchronisé:', user);

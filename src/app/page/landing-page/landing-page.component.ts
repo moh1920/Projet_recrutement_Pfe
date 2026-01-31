@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import {keycloak} from "../core/services/keycloak-init";
+import {keycloak} from "../../core/services/keycloak-init";
 
 @Component({
   selector: 'app-landing-page',

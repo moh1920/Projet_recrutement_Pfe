@@ -1,0 +1,58 @@
+<div class="categorie-container">
+
+  <h2>📋 Catégories de sélection</h2>
+
+  <div *ngIf="loading">Chargement...</div>
+
+  <table *ngIf="!loading && categories.length > 0">
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Poids</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let cat of categories">
+      <td>{{ cat.nom }}</td>
+      <td>{{ cat.description }}</td>
+      <td>{{ cat.poids }}</td>
+      <td>
+        <button (click)="openEditModal(cat)">✏️ Modifier</button>
+        <button (click)="deleteCategorie(cat.id)">🗑️ Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && categories.length === 0">
+    Aucune catégorie disponible.
+  </p>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="page === 0">◀ Précédent</button>
+    <span>Page {{ page + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page === totalPages - 1">Suivant ▶</button>
+  </div>
+</div>
+
+<!-- MODAL UPDATE -->
+<div class="modal-backdrop" *ngIf="showEditModal">
+  <div class="modal">
+    <h3>✏️ Modifier catégorie</h3>
+
+    <form [formGroup]="editForm" (ngSubmit)="updateCategorie()">
+      <input formControlName="nom" placeholder="Nom">
+      <textarea formControlName="description" placeholder="Description"></textarea>
+      <input type="number" formControlName="poids" placeholder="Poids">
+
+      <div class="modal-actions">
+        <button type="submit">💾 Enregistrer</button>
+        <button type="button" (click)="closeEditModal()">❌ Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
