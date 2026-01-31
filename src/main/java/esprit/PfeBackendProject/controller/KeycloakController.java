@@ -43,7 +43,7 @@ public class KeycloakController {
     private final KeycloakAdminService service;
 
 
-    @PostMapping("/users")
+    @PostMapping("/createUser")
     public ResponseEntity<?> create(@RequestBody CreateUserRequest req) {
 
         service.createUser(

@@ -43,6 +43,17 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
     networks:
       - mongodb_network
+  jitsi:
+    image: jitsi/web
+    container_name: jitsi-meet
+    ports:
+      - "8443:80"
+    environment:
+      - ENABLE_AUTH=0
+      - ENABLE_GUESTS=1
+    networks:
+      - mongodb_network
+
 
 volumes:
   data:

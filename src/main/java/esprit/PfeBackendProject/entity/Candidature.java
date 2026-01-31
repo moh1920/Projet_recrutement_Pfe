@@ -17,15 +17,10 @@ public class Candidature {
     @Id
     private String id;
 
-    /* =======================
-       Lien User / Keycloak
-       ======================= */
     private String userId;
     private String keycloakId;
 
-    /* =======================
-       Identification
-       ======================= */
+
     private String nom;
     private String email;
     private String telephone;
@@ -33,9 +28,7 @@ public class Candidature {
     private String ville;
     private LocalDate dateNaissance;
 
-    /* =======================
-       Formation académique
-       ======================= */
+
     private String niveauDiplome;
     private String specialite;
     private String universite;

@@ -1,6 +1,22 @@
 spring:
   application:
     name: PfeBackendProject
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: sayarim558@gmail.com
+    password: qejy ajpu qaof vfez
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: "*"
+        starttls:
+          enable: true
+    protocol: smtp
+
 
   data:
     mongodb:

@@ -27,26 +27,37 @@ public class SecurityConfig{
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize)-> authorize
-                        .requestMatchers("/api/v1/admin")
-                        .hasRole("ADMIN")
-                        .requestMatchers("/api/v1/user")
-                        .hasRole("USER")
-                                .requestMatchers("/api/v1/me").permitAll()
-                        .anyRequest()
-                        .authenticated()
+                .authorizeHttpRequests(authorize -> authorize
 
+                        // 🔓 Swagger (PUBLIC)
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+                        // 🔐 API sécurisées
+                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/user/**").hasRole("USER")
+
+                        // 🔓 API publiques
+                        .requestMatchers(
+                                "/api/v1/me",
+                                "/offre/**"
+                        ).permitAll()
+
+                        .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2.jwt(jwt ->
+                                jwt.jwtAuthenticationConverter(jwtConverter)
                         )
-
-                .oauth2ResourceServer(
-                        (oauth2)-> oauth2.jwt(
-                                jwt-> jwt.jwtAuthenticationConverter(jwtConverter)
-                        ))
-                .sessionManagement(
-                        session-> session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS)
+                )
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
         return http.build();
     }
+
 }

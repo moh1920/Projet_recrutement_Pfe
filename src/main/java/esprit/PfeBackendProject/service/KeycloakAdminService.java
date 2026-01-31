@@ -22,16 +22,25 @@ public class KeycloakAdminService {
 
     public String createUser(String username, String email, String password, String role) {
 
+        if (!keycloak.realm(realm).users().search(username).isEmpty()) {
+            throw new RuntimeException("Utilisateur existe déjà");
+        }
+
         UserRepresentation user = new UserRepresentation();
         user.setUsername(username);
         user.setEmail(email);
         user.setEnabled(true);
+        user.setEmailVerified(false);
 
         Response response = keycloak.realm(realm).users().create(user);
 
-        String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+        if (response.getStatus() != 201 || response.getLocation() == null) {
+            throw new RuntimeException("Erreur Keycloak : " + response.getStatus());
+        }
 
-        // mot de passe
+        String userId = response.getLocation().getPath()
+                .replaceAll(".*/([^/]+)$", "$1");
+
         CredentialRepresentation credential = new CredentialRepresentation();
         credential.setType(CredentialRepresentation.PASSWORD);
         credential.setValue(password);
@@ -42,7 +51,6 @@ public class KeycloakAdminService {
                 .get(userId)
                 .resetPassword(credential);
 
-        // rôle
         RoleRepresentation roleRep = keycloak.realm(realm)
                 .roles()
                 .get(role)
@@ -54,6 +62,11 @@ public class KeycloakAdminService {
                 .roles()
                 .realmLevel()
                 .add(List.of(roleRep));
+
+        keycloak.realm(realm)
+                .users()
+                .get(userId)
+                .sendVerifyEmail();
 
         return userId;
     }
