@@ -1,0 +1,144 @@
+<div class="dashboard-container">
+
+    <!-- KPI Grid -->
+    <div class="kpi-grid">
+        <mat-card class="kpi-card" *ngFor="let stat of stats">
+            <mat-card-content>
+                <div class="kpi-icon-wrapper" [class]="stat.color">
+                    <mat-icon>{{stat.icon}}</mat-icon>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value">{{stat.value}}</div>
+                    <div class="kpi-title">{{stat.title}}</div>
+                    <div class="kpi-trend">{{stat.trend}}</div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="content-grid">
+
+        <!-- Timeline Section -->
+        <mat-card class="section-card timeline-card">
+            <mat-card-header>
+                <mat-card-title>Processus de Recrutement (Session Juin 2026)</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="timeline-container">
+                    <div class="timeline-step completed">
+                        <div class="step-icon"><mat-icon>upload_file</mat-icon></div>
+                        <span class="step-label">Dépôt CV</span>
+                        <span class="step-date">01 Jan</span>
+                    </div>
+                    <div class="timeline-line completed"></div>
+                    <div class="timeline-step completed">
+                        <div class="step-icon"><mat-icon>psychology</mat-icon></div>
+                        <span class="step-label">Analyse IA</span>
+                        <span class="step-date">Auto</span>
+                    </div>
+                    <div class="timeline-line active"></div>
+                    <div class="timeline-step active">
+                        <div class="step-icon"><mat-icon>school</mat-icon></div>
+                        <span class="step-label">Scoring</span>
+                        <span class="step-date">En cours</span>
+                    </div>
+                    <div class="timeline-line"></div>
+                    <div class="timeline-step">
+                        <div class="step-icon"><mat-icon>video_call</mat-icon></div>
+                        <span class="step-label">Entretiens</span>
+                        <span class="step-date">15 Fev</span>
+                    </div>
+                    <div class="timeline-line"></div>
+                    <div class="timeline-step">
+                        <div class="step-icon"><mat-icon>gavel</mat-icon></div>
+                        <span class="step-label">Décision</span>
+                        <span class="step-date">01 Mar</span>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Charts Row -->
+        <div class="charts-row">
+            <mat-card class="chart-card">
+                <mat-card-header><mat-card-title>Répartition des Scores</mat-card-title></mat-card-header>
+                <mat-card-content class="chart-content">
+                    <!-- Simple CSS Bar Chart -->
+                    <div class="simple-bar-chart">
+                        <div class="bar-group">
+                            <div class="bar" style="height: 40%"></div>
+                            <span>&lt;50</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height: 60%"></div>
+                            <span>50-70</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar active" style="height: 80%"></div>
+                            <span>70-90</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height: 30%"></div>
+                            <span>&gt;90</span>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="chart-card">
+                <mat-card-header><mat-card-title>Statuts Candidatures</mat-card-title></mat-card-header>
+                <mat-card-content class="chart-content center-flex">
+                    <!-- CSS Pie Chart -->
+                    <div class="pie-chart"></div>
+                    <div class="pie-legend">
+                        <div><span class="dot accepted"></span> Admis (25%)</div>
+                        <div><span class="dot rejected"></span> Rejeté (15%)</div>
+                        <div><span class="dot pending"></span> En cours (60%)</div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <!-- Recent Candidates -->
+        <mat-card class="table-card">
+            <mat-card-header>
+                <mat-card-title>Candidats Récents</mat-card-title>
+                <span class="spacer"></span>
+                <button mat-button color="primary">Voir Tout</button>
+            </mat-card-header>
+            <mat-card-content>
+                <table mat-table [dataSource]="recentCandidates" class="full-width-table">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Nom </th>
+                        <td mat-cell *matCellDef="let element" class="bold-text"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="specialty">
+                        <th mat-header-cell *matHeaderCellDef> Spécialité </th>
+                        <td mat-cell *matCellDef="let element"> {{element.specialty}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="score">
+                        <th mat-header-cell *matHeaderCellDef> Score IA </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="score-badge" [class.high]="element.score > 80">{{element.score}}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Statut </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="status-chip" [ngClass]="getStatusColor(element.status)">
+                                {{element.status}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>

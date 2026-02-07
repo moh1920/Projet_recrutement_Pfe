@@ -1,0 +1,54 @@
+<div class="offers-admin-container">
+    <div class="header-actions">
+        <h1 class="page-title">Mes Offres d'Emploi (Admin)</h1>
+        <button mat-raised-button color="primary" (click)="openAddDialog()">
+            <mat-icon>add</mat-icon> Créer une Offre
+        </button>
+    </div>
+
+    <div class="offers-list" *if="offers$ | async as offers; else loading">
+        <div class="offer-item-card" *ngFor="let offer of offers">
+            <div class="offer-main">
+                <h3 class="offer-title">{{offer.title}}</h3>
+                <p class="offer-meta">
+                    <mat-icon>business</mat-icon> {{offer.department}}
+                    <span class="separator">•</span>
+                    <mat-icon>location_on</mat-icon> {{offer.location}}
+                </p>
+            </div>
+
+            <div class="offer-stats">
+                <div class="stat-badge">
+                    <span class="count">{{offer.candidateCount}}</span>
+                    <span class="label">Candidats</span>
+                </div>
+            </div>
+
+            <div class="offer-status">
+                <div class="status-indicator" [ngClass]="offer.status ? offer.status.toLowerCase() : ''">
+                    {{offer.status}}
+                </div>
+            </div>
+
+            <div class="offer-actions">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>edit</mat-icon> Modifier
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon color="warn">archive</mat-icon> Archiver
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #loading>
+        <div class="loading-state">
+            Chargement des offres...
+        </div>
+    </ng-template>
+</div>

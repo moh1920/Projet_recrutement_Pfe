@@ -1,0 +1,68 @@
+<div class="interviews-container">
+    <div class="header-split">
+        <div>
+            <h1 class="page-title">Planning des Entretiens</h1>
+            <p class="subtitle">Gérez les sessions et les jurys</p>
+        </div>
+        <div class="actions">
+            <button mat-stroked-button color="primary">
+                <mat-icon>today</mat-icon> Aujourd'hui
+            </button>
+            <button mat-raised-button color="primary" (click)="openAddDialog()">
+                <mat-icon>add</mat-icon> Planifier Entretien
+            </button>
+        </div>
+    </div>
+
+    <div class="content-layout">
+        <!-- List of Upcoming -->
+        <div class="upcoming-sidebar">
+            <h2 class="section-title">Prochains Entretiens</h2>
+
+            <div class="interview-list">
+                <mat-card class="interview-card" *ngFor="let interview of interviews$ | async">
+                    <div class="card-timeline">
+                        <div class="time">{{interview.time}}</div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="card-details">
+                        <div class="date-badge">{{interview.date | date:'dd MMM'}}</div>
+                        <h3 class="candidate-name">{{interview.candidateName}}</h3>
+                        <p class="role">{{interview.position}}</p>
+                        <div class="jury-avatars">
+                            <div class="avatar" *ngFor="let j of interview.jury" [matTooltip]="j">{{j.charAt(0)}}</div>
+                        </div>
+                        <div class="actions-row">
+                            <button mat-button color="primary" *ngIf="interview.status === 'Planifié'"
+                                [disabled]="interview.meetLink === '#'">
+                                <mat-icon>videocam</mat-icon> Rejoindre
+                            </button>
+                            <div class="status-badge" [ngClass]="interview.status.toLowerCase()">{{interview.status}}
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+
+        <!-- Calendar Grid (CSS Grid Mock) -->
+        <div class="calendar-view mat-elevation-z4">
+            <div class="calendar-header">
+                <div class="time-col"></div>
+                <div class="day-col" *ngFor="let day of days">{{day}}</div>
+            </div>
+
+            <div class="calendar-body">
+                <div class="row" *ngFor="let hour of hours">
+                    <div class="time-cell">{{hour}}</div>
+                    <div class="day-cell" *ngFor="let day of days">
+                        <div class="event-chip" *ngIf="getEventFor(day, hour) as evt">
+                            <span class="evt-time">{{evt.time}}</span>
+                            <span class="evt-name">{{evt.candidateName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

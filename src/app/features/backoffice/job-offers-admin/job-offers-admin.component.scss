@@ -1,0 +1,131 @@
+.offers-admin-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .page-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+}
+
+.offers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.offer-item-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid transparent;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        border-left-color: #8B0000;
+    }
+
+    .offer-main {
+        flex: 1;
+
+        .offer-title {
+            margin: 0 0 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .offer-meta {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            mat-icon {
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+                color: #888;
+            }
+
+            .separator {
+                margin: 0 4px;
+                color: #ccc;
+            }
+        }
+    }
+
+    .offer-stats {
+        margin: 0 32px;
+
+        .stat-badge {
+            text-align: center;
+
+            .count {
+                display: block;
+                font-weight: 700;
+                font-size: 1.2rem;
+                color: #1976d2;
+            }
+
+            .label {
+                font-size: 0.75rem;
+                color: #777;
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    .offer-status {
+        margin-right: 24px;
+
+        .status-indicator {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+
+            &.active {
+                background: #e8f5e9;
+                color: #2e7d32;
+            }
+
+            &.draft {
+                background: #f5f5f5;
+                color: #666;
+            }
+
+            &.closed {
+                background: #ffebee;
+                color: #c62828;
+            }
+        }
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

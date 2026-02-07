@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>Ajouter un Candidat</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="candidateForm" class="candidate-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Nom Complet</mat-label>
+            <input matInput formControlName="name" placeholder="Ex: Jean Dupont">
+            <mat-error *ngIf="candidateForm.get('name')?.hasError('required')">
+                Le nom est requis
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="jean.dupont@example.com">
+            <mat-error *ngIf="candidateForm.get('email')?.hasError('required')">
+                L'email est requis
+            </mat-error>
+            <mat-error *ngIf="candidateForm.get('email')?.hasError('email')">
+                Email invalide
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Téléphone</mat-label>
+            <input matInput formControlName="phone" placeholder="+216 XX XXX XXX">
+            <mat-error *ngIf="candidateForm.get('phone')?.hasError('required')">
+                Le téléphone est requis
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Poste Souhaité</mat-label>
+            <input matInput formControlName="position" placeholder="Ex: Enseignant IA">
+            <mat-error *ngIf="candidateForm.get('position')?.hasError('required')">
+                Le poste est requis
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Années d'Expérience</mat-label>
+            <input matInput type="number" formControlName="experience" placeholder="5">
+            <mat-error *ngIf="candidateForm.get('experience')?.hasError('required')">
+                L'expérience est requise
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Statut</mat-label>
+            <mat-select formControlName="status">
+                <mat-option value="En Attente">En Attente</mat-option>
+                <mat-option value="Accepté">Accepté</mat-option>
+                <mat-option value="Rejeté">Rejeté</mat-option>
+                <mat-option value="Entretien">Entretien</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Annuler</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!candidateForm.valid">
+        Ajouter
+    </button>
+</mat-dialog-actions>

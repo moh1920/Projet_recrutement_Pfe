@@ -1,0 +1,73 @@
+<h2 mat-dialog-title>Planifier un Entretien</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="interviewForm" class="interview-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Nom du Candidat</mat-label>
+            <input matInput formControlName="candidateName" placeholder="Ex: Jean Dupont">
+            <mat-error *ngIf="interviewForm.get('candidateName')?.hasError('required')">
+                Le nom du candidat est requis
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Poste</mat-label>
+            <input matInput formControlName="position" placeholder="Ex: Enseignant IA">
+            <mat-error *ngIf="interviewForm.get('position')?.hasError('required')">
+                Le poste est requis
+            </mat-error>
+        </mat-form-field>
+
+        <div class="date-time-row">
+            <mat-form-field appearance="outline">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="interviewForm.get('date')?.hasError('required')">
+                    La date est requise
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Heure</mat-label>
+                <input matInput type="time" formControlName="time">
+                <mat-error *ngIf="interviewForm.get('time')?.hasError('required')">
+                    L'heure est requise
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Type d'Entretien</mat-label>
+            <mat-select formControlName="type">
+                <mat-option value="Technique">Technique</mat-option>
+                <mat-option value="RH">RH</mat-option>
+                <mat-option value="Direction">Direction</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Interviewers (séparés par des virgules)</mat-label>
+            <input matInput formControlName="interviewers" placeholder="Dr. Ahmed, Prof. Fatma">
+            <mat-error *ngIf="interviewForm.get('interviewers')?.hasError('required')">
+                Les interviewers sont requis
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Lieu / Lien</mat-label>
+            <input matInput formControlName="location" placeholder="Salle 201 ou https://meet.google.com/...">
+            <mat-error *ngIf="interviewForm.get('location')?.hasError('required')">
+                Le lieu est requis
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Annuler</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!interviewForm.valid">
+        Planifier
+    </button>
+</mat-dialog-actions>

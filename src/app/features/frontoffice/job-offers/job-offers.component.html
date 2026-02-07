@@ -1,0 +1,39 @@
+<div class="offers-container container">
+    <div class="header-section">
+        <h1 class="page-title">Nos Offres d'Emploi</h1>
+        <p class="page-subtitle">Rejoignez ESPRIT et contribuez à l'excellence académique</p>
+
+        <div class="search-bar">
+            <mat-form-field appearance="outline" class="search-input">
+                <mat-label>Rechercher un poste (ex: Enseignant IA)</mat-label>
+                <input matInput>
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="offers-grid">
+        <mat-card class="offer-card" *ngFor="let offer of offers$ | async">
+            <div class="card-left">
+                <mat-card-header>
+                    <mat-card-title>{{offer.title}}</mat-card-title>
+                    <mat-card-subtitle>{{offer.department}} • {{offer.location}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p class="description">{{offer.description}}</p>
+                    <div class="chips">
+                        <span class="chip-item type">{{offer.type}}</span>
+                        <span class="chip-item">
+                            <mat-icon>schedule</mat-icon> {{offer.postedDate | date:'mediumDate'}}
+                        </span>
+                    </div>
+                </mat-card-content>
+            </div>
+
+            <div class="card-right">
+                <button mat-stroked-button color="primary" routerLink="/apply">Postuler</button>
+                <button mat-button color="accent" [routerLink]="['/offers', offer.id]">Détails</button>
+            </div>
+        </mat-card>
+    </div>
+</div>

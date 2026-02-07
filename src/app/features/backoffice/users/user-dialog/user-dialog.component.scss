@@ -1,0 +1,23 @@
+.user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 500px;
+    padding: 20px 0;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    .role-dept-row,
+    .status-date-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+}
+
+mat-dialog-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}

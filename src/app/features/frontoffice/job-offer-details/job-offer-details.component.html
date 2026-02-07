@@ -1,0 +1,44 @@
+<div class="details-container" *ngIf="offer$ | async as offer; else loading">
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="back-link" routerLink="/offers">
+                <mat-icon>arrow_back</mat-icon> Retour aux offres
+            </div>
+            <h1 class="job-title">{{offer.title}}</h1>
+            <div class="job-meta">
+                <span class="meta-item"><mat-icon>business</mat-icon> {{offer.department}}</span>
+                <span class="separator">•</span>
+                <span class="meta-item"><mat-icon>location_on</mat-icon> {{offer.location}}</span>
+                <span class="separator">•</span>
+                <span class="type-badge">{{offer.type}}</span>
+            </div>
+            <div class="hero-actions">
+                <a mat-raised-button color="accent" routerLink="/apply" [queryParams]="{offer: offer.id}">
+                    Postuler Maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="description-card">
+            <h2>Description du Poste</h2>
+            <p>{{offer.description}}</p>
+
+            <h3>Responsabilités & Prérequis</h3>
+            <ul class="requirements-list">
+                <li *ngFor="let req of offer.requirements">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>{{req}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="loading-state">
+        <mat-icon class="spinner">sync</mat-icon>
+        <p>Chargement de l'offre...</p>
+    </div>
+</ng-template>

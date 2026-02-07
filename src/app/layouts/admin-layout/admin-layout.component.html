@@ -1,0 +1,60 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="'side'" opened="true">
+
+        <div class="sidenav-header">
+            <div class="logo-area">
+                <mat-icon class="logo-icon">school</mat-icon>
+                <span class="logo-text">ESPRIT Recruit</span>
+            </div>
+        </div>
+
+        <mat-nav-list>
+            <div mat-subheader class="menu-subheader">MENU</div>
+            <a mat-list-item *ngFor="let item of menuItems" [routerLink]="item.route" routerLinkActive="active-link">
+                <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                <span matListItemTitle>{{item.label}}</span>
+            </a>
+        </mat-nav-list>
+
+        <div class="sidenav-footer">
+            <p>ESPRIT © 2026</p>
+        </div>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar color="surface" class="main-toolbar">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <span class="spacer"></span>
+
+            <!-- User Profile Area -->
+            <div class="user-profile" *ngIf="currentUser$ | async as user" [matMenuTriggerFor]="userMenu">
+                <span class="user-name">{{ user.name }}</span>
+                <span class="user-role-badge">{{ user.role }}</span>
+                <!-- Avatar would be an img tag here -->
+                <mat-icon class="user-avatar-icon">account_circle</mat-icon>
+            </div>
+
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>person</mat-icon>
+                    <span>Mon Profil</span>
+                </button>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Déconnexion</span>
+                </button>
+            </mat-menu>
+
+        </mat-toolbar>
+
+        <main class="content-wrapper">
+            <router-outlet></router-outlet>
+        </main>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

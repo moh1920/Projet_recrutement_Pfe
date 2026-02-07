@@ -1,0 +1,99 @@
+<div class="users-container">
+    <div class="header-actions">
+        <h1 class="page-title">Gestion des Utilisateurs</h1>
+        <button mat-raised-button color="primary" (click)="openAddDialog()">
+            <mat-icon>person_add</mat-icon>
+            Ajouter un Utilisateur
+        </button>
+    </div>
+
+    <div class="filter-section">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Rechercher</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Nom, email, rôle..." #input>
+            <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
+                <td mat-cell *matCellDef="let user">
+                    <div class="user-info">
+                        <span class="name">{{ user.name }}</span>
+                        <span class="phone">{{ user.phone }}</span>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+            </ng-container>
+
+            <!-- Role Column -->
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Rôle</th>
+                <td mat-cell *matCellDef="let user">
+                    <span class="role-chip" [ngClass]="getRoleColor(user.role)">
+                        {{ user.role }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <!-- Department Column -->
+            <ng-container matColumnDef="department">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Département</th>
+                <td mat-cell *matCellDef="let user">{{ user.department }}</td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Statut</th>
+                <td mat-cell *matCellDef="let user">
+                    <span class="status-chip" [ngClass]="getStatusColor(user.status)">
+                        {{ user.status }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let user">
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="openEditDialog(user)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Modifier</span>
+                        </button>
+                        <mat-divider></mat-divider>
+                        <button mat-menu-item (click)="deleteUser(user.id)">
+                            <mat-icon color="warn">delete</mat-icon>
+                            <span>Supprimer</span>
+                        </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- No Data Row -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="6">
+                    Aucun utilisateur trouvé pour "{{ input.value }}"
+                </td>
+            </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+        </mat-paginator>
+    </div>
+</div>

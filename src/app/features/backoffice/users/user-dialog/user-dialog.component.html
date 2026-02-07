@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Modifier l\'Utilisateur' : 'Ajouter un Utilisateur' }}</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="userForm" class="user-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Nom Complet</mat-label>
+            <input matInput formControlName="name" placeholder="Ex: Dr. Ahmed Ben Salem">
+            <mat-error *ngIf="userForm.get('name')?.hasError('required')">
+                Le nom est requis
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="ahmed.bensalem@esprit.tn">
+            <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+                L'email est requis
+            </mat-error>
+            <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+                Email invalide
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Téléphone</mat-label>
+            <input matInput formControlName="phone" placeholder="+216 XX XXX XXX">
+            <mat-error *ngIf="userForm.get('phone')?.hasError('required')">
+                Le téléphone est requis
+            </mat-error>
+        </mat-form-field>
+
+        <div class="role-dept-row">
+            <mat-form-field appearance="outline">
+                <mat-label>Rôle</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option *ngFor="let role of roles" [value]="role">
+                        {{ role }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.get('role')?.hasError('required')">
+                    Le rôle est requis
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Département</mat-label>
+                <mat-select formControlName="department">
+                    <mat-option *ngFor="let dept of departments" [value]="dept">
+                        {{ dept }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.get('department')?.hasError('required')">
+                    Le département est requis
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="status-date-row">
+            <mat-form-field appearance="outline">
+                <mat-label>Statut</mat-label>
+                <mat-select formControlName="status">
+                    <mat-option value="Actif">Actif</mat-option>
+                    <mat-option value="Inactif">Inactif</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Date d'Embauche</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="hireDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="userForm.get('hireDate')?.hasError('required')">
+                    La date d'embauche est requise
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Annuler</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid">
+        {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
+    </button>
+</mat-dialog-actions>

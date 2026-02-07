@@ -1,0 +1,113 @@
+<div class="apply-container container">
+    <mat-card class="apply-card">
+        <mat-card-header>
+            <mat-card-title>Candidature Enseignant</mat-card-title>
+            <mat-card-subtitle>Processus assisté par IA</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-stepper orientation="vertical" [linear]="true" #stepper>
+
+                <!-- Step 1: Info -->
+                <mat-step [stepControl]="firstFormGroup">
+                    <form [formGroup]="firstFormGroup">
+                        <ng-template matStepLabel>Informations Personnelles</ng-template>
+                        <div class="form-grid">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nom Complet</mat-label>
+                                <input matInput formControlName="name" placeholder="Mohamed Ali">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Email</mat-label>
+                                <input matInput formControlName="email" placeholder="email@exemple.com">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <button mat-button matStepperNext>Suivant</button>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 2: Upload -->
+                <mat-step>
+                    <ng-template matStepLabel>Dépôt du CV</ng-template>
+
+                    <div class="upload-area" *ngIf="!isAnalyzing && !analysisComplete">
+                        <div class="upload-box" (click)="fileInput.click()">
+                            <mat-icon>cloud_upload</mat-icon>
+                            <h3>Glissez votre CV ou cliquez ici</h3>
+                            <p>Format PDF, DOCX (Max 5MB)</p>
+                            <input hidden (change)="onFileSelected($event)" #fileInput type="file"
+                                accept=".pdf,.doc,.docx">
+                            <span *ngIf="fileName" class="file-name">{{fileName}}</span>
+                        </div>
+
+                        <button mat-raised-button color="primary" [disabled]="!fileName" (click)="startAnalysis()"
+                            class="analyze-btn">
+                            <mat-icon>auto_awesome</mat-icon>
+                            Lancer l'Analyse IA
+                        </button>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="analysis-loading" *ngIf="isAnalyzing">
+                        <mat-spinner diameter="60"></mat-spinner>
+                        <p>Notre IA analyse votre parcours académique et professionnel...</p>
+                        <p class="blink">Extraction des compétences...</p>
+                    </div>
+
+                    <!-- Result State -->
+                    <div class="analysis-result" *ngIf="analysisComplete">
+                        <div class="score-circle">
+                            <span class="score-value">{{mockAnalysis.score}}</span>
+                            <span class="score-label">Score IA</span>
+                        </div>
+
+                        <div class="skills-list">
+                            <h4>Compétences Détectées :</h4>
+                            <div class="chips">
+                                <span class="skill-chip" *ngFor="let skill of mockAnalysis.skills">
+                                    <mat-icon>check</mat-icon> {{skill}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="feedback-box">
+                            <mat-icon>info</mat-icon>
+                            <p>{{mockAnalysis.feedback}}</p>
+                        </div>
+
+                        <div class="actions">
+                            <button mat-stroked-button color="warn">Corriger les données</button>
+                            <button mat-raised-button color="primary" matStepperNext>Valider et Soumettre</button>
+                        </div>
+                    </div>
+
+                </mat-step>
+
+                <!-- Step 3: Confirmation -->
+                <mat-step>
+                    <ng-template matStepLabel>Confirmation</ng-template>
+                    <div class="confirmation-msg">
+                        <mat-icon class="success-icon">check_circle</mat-icon>
+                        <h3>Candidature Envoyée !</h3>
+                        <p>Votre dossier a été transmis aux responsables pédagogiques. Vous serez notifié par email.</p>
+
+                        <div class="next-steps-card">
+                            <h4>Prochaine étape :</h4>
+                            <p>Pour augmenter vos chances, nous vous recommandons de compléter votre profil détaillé
+                                (Formation, Expérience, Compétences IA/Web).</p>
+                            <button mat-raised-button color="accent" href="/profile-builder">
+                                <mat-icon>psychology</mat-icon>
+                                Compléter mon profil maintenant
+                            </button>
+                        </div>
+
+                        <button mat-button color="primary" routerLink="/">Retour à l'accueil</button>
+                    </div>
+                </mat-step>
+
+            </mat-stepper>
+        </mat-card-content>
+    </mat-card>
+</div>
