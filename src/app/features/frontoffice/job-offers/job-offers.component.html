@@ -1,39 +1,138 @@
 <div class="offers-container container">
-    <div class="header-section">
-        <h1 class="page-title">Nos Offres d'Emploi</h1>
-        <p class="page-subtitle">Rejoignez ESPRIT et contribuez à l'excellence académique</p>
+  <!-- Header Section -->
+  <div class="header-section">
 
-        <div class="search-bar">
-            <mat-form-field appearance="outline" class="search-input">
-                <mat-label>Rechercher un poste (ex: Enseignant IA)</mat-label>
-                <input matInput>
-                <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
+    <h1 class="page-title">Nos Offres d'Emploi</h1>
+
+    <p class="page-subtitle">Rejoignez ESPRIT et contribuez à l'excellence académique</p>
+    <div class="header-badge">
+      <mat-icon>work_outline</mat-icon>
+      <span>Opportunités de carrière</span>
+    </div>
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <mat-form-field appearance="outline" class="search-input">
+        <mat-label>Rechercher un poste (ex: Enseignant IA)</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (input)="applyFilters()">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-container">
+      <div class="filter-group">
+        <label>Type de contrat</label>
+        <mat-chip-listbox [(ngModel)]="selectedType" (change)="applyFilters()">
+          <mat-chip-option value="all">Tous</mat-chip-option>
+          <mat-chip-option value="CDI">CDI</mat-chip-option>
+          <mat-chip-option value="CDD">CDD</mat-chip-option>
+          <mat-chip-option value="Freelance">Freelance</mat-chip-option>
+          <mat-chip-option value="Stage">Stage</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+
+      <div class="filter-group">
+        <label>Département</label>
+        <mat-chip-listbox [(ngModel)]="selectedDepartment" (change)="applyFilters()">
+          <mat-chip-option value="all">Tous</mat-chip-option>
+          <mat-chip-option value="Informatique">Informatique</mat-chip-option>
+          <mat-chip-option value="Électronique">Électronique</mat-chip-option>
+          <mat-chip-option value="Mécanique">Mécanique</mat-chip-option>
+          <mat-chip-option value="Gestion">Gestion</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+    </div>
+
+    <!-- Results Count -->
+    <div class="results-count" *ngIf="filteredOffers.length > 0">
+      <mat-icon>check_circle</mat-icon>
+      <span>{{filteredOffers.length}} offre{{filteredOffers.length > 1 ? 's' : ''}} trouvée{{filteredOffers.length > 1 ? 's' : ''}}</span>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredOffers.length === 0">
+    <div class="empty-icon">
+      <mat-icon>search_off</mat-icon>
+    </div>
+    <h3>Aucune offre ne correspond à vos critères</h3>
+    <p>Essayez de modifier vos filtres ou votre recherche</p>
+    <button mat-stroked-button color="primary" (click)="resetFilters()">
+      <mat-icon>refresh</mat-icon>
+      Réinitialiser les filtres
+    </button>
+  </div>
+
+  <!-- Offers Grid -->
+  <div class="offers-grid" *ngIf="filteredOffers.length > 0">
+    <mat-card class="offer-card" *ngFor="let offer of filteredOffers; let i = index" [class.featured]="offer.featured" [style.animation-delay]="i * 0.1 + 's'">
+      <!-- Featured Badge -->
+      <div class="featured-ribbon" *ngIf="offer.featured">
+        <mat-icon>star</mat-icon>
+        <span>À la une</span>
+      </div>
+
+      <div class="card-content">
+        <!-- Header -->
+        <div class="card-header">
+          <div class="department-icon" [style.background]="getDepartmentColor(offer.department)">
+            <mat-icon>{{getDepartmentIcon(offer.department)}}</mat-icon>
+          </div>
+          <div class="header-info">
+            <div class="title-row">
+              <h3 class="offer-title">{{offer.title}}</h3>
+              <span class="new-badge" *ngIf="isNewOffer(offer.postedDate)">Nouveau</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-item department">
+                <mat-icon>business</mat-icon>
+                {{offer.department}}
+              </span>
+              <span class="meta-item location">
+                <mat-icon>location_on</mat-icon>
+                {{offer.location}}
+              </span>
+            </div>
+          </div>
         </div>
-    </div>
 
-    <div class="offers-grid">
-        <mat-card class="offer-card" *ngFor="let offer of offers$ | async">
-            <div class="card-left">
-                <mat-card-header>
-                    <mat-card-title>{{offer.title}}</mat-card-title>
-                    <mat-card-subtitle>{{offer.department}} • {{offer.location}}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <p class="description">{{offer.description}}</p>
-                    <div class="chips">
-                        <span class="chip-item type">{{offer.type}}</span>
-                        <span class="chip-item">
-                            <mat-icon>schedule</mat-icon> {{offer.postedDate | date:'mediumDate'}}
-                        </span>
-                    </div>
-                </mat-card-content>
-            </div>
+        <!-- Description -->
+        <p class="offer-description">{{offer.description}}</p>
 
-            <div class="card-right">
-                <button mat-stroked-button color="primary" routerLink="/apply">Postuler</button>
-                <button mat-button color="accent" [routerLink]="['/offers', offer.id]">Détails</button>
-            </div>
-        </mat-card>
-    </div>
+        <!-- Tags -->
+        <div class="tags-container">
+          <span class="tag type" [class]="offer.type?.toLowerCase()">
+            {{offer.type}}
+          </span>
+          <span class="tag" *ngIf="offer.experience">
+            <mat-icon>schedule</mat-icon>
+            {{offer.experience}}
+          </span>
+          <span class="tag" *ngIf="offer.salary">
+            <mat-icon>payments</mat-icon>
+            {{offer.salary}}
+          </span>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer">
+          <div class="post-date">
+            <mat-icon>calendar_today</mat-icon>
+            <span>Publié le {{offer.postedDate | date:'dd MMM yyyy'}}</span>
+          </div>
+
+          <div class="card-actions">
+            <button mat-stroked-button class="details-btn" [routerLink]="['/offers', offer.id]">
+              <mat-icon>visibility</mat-icon>
+              Détails
+            </button>
+            <button mat-raised-button color="primary" class="apply-btn" routerLink="/apply" [queryParams]="{offer: offer.id}">
+              <mat-icon>send</mat-icon>
+              Postuler
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
 </div>

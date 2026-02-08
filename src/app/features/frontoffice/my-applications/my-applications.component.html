@@ -1,0 +1,149 @@
+<div class="applications-page">
+  <!-- Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="header-content">
+        <div>
+          <h1>Mes Candidatures</h1>
+          <p>Suivez l'évolution de vos candidatures chez ESPRIT</p>
+        </div>
+        <button class="btn-primary" routerLink="/offers">
+          <span class="material-icons icon">search</span>
+          Découvrir les offres
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="applications-content">
+    <div class="container">
+      <!-- Statistics -->
+      <div class="stats-bar">
+        <div class="stat-item" [class.active]="activeFilter === 'all'" (click)="filterApplications('all')">
+          <span class="stat-value">{{ totalApplications }}</span>
+          <span class="stat-label">Total</span>
+        </div>
+        <div class="stat-item" [class.active]="activeFilter === 'in-progress'" (click)="filterApplications('in-progress')">
+          <span class="stat-value">{{ inProgressCount }}</span>
+          <span class="stat-label">En cours</span>
+        </div>
+        <div class="stat-item success" [class.active]="activeFilter === 'accepted'">
+          <span class="stat-value">{{ acceptedCount }}</span>
+          <span class="stat-label">Acceptées</span>
+        </div>
+        <div class="stat-item warning" [class.active]="activeFilter === 'interview'" (click)="filterApplications('interview')">
+          <span class="stat-value">{{ interviewCount }}</span>
+          <span class="stat-label">Entretiens</span>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-section">
+        <div class="filter-tabs">
+          <button [class.active]="activeFilter === 'all'" (click)="filterApplications('all')">Toutes</button>
+          <button [class.active]="activeFilter === 'in-progress'" (click)="filterApplications('in-progress')">En cours</button>
+          <button [class.active]="activeFilter === 'interview'" (click)="filterApplications('interview')">Entretiens</button>
+          <button [class.active]="activeFilter === 'closed'" (click)="filterApplications('closed')">Clôturées</button>
+        </div>
+      </div>
+
+      <!-- Applications List -->
+      <div class="applications-list">
+        <div *ngFor="let app of filteredApplications"
+             class="application-card"
+             [class.interview]="app.status === 'interview'"
+             [class.rejected]="app.status === 'rejected'">
+
+          <!-- Card Header -->
+          <div class="card-header">
+            <div class="offer-info">
+              <h3 class="offer-title">{{ app.offerTitle }}</h3>
+              <div class="offer-meta">
+                <span class="meta-item">
+                  <span class="material-icons icon">business</span>
+                  {{ app.department }}
+                </span>
+                <span class="meta-item">
+                  <span class="material-icons icon">location_on</span>
+                  {{ app.location }}
+                </span>
+                <span class="meta-item">
+                  <span class="material-icons icon">schedule</span>
+                  {{ app.contractType }}
+                </span>
+              </div>
+            </div>
+            <div class="status-badge" [class]="getStatusBadgeClass(app.status)">
+              <span class="material-icons icon">{{ app.statusIcon }}</span>
+              <span>{{ app.statusLabel }}</span>
+            </div>
+          </div>
+
+          <!-- Progress Section -->
+          <div class="progress-section" *ngIf="app.status !== 'rejected' && app.status !== 'accepted'">
+            <div class="progress-header">
+              <span>Progression</span>
+              <span>Étape {{ app.currentStep }} sur {{ app.totalSteps }}</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="(app.currentStep / app.totalSteps) * 100"></div>
+            </div>
+            <div class="next-step" *ngIf="app.nextStep">
+              <span class="material-icons icon">arrow_forward</span>
+              <span>Prochaine étape : <strong>{{ app.nextStep }}</strong></span>
+              <span class="step-date">{{ app.nextStepDate }}</span>
+            </div>
+          </div>
+
+          <!-- AI Score Section -->
+          <div class="ai-score-section">
+            <div class="score-header">
+              <span class="material-icons icon">psychology</span>
+              <span>Score IA</span>
+            </div>
+            <div class="score-display" [class]="getScoreClass(app.aiScore)">
+              <span class="score-value">{{ app.aiScore }}</span>
+              <span class="score-label">/ 100</span>
+            </div>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="card-footer">
+            <div class="dates">
+              <div class="date-item">
+                <span class="material-icons icon">send</span>
+                <span>Postulé le {{ app.appliedDate }}</span>
+              </div>
+              <div class="date-item">
+                <span class="material-icons icon">update</span>
+                <span>Mis à jour le {{ app.updatedDate }}</span>
+              </div>
+            </div>
+            <div class="actions">
+              <button *ngIf="app.hasMessages"
+                      class="btn-icon badge"
+                      (click)="openChat(app)">
+                <span class="material-icons icon">chat</span>
+                <span class="badge-count">{{ app.messageCount }}</span>
+              </button>
+              <button class="btn-outline" (click)="viewDetails(app)">
+                <span class="material-icons icon">visibility</span>
+                Détails
+              </button>
+              <button class="btn-icon danger" (click)="deleteApplication(app)">
+                <span class="material-icons icon">delete_outline</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredApplications.length === 0" class="empty-state">
+        <span class="material-icons icon">inbox</span>
+        <p>Aucune candidature trouvée</p>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,328 +1,605 @@
-<div class="profile-builder-container">
-    <div class="builder-header">
-        <h1>Construisez Votre Profil</h1>
-        <p>Complétez votre profil pour maximiser vos chances de recrutement</p>
+<div class="profile-page">
+  <!-- Hero Section -->
+  <section class="profile-hero">
+    <div class="hero-pattern"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="back-link" routerLink="/">
+          <mat-icon>arrow_back</mat-icon>
+          <span>Retour à l'accueil</span>
+        </div>
+        <h1 class="hero-title">Construisez Votre Profil</h1>
+        <p class="hero-subtitle">Complétez votre profil pour maximiser vos chances de recrutement chez ESPRIT</p>
+
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+          <div class="progress-item" [class.completed]="personalInfoForm.valid">
+            <div class="progress-icon">
+              <mat-icon>person</mat-icon>
+            </div>
+            <span>Infos</span>
+          </div>
+          <div class="progress-line" [class.active]="educationForm.valid"></div>
+          <div class="progress-item" [class.completed]="educationForm.valid">
+            <div class="progress-icon">
+              <mat-icon>school</mat-icon>
+            </div>
+            <span>Formation</span>
+          </div>
+          <div class="progress-line" [class.active]="experienceForm.valid"></div>
+          <div class="progress-item" [class.completed]="experienceForm.valid">
+            <div class="progress-icon">
+              <mat-icon>work</mat-icon>
+            </div>
+            <span>Expérience</span>
+          </div>
+          <div class="progress-line" [class.active]="technicalSkillsForm.valid"></div>
+          <div class="progress-item" [class.completed]="technicalSkillsForm.valid">
+            <div class="progress-icon">
+              <mat-icon>code</mat-icon>
+            </div>
+            <span>Tech</span>
+          </div>
+          <div class="progress-line" [class.active]="pedagogicalSkillsForm.valid"></div>
+          <div class="progress-item" [class.completed]="pedagogicalSkillsForm.valid">
+            <div class="progress-icon">
+              <mat-icon>psychology</mat-icon>
+            </div>
+            <span>Pédagogie</span>
+          </div>
+          <div class="progress-line" [class.active]="softSkillsForm.valid"></div>
+          <div class="progress-item" [class.completed]="softSkillsForm.valid">
+            <div class="progress-icon">
+              <mat-icon>star</mat-icon>
+            </div>
+            <span>Soft Skills</span>
+          </div>
+        </div>
+
+        <!-- Global Progress -->
+        <div class="global-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="calculateProgress()"></div>
+          </div>
+          <span class="progress-text">{{calculateProgress()}}% complété</span>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <mat-stepper [linear]="true" #stepper>
+  <!-- Main Content -->
+  <section class="profile-content">
+    <div class="container">
+      <mat-card class="profile-card">
+        <mat-card-content>
+          <mat-stepper [linear]="true" #stepper (selectionChange)="onStepChange($event)" class="custom-stepper">
 
-        <!-- Step 1: Informations Personnelles -->
-        <mat-step [stepControl]="personalInfoForm">
-            <form [formGroup]="personalInfoForm">
-                <ng-template matStepLabel>Informations Personnelles</ng-template>
-
-                <div class="step-content">
-                    <h2>Informations Personnelles</h2>
-
-                    <div class="form-grid">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Nom Complet</mat-label>
-                            <input matInput formControlName="nom" placeholder="Ex: Ahmed Ben Salem">
-                            <mat-error>Le nom est requis</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Email</mat-label>
-                            <input matInput type="email" formControlName="email" placeholder="ahmed@example.com">
-                            <mat-error>Email valide requis</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Téléphone</mat-label>
-                            <input matInput formControlName="telephone" placeholder="+216 XX XXX XXX">
-                            <mat-error>Téléphone requis</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Nationalité</mat-label>
-                            <mat-select formControlName="nationalite">
-                                <mat-option *ngFor="let nat of nationalites" [value]="nat">{{ nat }}</mat-option>
-                            </mat-select>
-                            <mat-error>Nationalité requise</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Ville</mat-label>
-                            <input matInput formControlName="ville" placeholder="Ex: Tunis">
-                            <mat-error>Ville requise</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Date de Naissance</mat-label>
-                            <input matInput [matDatepicker]="picker1" formControlName="dateNaissance">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                            <mat-error>Date de naissance requise</mat-error>
-                        </mat-form-field>
-                    </div>
-
-                    <div class="step-actions">
-                        <button mat-raised-button color="primary" matStepperNext [disabled]="!personalInfoForm.valid">
-                            Suivant
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </mat-step>
-
-        <!-- Step 2: Formation Académique -->
-        <mat-step [stepControl]="educationForm">
-            <form [formGroup]="educationForm">
-                <ng-template matStepLabel>Formation Académique</ng-template>
+            <!-- Step 1: Personal Info -->
+            <mat-step [stepControl]="personalInfoForm" [editable]="true">
+              <form [formGroup]="personalInfoForm">
+                <ng-template matStepLabel>Informations</ng-template>
 
                 <div class="step-content">
-                    <h2>Formation Académique</h2>
-
-                    <div class="form-grid">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Niveau de Diplôme</mat-label>
-                            <mat-select formControlName="niveauDiplome">
-                                <mat-option *ngFor="let niveau of niveauxDiplome" [value]="niveau">{{ niveau
-                                    }}</mat-option>
-                            </mat-select>
-                            <mat-error>Niveau de diplôme requis</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Spécialité</mat-label>
-                            <input matInput formControlName="specialite" placeholder="Ex: Génie Logiciel">
-                            <mat-error>Spécialité requise</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Université</mat-label>
-                            <input matInput formControlName="universite" placeholder="Ex: ESPRIT">
-                            <mat-error>Université requise</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Année du Diplôme</mat-label>
-                            <input matInput type="number" formControlName="anneeDiplome" placeholder="2020">
-                            <mat-error>Année valide requise (1950-2030)</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline" class="full-width">
-                            <mat-label>Grade Académique (optionnel)</mat-label>
-                            <mat-select formControlName="gradeAcademique">
-                                <mat-option value="">Aucun</mat-option>
-                                <mat-option *ngFor="let grade of gradesAcademiques" [value]="grade">{{ grade
-                                    }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                  <div class="step-header">
+                    <div class="step-icon">
+                      <mat-icon>person</mat-icon>
                     </div>
-
-                    <div class="step-actions">
-                        <button mat-button matStepperPrevious>Précédent</button>
-                        <button mat-raised-button color="primary" matStepperNext [disabled]="!educationForm.valid">
-                            Suivant
-                        </button>
+                    <div>
+                      <h2>Informations Personnelles</h2>
+                      <p>Commençons par les informations de base</p>
                     </div>
+                  </div>
+
+                  <div class="form-grid">
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Nom Complet</mat-label>
+                      <input matInput formControlName="nom" placeholder="Dr. Ahmed Ben Salem">
+                      <mat-icon matPrefix>badge</mat-icon>
+                      <mat-error>Le nom est requis</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Email Professionnel</mat-label>
+                      <input matInput type="email" formControlName="email" placeholder="ahmed.ben.salem@email.com">
+                      <mat-icon matPrefix>email</mat-icon>
+                      <mat-error>Email valide requis</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Téléphone</mat-label>
+                      <input matInput formControlName="telephone" placeholder="+216 XX XXX XXX">
+                      <mat-icon matPrefix>phone</mat-icon>
+                      <mat-error>Téléphone requis</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Nationalité</mat-label>
+                      <mat-select formControlName="nationalite">
+                        <mat-option *ngFor="let nat of nationalites" [value]="nat">{{ nat }}</mat-option>
+                      </mat-select>
+                      <mat-icon matPrefix>public</mat-icon>
+                      <mat-error>Nationalité requise</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Ville</mat-label>
+                      <input matInput formControlName="ville" placeholder="Tunis">
+                      <mat-icon matPrefix>location_city</mat-icon>
+                      <mat-error>Ville requise</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Date de Naissance</mat-label>
+                      <input matInput [matDatepicker]="picker1" formControlName="dateNaissance">
+                      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                      <mat-icon matPrefix>cake</mat-icon>
+                      <mat-error>Date de naissance requise</mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="step-actions">
+                    <button mat-raised-button color="primary" matStepperNext class="next-btn" [disabled]="!personalInfoForm.valid">
+                      Continuer
+                      <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
                 </div>
-            </form>
-        </mat-step>
+              </form>
+            </mat-step>
 
-        <!-- Step 3: Expérience Professionnelle -->
-        <mat-step [stepControl]="experienceForm">
-            <form [formGroup]="experienceForm">
+            <!-- Step 2: Education -->
+            <mat-step [stepControl]="educationForm" [editable]="true">
+              <form [formGroup]="educationForm">
+                <ng-template matStepLabel>Formation</ng-template>
+
+                <div class="step-content">
+                  <div class="step-header">
+                    <div class="step-icon">
+                      <mat-icon>school</mat-icon>
+                    </div>
+                    <div>
+                      <h2>Formation Académique</h2>
+                      <p>Votre parcours universitaire</p>
+                    </div>
+                  </div>
+
+                  <div class="form-grid">
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Niveau de Diplôme</mat-label>
+                      <mat-select formControlName="niveauDiplome">
+                        <mat-option *ngFor="let niveau of niveauxDiplome" [value]="niveau">{{ niveau }}</mat-option>
+                      </mat-select>
+                      <mat-icon matPrefix>workspace_premium</mat-icon>
+                      <mat-error>Niveau requis</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Spécialité</mat-label>
+                      <input matInput formControlName="specialite" placeholder="Génie Logiciel">
+                      <mat-icon matPrefix>psychology</mat-icon>
+                      <mat-error>Spécialité requise</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Université</mat-label>
+                      <input matInput formControlName="universite" placeholder="ESPRIT">
+                      <mat-icon matPrefix>account_balance</mat-icon>
+                      <mat-error>Université requise</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Année du Diplôme</mat-label>
+                      <input matInput type="number" formControlName="anneeDiplome" placeholder="2020">
+                      <mat-icon matPrefix>calendar_today</mat-icon>
+                      <mat-error>Année valide requise</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field full-width">
+                      <mat-label>Grade Académique (optionnel)</mat-label>
+                      <mat-select formControlName="gradeAcademique">
+                        <mat-option value="">Aucun</mat-option>
+                        <mat-option *ngFor="let grade of gradesAcademiques" [value]="grade">{{ grade }}</mat-option>
+                      </mat-select>
+                      <mat-icon matPrefix>military_tech</mat-icon>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="step-actions">
+                    <button mat-stroked-button matStepperPrevious>Retour</button>
+                    <button mat-raised-button color="primary" matStepperNext class="next-btn" [disabled]="!educationForm.valid">
+                      Continuer
+                      <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </mat-step>
+
+            <!-- Step 3: Experience -->
+            <mat-step [stepControl]="experienceForm" [editable]="true">
+              <form [formGroup]="experienceForm">
                 <ng-template matStepLabel>Expérience</ng-template>
 
                 <div class="step-content">
-                    <h2>Expérience Professionnelle</h2>
+                  <div class="step-header">
+                    <div class="step-icon">
+                      <mat-icon>work</mat-icon>
+                    </div>
+                    <div>
+                      <h2>Expérience Professionnelle</h2>
+                      <p>Votre expérience enseignante et professionnelle</p>
+                    </div>
+                  </div>
 
-                    <div class="form-grid">
+                  <div class="form-grid compact">
+                    <mat-form-field appearance="outline" class="form-field">
+                      <mat-label>Années d'Expérience</mat-label>
+                      <input matInput type="number" formControlName="nbAnneesExperience" min="0">
+                      <mat-icon matPrefix>timer</mat-icon>
+                      <mat-error>Requis</mat-error>
+                    </mat-form-field>
+
+                    <div class="checkbox-field">
+                      <mat-checkbox formControlName="experienceAcademique" color="primary">
+                        <span class="checkbox-label">Expérience Académique</span>
+                      </mat-checkbox>
+                    </div>
+                  </div>
+
+                  <!-- Dynamic Lists -->
+                  <div class="dynamic-section">
+                    <div class="section-header">
+                      <h3>
+                        <mat-icon>business</mat-icon>
+                        Institutions
+                      </h3>
+                      <button mat-mini-fab color="primary" type="button" (click)="addInstitution()" class="add-btn">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                    <div class="dynamic-list">
+                      <div *ngFor="let inst of institutions.controls; let i = index" class="dynamic-item" [@slideIn]>
                         <mat-form-field appearance="outline">
-                            <mat-label>Années d'Expérience</mat-label>
-                            <input matInput type="number" formControlName="nbAnneesExperience" min="0">
-                            <mat-error>Nombre d'années requis</mat-error>
+                          <mat-label>Institution {{ i + 1 }}</mat-label>
+                          <input matInput [formControl]="$any(inst)" placeholder="Nom de l'institution">
+                          <mat-icon matPrefix>apartment</mat-icon>
                         </mat-form-field>
-
-                        <div class="checkbox-field">
-                            <mat-checkbox formControlName="experienceAcademique">
-                                Expérience Académique
-                            </mat-checkbox>
-                        </div>
-                    </div>
-
-                    <div class="dynamic-list">
-                        <h3>Institutions
-                            <button mat-mini-fab color="primary" type="button" (click)="addInstitution()">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </h3>
-                        <div *ngFor="let inst of institutions.controls; let i = index" class="dynamic-item">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Institution {{ i + 1 }}</mat-label>
-                                <input matInput [formControl]="$any(inst)">
-                            </mat-form-field>
-                            <button mat-icon-button color="warn" type="button" (click)="removeInstitution(i)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="dynamic-list">
-                        <h3>Modules Enseignés
-                            <button mat-mini-fab color="primary" type="button" (click)="addModule()">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </h3>
-                        <div *ngFor="let mod of modulesEnseignes.controls; let i = index" class="dynamic-item">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Module {{ i + 1 }}</mat-label>
-                                <input matInput [formControl]="$any(mod)">
-                            </mat-form-field>
-                            <button mat-icon-button color="warn" type="button" (click)="removeModule(i)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="step-actions">
-                        <button mat-button matStepperPrevious>Précédent</button>
-                        <button mat-raised-button color="primary" matStepperNext [disabled]="!experienceForm.valid">
-                            Suivant
+                        <button mat-icon-button color="warn" type="button" (click)="removeInstitution(i)" class="remove-btn">
+                          <mat-icon>delete_outline</mat-icon>
                         </button>
+                      </div>
+                      <div class="empty-hint" *ngIf="institutions.length === 0">
+                        Cliquez sur + pour ajouter une institution
+                      </div>
                     </div>
-                </div>
-            </form>
-        </mat-step>
+                  </div>
 
-        <!-- Step 4: Compétences Techniques -->
-        <mat-step [stepControl]="technicalSkillsForm">
-            <form [formGroup]="technicalSkillsForm">
-                <ng-template matStepLabel>Compétences Techniques</ng-template>
+                  <div class="dynamic-section">
+                    <div class="section-header">
+                      <h3>
+                        <mat-icon>menu_book</mat-icon>
+                        Modules Enseignés
+                      </h3>
+                      <button mat-mini-fab color="primary" type="button" (click)="addModule()" class="add-btn">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                    <div class="dynamic-list">
+                      <div *ngFor="let mod of modulesEnseignes.controls; let i = index" class="dynamic-item" [@slideIn]>
+                        <mat-form-field appearance="outline">
+                          <mat-label>Module {{ i + 1 }}</mat-label>
+                          <input matInput [formControl]="$any(mod)" placeholder="Nom du module">
+                          <mat-icon matPrefix>class</mat-icon>
+                        </mat-form-field>
+                        <button mat-icon-button color="warn" type="button" (click)="removeModule(i)" class="remove-btn">
+                          <mat-icon>delete_outline</mat-icon>
+                        </button>
+                      </div>
+                      <div class="empty-hint" *ngIf="modulesEnseignes.length === 0">
+                        Cliquez sur + pour ajouter un module
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="step-actions">
+                    <button mat-stroked-button matStepperPrevious>Retour</button>
+                    <button mat-raised-button color="primary" matStepperNext class="next-btn" [disabled]="!experienceForm.valid">
+                      Continuer
+                      <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </mat-step>
+
+            <!-- Step 4: Technical Skills -->
+            <mat-step [stepControl]="technicalSkillsForm" [editable]="true">
+              <form [formGroup]="technicalSkillsForm">
+                <ng-template matStepLabel>Compétences Tech</ng-template>
 
                 <div class="step-content">
-                    <h2>Compétences Techniques</h2>
+                  <div class="step-header">
+                    <div class="step-icon">
+                      <mat-icon>code</mat-icon>
+                    </div>
+                    <div>
+                      <h2>Compétences Techniques</h2>
+                      <p>Vos expertises techniques et technologiques</p>
+                    </div>
+                  </div>
 
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Langages de Programmation</mat-label>
+                  <div class="skills-grid">
+                    <div class="skill-category">
+                      <div class="category-header">
+                        <mat-icon>terminal</mat-icon>
+                        <h4>Langages de Programmation</h4>
+                      </div>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Sélectionnez les langages</mat-label>
                         <mat-select formControlName="langages" multiple>
-                            <mat-option *ngFor="let lang of langagesList" [value]="lang">{{ lang }}</mat-option>
+                          <mat-option *ngFor="let lang of langagesList" [value]="lang">{{ lang }}</mat-option>
                         </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Frameworks</mat-label>
-                        <mat-select formControlName="frameworks" multiple>
-                            <mat-option *ngFor="let fw of frameworksList" [value]="fw">{{ fw }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Compétences Data</mat-label>
-                        <mat-select formControlName="dataSkills" multiple>
-                            <mat-option *ngFor="let skill of dataSkillsList" [value]="skill">{{ skill }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Compétences IA</mat-label>
-                        <mat-select formControlName="iaSkills" multiple>
-                            <mat-option *ngFor="let skill of iaSkillsList" [value]="skill">{{ skill }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Compétences ERP</mat-label>
-                        <mat-select formControlName="erpSkills" multiple>
-                            <mat-option *ngFor="let skill of erpSkillsList" [value]="skill">{{ skill }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <div class="step-actions">
-                        <button mat-button matStepperPrevious>Précédent</button>
-                        <button mat-raised-button color="primary" matStepperNext>
-                            Suivant
-                        </button>
+                      </mat-form-field>
+                      <div class="selected-skills" *ngIf="technicalSkillsForm.get('langages')?.value?.length">
+                        <span class="skill-chip" *ngFor="let lang of technicalSkillsForm.get('langages')?.value">{{ lang }}</span>
+                      </div>
                     </div>
-                </div>
-            </form>
-        </mat-step>
 
-        <!-- Step 5: Compétences Pédagogiques -->
-        <mat-step [stepControl]="pedagogicalSkillsForm">
-            <form [formGroup]="pedagogicalSkillsForm">
-                <ng-template matStepLabel>Compétences Pédagogiques</ng-template>
+                    <div class="skill-category">
+                      <div class="category-header">
+                        <mat-icon>widgets</mat-icon>
+                        <h4>Frameworks</h4>
+                      </div>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Sélectionnez les frameworks</mat-label>
+                        <mat-select formControlName="frameworks" multiple>
+                          <mat-option *ngFor="let fw of frameworksList" [value]="fw">{{ fw }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div class="selected-skills" *ngIf="technicalSkillsForm.get('frameworks')?.value?.length">
+                        <span class="skill-chip" *ngFor="let fw of technicalSkillsForm.get('frameworks')?.value">{{ fw }}</span>
+                      </div>
+                    </div>
+
+                    <div class="skill-category">
+                      <div class="category-header">
+                        <mat-icon>storage</mat-icon>
+                        <h4>Compétences Data</h4>
+                      </div>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Sélectionnez les compétences</mat-label>
+                        <mat-select formControlName="dataSkills" multiple>
+                          <mat-option *ngFor="let skill of dataSkillsList" [value]="skill">{{ skill }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div class="selected-skills" *ngIf="technicalSkillsForm.get('dataSkills')?.value?.length">
+                        <span class="skill-chip" *ngFor="let skill of technicalSkillsForm.get('dataSkills')?.value">{{ skill }}</span>
+                      </div>
+                    </div>
+
+                    <div class="skill-category">
+                      <div class="category-header">
+                        <mat-icon>smart_toy</mat-icon>
+                        <h4>Intelligence Artificielle</h4>
+                      </div>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Sélectionnez les compétences IA</mat-label>
+                        <mat-select formControlName="iaSkills" multiple>
+                          <mat-option *ngFor="let skill of iaSkillsList" [value]="skill">{{ skill }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div class="selected-skills" *ngIf="technicalSkillsForm.get('iaSkills')?.value?.length">
+                        <span class="skill-chip" *ngFor="let skill of technicalSkillsForm.get('iaSkills')?.value">{{ skill }}</span>
+                      </div>
+                    </div>
+
+                    <div class="skill-category full-width">
+                      <div class="category-header">
+                        <mat-icon>business_center</mat-icon>
+                        <h4>Compétences ERP</h4>
+                      </div>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Sélectionnez les ERP</mat-label>
+                        <mat-select formControlName="erpSkills" multiple>
+                          <mat-option *ngFor="let skill of erpSkillsList" [value]="skill">{{ skill }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div class="selected-skills" *ngIf="technicalSkillsForm.get('erpSkills')?.value?.length">
+                        <span class="skill-chip" *ngFor="let skill of technicalSkillsForm.get('erpSkills')?.value">{{ skill }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="step-actions">
+                    <button mat-stroked-button matStepperPrevious>Retour</button>
+                    <button mat-raised-button color="primary" matStepperNext class="next-btn">
+                      Continuer
+                      <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </mat-step>
+
+            <!-- Step 5: Pedagogical Skills -->
+            <mat-step [stepControl]="pedagogicalSkillsForm" [editable]="true">
+              <form [formGroup]="pedagogicalSkillsForm">
+                <ng-template matStepLabel>Pédagogie</ng-template>
 
                 <div class="step-content">
-                    <h2>Compétences Pédagogiques</h2>
+                  <div class="step-header">
+                    <div class="step-icon">
+                      <mat-icon>psychology</mat-icon>
+                    </div>
+                    <div>
+                      <h2>Compétences Pédagogiques</h2>
+                      <p>Votre approche de l'enseignement</p>
+                    </div>
+                  </div>
 
+                  <div class="pedagogy-section">
+                    <div class="category-header">
+                      <mat-icon>school</mat-icon>
+                      <h4>Méthodes d'Enseignement</h4>
+                    </div>
                     <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Méthodes d'Enseignement</mat-label>
-                        <mat-select formControlName="methodesEnseignement" multiple>
-                            <mat-option *ngFor="let methode of methodesList" [value]="methode">{{ methode
-                                }}</mat-option>
-                        </mat-select>
+                      <mat-label>Sélectionnez vos méthodes</mat-label>
+                      <mat-select formControlName="methodesEnseignement" multiple>
+                        <mat-option *ngFor="let methode of methodesList" [value]="methode">{{ methode }}</mat-option>
+                      </mat-select>
                     </mat-form-field>
+                    <div class="selected-methods" *ngIf="pedagogicalSkillsForm.get('methodesEnseignement')?.value?.length">
+                                            <span class="method-chip" *ngFor="let methode of pedagogicalSkillsForm.get('methodesEnseignement')?.value">
+                                                <mat-icon>check_circle</mat-icon>
+                                              {{ methode }}
+                                            </span>
+                    </div>
+                  </div>
 
-                    <div class="checkbox-group">
-                        <mat-checkbox formControlName="encadrement">
-                            Expérience en Encadrement (Mémoires, Thèses)
-                        </mat-checkbox>
-                        <mat-checkbox formControlName="innovationPedagogique">
-                            Innovation Pédagogique
-                        </mat-checkbox>
+                  <div class="checkbox-cards">
+                    <div class="checkbox-card" [class.checked]="pedagogicalSkillsForm.get('encadrement')?.value" (click)="toggleCheckbox('encadrement')">
+                      <div class="card-icon">
+                        <mat-icon>supervisor_account</mat-icon>
+                      </div>
+                      <div class="card-content">
+                        <h4>Encadrement</h4>
+                        <p>Expérience en encadrement de mémoires et thèses</p>
+                      </div>
+                      <mat-checkbox formControlName="encadrement" color="primary" (click)="$event.stopPropagation()"></mat-checkbox>
                     </div>
 
-                    <div class="step-actions">
-                        <button mat-button matStepperPrevious>Précédent</button>
-                        <button mat-raised-button color="primary" matStepperNext>
-                            Suivant
-                        </button>
+                    <div class="checkbox-card" [class.checked]="pedagogicalSkillsForm.get('innovationPedagogique')?.value" (click)="toggleCheckbox('innovationPedagogique')">
+                      <div class="card-icon">
+                        <mat-icon>lightbulb</mat-icon>
+                      </div>
+                      <div class="card-content">
+                        <h4>Innovation Pédagogique</h4>
+                        <p>Utilisation de méthodes innovantes dans l'enseignement</p>
+                      </div>
+                      <mat-checkbox formControlName="innovationPedagogique" color="primary" (click)="$event.stopPropagation()"></mat-checkbox>
                     </div>
+                  </div>
+
+                  <div class="step-actions">
+                    <button mat-stroked-button matStepperPrevious>Retour</button>
+                    <button mat-raised-button color="primary" matStepperNext class="next-btn">
+                      Continuer
+                      <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
                 </div>
-            </form>
-        </mat-step>
+              </form>
+            </mat-step>
 
-        <!-- Step 6: Soft Skills -->
-        <mat-step [stepControl]="softSkillsForm">
-            <form [formGroup]="softSkillsForm">
+            <!-- Step 6: Soft Skills -->
+            <mat-step [stepControl]="softSkillsForm" [editable]="true">
+              <form [formGroup]="softSkillsForm">
                 <ng-template matStepLabel>Soft Skills</ng-template>
 
                 <div class="step-content">
-                    <h2>Compétences Comportementales</h2>
+                  <div class="step-header">
+                    <div class="step-icon">
+                      <mat-icon>star</mat-icon>
+                    </div>
+                    <div>
+                      <h2>Compétences Comportementales</h2>
+                      <p>Évaluez vos compétences transversales</p>
+                    </div>
+                  </div>
 
-                    <div class="slider-field">
-                        <label>Communication ({{ softSkillsForm.get('communication')?.value }}/10)</label>
-                        <mat-slider min="1" max="10" step="1" showTickMarks discrete>
-                            <input matSliderThumb formControlName="communication">
+                  <div class="sliders-container">
+                    <div class="slider-card">
+                      <div class="slider-header">
+                        <mat-icon>record_voice_over</mat-icon>
+                        <div>
+                          <h4>Communication</h4>
+                          <p>Capacité à transmettre l'information</p>
+                        </div>
+                      </div>
+                      <div class="slider-control">
+                        <span class="slider-value">{{ softSkillsForm.get('communication')?.value }}/10</span>
+                        <mat-slider min="1" max="10" step="1" showTickMarks discrete color="primary">
+                          <input matSliderThumb formControlName="communication">
                         </mat-slider>
+                        <div class="slider-labels">
+                          <span>Débutant</span>
+                          <span>Expert</span>
+                        </div>
+                      </div>
                     </div>
 
-                    <div class="slider-field">
-                        <label>Leadership ({{ softSkillsForm.get('leadership')?.value }}/10)</label>
-                        <mat-slider min="1" max="10" step="1" showTickMarks discrete>
-                            <input matSliderThumb formControlName="leadership">
+                    <div class="slider-card">
+                      <div class="slider-header">
+                        <mat-icon>groups</mat-icon>
+                        <div>
+                          <h4>Leadership</h4>
+                          <p>Capacité à guider et inspirer</p>
+                        </div>
+                      </div>
+                      <div class="slider-control">
+                        <span class="slider-value">{{ softSkillsForm.get('leadership')?.value }}/10</span>
+                        <mat-slider min="1" max="10" step="1" showTickMarks discrete color="primary">
+                          <input matSliderThumb formControlName="leadership">
                         </mat-slider>
+                        <div class="slider-labels">
+                          <span>Débutant</span>
+                          <span>Expert</span>
+                        </div>
+                      </div>
                     </div>
 
-                    <div class="slider-field">
-                        <label>Esprit d'Équipe ({{ softSkillsForm.get('espritEquipe')?.value }}/10)</label>
-                        <mat-slider min="1" max="10" step="1" showTickMarks discrete>
-                            <input matSliderThumb formControlName="espritEquipe">
+                    <div class="slider-card">
+                      <div class="slider-header">
+                        <mat-icon>diversity_3</mat-icon>
+                        <div>
+                          <h4>Esprit d'Équipe</h4>
+                          <p>Collaboration et travail collectif</p>
+                        </div>
+                      </div>
+                      <div class="slider-control">
+                        <span class="slider-value">{{ softSkillsForm.get('espritEquipe')?.value }}/10</span>
+                        <mat-slider min="1" max="10" step="1" showTickMarks discrete color="primary">
+                          <input matSliderThumb formControlName="espritEquipe">
                         </mat-slider>
+                        <div class="slider-labels">
+                          <span>Débutant</span>
+                          <span>Expert</span>
+                        </div>
+                      </div>
                     </div>
+                  </div>
 
+                  <div class="motivation-section">
+                    <div class="section-header">
+                      <mat-icon>edit_note</mat-icon>
+                      <h4>Lettre de Motivation</h4>
+                    </div>
                     <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Lettre de Motivation (min. 50 caractères)</mat-label>
-                        <textarea matInput formControlName="motivation" rows="6"
-                            placeholder="Expliquez pourquoi vous souhaitez rejoindre ESPRIT..."></textarea>
-                        <mat-hint align="end">{{ softSkillsForm.get('motivation')?.value?.length || 0 }} / 50
-                            min</mat-hint>
-                        <mat-error>Minimum 50 caractères requis</mat-error>
+                      <mat-label>Expliquez pourquoi vous souhaitez rejoindre ESPRIT...</mat-label>
+                      <textarea matInput formControlName="motivation" rows="6" placeholder="Décrivez votre motivation, vos objectifs professionnels et ce qui vous attire chez ESPRIT..."></textarea>
+                      <mat-hint align="end" [class.valid]="softSkillsForm.get('motivation')?.value?.length >= 50">
+                        <mat-icon *ngIf="softSkillsForm.get('motivation')?.value?.length >= 50">check_circle</mat-icon>
+                        {{ softSkillsForm.get('motivation')?.value?.length || 0 }} / 50 min
+                      </mat-hint>
+                      <mat-error>Minimum 50 caractères requis</mat-error>
                     </mat-form-field>
+                  </div>
 
-                    <div class="step-actions">
-                        <button mat-button matStepperPrevious>Précédent</button>
-                        <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="!isAllFormsValid()">
-                            <mat-icon>check_circle</mat-icon>
-                            Soumettre mon Profil
-                        </button>
-                    </div>
+                  <div class="step-actions">
+                    <button mat-stroked-button matStepperPrevious>Retour</button>
+                    <button mat-raised-button color="accent" class="submit-btn" (click)="onSubmit()" [disabled]="!isAllFormsValid()">
+                      <mat-icon>check_circle</mat-icon>
+                      Soumettre mon Profil
+                    </button>
+                  </div>
                 </div>
-            </form>
-        </mat-step>
+              </form>
+            </mat-step>
 
-    </mat-stepper>
+          </mat-stepper>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
 </div>

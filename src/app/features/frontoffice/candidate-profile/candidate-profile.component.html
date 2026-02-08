@@ -1,0 +1,558 @@
+<div class="profile-page">
+  <!-- Header Hero -->
+  <section class="profile-hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="profile-avatar-section">
+          <div class="avatar-container">
+            <div class="avatar" [class.has-image]="candidate.avatar">
+              <img *ngIf="candidate.avatar" [src]="candidate.avatar" alt="Profile">
+              <span *ngIf="!candidate.avatar" class="initials">{{ getInitials() }}</span>
+              <button class="avatar-edit-btn" *ngIf="isEditing">
+                <span class="material-icons">photo_camera</span>
+              </button>
+            </div>
+            <div class="completion-badge" *ngIf="!isEditing">
+              <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="circle" [attr.stroke-dasharray]="stats.profileCompletion + ', 100'"
+                      [style.stroke]="getCompletionColor()"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+              <span class="completion-text">{{ stats.profileCompletion }}%</span>
+            </div>
+          </div>
+
+          <div class="profile-info">
+            <h1>{{ candidate.firstName }} {{ candidate.lastName }}</h1>
+            <p class="profile-title">{{ candidate.title }}</p>
+            <div class="profile-meta">
+              <span class="meta-item">
+                <span class="material-icons">location_on</span>
+                {{ candidate.location }}
+              </span>
+              <span class="meta-item">
+                <span class="material-icons">email</span>
+                {{ candidate.email }}
+              </span>
+              <span class="meta-item status-badge" [class]="candidate.availability">
+                <span class="material-icons">circle</span>
+                {{ candidate.availability === 'immediate' ? 'Disponible immédiatement' :
+                candidate.availability === 'one_month' ? 'Disponible dans 1 mois' :
+                  candidate.availability === 'three_months' ? 'Disponible dans 3 mois' : 'Non disponible' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="hero-actions" *ngIf="!isEditing">
+          <button class="btn-primary" (click)="setActiveTab('edit')">
+            <span class="material-icons">edit</span>
+            Modifier le profil
+          </button>
+          <button class="btn-secondary" (click)="setActiveTab('documents')">
+            <span class="material-icons">folder</span>
+            Documents
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="profile-nav">
+      <div class="container">
+        <nav class="tab-nav">
+          <button [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')">
+            <span class="material-icons">person</span>
+            Vue d'ensemble
+          </button>
+          <button [class.active]="activeTab === 'edit'" (click)="setActiveTab('edit')">
+            <span class="material-icons">edit</span>
+            Modifier
+          </button>
+          <button [class.active]="activeTab === 'documents'" (click)="setActiveTab('documents')">
+            <span class="material-icons">description</span>
+            Documents
+          </button>
+          <button [class.active]="activeTab === 'stats'" (click)="setActiveTab('stats')">
+            <span class="material-icons">insights</span>
+            Statistiques
+          </button>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="profile-content">
+    <div class="container">
+
+      <!-- OVERVIEW TAB -->
+      <div *ngIf="activeTab === 'overview'" class="tab-content overview-tab">
+        <div class="content-grid">
+          <!-- Left Column -->
+          <div class="main-column">
+            <!-- About Card -->
+            <div class="profile-card">
+              <div class="card-header">
+                <h3>À propos</h3>
+                <button class="btn-icon" (click)="setActiveTab('edit')">
+                  <span class="material-icons">edit</span>
+                </button>
+              </div>
+              <p class="bio-text">{{ candidate.bio }}</p>
+
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="material-icons">work</span>
+                  <div>
+                    <label>Expérience</label>
+                    <span>{{ experiences.length }} postes</span>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <span class="material-icons">school</span>
+                  <div>
+                    <label>Formation</label>
+                    <span>{{ educations.length }} diplômes</span>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <span class="material-icons">psychology</span>
+                  <div>
+                    <label>Compétences</label>
+                    <span>{{ skills.length }} skills</span>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <span class="material-icons">phone</span>
+                  <div>
+                    <label>Téléphone</label>
+                    <span>{{ candidate.phone }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Experience Card -->
+            <div class="profile-card">
+              <div class="card-header">
+                <h3>Expérience professionnelle</h3>
+                <button class="btn-text" (click)="setActiveTab('edit')">+ Ajouter</button>
+              </div>
+              <div class="timeline">
+                <div *ngFor="let exp of experiences; let i = index" class="timeline-item">
+                  <div class="timeline-marker" [class.current]="exp.current"></div>
+                  <div class="timeline-content">
+                    <div class="exp-header">
+                      <h4>{{ exp.title }}</h4>
+                      <span class="exp-period">
+                        {{ exp.startDate | date:'MMM yyyy' }} -
+                        {{ exp.current ? 'Présent' : (exp.endDate | date:'MMM yyyy') }}
+                      </span>
+                    </div>
+                    <p class="exp-company">{{ exp.company }} • {{ exp.location }}</p>
+                    <p class="exp-desc">{{ exp.description }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Education Card -->
+            <div class="profile-card">
+              <div class="card-header">
+                <h3>Formation</h3>
+                <button class="btn-text" (click)="setActiveTab('edit')">+ Ajouter</button>
+              </div>
+              <div class="education-list">
+                <div *ngFor="let edu of educations" class="edu-item">
+                  <div class="edu-icon">
+                    <span class="material-icons">school</span>
+                  </div>
+                  <div class="edu-content">
+                    <h4>{{ edu.degree }}</h4>
+                    <p>{{ edu.school }}</p>
+                    <span class="edu-field">{{ edu.field }} • {{ edu.year }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="side-column">
+            <!-- Skills Card -->
+            <div class="profile-card skills-card">
+              <div class="card-header">
+                <h3>Compétences</h3>
+              </div>
+              <div class="skills-cloud">
+                <div *ngFor="let skill of skills" class="skill-tag" [class]="'level-' + skill.level">
+                  {{ skill.name }}
+                  <span class="skill-level">{{ skill.level }}</span>
+                </div>
+              </div>
+
+              <div class="skills-detail">
+                <div *ngFor="let category of skillCategories" class="skill-category">
+                  <h5>{{ category }}</h5>
+                  <div class="category-skills">
+                    <div *ngFor="let skill of skills | slice:0:skills.length"
+                         [hidden]="skill.category !== category"
+                         class="skill-bar">
+                      <div class="skill-info">
+                        <span>{{ skill.name }}</span>
+                        <span>{{ getSkillLevelText(skill.level) }}</span>
+                      </div>
+                      <div class="progress-track">
+                        <div class="progress-fill" [style.width.%]="skill.level * 20"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Links Card -->
+            <div class="profile-card">
+              <div class="card-header">
+                <h3>Liens</h3>
+              </div>
+              <div class="links-list">
+                <a [href]="'https://' + candidate.linkedin" target="_blank" class="link-item">
+                  <span class="material-icons">linkedin</span>
+                  <span>LinkedIn</span>
+                  <span class="material-icons">open_in_new</span>
+                </a>
+                <a [href]="'https://' + candidate.portfolio" target="_blank" class="link-item">
+                  <span class="material-icons">language</span>
+                  <span>Portfolio</span>
+                  <span class="material-icons">open_in_new</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Preferences Card -->
+            <div class="profile-card">
+              <div class="card-header">
+                <h3>Préférences</h3>
+              </div>
+              <div class="pref-list">
+                <div class="pref-item">
+                  <span class="material-icons">payments</span>
+                  <div>
+                    <label>Salaire souhaité</label>
+                    <span>{{ candidate.salary }} TND / mois</span>
+                  </div>
+                </div>
+                <div class="pref-item">
+                  <span class="material-icons">commute</span>
+                  <div>
+                    <label>Mobilité</label>
+                    <span>{{ candidate.mobility === 'national' ? 'Nationale' :
+                      candidate.mobility === 'international' ? 'Internationale' : 'Locale' }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDIT TAB -->
+      <div *ngIf="activeTab === 'edit'" class="tab-content edit-tab">
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="edit-form">
+          <div class="form-sections">
+
+            <!-- Personal Info -->
+            <div class="form-section">
+              <h3>Informations personnelles</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Prénom</label>
+                  <input type="text" formControlName="firstName" placeholder="Votre prénom">
+                </div>
+                <div class="form-group">
+                  <label>Nom</label>
+                  <input type="text" formControlName="lastName" placeholder="Votre nom">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" formControlName="email" placeholder="votre@email.com">
+                </div>
+                <div class="form-group">
+                  <label>Téléphone</label>
+                  <input type="tel" formControlName="phone" placeholder="+216 XX XXX XXX">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Titre professionnel</label>
+                <input type="text" formControlName="title" placeholder="Ex: Ingénieur Full Stack">
+              </div>
+
+              <div class="form-group">
+                <label>Localisation</label>
+                <input type="text" formControlName="location" placeholder="Ville, Pays">
+              </div>
+
+              <div class="form-group">
+                <label>Bio</label>
+                <textarea formControlName="bio" rows="4" placeholder="Décrivez votre parcours..."></textarea>
+              </div>
+            </div>
+
+            <!-- Experience Edit -->
+            <div class="form-section">
+              <div class="section-header">
+                <h3>Expériences</h3>
+                <button type="button" class="btn-add" (click)="addExperience()">
+                  <span class="material-icons">add</span>
+                  Ajouter
+                </button>
+              </div>
+              <div class="editable-list">
+                <div *ngFor="let exp of experiences" class="editable-item">
+                  <div class="item-fields">
+                    <input type="text" [(ngModel)]="exp.title" [ngModelOptions]="{standalone: true}" placeholder="Poste">
+                    <input type="text" [(ngModel)]="exp.company" [ngModelOptions]="{standalone: true}" placeholder="Entreprise">
+                    <input type="text" [(ngModel)]="exp.location" [ngModelOptions]="{standalone: true}" placeholder="Lieu">
+                    <div class="date-row">
+                      <input type="month" [(ngModel)]="exp.startDate" [ngModelOptions]="{standalone: true}">
+                      <input type="month" [(ngModel)]="exp.endDate" [ngModelOptions]="{standalone: true}" [disabled]="exp.current">
+                      <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="exp.current" [ngModelOptions]="{standalone: true}">
+                        Poste actuel
+                      </label>
+                    </div>
+                    <textarea [(ngModel)]="exp.description" [ngModelOptions]="{standalone: true}" rows="2" placeholder="Description"></textarea>
+                  </div>
+                  <button type="button" class="btn-remove" (click)="removeExperience(exp.id)">
+                    <span class="material-icons">delete</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Education Edit -->
+            <div class="form-section">
+              <div class="section-header">
+                <h3>Formation</h3>
+                <button type="button" class="btn-add" (click)="addEducation()">
+                  <span class="material-icons">add</span>
+                  Ajouter
+                </button>
+              </div>
+              <div class="editable-list">
+                <div *ngFor="let edu of educations" class="editable-item compact">
+                  <div class="item-fields">
+                    <input type="text" [(ngModel)]="edu.degree" [ngModelOptions]="{standalone: true}" placeholder="Diplôme">
+                    <input type="text" [(ngModel)]="edu.school" [ngModelOptions]="{standalone: true}" placeholder="École">
+                    <div class="form-row">
+                      <input type="text" [(ngModel)]="edu.field" [ngModelOptions]="{standalone: true}" placeholder="Domaine">
+                      <input type="text" [(ngModel)]="edu.year" [ngModelOptions]="{standalone: true}" placeholder="Année">
+                    </div>
+                  </div>
+                  <button type="button" class="btn-remove" (click)="removeEducation(edu.id)">
+                    <span class="material-icons">delete</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills Edit -->
+            <div class="form-section">
+              <div class="section-header">
+                <h3>Compétences</h3>
+                <button type="button" class="btn-add" (click)="addSkill()">
+                  <span class="material-icons">add</span>
+                  Ajouter
+                </button>
+              </div>
+              <div class="skills-edit-grid">
+                <div *ngFor="let skill of skills; let i = index" class="skill-edit-item">
+                  <input type="text" [(ngModel)]="skill.name" [ngModelOptions]="{standalone: true}" placeholder="Compétence">
+                  <select [(ngModel)]="skill.category" [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let cat of skillCategories" [value]="cat">{{ cat }}</option>
+                  </select>
+                  <div class="level-selector">
+                    <button *ngFor="let level of [1,2,3,4,5]"
+                            type="button"
+                            [class.active]="skill.level >= level"
+                            (click)="skill.level = level">
+                    </button>
+                  </div>
+                  <button type="button" class="btn-remove-small" (click)="removeSkill(i)">
+                    <span class="material-icons">close</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preferences -->
+            <div class="form-section">
+              <h3>Préférences de recherche</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Disponibilité</label>
+                  <select formControlName="availability">
+                    <option value="immediate">Immédiate</option>
+                    <option value="one_month">Dans 1 mois</option>
+                    <option value="three_months">Dans 3 mois</option>
+                    <option value="not_available">Non disponible</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Salaire souhaité (TND)</label>
+                  <select formControlName="salary">
+                    <option value="2000-3000">2000 - 3000</option>
+                    <option value="3000-4000">3000 - 4000</option>
+                    <option value="3500-4500">3500 - 4500</option>
+                    <option value="4500+">4500+</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Mobilité géographique</label>
+                <select formControlName="mobility">
+                  <option value="local">Locale uniquement</option>
+                  <option value="national">Nationale</option>
+                  <option value="international">Internationale</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="cancelEdit()">Annuler</button>
+            <button type="submit" class="btn-primary" [disabled]="!profileForm.valid">
+              <span class="material-icons">save</span>
+              Enregistrer les modifications
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- DOCUMENTS TAB -->
+      <div *ngIf="activeTab === 'documents'" class="tab-content documents-tab">
+        <div class="documents-grid">
+          <div class="upload-card">
+            <div class="upload-zone">
+              <span class="material-icons">cloud_upload</span>
+              <p>Déposez vos fichiers ici ou cliquez pour parcourir</p>
+              <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+            </div>
+            <div class="upload-formats">
+              <span>Formats acceptés: PDF, DOC, DOCX (max 10MB)</span>
+            </div>
+          </div>
+
+          <div class="documents-list">
+            <h3>Documents enregistrés</h3>
+            <div *ngFor="let doc of documents" class="doc-item">
+              <div class="doc-icon" [class]="doc.type">
+                <span class="material-icons">
+                  {{ doc.type === 'cv' ? 'description' :
+                  doc.type === 'letter' ? 'mail' : 'school' }}
+                </span>
+              </div>
+              <div class="doc-info">
+                <h4>{{ doc.name }}</h4>
+                <span>{{ doc.size }} • {{ doc.date }}</span>
+              </div>
+              <div class="doc-actions">
+                <button class="btn-icon" (click)="downloadDocument(doc)">
+                  <span class="material-icons">download</span>
+                </button>
+                <button class="btn-icon danger" (click)="deleteDocument(doc)">
+                  <span class="material-icons">delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS TAB -->
+      <div *ngIf="activeTab === 'stats'" class="tab-content stats-tab">
+        <div class="stats-grid">
+          <div class="stat-card large">
+            <div class="stat-icon blue">
+              <span class="material-icons">visibility</span>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number">{{ stats.profileViews }}</span>
+              <span class="stat-label">Vues du profil (30j)</span>
+            </div>
+            <div class="stat-trend up">
+              <span class="material-icons">trending_up</span>
+              +12%
+            </div>
+          </div>
+
+          <div class="stat-card large">
+            <div class="stat-icon purple">
+              <span class="material-icons">send</span>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number">{{ stats.applications }}</span>
+              <span class="stat-label">Candidatures envoyées</span>
+            </div>
+          </div>
+
+          <div class="stat-card large">
+            <div class="stat-icon green">
+              <span class="material-icons">event_available</span>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number">{{ stats.interviewRate }}%</span>
+              <span class="stat-label">Taux d'entretien</span>
+            </div>
+          </div>
+
+          <div class="stat-card large">
+            <div class="stat-icon orange">
+              <span class="material-icons">chat</span>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number">{{ stats.responseRate }}%</span>
+              <span class="stat-label">Taux de réponse</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-charts">
+          <div class="chart-card">
+            <h4>Activité des 6 derniers mois</h4>
+            <div class="activity-bars">
+              <div *ngFor="let month of ['Août','Sept','Oct','Nov','Déc','Jan']" class="bar-item">
+                <div class="bar" [style.height.%]="[40,65,45,80,55,70]"></div>
+                <span>{{ month }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h4>Performance par catégorie</h4>
+            <div class="radar-placeholder">
+              <div class="radar-chart">
+                <div class="radar-skill" style="--value: 85; --angle: 0deg">Angular</div>
+                <div class="radar-skill" style="--value: 70; --angle: 60deg">Node.js</div>
+                <div class="radar-skill" style="--value: 90; --angle: 120deg">UI/UX</div>
+                <div class="radar-skill" style="--value: 60; --angle: 180deg">Python</div>
+                <div class="radar-skill" style="--value: 75; --angle: 240deg">DevOps</div>
+                <div class="radar-skill" style="--value: 80; --angle: 300deg">SQL</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>

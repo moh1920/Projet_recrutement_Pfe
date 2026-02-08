@@ -1,41 +1,245 @@
-<div class="hero-section">
-    <div class="hero-overlay"></div>
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-bg">
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="decorative-circle circle-1"></div>
+        <div class="decorative-circle circle-2"></div>
+    </div>
+
     <div class="hero-content container">
-        <h1 class="hero-title">Enseignez chez <span class="esprit-text">ESPRIT</span></h1>
-        <p class="hero-subtitle">Rejoignez l'élite de l'enseignement supérieur. Postulez en quelques clics grâce à notre
-            système de recrutement assisté par Intelligence Artificielle.</p>
-        <div class="hero-actions">
-            <button mat-raised-button color="primary" class="cta-button" routerLink="/apply">
-                <mat-icon>upload_file</mat-icon>
-                Déposer mon CV
-            </button>
-            <button mat-stroked-button class="secondary-button">
-                En savoir plus
-            </button>
+        <div class="hero-text">
+            <div class="hero-badge">
+                <mat-icon>verified</mat-icon>
+                <span>Recrutement 2024-2025</span>
+            </div>
+
+            <h1 class="hero-title">
+                Enseignez chez<br>
+                <span class="esprit-text">ESPRIT</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Rejoignez l'élite de l'enseignement supérieur tunisien. Notre système de recrutement assisté par
+                Intelligence Artificielle simplifie votre candidature en quelques clics.
+            </p>
+
+            <div class="hero-actions">
+                <button mat-raised-button color="primary" class="cta-button" routerLink="/apply">
+                    <mat-icon>upload_file</mat-icon>
+                    Déposer mon CV
+                </button>
+                <button mat-stroked-button class="secondary-button">
+                    <mat-icon>play_circle</mat-icon>
+                    En savoir plus
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="stats-card">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <mat-icon>school</mat-icon>
+                    </div>
+                    <div class="stat-content">
+                        <h4>+5000</h4>
+                        <p>Étudiants formés</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <mat-icon>emoji_events</mat-icon>
+                    </div>
+                    <div class="stat-content">
+                        <h4>Top 3</h4>
+                        <p>Écoles d'ingénieurs</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <mat-icon>work</mat-icon>
+                    </div>
+                    <div class="stat-content">
+                        <h4>95%</h4>
+                        <p>Taux d'insertion</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="features-section container">
-    <h2 class="section-title text-center">Pourquoi nous rejoindre ?</h2>
+    <div class="scroll-indicator" (click)="scrollToFeatures()">
+        <span>Découvrir</span>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section" #featuresSection>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Nos avantages</span>
+      <h2 class="section-title">Pourquoi nous rejoindre ?</h2>
+      <p class="section-subtitle">
+        ESPRIT offre un environnement d'excellence où innovation pédagogique et technologies de pointe se
+        rencontrent pour former les ingénieurs de demain.
+      </p>
+    </div>
 
     <div class="features-grid">
-        <mat-card class="feature-card">
-            <mat-icon class="feature-icon">psychology</mat-icon>
-            <h3 class="feature-title">Innovation Pédagogique</h3>
-            <p class="feature-desc">Participez à la formation des ingénieurs de demain avec des méthodes actives.</p>
-        </mat-card>
+      <!-- Card 1: Innovation Pédagogique -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">psychology</mat-icon>
+        </div>
+        <h3 class="feature-title">Innovation Pédagogique</h3>
+        <p class="feature-desc">
+          Participez à la formation des ingénieurs de demain avec des méthodes actives, l'apprentissage par
+          projet et des approches pédagogiques innovantes.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
 
-        <mat-card class="feature-card">
-            <mat-icon class="feature-icon">auto_awesome</mat-icon>
-            <h3 class="feature-title">IA & Technologie</h3>
-            <p class="feature-desc">Utilisez des outils de pointe pour le suivi et l'évaluation des étudiants.</p>
-        </mat-card>
+      <!-- Card 2: IA & Technologie -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">auto_awesome</mat-icon>
+        </div>
+        <h3 class="feature-title">IA & Technologie</h3>
+        <p class="feature-desc">
+          Utilisez des outils de pointe pour le suivi, l'évaluation des étudiants et bénéficiez de notre
+          plateforme IA pour optimiser votre enseignement.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
 
-        <mat-card class="feature-card">
-            <mat-icon class="feature-icon">groups</mat-icon>
-            <h3 class="feature-title">Communauté</h3>
-            <p class="feature-desc">Intégrez un réseau dynamique d'enseignants et de chercheurs.</p>
-        </mat-card>
+      <!-- Card 3: Communauté Dynamique -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">groups</mat-icon>
+        </div>
+        <h3 class="feature-title">Communauté Dynamique</h3>
+        <p class="feature-desc">
+          Intégrez un réseau dynamique d'enseignants, chercheurs et professionnels partageant la passion de
+          l'excellence et de l'innovation.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
+
+      <!-- Card 4: Recherche & Développement -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">biotech</mat-icon>
+        </div>
+        <h3 class="feature-title">Recherche & Développement</h3>
+        <p class="feature-desc">
+          Accédez à nos laboratoires de recherche de pointe et participez à des projets innovants en
+          collaboration avec l'industrie.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
+
+      <!-- Card 5: Formation Continue -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">school</mat-icon>
+        </div>
+        <h3 class="feature-title">Formation Continue</h3>
+        <p class="feature-desc">
+          Bénéficiez de programmes de formation continue, de conférences internationales et de séminaires
+          pour perfectionner vos compétences.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
+
+      <!-- Card 6: Mobilité Internationale -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">flight</mat-icon>
+        </div>
+        <h3 class="feature-title">Mobilité Internationale</h3>
+        <p class="feature-desc">
+          Profitez de partenariats avec des universités prestigieuses à travers le monde pour des échanges
+          académiques et des collaborations.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
+
+      <!-- Card 7: Infrastructure Moderne -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">apartment</mat-icon>
+        </div>
+        <h3 class="feature-title">Infrastructure Moderne</h3>
+        <p class="feature-desc">
+          Enseignez dans des campus équipés des dernières technologies, salles de classe intelligentes et
+          espaces de coworking collaboratifs.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
+
+      <!-- Card 8: Équilibre Vie Pro/Perso -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">balance</mat-icon>
+        </div>
+        <h3 class="feature-title">Équilibre Vie Pro/Perso</h3>
+        <p class="feature-desc">
+          Bénéficiez d'horaires flexibles, de télétravail partiel et d'avantages sociaux pour concilier
+          vie professionnelle et personnelle.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
+
+      <!-- Card 9: Carrière & Évolution -->
+      <mat-card class="feature-card">
+        <div class="feature-icon-wrapper">
+          <mat-icon class="feature-icon">trending_up</mat-icon>
+        </div>
+        <h3 class="feature-title">Carrière & Évolution</h3>
+        <p class="feature-desc">
+          Évoluez au sein d'une structure qui valorise le mérite avec des perspectives d'avancement et
+          des reconnaissations de vos compétences.
+        </p>
+        <a href="#" class="feature-link">
+          En savoir plus
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
     </div>
-</div>
+  </div>
+</section>

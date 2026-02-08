@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,11 +11,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
-import { Router } from '@angular/router';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { ProfileService, ProfileDetails } from '../../../core/services/profile.service';
 
 @Component({
@@ -22,6 +23,7 @@ import { ProfileService, ProfileDetails } from '../../../core/services/profile.s
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterModule,
     MatStepperModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -30,43 +32,54 @@ import { ProfileService, ProfileDetails } from '../../../core/services/profile.s
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
-    MatChipsModule,
     MatIconModule,
     MatSliderModule,
     MatCardModule
   ],
   templateUrl: './profile-builder.component.html',
-  styleUrl: './profile-builder.component.scss'
+  styleUrl: './profile-builder.component.scss',
+  animations: [
+    trigger('slideIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(-20px)' }),
+        animate('0.3s ease', style({ opacity: 1, transform: 'translateX(0)' }))
+      ])
+    ])
+  ]
 })
 export class ProfileBuilderComponent {
   private fb = inject(FormBuilder);
   private profileService = inject(ProfileService);
   private router = inject(Router);
 
+  currentStep = 1;
+
   // Form Groups
-  personalInfoForm: FormGroup;
-  educationForm: FormGroup;
-  experienceForm: FormGroup;
-  technicalSkillsForm: FormGroup;
-  pedagogicalSkillsForm: FormGroup;
-  softSkillsForm: FormGroup;
+  personalInfoForm!: FormGroup;
+  educationForm!: FormGroup;
+  experienceForm!: FormGroup;
+  technicalSkillsForm!: FormGroup;
+  pedagogicalSkillsForm!: FormGroup;
+  softSkillsForm!: FormGroup;
 
   // Options
   niveauxDiplome = ['Licence', 'Master', 'Doctorat', 'HDR', 'Ingénieur'];
   gradesAcademiques = ['Assistant', 'Maître Assistant', 'Maître de Conférences', 'Professeur'];
   nationalites = ['Tunisienne', 'Française', 'Algérienne', 'Marocaine', 'Autre'];
 
-  // Technical Skills Lists
+  // Skills Lists
   langagesList = ['Java', 'Python', 'JavaScript', 'C++', 'C#', 'PHP', 'Ruby', 'Go', 'Kotlin', 'Swift'];
   frameworksList = ['Spring Boot', 'Angular', 'React', 'Vue.js', 'Django', 'Flask', 'Node.js', 'Express'];
   dataSkillsList = ['SQL', 'MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Elasticsearch', 'Hadoop', 'Spark'];
   iaSkillsList = ['Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'TensorFlow', 'PyTorch', 'Scikit-learn'];
   erpSkillsList = ['SAP', 'Oracle', 'Odoo', 'Microsoft Dynamics'];
-
-  // Pedagogical Methods
   methodesList = ['Cours Magistral', 'TD/TP', 'Projet', 'E-Learning', 'Classe Inversée', 'Apprentissage par Problèmes'];
 
   constructor() {
+    this.initForms();
+  }
+
+  private initForms(): void {
     this.personalInfoForm = this.fb.group({
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -121,6 +134,24 @@ export class ProfileBuilderComponent {
     return this.experienceForm.get('modulesEnseignes') as FormArray;
   }
 
+  onStepChange(event: StepperSelectionEvent): void {
+    this.currentStep = event.selectedIndex + 1;
+  }
+
+  calculateProgress(): number {
+    const forms = [
+      this.personalInfoForm,
+      this.educationForm,
+      this.experienceForm,
+      this.technicalSkillsForm,
+      this.pedagogicalSkillsForm,
+      this.softSkillsForm
+    ];
+
+    const validForms = forms.filter(f => f.valid).length;
+    return Math.round((validForms / forms.length) * 100);
+  }
+
   addInstitution(): void {
     this.institutions.push(this.fb.control('', Validators.required));
   }
@@ -137,6 +168,22 @@ export class ProfileBuilderComponent {
     this.modulesEnseignes.removeAt(index);
   }
 
+  toggleCheckbox(controlName: string): void {
+    const control = this.pedagogicalSkillsForm.get(controlName);
+    if (control) {
+      control.setValue(!control.value);
+    }
+  }
+
+  isAllFormsValid(): boolean {
+    return this.personalInfoForm.valid &&
+      this.educationForm.valid &&
+      this.experienceForm.valid &&
+      this.technicalSkillsForm.valid &&
+      this.pedagogicalSkillsForm.valid &&
+      this.softSkillsForm.valid;
+  }
+
   onSubmit(): void {
     if (this.isAllFormsValid()) {
       const profileData: ProfileDetails = {
@@ -150,25 +197,13 @@ export class ProfileBuilderComponent {
       };
 
       this.profileService.saveProfile(profileData).subscribe({
-        next: (result) => {
-          console.log('Profile créé avec succès:', result);
-          alert('Votre profil a été créé avec succès!');
-          this.router.navigate(['/']);
+        next: () => {
+          this.router.navigate(['/profile-success']);
         },
         error: (error) => {
-          console.error('Erreur lors de la création du profil:', error);
-          alert('Une erreur est survenue lors de la création de votre profil.');
+          console.error('Erreur:', error);
         }
       });
     }
-  }
-
-  isAllFormsValid(): boolean {
-    return this.personalInfoForm.valid &&
-      this.educationForm.valid &&
-      this.experienceForm.valid &&
-      this.technicalSkillsForm.valid &&
-      this.pedagogicalSkillsForm.valid &&
-      this.softSkillsForm.valid;
   }
 }
