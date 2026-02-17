@@ -16,42 +16,34 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Offre {
-
     @Id
     private String id;
 
-    private String titre;
-    private String description;           // Description détaillée de l’offre
-    private String departement;            // Informatique, Génie logiciel, BI...
-    private String specialite;             // IA, Data, Cloud, BI...
+    private String title;
+    private String description;
+    private String department;
+    private String speciality;
 
-    //Type de poste
-    private String typePoste;              // Permanent / Vacataire
-    private Integer chargeHoraire;         // Heures / semaine
-    private String niveauRequis;           // Licence / Master / Doctorat
+    private String type; // Full-Time / Part-Time / Vacataire
+    private Integer workload; // chargeHoraire
+    private String requiredLevel;
 
-    //Modules à assurer
-    private List<String> modules;          // IA, Java, Big Data...
+    private List<String> modules;
 
-    //Critères de sélection (utilisés par l’IA)
-    private Integer minAnneesExperience;
-    private Boolean experienceAcademique; // obligatoire ou non
-    private List<String> competencesRequises;
+    private Integer minYearsExperience;
+    private Boolean academicExperience;
+    private List<String> requiredSkills;
 
+    private LocalDate postedDate;
+    private LocalDate deadline;
+    private String status;
 
+    private String createdBy;
+    private LocalDateTime createdAt;
 
-    //Dates & statut
-    private LocalDate datePublication;
-    private LocalDate dateExpiration;
-    private String statut;                 // Ouverte / Fermée / En cours
-
-    //Traçabilité
-    private String creePar;                // Chef département / CUP
-    private LocalDateTime dateCreation;
-
+    private Integer candidateCount;
 
     @DBRef
-    private List<CriteresDeSelection> criteresDeSelections ;
-
+    private List<CriteresDeSelection> criteresDeSelections;
 
 }

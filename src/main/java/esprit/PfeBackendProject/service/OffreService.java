@@ -2,10 +2,8 @@ package esprit.PfeBackendProject.service;
 
 import esprit.PfeBackendProject.configuration.OffreMapper;
 import esprit.PfeBackendProject.dto.OffreUpdateDto;
-import esprit.PfeBackendProject.entity.CriteresDeSelection;
-import esprit.PfeBackendProject.entity.Offre;
-import esprit.PfeBackendProject.repository.CriteresDeSelectionRepository;
-import esprit.PfeBackendProject.repository.OffreRepository;
+import esprit.PfeBackendProject.entity.*;
+import esprit.PfeBackendProject.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,9 @@ public class OffreService {
     private final OffreRepository offreRepository;
     private final OffreMapper offreMapper ;
     private final CriteresDeSelectionRepository criteresDeSelectionRepository;
+    private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
+    private final CandidatureRepository candidatureRepository;
 
     public Offre save(Offre offre) {
         return offreRepository.save(offre);
@@ -75,6 +77,78 @@ public class OffreService {
         return offreRepository.save(offre);
     }
 
+
+    public Candidature demandeDeOffre(String idOffre, String idUser) {
+
+        Offre offre = offreRepository.findById(idOffre)
+                .orElseThrow(() -> new RuntimeException("Offre not found"));
+
+        User user = userRepository.findById(idUser)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        ProfileDetails profileDetails = profileRepository.findByUserId(idUser)
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
+
+        Candidature candidature = Candidature.builder()
+
+                /* ===== Liaison ===== */
+                .keycloakId(user.getKeycloakId())
+
+                /* ===== Infos personnelles ===== */
+                .nom(user.getFirstName() + " " + user.getLastName())
+                .email(user.getEmail())
+                .telephone(profileDetails.getTelephone())
+                .nationalite(profileDetails.getNationalite())
+                .ville(profileDetails.getVille())
+                .dateNaissance(profileDetails.getDateNaissance())
+
+                /* ===== Données académiques ===== */
+                .niveauDiplome(profileDetails.getNiveauDiplome())
+                .specialite(profileDetails.getSpecialite())
+                .universite(profileDetails.getUniversite())
+                .anneeDiplome(profileDetails.getAnneeDiplome())
+                .gradeAcademique(profileDetails.getGradeAcademique())
+
+                /* ===== Expérience ===== */
+                .nbAnneesExperience(profileDetails.getNbAnneesExperience())
+                .experienceAcademique(profileDetails.getExperienceAcademique())
+                .institutions(profileDetails.getInstitutions())
+                .modulesEnseignes(profileDetails.getModulesEnseignes())
+
+                /* ===== Compétences ===== */
+                .langages(profileDetails.getLangages())
+                .frameworks(profileDetails.getFrameworks())
+                .dataSkills(profileDetails.getDataSkills())
+                .iaSkills(profileDetails.getIaSkills())
+                .erpSkills(profileDetails.getErpSkills())
+
+                /* ===== Pédagogie ===== */
+                .methodesEnseignement(profileDetails.getMethodesEnseignement())
+                .encadrement(profileDetails.getEncadrement())
+                .innovationPedagogique(profileDetails.getInnovationPedagogique())
+
+                /* ===== Soft skills ===== */
+                .communication(profileDetails.getCommunication())
+                .leadership(profileDetails.getLeadership())
+                .espritEquipe(profileDetails.getEspritEquipe())
+                .motivation(profileDetails.getMotivation())
+
+                /* ===== Documents ===== */
+                .cvPath(profileDetails.getCvPath())
+                .certificatsPath(profileDetails.getCertificatsPath())
+
+                /* ===== Données offre ===== */
+                .typePoste(offre.getType())
+
+                /* ===== Workflow ===== */
+                .statut(StatusCandidature.SOUMISE)
+                .dateCandidature(LocalDate.now())
+                .consentementDonnees(true)
+
+                .build();
+
+        return candidatureRepository.save(candidature);
+    }
 
 
 

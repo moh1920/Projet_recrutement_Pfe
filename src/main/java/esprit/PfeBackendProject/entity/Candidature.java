@@ -42,7 +42,7 @@ public class Candidature {
     private Boolean experienceAcademique;
     private List<String> institutions;
     private List<String> modulesEnseignes;
-    private String typeContrat;       // Vacataire / Permanent
+    private String typeContrat;
 
     /* =======================
        Compétences techniques
@@ -95,7 +95,8 @@ public class Candidature {
     /* =======================
        Workflow RH
        ======================= */
-    private String statut;
+
+    private StatusCandidature statut;
     private LocalDate dateCandidature;
     private Boolean consentementDonnees;
 }

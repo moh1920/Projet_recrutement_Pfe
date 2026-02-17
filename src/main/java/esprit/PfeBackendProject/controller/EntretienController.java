@@ -23,6 +23,7 @@ public class EntretienController {
              }catch (Exception e){
                  return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                          .body("Erreur lors de la création de l'entretien : " + e.getMessage());
+
              }
     }
 

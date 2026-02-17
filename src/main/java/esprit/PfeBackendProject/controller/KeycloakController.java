@@ -34,8 +34,9 @@ public class KeycloakController {
 
 
 
-    @GetMapping("/me")
+    @GetMapping("/syncUser")
     public User getAuthenticatedUser(@AuthenticationPrincipal Jwt jwt) {
+
         return userSyncService.syncUser(jwt);
     }
 
@@ -45,14 +46,6 @@ public class KeycloakController {
 
     @PostMapping("/createUser")
     public ResponseEntity<?> create(@RequestBody CreateUserRequest req) {
-
-        service.createUser(
-                req.getUsername(),
-                req.getEmail(),
-                req.getPassword(),
-                req.getRole()
-        );
-
-        return ResponseEntity.ok("Utilisateur créé dans Keycloak");
+        return ResponseEntity.ok("Utilisateur créé dans Keycloak" + service.createUser(req));
     }
 }

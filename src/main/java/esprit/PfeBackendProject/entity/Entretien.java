@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class Entretien {
     private String id;
 
 
-    private Date dateEntretien;
-    private Date dateCreation;
+    private LocalDate    dateEntretien;
+    private LocalDate dateCreation;
 
     private EtatEntretien etat;
 
