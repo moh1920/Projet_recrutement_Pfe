@@ -1,26 +1,63 @@
-.offer-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    min-width: 600px;
-    padding: 20px 0;
-
-    mat-form-field {
-        width: 100%;
-    }
-
-    .type-location-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
-
-    textarea {
-        resize: vertical;
-    }
+:host {
+  display: block;
 }
 
-mat-dialog-content {
-    max-height: 70vh;
-    overflow-y: auto;
+.offer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 500px;
+  max-width: 600px;
+  padding: 8px 0;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+
+  mat-form-field {
+    flex: 1;
+
+    &:first-child {
+      flex: 1;
+    }
+
+    &:last-child {
+      flex: 1;
+    }
+  }
+}
+
+.checkbox-row {
+  margin: 8px 0;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+mat-dialog-actions {
+  padding: 16px 24px;
+
+  button {
+    margin-left: 8px;
+  }
+}
+
+// Responsive
+@media (max-width: 600px) {
+  .offer-form {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 }

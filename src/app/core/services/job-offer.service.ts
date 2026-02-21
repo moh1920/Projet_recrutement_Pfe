@@ -4,16 +4,21 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 export interface JobOffer {
-    id: string;
-    title: string;
-    department: string;
-    type: 'Full-Time' | 'Part-Time' | 'Vacitaire';
-    location: string;
-    description: string;
-    requirements: string[];
-    postedDate: Date;
-    status: 'Active' | 'Draft' | 'Closed';
-    candidateCount: number;
+  benefits?: any;
+  deadline?: any;
+  salary?: any;
+  experience?: any;
+  featured?: any;
+  id: string;
+  title: string;
+  department: string;
+  type: 'Full-Time' | 'Part-Time' | 'Vacitaire';
+  location: string;
+  description: string;
+  requirements: string[];
+  postedDate: Date;
+  status: 'Active' | 'Draft' | 'Closed';
+  candidateCount: number;
 }
 
 @Injectable({
@@ -70,4 +75,19 @@ export class JobOfferService {
         const offer = this.mockOffers.find(o => o.id === id);
         return of(offer).pipe(delay(300));
     }
+
+  addOffer(result: any) {
+
+  }
+
+  deleteOffer(id: string) {
+
+  }
+
+  updateOffer(id: string, param2: { featured: boolean }) {
+
+  }
+  updateOfferS(id: string, param2: { status: string }) {
+
+  }
 }

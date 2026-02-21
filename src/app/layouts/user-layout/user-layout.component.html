@@ -1,34 +1,98 @@
-<mat-toolbar color="primary" class="user-toolbar">
-    <div class="container toolbar-content">
-        <div class="logo-area" routerLink="/">
-            <mat-icon>school</mat-icon>
-            <span>ESPRIT Recruit</span>
-        </div>
-
-        <span class="spacer"></span>
-
-        <nav class="nav-links">
-            <a mat-button routerLink="/">Accueil</a>
-            <a mat-button routerLink="/offers">Offres d'emploi</a>
-            <a mat-button routerLink="/apply">Candidater</a>
-            <a mat-stroked-button class="login-btn" routerLink="/admin">
-                <mat-icon>login</mat-icon>
-                Espace RH
-            </a>
-        </nav>
+<!-- Navigation -->
+<mat-toolbar class="main-toolbar">
+  <div class="container toolbar-content">
+    <div class="logo-area" routerLink="/">
+      <div class="logo-icon">
+        <mat-icon>school</mat-icon>
+      </div>
+      <div class="logo-text">
+        <span class="logo-main">ESPRIT</span>
+        <span class="logo-sub">Recrutement</span>
+      </div>
     </div>
+
+    <button mat-icon-button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+      <mat-icon>{{ isMobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+
+    <nav class="nav-links" [class.mobile-open]="isMobileMenuOpen">
+      <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>home</mat-icon>
+        Accueil
+      </a>
+      <a mat-button routerLink="/offers" routerLinkActive="active-link">
+        <mat-icon>work</mat-icon>
+        Offres
+      </a>
+      <a mat-button routerLink="/apply" routerLinkActive="active-link">
+        <mat-icon>upload_file</mat-icon>
+        Candidater
+      </a>
+      <a mat-stroked-button class="login-btn" routerLink="/admin">
+        <mat-icon>admin_panel_settings</mat-icon>
+        Espace RH
+      </a>
+    </nav>
+  </div>
 </mat-toolbar>
 
-<main class="user-content">
-    <router-outlet></router-outlet>
+<!-- Main Content -->
+<main class="main-content">
+  <router-outlet></router-outlet>
 </main>
 
-<footer class="user-footer">
-    <div class="container">
-        <p>© 2026 ESPRIT - École Supérieure Privée d'Ingénierie et de Technologies</p>
-        <div class="footer-links">
-            <a href="#">Mentions Légales</a>
-            <a href="#">Contact</a>
-        </div>
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="footer-waves">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(139, 0, 0, 0.1)"></path>
+    </svg>
+  </div>
+
+  <div class="container footer-content">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <mat-icon>school</mat-icon>
+        <span>ESPRIT</span>
+      </div>
+      <p class="footer-tagline">École Supérieure Privée d'Ingénierie et de Technologies</p>
+      <div class="footer-socials">
+        <a href="#" mat-icon-button><mat-icon>facebook</mat-icon></a>
+        <a href="#" mat-icon-button><mat-icon>linkedin</mat-icon></a>
+        <a href="#" mat-icon-button><mat-icon>twitter</mat-icon></a>
+      </div>
     </div>
+
+    <div class="footer-links-group">
+      <h4>Navigation</h4>
+      <a routerLink="/">Accueil</a>
+      <a routerLink="/offers">Offres d'emploi</a>
+      <a routerLink="/apply">Candidature</a>
+    </div>
+
+    <div class="footer-links-group">
+      <h4>Ressources</h4>
+      <a href="#">Guide du candidat</a>
+      <a href="#">FAQ</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <p><mat-icon>location_on</mat-icon> Ariana, Tunisie</p>
+      <p><mat-icon>email</mat-icon> recrutementesprit.tn</p>
+      <p><mat-icon>phone</mat-icon> +216 70 000 000</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p>© 2026 ESPRIT. Tous droits réservés.</p>
+      <div class="footer-legal">
+        <a href="#">Mentions Légales</a>
+        <span>•</span>
+        <a href="#">Politique de confidentialité</a>
+      </div>
+    </div>
+  </div>
 </footer>

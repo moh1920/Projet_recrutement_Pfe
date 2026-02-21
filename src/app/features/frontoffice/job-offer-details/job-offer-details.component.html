@@ -87,14 +87,14 @@
         </mat-card>
 
         <!-- Requirements Card -->
-        <mat-card class="content-card" *ngIf="offer.requirements?.length">
+        <mat-card class="content-card" *ngIf="offer.requiredLevel?.length">
           <div class="card-header">
             <mat-icon>task_alt</mat-icon>
             <h2>Responsabilités & Prérequis</h2>
           </div>
           <div class="card-body">
             <ul class="requirements-list">
-              <li *ngFor="let req of offer.requirements">
+              <li *ngFor="let req of offer.requiredSkills">
                 <div class="check-icon">
                   <mat-icon>check_circle</mat-icon>
                 </div>
@@ -105,14 +105,14 @@
         </mat-card>
 
         <!-- Benefits Card -->
-        <mat-card class="content-card" *ngIf="offer.benefits?.length">
+        <mat-card class="content-card" *ngIf="offer.salary?.length">
           <div class="card-header">
             <mat-icon>stars</mat-icon>
             <h2>Avantages</h2>
           </div>
           <div class="card-body">
             <div class="benefits-grid">
-              <div class="benefit-item" *ngFor="let benefit of offer.benefits">
+              <div class="benefit-item" *ngFor="let benefit of offer.salary">
                 <mat-icon>check_circle_outline</mat-icon>
                 <span>{{benefit}}</span>
               </div>

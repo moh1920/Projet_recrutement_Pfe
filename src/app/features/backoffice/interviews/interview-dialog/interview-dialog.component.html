@@ -1,73 +1,429 @@
-<h2 mat-dialog-title>Planifier un Entretien</h2>
+<h2 mat-dialog-title class="dialog-title">
+  <div class="title-icon">
+    <mat-icon>{{ data?.id ? 'edit_calendar' : 'event_available' }}</mat-icon>
+  </div>
+  <div class="title-text">
+    <span>{{ data?.id ? 'Modifier l\'entretien' : 'Planifier un entretien' }}</span>
+    <small *ngIf="data?.candidateName">{{ data.candidateName }}</small>
+  </div>
+  <button mat-icon-button class="close-btn" (click)="onCancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
 
-<mat-dialog-content>
-    <form [formGroup]="interviewForm" class="interview-form">
-        <mat-form-field appearance="outline">
-            <mat-label>Nom du Candidat</mat-label>
-            <input matInput formControlName="candidateName" placeholder="Ex: Jean Dupont">
-            <mat-error *ngIf="interviewForm.get('candidateName')?.hasError('required')">
-                Le nom du candidat est requis
-            </mat-error>
-        </mat-form-field>
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="interviewForm" class="interview-form">
 
-        <mat-form-field appearance="outline">
-            <mat-label>Poste</mat-label>
-            <input matInput formControlName="position" placeholder="Ex: Enseignant IA">
-            <mat-error *ngIf="interviewForm.get('position')?.hasError('required')">
-                Le poste est requis
-            </mat-error>
-        </mat-form-field>
+    <!-- ==================== TABS ==================== -->
+    <mat-tab-group class="form-tabs" animationDuration="200ms">
 
-        <div class="date-time-row">
-            <mat-form-field appearance="outline">
-                <mat-label>Date</mat-label>
+      <!-- ===== TAB 1 : Informations principales ===== -->
+      <mat-tab label="Informations">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">person</mat-icon>
+          Informations
+        </ng-template>
+
+        <div class="tab-content">
+
+          <!-- Candidat -->
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>account_circle</mat-icon> Candidat
+            </h3>
+
+            <div class="form-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Nom du candidat *</mat-label>
+                <input matInput formControlName="candidateName" placeholder="Ex : Jean Dupont">
+                <mat-icon matPrefix>person_outline</mat-icon>
+                <mat-error *ngIf="f['candidateName'].hasError('required')">Champ requis</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>ID Candidat</mat-label>
+                <input matInput formControlName="candidateId" placeholder="ID interne">
+                <mat-icon matPrefix>badge</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Email candidat</mat-label>
+                <input matInput type="email" formControlName="candidateEmail" placeholder="jean@example.com">
+                <mat-icon matPrefix>email</mat-icon>
+                <mat-error *ngIf="f['candidateEmail'].hasError('email')">Email invalide</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Téléphone candidat</mat-label>
+                <input matInput formControlName="candidatePhone" placeholder="+216 XX XXX XXX">
+                <mat-icon matPrefix>phone</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Poste -->
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>work</mat-icon> Poste
+            </h3>
+
+            <div class="form-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Poste / Position *</mat-label>
+                <input matInput formControlName="position" placeholder="Ex : Enseignant IA">
+                <mat-icon matPrefix>work_outline</mat-icon>
+                <mat-error *ngIf="f['position'].hasError('required')">Champ requis</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Département</mat-label>
+                <mat-select formControlName="department">
+                  <mat-option value="">— Aucun —</mat-option>
+                  <mat-option value="Informatique">Informatique</mat-option>
+                  <mat-option value="Génie Civil">Génie Civil</mat-option>
+                  <mat-option value="Électronique">Électronique</mat-option>
+                  <mat-option value="Gestion">Gestion</mat-option>
+                  <mat-option value="Langues">Langues</mat-option>
+                  <mat-option value="Sciences">Sciences</mat-option>
+                  <mat-option value="RH">RH</mat-option>
+                  <mat-option value="Administration">Administration</mat-option>
+                </mat-select>
+                <mat-icon matPrefix>business</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Type & Statut -->
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>category</mat-icon> Classification
+            </h3>
+
+            <div class="form-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Type d'entretien *</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option value="interview">
+                    <mat-icon>people</mat-icon> Entretien
+                  </mat-option>
+                  <mat-option value="evaluation">
+                    <mat-icon>assignment</mat-icon> Évaluation
+                  </mat-option>
+                </mat-select>
+                <mat-icon matPrefix>category</mat-icon>
+                <mat-error *ngIf="f['type'].hasError('required')">Champ requis</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Statut *</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option value="Planifié">
+                    <span class="status-dot planifie"></span> Planifié
+                  </mat-option>
+                  <mat-option value="En cours">
+                    <span class="status-dot en-cours"></span> En cours
+                  </mat-option>
+                  <mat-option value="Terminé">
+                    <span class="status-dot termine"></span> Terminé
+                  </mat-option>
+                  <mat-option value="Annulé">
+                    <span class="status-dot annule"></span> Annulé
+                  </mat-option>
+                </mat-select>
+                <mat-icon matPrefix>flag</mat-icon>
+                <mat-error *ngIf="f['status'].hasError('required')">Champ requis</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+
+      <!-- ===== TAB 2 : Planning ===== -->
+      <mat-tab label="Planning">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">event</mat-icon>
+          Planning
+        </ng-template>
+
+        <div class="tab-content">
+
+          <!-- Date & Heure -->
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>schedule</mat-icon> Date & Heure
+            </h3>
+
+            <div class="form-row three-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Date *</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="date">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="interviewForm.get('date')?.hasError('required')">
-                    La date est requise
-                </mat-error>
-            </mat-form-field>
+                <mat-icon matPrefix>calendar_today</mat-icon>
+                <mat-error *ngIf="f['date'].hasError('required')">Champ requis</mat-error>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Heure</mat-label>
+              <mat-form-field appearance="outline">
+                <mat-label>Heure *</mat-label>
                 <input matInput type="time" formControlName="time">
-                <mat-error *ngIf="interviewForm.get('time')?.hasError('required')">
-                    L'heure est requise
-                </mat-error>
+                <mat-icon matPrefix>access_time</mat-icon>
+                <mat-error *ngIf="f['time'].hasError('required')">Champ requis</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Durée (minutes) *</mat-label>
+                <input matInput type="number" formControlName="duration" min="15" max="480" step="15">
+                <mat-icon matPrefix>timelapse</mat-icon>
+                <mat-hint>Ex : 45, 60, 90</mat-hint>
+                <mat-error *ngIf="f['duration'].hasError('required')">Champ requis</mat-error>
+                <mat-error *ngIf="f['duration'].hasError('min')">Minimum 15 min</mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Durée prédéfinie -->
+            <div class="duration-presets">
+              <span class="preset-label">Durée rapide :</span>
+              <button type="button" mat-stroked-button class="preset-btn"
+                      *ngFor="let d of durationPresets"
+                      [class.active]="interviewForm.get('duration')?.value === d.value"
+                      (click)="setDuration(d.value)">
+                {{ d.label }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Lieu -->
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>place</mat-icon> Lieu
+            </h3>
+
+            <div class="form-row two-cols">
+              <mat-form-field appearance="outline">
+                <mat-label>Salle</mat-label>
+                <input matInput formControlName="room" placeholder="Ex : Salle 201, Amphi A">
+                <mat-icon matPrefix>meeting_room</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Lieu / Adresse</mat-label>
+                <input matInput formControlName="location" placeholder="Ex : Campus Esprit, Bâtiment B">
+                <mat-icon matPrefix>location_on</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Lien de réunion (Meet, Zoom, Teams...)</mat-label>
+              <input matInput formControlName="meetLink" placeholder="https://meet.google.com/...">
+              <mat-icon matPrefix>videocam</mat-icon>
+              <mat-hint>Lien optionnel pour les entretiens en ligne</mat-hint>
+              <mat-error *ngIf="f['meetLink'].hasError('pattern')">URL invalide</mat-error>
             </mat-form-field>
+          </div>
+
         </div>
+      </mat-tab>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Type d'Entretien</mat-label>
-            <mat-select formControlName="type">
-                <mat-option value="Technique">Technique</mat-option>
-                <mat-option value="RH">RH</mat-option>
-                <mat-option value="Direction">Direction</mat-option>
-            </mat-select>
-        </mat-form-field>
+      <!-- ===== TAB 3 : Jury ===== -->
+      <mat-tab label="Jury">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">group</mat-icon>
+          Jury
+        </ng-template>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Interviewers (séparés par des virgules)</mat-label>
-            <input matInput formControlName="interviewers" placeholder="Dr. Ahmed, Prof. Fatma">
-            <mat-error *ngIf="interviewForm.get('interviewers')?.hasError('required')">
-                Les interviewers sont requis
-            </mat-error>
-        </mat-form-field>
+        <div class="tab-content">
 
-        <mat-form-field appearance="outline">
-            <mat-label>Lieu / Lien</mat-label>
-            <input matInput formControlName="location" placeholder="Salle 201 ou https://meet.google.com/...">
-            <mat-error *ngIf="interviewForm.get('location')?.hasError('required')">
-                Le lieu est requis
-            </mat-error>
-        </mat-form-field>
-    </form>
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>group</mat-icon> Membres du jury
+            </h3>
+
+            <!-- Ajout membre -->
+            <div class="jury-add-row">
+              <mat-form-field appearance="outline" class="jury-input">
+                <mat-label>Nom du membre</mat-label>
+                <input matInput [(ngModel)]="newJuryName" [ngModelOptions]="{standalone: true}"
+                       placeholder="Ex : Dr. Ahmed Ben Ali"
+                       (keyup.enter)="addJuryMember()">
+                <mat-icon matPrefix>person_add</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="jury-id-input">
+                <mat-label>ID (optionnel)</mat-label>
+                <input matInput [(ngModel)]="newJuryId" [ngModelOptions]="{standalone: true}"
+                       placeholder="ID membre">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="jury-email-input">
+                <mat-label>Email (optionnel)</mat-label>
+                <input matInput type="email" [(ngModel)]="newJuryEmail" [ngModelOptions]="{standalone: true}"
+                       placeholder="ahmed@esprit.tn">
+              </mat-form-field>
+
+              <button mat-raised-button type="button" class="btn-add-jury" (click)="addJuryMember()"
+                      [disabled]="!newJuryName.trim()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <!-- Liste jury -->
+            <div class="jury-list" *ngIf="juryMembers.length > 0">
+              <div class="jury-item" *ngFor="let member of juryMembers; let i = index">
+                <div class="jury-avatar">{{ member.name.charAt(0).toUpperCase() }}</div>
+                <div class="jury-info">
+                  <span class="jury-name">{{ member.name }}</span>
+                  <span class="jury-meta" *ngIf="member.email">{{ member.email }}</span>
+                </div>
+                <button mat-icon-button type="button" class="btn-remove-jury"
+                        (click)="removeJuryMember(i)" matTooltip="Retirer">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="jury-empty" *ngIf="juryMembers.length === 0">
+              <mat-icon>group_off</mat-icon>
+              <span>Aucun membre ajouté</span>
+            </div>
+
+            <mat-hint class="jury-hint">
+              <mat-icon>info</mat-icon>
+              Le jury sera notifié par email lors de la planification.
+            </mat-hint>
+          </div>
+
+        </div>
+      </mat-tab>
+
+      <!-- ===== TAB 4 : Détails ===== -->
+      <mat-tab label="Détails">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">notes</mat-icon>
+          Détails
+        </ng-template>
+
+        <div class="tab-content">
+
+          <!-- Notes -->
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>notes</mat-icon> Notes & Commentaires
+            </h3>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Notes internes</mat-label>
+              <textarea matInput formControlName="notes" rows="4"
+                        placeholder="Notes visibles uniquement pour les administrateurs..."></textarea>
+              <mat-icon matPrefix>sticky_note_2</mat-icon>
+              <mat-hint align="end">{{ f['notes'].value?.length || 0 }} caractères</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!-- Exigences -->
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>checklist</mat-icon> Prérequis / Exigences
+            </h3>
+
+            <div class="requirements-add-row">
+              <mat-form-field appearance="outline" class="req-input">
+                <mat-label>Ajouter une exigence</mat-label>
+                <input matInput [(ngModel)]="newRequirement" [ngModelOptions]="{standalone: true}"
+                       placeholder="Ex : CV à jour, Portfolio..."
+                       (keyup.enter)="addRequirement()">
+                <mat-icon matPrefix>add_task</mat-icon>
+              </mat-form-field>
+              <button mat-raised-button type="button" class="btn-add-req" (click)="addRequirement()"
+                      [disabled]="!newRequirement.trim()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <div class="requirements-list" *ngIf="requirements.length > 0">
+              <div class="req-item" *ngFor="let req of requirements; let i = index">
+                <mat-icon class="req-check">check_circle</mat-icon>
+                <span>{{ req }}</span>
+                <button mat-icon-button type="button" (click)="removeRequirement(i)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Critères d'évaluation -->
+          <div class="form-section">
+            <h3 class="section-label">
+              <mat-icon>assessment</mat-icon> Critères d'évaluation
+            </h3>
+
+            <div class="criteria-add-row">
+              <mat-form-field appearance="outline" class="crit-name-input">
+                <mat-label>Critère</mat-label>
+                <input matInput [(ngModel)]="newCriteria.criterion" [ngModelOptions]="{standalone: true}"
+                       placeholder="Ex : Compétences techniques">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="crit-weight-input">
+                <mat-label>Poids (%)</mat-label>
+                <input matInput type="number" [(ngModel)]="newCriteria.weight"
+                       [ngModelOptions]="{standalone: true}" min="1" max="100" placeholder="30">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="crit-desc-input">
+                <mat-label>Description</mat-label>
+                <input matInput [(ngModel)]="newCriteria.description" [ngModelOptions]="{standalone: true}"
+                       placeholder="Optionnelle">
+              </mat-form-field>
+
+              <button mat-raised-button type="button" class="btn-add-crit" (click)="addCriteria()"
+                      [disabled]="!newCriteria.criterion">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <div class="criteria-list" *ngIf="evaluationCriteria.length > 0">
+              <div class="crit-item" *ngFor="let crit of evaluationCriteria; let i = index">
+                <div class="crit-info">
+                  <span class="crit-name">{{ crit.criterion }}</span>
+                  <span class="crit-desc" *ngIf="crit.description">{{ crit.description }}</span>
+                </div>
+                <div class="crit-weight-badge">{{ crit.weight }}%</div>
+                <button mat-icon-button type="button" (click)="removeCriteria(i)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+
+              <div class="criteria-total" [class.over]="totalCriteriaWeight > 100">
+                <span>Total : {{ totalCriteriaWeight }}%</span>
+                <mat-icon *ngIf="totalCriteriaWeight > 100" matTooltip="Le total dépasse 100%">warning</mat-icon>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+
+  </form>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Annuler</button>
-    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!interviewForm.valid">
-        Planifier
+<mat-dialog-actions class="dialog-actions" align="end">
+  <div class="actions-left">
+    <span class="required-note">* Champs obligatoires</span>
+  </div>
+  <div class="actions-right">
+    <button mat-button class="btn-cancel" (click)="onCancel()">
+      <mat-icon>close</mat-icon> Annuler
     </button>
+    <button mat-raised-button class="btn-submit" (click)="onSubmit()"
+            [disabled]="!interviewForm.valid || isSubmitting">
+      <mat-spinner diameter="18" *ngIf="isSubmitting"></mat-spinner>
+      <mat-icon *ngIf="!isSubmitting">{{ data?.id ? 'save' : 'event_available' }}</mat-icon>
+      {{ data?.id ? 'Enregistrer' : 'Planifier' }}
+    </button>
+  </div>
 </mat-dialog-actions>

@@ -1,54 +1,252 @@
+<!-- job-offers-admin.component.html -->
 <div class="offers-admin-container">
-    <div class="header-actions">
-        <h1 class="page-title">Mes Offres d'Emploi (Admin)</h1>
-        <button mat-raised-button color="primary" (click)="openAddDialog()">
-            <mat-icon>add</mat-icon> Créer une Offre
+  <!-- Header Premium - Corrigé pour Offres -->
+  <header class="page-header">
+    <div class="header-bg-pattern"></div>
+    <div class="header-content">
+      <div class="title-section">
+        <div class="icon-wrapper">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Gestion des Offres</h1>
+          <p class="subtitle">Administrez les offres d'emploi et suivez les candidatures</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="stats-summary">
+          <div class="stat-item">
+            <span class="stat-value">{{ stats.total }}</span>
+            <span class="stat-label">Offres</span>
+          </div>
+          <div class="stat-item active">
+            <span class="stat-value">{{ stats.ouvertes }}</span>
+            <span class="stat-label">Ouvertes</span>
+          </div>
+        </div>
+        <button mat-raised-button class="btn-add" (click)="openAddDialog()">
+          <mat-icon>add</mat-icon>
+          Nouvelle Offre
         </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <div class="toolbar-section">
+    <div class="filter-group">
+      <div class="search-field">
+        <mat-form-field appearance="outline" class="search-box">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput
+                 [(ngModel)]="searchText"
+                 (input)="applyFilter()"
+                 placeholder="Rechercher une offre...">
+          <button mat-icon-button matSuffix *ngIf="searchText" (click)="searchText=''; applyFilter()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="filter-chips">
+        <mat-chip-listbox>
+          <mat-chip-option *ngFor="let filter of filters"
+                           [selected]="selectedFilter === filter"
+                           (click)="setFilter(filter)">
+            {{filter}}
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
     </div>
 
-    <div class="offers-list" *if="offers$ | async as offers; else loading">
-        <div class="offer-item-card" *ngFor="let offer of offers">
-            <div class="offer-main">
-                <h3 class="offer-title">{{offer.title}}</h3>
-                <p class="offer-meta">
-                    <mat-icon>business</mat-icon> {{offer.department}}
-                    <span class="separator">•</span>
-                    <mat-icon>location_on</mat-icon> {{offer.location}}
-                </p>
-            </div>
+    <div class="view-actions">
+      <button mat-icon-button matTooltip="Vue tableau">
+        <mat-icon>view_list</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Exporter">
+        <mat-icon>download</mat-icon>
+      </button>
+    </div>
+  </div>
 
-            <div class="offer-stats">
-                <div class="stat-badge">
-                    <span class="count">{{offer.candidateCount}}</span>
-                    <span class="label">Candidats</span>
-                </div>
-            </div>
+  <!-- Table Container -->
+  <div class="table-container">
+    <!-- Bulk Actions -->
+    <div class="table-header" *ngIf="selection.hasValue()">
+      <div class="bulk-actions">
+        <span class="selection-count">{{selection.selected.length}} sélectionné(s)</span>
+        <button mat-stroked-button color="warn" (click)="deleteSelected()">
+          <mat-icon>delete</mat-icon>
+          Supprimer
+        </button>
+      </div>
+    </div>
 
-            <div class="offer-status">
-                <div class="status-indicator" [ngClass]="offer.status ? offer.status.toLowerCase() : ''">
-                    {{offer.status}}
-                </div>
-            </div>
+    <div class="table-card" style="position: relative;">
+      <!-- Loading -->
+      <div *ngIf="isLoading" class="loading-overlay">
+        <mat-spinner diameter="40"></mat-spinner>
+        <span>Chargement des offres...</span>
+      </div>
 
-            <div class="offer-actions">
-                <button mat-icon-button [matMenuTriggerFor]="menu">
-                    <mat-icon>more_vert</mat-icon>
+      <table mat-table [dataSource]="dataSource" matSort class="modern-table">
+
+        <!-- Select Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Poste </th>
+          <td mat-cell *matCellDef="let offer" class="offer-title-cell">
+            <div class="title-wrapper">
+              <span class="main-title">{{offer.title}}</span>
+              <span class="subtitle">{{offer.description | slice:0:50}}...</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Department Column -->
+        <ng-container matColumnDef="department">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Département </th>
+          <td mat-cell *matCellDef="let offer" class="dept-cell">
+            <span class="dept-badge">
+              <mat-icon>business</mat-icon>
+              {{offer.department}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Speciality Column -->
+        <ng-container matColumnDef="speciality">
+          <th mat-header-cell *matHeaderCellDef> Spécialité </th>
+          <td mat-cell *matCellDef="let offer" class="speciality-cell">
+            {{offer.speciality}}
+          </td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+          <td mat-cell *matCellDef="let offer" class="type-cell">
+            <span class="type-badge" [class]="getTypeClass(offer.type)">
+              <mat-icon>{{getTypeIcon(offer.type)}}</mat-icon>
+              {{offer.type}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Workload Column -->
+        <ng-container matColumnDef="workload">
+          <th mat-header-cell *matHeaderCellDef> Charge </th>
+          <td mat-cell *matCellDef="let offer" class="workload-cell">
+            <span class="workload-text" *ngIf="offer.workload">
+              <mat-icon>access_time</mat-icon>
+              {{offer.workload}}h/semaine
+            </span>
+            <span *ngIf="!offer.workload">-</span>
+          </td>
+        </ng-container>
+
+        <!-- Candidates Column -->
+        <ng-container matColumnDef="candidates">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidats </th>
+          <td mat-cell *matCellDef="let offer" class="candidates-cell">
+            <span class="candidates-count" (click)="viewCandidates(offer)">
+              <mat-icon>people</mat-icon>
+              {{offer.candidateCount || 0}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Deadline Column -->
+        <ng-container matColumnDef="deadline">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date limite </th>
+          <td mat-cell *matCellDef="let offer" class="deadline-cell">
+            <span class="deadline-text" [class.urgent]="isUrgent(offer.deadline)">
+              <mat-icon>event</mat-icon>
+              {{offer.deadline | date:'dd/MM/yyyy'}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Statut </th>
+          <td mat-cell *matCellDef="let offer" class="status-cell">
+            <span class="status-badge" [class]="getStatusClass(offer.status)">
+              <span class="status-dot"></span>
+              {{offer.status}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let offer" class="actions-cell">
+            <div class="action-buttons">
+              <button mat-icon-button class="btn-edit" (click)="editOffer(offer)" matTooltip="Modifier">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button class="btn-more" [matMenuTriggerFor]="menu" matTooltip="Plus d'actions">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" class="action-menu">
+                <button mat-menu-item (click)="viewCandidates(offer)">
+                  <mat-icon>visibility</mat-icon>
+                  <span>Voir candidats</span>
                 </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item>
-                        <mat-icon>edit</mat-icon> Modifier
-                    </button>
-                    <button mat-menu-item>
-                        <mat-icon color="warn">archive</mat-icon> Archiver
-                    </button>
-                </mat-menu>
+                <button mat-menu-item (click)="archiveOffer(offer)">
+                  <mat-icon>archive</mat-icon>
+                  <span>Archiver</span>
+                </button>
+              </mat-menu>
             </div>
-        </div>
-    </div>
+          </td>
+        </ng-container>
 
-    <ng-template #loading>
-        <div class="loading-state">
-            Chargement des offres...
-        </div>
-    </ng-template>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            [class.selected]="selection.isSelected(row)"></tr>
+
+        <!-- Empty State -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+            <div class="empty-state">
+              <div class="empty-icon">
+                <mat-icon>work_off</mat-icon>
+              </div>
+              <h3>Aucune offre trouvée</h3>
+              <p>Créez votre première offre d'emploi</p>
+              <button mat-raised-button color="primary" (click)="openAddDialog()">
+                <mat-icon>add</mat-icon>
+                Créer une offre
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Pagination -->
+      <mat-paginator [pageSizeOptions]="[10, 25, 50]"
+                     showFirstLastButtons
+                     class="modern-paginator">
+      </mat-paginator>
+    </div>
+  </div>
 </div>

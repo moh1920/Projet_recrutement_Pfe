@@ -1,74 +1,157 @@
 <h2 mat-dialog-title>Créer une Offre d'Emploi</h2>
 
 <mat-dialog-content>
-    <form [formGroup]="offerForm" class="offer-form">
-        <mat-form-field appearance="outline">
-            <mat-label>Titre du Poste</mat-label>
-            <input matInput formControlName="title" placeholder="Ex: Enseignant Permanent - Génie Logiciel">
-            <mat-error *ngIf="offerForm.get('title')?.hasError('required')">
-                Le titre est requis
-            </mat-error>
-        </mat-form-field>
+  <form [formGroup]="offreForm" class="offer-form">
 
-        <mat-form-field appearance="outline">
-            <mat-label>Département</mat-label>
-            <input matInput formControlName="department" placeholder="Ex: Informatique">
-            <mat-error *ngIf="offerForm.get('department')?.hasError('required')">
-                Le département est requis
-            </mat-error>
-        </mat-form-field>
+    <!-- Ligne 1: Titre -->
+    <mat-form-field appearance="outline">
+      <mat-label>Titre du Poste</mat-label>
+      <input matInput formControlName="title" placeholder="Ex: Enseignant Permanent - Génie Logiciel">
+      <mat-error *ngIf="offreForm.get('title')?.hasError('required')">
+        Le titre est requis
+      </mat-error>
+      <mat-error *ngIf="offreForm.get('title')?.hasError('minlength')">
+        Minimum 5 caractères
+      </mat-error>
+    </mat-form-field>
 
-        <div class="type-location-row">
-            <mat-form-field appearance="outline">
-                <mat-label>Type de Contrat</mat-label>
-                <mat-select formControlName="type">
-                    <mat-option value="Full-Time">Full-Time</mat-option>
-                    <mat-option value="Part-Time">Part-Time</mat-option>
-                    <mat-option value="Vacitaire">Vacitaire</mat-option>
-                </mat-select>
-            </mat-form-field>
+    <!-- Ligne 2: Département et Spécialité -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Département</mat-label>
+        <input matInput formControlName="department" placeholder="Ex: Informatique">
+        <mat-error *ngIf="offreForm.get('department')?.hasError('required')">
+          Le département est requis
+        </mat-error>
+      </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Localisation</mat-label>
-                <input matInput formControlName="location" placeholder="Ex: ESPRIT Ghazela">
-                <mat-error *ngIf="offerForm.get('location')?.hasError('required')">
-                    La localisation est requise
-                </mat-error>
-            </mat-form-field>
-        </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Spécialité</mat-label>
+        <input matInput formControlName="speciality" placeholder="Ex: Intelligence Artificielle">
+        <mat-error *ngIf="offreForm.get('speciality')?.hasError('required')">
+          La spécialité est requise
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description" rows="4"
-                placeholder="Décrivez le poste et les responsabilités..."></textarea>
-            <mat-error *ngIf="offerForm.get('description')?.hasError('required')">
-                La description est requise
-            </mat-error>
-        </mat-form-field>
+    <!-- Ligne 3: Type et Charge horaire -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Type de Contrat</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="Permanent">Permanent</mat-option>
+          <mat-option value="Vacataire">Vacataire</mat-option>
+        </mat-select>
+        <mat-error *ngIf="offreForm.get('type')?.hasError('required')">
+          Le type est requis
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Prérequis (un par ligne)</mat-label>
-            <textarea matInput formControlName="requirements" rows="6"
-                placeholder="Doctorat en Informatique&#10;Expérience académique > 2 ans&#10;Maîtrise de Spring Boot & Angular"></textarea>
-            <mat-error *ngIf="offerForm.get('requirements')?.hasError('required')">
-                Les prérequis sont requis
-            </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Charge Horaire (h/semaine)</mat-label>
+        <input matInput type="number" formControlName="workload" placeholder="Ex: 20">
+        <mat-error *ngIf="offreForm.get('workload')?.hasError('required')">
+          La charge horaire est requise
+        </mat-error>
+        <mat-error *ngIf="offreForm.get('workload')?.hasError('min')">
+          Minimum 1 heure
+        </mat-error>
+        <mat-error *ngIf="offreForm.get('workload')?.hasError('max')">
+          Maximum 40 heures
+        </mat-error>
+      </mat-form-field>
+    </div>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Statut</mat-label>
-            <mat-select formControlName="status">
-                <mat-option value="Active">Active</mat-option>
-                <mat-option value="Draft">Brouillon</mat-option>
-                <mat-option value="Closed">Fermée</mat-option>
-            </mat-select>
-        </mat-form-field>
-    </form>
+    <!-- Ligne 4: Niveau requis et Expérience -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Niveau Requis</mat-label>
+        <mat-select formControlName="requiredLevel">
+          <mat-option value="Licence">Licence</mat-option>
+          <mat-option value="Master">Master</mat-option>
+          <mat-option value="Doctorat">Doctorat</mat-option>
+        </mat-select>
+        <mat-error *ngIf="offreForm.get('requiredLevel')?.hasError('required')">
+          Le niveau est requis
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Années d'Expérience Min</mat-label>
+        <input matInput type="number" formControlName="minYearsExperience" placeholder="Ex: 2">
+        <mat-error *ngIf="offreForm.get('minYearsExperience')?.hasError('required')">
+          L'expérience est requise
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Ligne 5: Description -->
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="4"
+                placeholder="Décrivez le poste, les missions et responsabilités..."></textarea>
+      <mat-error *ngIf="offreForm.get('description')?.hasError('required')">
+        La description est requise
+      </mat-error>
+      <mat-error *ngIf="offreForm.get('description')?.hasError('minlength')">
+        Minimum 20 caractères
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Ligne 6: Modules -->
+    <mat-form-field appearance="outline">
+      <mat-label>Modules (séparés par des virgules)</mat-label>
+      <input matInput formControlName="modules" placeholder="Ex: Machine Learning, Deep Learning, Python">
+      <mat-error *ngIf="offreForm.get('modules')?.hasError('required')">
+        Au moins un module est requis
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Ligne 7: Compétences -->
+    <mat-form-field appearance="outline">
+      <mat-label>Compétences Requises (séparées par des virgules)</mat-label>
+      <input matInput formControlName="requiredSkills" placeholder="Ex: Python, TensorFlow, NLP">
+      <mat-error *ngIf="offreForm.get('requiredSkills')?.hasError('required')">
+        Au moins une compétence est requise
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Ligne 8: Date limite et Statut -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Date Limite</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="deadline">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Statut</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="Ouverte">Ouverte</mat-option>
+          <mat-option value="En cours">En cours</mat-option>
+          <mat-option value="Fermée">Fermée</mat-option>
+        </mat-select>
+        <mat-error *ngIf="offreForm.get('status')?.hasError('required')">
+          Le statut est requis
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Checkbox: Expérience académique -->
+    <div class="checkbox-row">
+      <mat-checkbox formControlName="academicExperience" color="primary">
+        Expérience académique requise
+      </mat-checkbox>
+    </div>
+
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Annuler</button>
-    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!offerForm.valid">
-        Créer l'Offre
-    </button>
+  <button mat-button (click)="onCancel()" [disabled]="loading">Annuler</button>
+  <button mat-raised-button color="primary" (click)="create()" [disabled]="!offreForm.valid || loading">
+    <mat-spinner *ngIf="loading" diameter="16" style="display: inline-block; margin-right: 8px;"></mat-spinner>
+    {{ loading ? 'Création...' : 'Créer' }}
+  </button>
 </mat-dialog-actions>

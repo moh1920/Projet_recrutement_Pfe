@@ -1,23 +1,47 @@
-
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { AuthService, UserRole } from '../services/auth.service';
+import { Router, CanActivateFn } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 
-export const roleGuard: CanActivateFn = (route, state) => {
-    const authService = inject(AuthService);
-    const router = inject(Router);
+export const roleGuard: CanActivateFn = async (route, state) => {
+  const keycloak = inject(KeycloakService);
+  const router = inject(Router);
 
-    const expectedRoles = route.data['roles'] as UserRole[];
+  try {
+    const isLoggedIn = await keycloak.isLoggedIn();
 
-    if (!authService.currentUserValue || !expectedRoles) {
-        return false;
+    if (!isLoggedIn) {
+      await keycloak.login({
+        redirectUri: window.location.origin + state.url
+      });
+      return false;
     }
 
-    if (authService.hasRole(expectedRoles)) {
-        return true;
+    const requiredRoles = route.data['roles'] as string[];
+
+    if (!requiredRoles || requiredRoles.length === 0) {
+      return true;
     }
 
-    // Redirect to unauthorized or home
+    // Récupérer les rôles de l'utilisateur et les convertir en minuscules
+    const userRoles = keycloak.getUserRoles().map(role => role.toLowerCase());
+    const normalizedRequiredRoles = requiredRoles.map(role => role.toLowerCase());
+
+    console.log('Rôles requis (normalisés):', normalizedRequiredRoles);
+    console.log('Rôles utilisateur (normalisés):', userRoles);
+
+    // Vérifier si l'utilisateur a au moins un des rôles requis
+    const hasRole = normalizedRequiredRoles.some(role => userRoles.includes(role));
+
+    if (!hasRole) {
+      console.warn('Accès refusé: rôle insuffisant');
+      router.navigate(['/unauthorized']);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Erreur lors de la vérification des rôles:', error);
     router.navigate(['/']);
     return false;
+  }
 };

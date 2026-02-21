@@ -1,18 +1,26 @@
+import { inject } from '@angular/core';
+import { Router, CanActivateFn } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 
-import { Injectable, inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+export const authGuard: CanActivateFn = async (route, state) => {
+  const keycloak = inject(KeycloakService);
+  const router = inject(Router);
 
-export const authGuard: CanActivateFn = (route, state) => {
-    const authService = inject(AuthService);
-    const router = inject(Router);
+  try {
+    const isLoggedIn = await keycloak.isLoggedIn();
 
-    if (authService.currentUserValue) {
-        return true;
+    if (!isLoggedIn) {
+      // Rediriger vers la page de connexion Keycloak
+      await keycloak.login({
+        redirectUri: window.location.origin + state.url
+      });
+      return false;
     }
 
-    // Redirect to login page (we'll just redirect to home for now or show login modal)
-    // For this template, we auto-login in service, so this should pass.
-    // router.navigate(['/login']); 
     return true;
+  } catch (error) {
+    console.error('Erreur lors de la vérification de l\'authentification:', error);
+    router.navigate(['/']);
+    return false;
+  }
 };

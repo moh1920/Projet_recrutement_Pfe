@@ -1,23 +1,55 @@
-.user-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    min-width: 500px;
-    padding: 20px 0;
+// Variables
+$primary: #8B0000;
+$success: #2e7d32;
+$error: #d32f2f;
 
-    mat-form-field {
-        width: 100%;
-    }
+// Form
+.simple-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 350px;
+  padding-top: 8px;
 
-    .role-dept-row,
-    .status-date-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
+  mat-form-field {
+    width: 100%;
+  }
 }
 
-mat-dialog-content {
-    max-height: 70vh;
-    overflow-y: auto;
+// Alerts
+.alert {
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+
+  &.success {
+    background: #e8f5e9;
+    color: $success;
+  }
+
+  &.error {
+    background: #ffebee;
+    color: $error;
+  }
+}
+
+// Loading spin
+.spin {
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// Dialog actions
+mat-dialog-actions {
+  padding: 16px 24px;
+  gap: 8px;
+
+  button[color="primary"] {
+    background: $primary;
+  }
 }

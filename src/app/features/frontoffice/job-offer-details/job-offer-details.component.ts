@@ -9,6 +9,8 @@ import { JobOfferService, JobOffer } from '../../../core/services/job-offer.serv
 import {Observable, of, switchMap} from 'rxjs';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatCard} from "@angular/material/card";
+import {OffreService} from "../../../core/services/offre.service";
+import {Offre} from "../../../core/models/offre.model";
 
 @Component({
   selector: 'app-job-offer-details',
@@ -26,13 +28,13 @@ import {MatCard} from "@angular/material/card";
 })
 export class JobOfferDetailsComponent {
   private route = inject(ActivatedRoute);
-  private jobOfferService = inject(JobOfferService);
+  private jobOfferService = inject(OffreService);
   private snackBar = inject(MatSnackBar);
 
-  offer$: Observable<JobOffer | undefined> = this.route.params.pipe(
+  offer$: Observable<Offre | undefined> = this.route.params.pipe(
     switchMap(params => {
       const id = params['id'];
-      return id ? this.jobOfferService.getOfferById(id) : of(undefined);
+      return id ? this.jobOfferService.getOffreById(id) : of(undefined);
     })
   );
 

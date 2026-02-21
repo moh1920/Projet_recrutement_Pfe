@@ -1,60 +1,98 @@
-<mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="'side'" opened="true">
+<mat-sidenav-container class="sidenav-container" [class.dark-mode]="isDarkMode">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async)">
 
-        <div class="sidenav-header">
-            <div class="logo-area">
-                <mat-icon class="logo-icon">school</mat-icon>
-                <span class="logo-text">ESPRIT Recruit</span>
-            </div>
+    <!-- Logo -->
+    <!-- Logo -->
+    <div class="sidenav-header">
+      <div class="logo">
+        <img src="assets/img/img.png" alt="ESPRIT" class="logo-img">
+      </div>
+    </div>
+
+
+    <!-- Navigation -->
+    <mat-nav-list>
+      <a mat-list-item *ngFor="let item of menuItems"
+         [routerLink]="item.route"
+         routerLinkActive="active">
+        <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+        <span matListItemTitle>{{item.label}}</span>
+      </a>
+    </mat-nav-list>
+
+    <!-- Footer -->
+    <div class="sidenav-footer">
+      <button mat-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Déconnexion
+      </button>
+    </div>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <!-- Toolbar -->
+    <mat-toolbar class="main-toolbar">
+      <button mat-icon-button (click)="drawer.toggle()" class="menu-btn">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <span class="page-title">{{getCurrentPageTitle()}}</span>
+
+      <span class="spacer"></span>
+
+      <!-- Dark Mode Toggle -->
+      <button mat-icon-button class="theme-btn" (click)="toggleDarkMode()" [matTooltip]="isDarkMode ? 'Mode clair' : 'Mode sombre'">
+        <mat-icon>{{isDarkMode ? 'light_mode' : 'dark_mode'}}</mat-icon>
+      </button>
+
+      <!-- Notification -->
+      <button mat-icon-button class="notification-btn" [matMenuTriggerFor]="notifMenu">
+        <mat-icon [matBadge]="notificationCount" matBadgeColor="warn" matBadgeSize="small">notifications</mat-icon>
+      </button>
+
+      <mat-menu #notifMenu="matMenu" class="notification-menu">
+        <div class="notification-header">
+          <span>Notifications</span>
+          <button mat-button color="primary" (click)="markAllRead()">Tout lu</button>
         </div>
-
-        <mat-nav-list>
-            <div mat-subheader class="menu-subheader">MENU</div>
-            <a mat-list-item *ngFor="let item of menuItems" [routerLink]="item.route" routerLinkActive="active-link">
-                <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
-                <span matListItemTitle>{{item.label}}</span>
-            </a>
-        </mat-nav-list>
-
-        <div class="sidenav-footer">
-            <p>ESPRIT © 2026</p>
-        </div>
-
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-        <mat-toolbar color="surface" class="main-toolbar">
-            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
-
-            <span class="spacer"></span>
-
-            <!-- User Profile Area -->
-            <div class="user-profile" *ngIf="currentUser$ | async as user" [matMenuTriggerFor]="userMenu">
-                <span class="user-name">{{ user.name }}</span>
-                <span class="user-role-badge">{{ user.role }}</span>
-                <!-- Avatar would be an img tag here -->
-                <mat-icon class="user-avatar-icon">account_circle</mat-icon>
+        <mat-divider></mat-divider>
+        <div class="notification-list">
+          <div class="notification-item" *ngFor="let notif of notifications" [class.unread]="!notif.read">
+            <mat-icon [color]="notif.color">{{notif.icon}}</mat-icon>
+            <div class="notification-content">
+              <p>{{notif.message}}</p>
+              <span>{{notif.time}}</span>
             </div>
+          </div>
+        </div>
+      </mat-menu>
 
-            <mat-menu #userMenu="matMenu">
-                <button mat-menu-item>
-                    <mat-icon>person</mat-icon>
-                    <span>Mon Profil</span>
-                </button>
-                <button mat-menu-item (click)="logout()">
-                    <mat-icon>exit_to_app</mat-icon>
-                    <span>Déconnexion</span>
-                </button>
-            </mat-menu>
+      <!-- User -->
+      <div class="user-menu" [matMenuTriggerFor]="userMenu">
+        <span *ngIf="currentUser$ | async as user">{{user.name}}</span>
+        <mat-icon>account_circle</mat-icon>
+      </div>
 
-        </mat-toolbar>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          Profil
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Déconnexion
+        </button>
+      </mat-menu>
+    </mat-toolbar>
 
-        <main class="content-wrapper">
-            <router-outlet></router-outlet>
-        </main>
+    <!-- Content -->
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
 
-    </mat-sidenav-content>
+  </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,68 +1,453 @@
 <div class="interviews-container">
-    <div class="header-split">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="page-header">
+    <div class="header-bg-pattern"></div>
+    <div class="header-content">
+
+      <div class="title-section">
+        <div class="icon-wrapper">
+          <mat-icon>event_available</mat-icon>
+        </div>
         <div>
-            <h1 class="page-title">Planning des Entretiens</h1>
-            <p class="subtitle">Gérez les sessions et les jurys</p>
+          <h1 class="page-title">Planning des Entretiens</h1>
+          <p class="subtitle">Gérez les sessions et les jurys</p>
         </div>
-        <div class="actions">
-            <button mat-stroked-button color="primary">
-                <mat-icon>today</mat-icon> Aujourd'hui
-            </button>
+      </div>
+
+      <!-- Statistiques rapides -->
+      <div class="quick-stats" *ngIf="stats$ | async as stats">
+        <div class="stat-card">
+          <div class="stat-value">{{ stats.today }}</div>
+          <div class="stat-label">Aujourd'hui</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ stats.thisWeek }}</div>
+          <div class="stat-label">Cette semaine</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ stats.pending }}</div>
+          <div class="stat-label">En attente</div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-value">{{ stats.completed }}</div>
+          <div class="stat-label">Terminés</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button mat-stroked-button class="btn-today" (click)="goToToday()">
+          <mat-icon>today</mat-icon>
+          Aujourd'hui
+        </button>
+
+        <button mat-stroked-button class="btn-filter" [matMenuTriggerFor]="filterMenu">
+          <mat-icon>tune</mat-icon>
+          Filtres
+        </button>
+
+        <button mat-stroked-button class="btn-export" [matMenuTriggerFor]="exportMenu">
+          <mat-icon>download</mat-icon>
+          Export
+        </button>
+
+        <button mat-raised-button class="btn-add" (click)="openAddDialog()">
+          <mat-icon>add</mat-icon>
+          Planifier
+        </button>
+      </div>
+    </div>
+
+    <!-- Menu Filtres -->
+    <mat-menu #filterMenu="matMenu" class="filter-menu">
+      <div class="filter-content" (click)="$event.stopPropagation()">
+        <h3>Filtres</h3>
+        <div class="filter-group">
+          <label>Statut</label>
+          <div class="filter-chips">
+            <mat-chip-option *ngFor="let status of ['Planifié', 'En cours', 'Terminé', 'Annulé']"
+                             (click)="updateFilter('status', status)">{{ status }}</mat-chip-option>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Type</label>
+          <div class="filter-chips">
+            <mat-chip-option *ngFor="let type of ['interview', 'evaluation']"
+                             (click)="updateFilter('type', type)">
+              {{ type === 'interview' ? 'Entretien' : 'Évaluation' }}
+            </mat-chip-option>
+          </div>
+        </div>
+        <div class="filter-actions">
+          <button mat-button (click)="clearFilters()">Réinitialiser les filtres</button>
+        </div>
+      </div>
+    </mat-menu>
+
+    <!-- Menu Export -->
+    <mat-menu #exportMenu="matMenu">
+      <button mat-menu-item (click)="exportToExcel()">
+        <mat-icon>table_chart</mat-icon> Excel
+      </button>
+      <button mat-menu-item (click)="exportToPDF()">
+        <mat-icon>picture_as_pdf</mat-icon> PDF
+      </button>
+      <button mat-menu-item (click)="printCalendar()">
+        <mat-icon>print</mat-icon> Imprimer
+      </button>
+    </mat-menu>
+  </header>
+
+  <!-- ===================== CHARGEMENT ===================== -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Chargement des entretiens...</p>
+  </div>
+
+  <!-- ===================== NAVIGATION SEMAINE ===================== -->
+  <div class="week-navigator">
+    <button mat-icon-button class="nav-btn" (click)="previousWeek()" matTooltip="Semaine précédente">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <div class="current-week">
+      <span class="month">{{ currentMonth | titlecase }}</span>
+      <span class="year">{{ currentYear }}</span>
+      <span class="week-range">{{ weekRangeLabel }}</span>
+    </div>
+
+    <button mat-icon-button class="nav-btn" (click)="nextWeek()" matTooltip="Semaine suivante">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  <!-- ===================== LAYOUT PRINCIPAL ===================== -->
+  <div class="content-layout">
+
+    <!-- ===== SIDEBAR : liste des entretiens ===== -->
+    <aside class="upcoming-sidebar">
+      <div class="sidebar-header">
+        <h2 class="section-title">Entretiens</h2>
+        <span class="badge-count">{{ (filteredInterviews$ | async)?.length || 0 }}</span>
+      </div>
+
+      <!-- Barre de recherche -->
+      <div class="search-bar">
+        <mat-icon>search</mat-icon>
+        <input
+          type="text"
+          placeholder="Rechercher un candidat..."
+          [(ngModel)]="filterOptions.searchTerm"
+          (ngModelChange)="updateFilter('searchTerm', $event)">
+        <button mat-icon-button *ngIf="filterOptions.searchTerm" (click)="updateFilter('searchTerm', '')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Liste des entretiens -->
+      <div class="interview-list">
+        <ng-container *ngIf="filteredInterviews$ | async as interviews">
+
+          <!-- Empty state -->
+          <div class="empty-state" *ngIf="interviews.length === 0">
+            <div class="empty-icon">
+              <mat-icon>event_busy</mat-icon>
+            </div>
+            <p class="empty-title">Aucun entretien trouvé</p>
+            <p class="empty-sub">Planifiez votre premier entretien</p>
             <button mat-raised-button color="primary" (click)="openAddDialog()">
-                <mat-icon>add</mat-icon> Planifier Entretien
+              <mat-icon>add</mat-icon> Planifier maintenant
             </button>
-        </div>
-    </div>
+          </div>
 
-    <div class="content-layout">
-        <!-- List of Upcoming -->
-        <div class="upcoming-sidebar">
-            <h2 class="section-title">Prochains Entretiens</h2>
+          <!-- Cartes entretiens -->
+          <mat-card
+            class="interview-card"
+            *ngFor="let interview of interviews; trackBy: trackByInterviewId"
+            [class.highlight]="interview.status === 'En cours'"
+            [class.past]="isInterviewPast(interview)"
+            [class.cancelled]="interview.status === 'Annulé'">
 
-            <div class="interview-list">
-                <mat-card class="interview-card" *ngFor="let interview of interviews$ | async">
-                    <div class="card-timeline">
-                        <div class="time">{{interview.time}}</div>
-                        <div class="line"></div>
-                    </div>
-                    <div class="card-details">
-                        <div class="date-badge">{{interview.date | date:'dd MMM'}}</div>
-                        <h3 class="candidate-name">{{interview.candidateName}}</h3>
-                        <p class="role">{{interview.position}}</p>
-                        <div class="jury-avatars">
-                            <div class="avatar" *ngFor="let j of interview.jury" [matTooltip]="j">{{j.charAt(0)}}</div>
-                        </div>
-                        <div class="actions-row">
-                            <button mat-button color="primary" *ngIf="interview.status === 'Planifié'"
-                                [disabled]="interview.meetLink === '#'">
-                                <mat-icon>videocam</mat-icon> Rejoindre
-                            </button>
-                            <div class="status-badge" [ngClass]="interview.status.toLowerCase()">{{interview.status}}
-                            </div>
-                        </div>
-                    </div>
-                </mat-card>
-            </div>
-        </div>
-
-        <!-- Calendar Grid (CSS Grid Mock) -->
-        <div class="calendar-view mat-elevation-z4">
-            <div class="calendar-header">
-                <div class="time-col"></div>
-                <div class="day-col" *ngFor="let day of days">{{day}}</div>
+            <div class="time-indicator">
+              <div class="time-block">
+                <span class="time-val">{{ interview.time }}</span>
+                <span class="duration-val">{{ formatDuration(interview.duration) }}</span>
+              </div>
+              <div class="timeline-line" [class.active]="interview.status === 'En cours'"></div>
             </div>
 
-            <div class="calendar-body">
-                <div class="row" *ngFor="let hour of hours">
-                    <div class="time-cell">{{hour}}</div>
-                    <div class="day-cell" *ngFor="let day of days">
-                        <div class="event-chip" *ngIf="getEventFor(day, hour) as evt">
-                            <span class="evt-time">{{evt.time}}</span>
-                            <span class="evt-name">{{evt.candidateName}}</span>
-                        </div>
-                    </div>
+            <div class="card-content">
+              <div class="card-header-row">
+                <div class="date-chip">
+                  <mat-icon>event</mat-icon>
+                  {{ interview.date | date:'dd MMM' }}
                 </div>
+                <div class="status-pill" [ngClass]="getStatusClass(interview.status)">
+                  <span class="dot"></span>
+                  {{ interview.status }}
+                </div>
+              </div>
+
+              <h3 class="candidate-name">{{ interview.candidateName }}</h3>
+
+              <p class="position">
+                <mat-icon class="position-icon">{{ getInterviewTypeIcon(interview.type) }}</mat-icon>
+                {{ interview.position }}
+              </p>
+
+              <div class="interview-details" *ngIf="interview.room || interview.location">
+                <div class="detail-item" *ngIf="interview.room">
+                  <mat-icon>meeting_room</mat-icon>
+                  <span>{{ interview.room }}</span>
+                </div>
+                <div class="detail-item" *ngIf="interview.location">
+                  <mat-icon>place</mat-icon>
+                  <span>{{ interview.location }}</span>
+                </div>
+              </div>
+
+              <div class="jury-section" *ngIf="interview.jury && interview.jury.length > 0">
+                <span class="jury-label">Jury</span>
+                <div class="jury-avatars">
+                  <div class="avatar"
+                       *ngFor="let j of interview.jury.slice(0, 3); let i = index"
+                       [matTooltip]="j"
+                       [style.z-index]="10 - i">
+                    {{ j.charAt(0).toUpperCase() }}
+                  </div>
+                  <div class="avatar more" *ngIf="interview.jury.length > 3"
+                       [matTooltip]="interview.jury.slice(3).join(', ')">
+                    +{{ interview.jury.length - 3 }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-actions">
+                <button mat-stroked-button class="btn-join"
+                        *ngIf="interview.meetLink && interview.status !== 'Annulé' && interview.status !== 'Terminé'"
+                        (click)="joinMeeting(interview, $event)">
+                  <mat-icon>videocam</mat-icon>
+                  Rejoindre
+                </button>
+
+                <button mat-stroked-button class="btn-complete"
+                        *ngIf="interview.status === 'En cours'"
+                        (click)="markAsCompleted(interview)">
+                  <mat-icon>check_circle</mat-icon>
+                  Terminer
+                </button>
+
+                <button mat-icon-button class="btn-more" [matMenuTriggerFor]="cardMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #cardMenu="matMenu">
+                  <button mat-menu-item (click)="editInterview(interview)">
+                    <mat-icon>edit</mat-icon> Modifier
+                  </button>
+                  <button mat-menu-item (click)="duplicateInterview(interview)">
+                    <mat-icon>content_copy</mat-icon> Dupliquer
+                  </button>
+                  <mat-divider></mat-divider>
+                  <button mat-menu-item (click)="cancelInterview(interview)"
+                          [disabled]="interview.status === 'Annulé'">
+                    <mat-icon>cancel</mat-icon> Annuler
+                  </button>
+                  <button mat-menu-item (click)="deleteInterview(interview)" class="danger">
+                    <mat-icon>delete</mat-icon> Supprimer
+                  </button>
+                </mat-menu>
+              </div>
             </div>
+          </mat-card>
+
+        </ng-container>
+      </div>
+    </aside>
+
+    <!-- ===== CALENDRIER ===== -->
+    <main class="calendar-view">
+
+      <!-- En-tête des jours -->
+      <div class="calendar-header">
+        <div class="time-gutter-header">
+          <mat-icon class="schedule-icon">schedule</mat-icon>
         </div>
-    </div>
+        <div
+          class="day-header-cell"
+          *ngFor="let day of weekDays"
+          [class.today]="day.isToday"
+          [class.past]="day.isPast"
+          (click)="selectDate(day.date)">
+
+          <span class="day-name">{{ day.name }}</span>
+          <div class="day-number-wrapper">
+            <span class="day-number">{{ day.date | date:'dd' }}</span>
+            <span class="event-dot-indicator" *ngIf="day.eventCount && day.eventCount > 0">
+              {{ day.eventCount }}
+            </span>
+          </div>
+          <div class="today-underline" *ngIf="day.isToday"></div>
+        </div>
+      </div>
+
+      <!-- Corps du calendrier -->
+      <div class="calendar-body" cdkDropListGroup>
+
+        <ng-container *ngIf="calendarDaySlots$ | async as daySlots">
+
+          <div class="time-row" *ngFor="let hour of hours; trackBy: trackByHour">
+
+            <!-- Colonne heure -->
+            <div class="time-gutter">
+              <span class="hour-label">{{ hour }}</span>
+            </div>
+
+            <!-- Cellule par jour -->
+            <ng-container *ngFor="let daySlot of daySlots; trackBy: trackByDayIndex">
+              <ng-container *ngFor="let slot of daySlot.slots">
+                <ng-container *ngIf="slot.hour === hour">
+
+                  <div
+                    class="slot-cell"
+                    [class.today]="daySlot.day.isToday"
+                    [class.past]="daySlot.day.isPast"
+                    [class.has-events]="slot.events.length > 0"
+                    [id]="getDropListId(daySlot.dayIndex, hour)"
+                    cdkDropList
+                    [cdkDropListData]="slot.events"
+                    [cdkDropListConnectedTo]="connectedDropLists"
+                    (cdkDropListDropped)="onDrop($event, daySlot.day, hour)"
+                    (click)="slot.isAvailable && slot.events.length === 0 && openAddDialog(daySlot.day, hour)">
+
+                    <!-- Hint ajout -->
+                    <div class="slot-add-hint" *ngIf="slot.events.length === 0 && slot.isAvailable">
+                      <mat-icon>add</mat-icon>
+                    </div>
+
+                    <!-- Événements dans le slot -->
+                    <div
+                      class="calendar-event-card"
+                      *ngFor="let evt of slot.events; trackBy: trackByEventId"
+                      cdkDrag
+                      [cdkDragData]="evt"
+                      [class.type-interview]="evt.type === 'interview'"
+                      [class.type-evaluation]="evt.type === 'evaluation'"
+                      [class.status-cancelled]="evt.status === 'Annulé'"
+                      [class.status-in-progress]="evt.status === 'En cours'"
+                      [class.status-completed]="evt.status === 'Terminé'"
+                      [class.status-planned]="evt.status === 'Planifié'"
+                      [style.border-left-color]="evt.color"
+                      (click)="quickView(evt); $event.stopPropagation()">
+
+                      <!-- Preview lors du drag -->
+                      <div *cdkDragPlaceholder class="drag-placeholder"></div>
+
+                      <div *cdkDragPreview class="drag-preview-card">
+                        <div class="preview-time">{{ evt.time }}</div>
+                        <div class="preview-name">{{ evt.candidateName }}</div>
+                        <div class="preview-duration">{{ formatDuration(evt.duration) }}</div>
+                      </div>
+
+                      <!-- Contenu de la carte -->
+                      <div class="event-drag-handle" cdkDragHandle>
+                        <mat-icon>drag_indicator</mat-icon>
+                      </div>
+
+                      <div class="event-body">
+                        <div class="event-top-row">
+                          <span class="event-time-badge">{{ evt.time }}</span>
+
+                          <span class="live-badge" *ngIf="evt.status === 'En cours'">
+                            <span class="live-pulse"></span> En cours
+                          </span>
+
+                          <div class="event-jury-mini" *ngIf="evt.jury.length > 0">
+                            <span class="mini-av" *ngFor="let j of evt.jury.slice(0, 2)" [matTooltip]="j">
+                              {{ j.charAt(0).toUpperCase() }}
+                            </span>
+                            <span class="mini-av more" *ngIf="evt.jury.length > 2">
+                              +{{ evt.jury.length - 2 }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="event-candidate">{{ evt.candidateName }}</div>
+
+                        <div class="event-position">
+                          <mat-icon>{{ getInterviewTypeIcon(evt.type) }}</mat-icon>
+                          <span>{{ evt.position }}</span>
+                        </div>
+
+                        <div class="event-meta-row">
+                          <span class="meta-chip" *ngIf="evt.room">
+                            <mat-icon>meeting_room</mat-icon>{{ evt.room }}
+                          </span>
+                          <span class="meta-chip online" *ngIf="evt.meetLink">
+                            <mat-icon>videocam</mat-icon>En ligne
+                          </span>
+                        </div>
+
+                        <div class="event-footer-row">
+                          <span class="type-badge" [class.interview]="evt.type === 'interview'">
+                            {{ evt.type === 'interview' ? 'Entretien' : 'Évaluation' }}
+                          </span>
+
+                          <div class="event-actions-mini">
+                            <button mat-icon-button class="mini-btn"
+                                    *ngIf="evt.meetLink"
+                                    (click)="window.open(evt.meetLink, '_blank'); $event.stopPropagation()"
+                                    matTooltip="Rejoindre la réunion">
+                              <mat-icon>video_call</mat-icon>
+                            </button>
+                            <button mat-icon-button class="mini-btn"
+                                    [matMenuTriggerFor]="evtMenu"
+                                    (click)="$event.stopPropagation()"
+                                    matTooltip="Plus d'options">
+                              <mat-icon>more_vert</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <mat-menu #evtMenu="matMenu">
+                        <button mat-menu-item (click)="quickView(evt)">
+                          <mat-icon>visibility</mat-icon> Voir les détails
+                        </button>
+                        <button mat-menu-item (click)="editEventFromCalendar(evt)">
+                          <mat-icon>edit</mat-icon> Modifier
+                        </button>
+                        <mat-divider></mat-divider>
+                        <button mat-menu-item (click)="markEventAsCompleted(evt)"
+                                [disabled]="evt.status === 'Terminé' || evt.status === 'Annulé'">
+                          <mat-icon>check_circle</mat-icon> Marquer terminé
+                        </button>
+                      </mat-menu>
+
+                    </div>
+                  </div>
+
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
+
+        </ng-container>
+      </div>
+
+      <!-- Indicateur heure courante -->
+      <div class="current-time-line" *ngIf="showCurrentTimeIndicator"
+           [style.top.%]="currentTimeTop">
+        <span class="time-line-dot"></span>
+        <div class="time-line-bar"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FAB mobile -->
+  <button mat-fab class="fab-mobile" (click)="openAddDialog()" matTooltip="Planifier un entretien">
+    <mat-icon>add</mat-icon>
+  </button>
+
 </div>
