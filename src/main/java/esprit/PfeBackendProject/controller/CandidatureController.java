@@ -1,13 +1,13 @@
 package esprit.PfeBackendProject.controller;
 
 
+import esprit.PfeBackendProject.entity.Candidate;
 import esprit.PfeBackendProject.entity.Candidature;
 import esprit.PfeBackendProject.repository.CandidatureRepository;
+import esprit.PfeBackendProject.service.CandidatureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
 @RestController
@@ -15,12 +15,12 @@ import org.springframework.web.servlet.function.EntityResponse;
 @RequiredArgsConstructor
 public class CandidatureController {
 
-    private final CandidatureRepository candidatureRepository ;
+    private final CandidatureService candidatureService ;
 
 
     @PostMapping("/createCandidature")
-    public ResponseEntity<?> createCandidature(Candidature candidature){
-        return ResponseEntity.ok(candidatureRepository.save(candidature));
+    public ResponseEntity<?> createCandidature(@RequestBody Candidate candidate){
+        return ResponseEntity.ok(candidatureService.createCandidature(candidate));
     }
 
 }

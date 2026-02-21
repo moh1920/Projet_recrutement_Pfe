@@ -43,7 +43,8 @@ public class SecurityConfig{
                         // 🔓 API publiques
                         .requestMatchers(
                                 "/api/v1/me",
-                                "/offre/**"
+                                "/offre/**",
+                                "/interviews"
                         ).permitAll()
 
                         .anyRequest().authenticated()
