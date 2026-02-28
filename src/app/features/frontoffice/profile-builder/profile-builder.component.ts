@@ -15,7 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { ProfileService, ProfileDetails } from '../../../core/services/profile.service';
+import {ProfileRequestDTO, ProfileService} from '../../../core/services/profile.service';
+import {KeycloakService} from "keycloak-angular";
 
 @Component({
   selector: 'app-profile-builder',
@@ -51,6 +52,7 @@ export class ProfileBuilderComponent {
   private fb = inject(FormBuilder);
   private profileService = inject(ProfileService);
   private router = inject(Router);
+  private keycloak = inject(KeycloakService)
 
   currentStep = 1;
 
@@ -80,7 +82,10 @@ export class ProfileBuilderComponent {
   }
 
   private initForms(): void {
+    const userId = this.keycloak.getKeycloakInstance().tokenParsed?.sub;
+
     this.personalInfoForm = this.fb.group({
+      userId : [userId],
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.required],
@@ -186,7 +191,7 @@ export class ProfileBuilderComponent {
 
   onSubmit(): void {
     if (this.isAllFormsValid()) {
-      const profileData: ProfileDetails = {
+      const profileData: ProfileRequestDTO = {
         ...this.personalInfoForm.value,
         ...this.educationForm.value,
         ...this.experienceForm.value,
@@ -196,7 +201,7 @@ export class ProfileBuilderComponent {
         dateNaissance: this.personalInfoForm.value.dateNaissance?.toISOString?.() || this.personalInfoForm.value.dateNaissance
       };
 
-      this.profileService.saveProfile(profileData).subscribe({
+      this.profileService.createProfile(profileData).subscribe({
         next: () => {
           this.router.navigate(['/profile-success']);
         },
