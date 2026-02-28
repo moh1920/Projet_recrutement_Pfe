@@ -26,7 +26,7 @@ public class Candidature {
     private String telephone;
     private String nationalite;
     private String ville;
-    private LocalDate dateNaissance;
+    private String dateNaissance;
 
 
     private String niveauDiplome;

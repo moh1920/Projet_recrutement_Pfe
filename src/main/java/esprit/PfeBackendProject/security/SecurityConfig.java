@@ -29,21 +29,20 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
 
-                        // 🔓 Swagger (PUBLIC)
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        // 🔐 API sécurisées
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/user/**").hasRole("USER")
 
-                        // 🔓 API publiques
+
                         .requestMatchers(
                                 "/api/v1/me",
                                 "/offre/**",
+                                "/profiles_users/**",
                                 "/interviews"
                         ).permitAll()
 

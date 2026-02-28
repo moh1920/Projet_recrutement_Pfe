@@ -1,47 +1,63 @@
-package esprit.PfeBackendProject.entity;
+package esprit.PfeBackendProject.dto;
 
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import io.swagger.v3.oas.annotations.servers.Server;
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
-@Document(collection = "profile_details")
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class ProfileDetails {
 
-    @Id
-    private String id;
 
-    @Indexed(unique = true)
+@Getter
+@Setter
+public class ProfileRequestDTO {
+
     private String userId;
 
     // ── Informations Personnelles ──────────────────
+    @NotBlank(message = "Le nom est obligatoire")
+    @Size(min = 2, max = 100, message = "Le nom doit contenir entre 2 et 100 caractères")
     private String nom;
 
-    @Indexed(unique = true)
+    @NotBlank(message = "L'email est obligatoire")
+    @Email(message = "Format d'email invalide")
     private String email;
 
+    @NotBlank(message = "Le téléphone est obligatoire")
+    @Pattern(regexp = "^[+]?[0-9\\s\\-]{8,20}$", message = "Format de téléphone invalide")
     private String telephone;
+
+    @NotBlank(message = "La nationalité est obligatoire")
     private String nationalite;
+
+    @NotBlank(message = "La ville est obligatoire")
     private String ville;
+
+    @NotBlank(message = "La date de naissance est obligatoire")
     private String dateNaissance;
 
     // ── Formation Académique ───────────────────────
+    @NotBlank(message = "Le niveau de diplôme est obligatoire")
     private String niveauDiplome;
+
+    @NotBlank(message = "La spécialité est obligatoire")
     private String specialite;
+
+    @NotBlank(message = "L'université est obligatoire")
     private String universite;
+
+    @Min(value = 1950, message = "Année de diplôme invalide")
+    @Max(value = 2100, message = "Année de diplôme invalide")
     private int anneeDiplome;
+
     private String gradeAcademique;
 
     // ── Expérience Professionnelle ─────────────────
+    @Min(value = 0, message = "Le nombre d'années d'expérience ne peut pas être négatif")
     private int nbAnneesExperience;
+
     private boolean experienceAcademique;
     private List<String> institutions;
     private List<String> modulesEnseignes;
@@ -59,16 +75,24 @@ public class ProfileDetails {
     private boolean innovationPedagogique;
 
     // ── Soft Skills ────────────────────────────────
+    @Min(1) @Max(10)
     private int communication;
+
+    @Min(1) @Max(10)
     private int leadership;
+
+    @Min(1) @Max(10)
     private int espritEquipe;
+
+    @NotBlank(message = "La lettre de motivation est obligatoire")
+    @Size(min = 50, message = "La motivation doit contenir au moins 50 caractères")
     private String motivation;
 
     // ── Documents ─────────────────────────────────
     private String cvPath;
     private List<String> certificatsPath;
 
-    // ── Métadonnées ────────────────────────────────
-    private LocalDateTime dateCreationProfil;
-    private LocalDateTime dateDerniereMiseAJour;
+
+
+
 }

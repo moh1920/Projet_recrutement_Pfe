@@ -78,77 +78,75 @@ public class OffreService {
     }
 
 
-    public Candidature demandeDeOffre(String idOffre, String idUser) {
-
-        Offre offre = offreRepository.findById(idOffre)
-                .orElseThrow(() -> new RuntimeException("Offre not found"));
-
-        User user = userRepository.findById(idUser)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        ProfileDetails profileDetails = profileRepository.findByUserId(idUser)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
-
-        Candidature candidature = Candidature.builder()
-
-                /* ===== Liaison ===== */
-                .keycloakId(user.getKeycloakId())
-
-                /* ===== Infos personnelles ===== */
-                .nom(user.getFirstName() + " " + user.getLastName())
-                .email(user.getEmail())
-                .telephone(profileDetails.getTelephone())
-                .nationalite(profileDetails.getNationalite())
-                .ville(profileDetails.getVille())
-                .dateNaissance(profileDetails.getDateNaissance())
-
-                /* ===== Données académiques ===== */
-                .niveauDiplome(profileDetails.getNiveauDiplome())
-                .specialite(profileDetails.getSpecialite())
-                .universite(profileDetails.getUniversite())
-                .anneeDiplome(profileDetails.getAnneeDiplome())
-                .gradeAcademique(profileDetails.getGradeAcademique())
-
-                /* ===== Expérience ===== */
-                .nbAnneesExperience(profileDetails.getNbAnneesExperience())
-                .experienceAcademique(profileDetails.getExperienceAcademique())
-                .institutions(profileDetails.getInstitutions())
-                .modulesEnseignes(profileDetails.getModulesEnseignes())
-
-                /* ===== Compétences ===== */
-                .langages(profileDetails.getLangages())
-                .frameworks(profileDetails.getFrameworks())
-                .dataSkills(profileDetails.getDataSkills())
-                .iaSkills(profileDetails.getIaSkills())
-                .erpSkills(profileDetails.getErpSkills())
-
-                /* ===== Pédagogie ===== */
-                .methodesEnseignement(profileDetails.getMethodesEnseignement())
-                .encadrement(profileDetails.getEncadrement())
-                .innovationPedagogique(profileDetails.getInnovationPedagogique())
-
-                /* ===== Soft skills ===== */
-                .communication(profileDetails.getCommunication())
-                .leadership(profileDetails.getLeadership())
-                .espritEquipe(profileDetails.getEspritEquipe())
-                .motivation(profileDetails.getMotivation())
-
-                /* ===== Documents ===== */
-                .cvPath(profileDetails.getCvPath())
-                .certificatsPath(profileDetails.getCertificatsPath())
-
-                /* ===== Données offre ===== */
-                .typePoste(offre.getType())
-
-                /* ===== Workflow ===== */
-                .statut(StatusCandidature.SOUMISE)
-                .dateCandidature(LocalDate.now())
-                .consentementDonnees(true)
-
-                .build();
-
-        return candidatureRepository.save(candidature);
-    }
+//    public Candidature demandeDeOffre(String idOffre, String idUser) {
+//
+//        Offre offre = offreRepository.findById(idOffre)
+//                .orElseThrow(() -> new RuntimeException("Offre not found"));
+//
+//        User user = userRepository.findById(idUser)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        ProfileDetails profileDetails = profileRepository.findByUserId(idUser)
+//                .orElseThrow(() -> new RuntimeException("Profile not found"));
+//
+//        Candidature candidature = Candidature.builder()
+//
+//                /* ===== Liaison ===== */
+//                .keycloakId(user.getKeycloakId())
+//
+//                /* ===== Infos personnelles ===== */
+//                .nom(user.getFirstName() + " " + user.getLastName())
+//                .email(user.getEmail())
+//                .telephone(profileDetails.getTelephone())
+//                .nationalite(profileDetails.getNationalite())
+//                .ville(profileDetails.getVille())
+//                .dateNaissance(profileDetails.getDateNaissance())
+//
+//                /* ===== Données académiques ===== */
+//                .niveauDiplome(profileDetails.getNiveauDiplome())
+//                .specialite(profileDetails.getSpecialite())
+//                .universite(profileDetails.getUniversite())
+//                .anneeDiplome(profileDetails.getAnneeDiplome())
+//                .gradeAcademique(profileDetails.getGradeAcademique())
+//
+//                /* ===== Expérience ===== */
+//                .nbAnneesExperience(profileDetails.getNbAnneesExperience())
+//                .experienceAcademique(profileDetails.getNbAnneesExperience())
+//                .institutions(profileDetails.getInstitutions())
+//                .modulesEnseignes(profileDetails.getModulesEnseignes())
+//
+//                /* ===== Compétences ===== */
+//                .langages(profileDetails.getLangages())
+//                .frameworks(profileDetails.getFrameworks())
+//                .dataSkills(profileDetails.getDataSkills())
+//                .iaSkills(profileDetails.getIaSkills())
+//                .erpSkills(profileDetails.getErpSkills())
+//
+//                /* ===== Pédagogie ===== */
+//                .methodesEnseignement(profileDetails.getMethodesEnseignement())
+//
+//                /* ===== Soft skills ===== */
+//                .communication(profileDetails.getCommunication())
+//                .leadership(profileDetails.getLeadership())
+//                .espritEquipe(profileDetails.getEspritEquipe())
+//                .motivation(profileDetails.getMotivation())
+//
+//                /* ===== Documents ===== */
+//                .cvPath(profileDetails.getCvPath())
+//                .certificatsPath(profileDetails.getCertificatsPath())
+//
+//                /* ===== Données offre ===== */
+//                .typePoste(offre.getType())
+//
+//                /* ===== Workflow ===== */
+//                .statut(StatusCandidature.SOUMISE)
+//                .dateCandidature(LocalDate.now())
+//                .consentementDonnees(true)
+//
+//                .build();
+//
+//        return candidatureRepository.save(candidature);
+//    }
 
 
 
