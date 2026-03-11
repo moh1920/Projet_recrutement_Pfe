@@ -130,4 +130,10 @@ public class ProfileController {
     public ResponseEntity<List<ProfileResponseDTO>> getProfilesWithCV() {
         return ResponseEntity.ok(profileService.getProfilesWithCV());
     }
+
+
+    @GetMapping("/getProfileByKeycloakId/{keycloakId}")
+    public ResponseEntity<ProfileResponseDTO> getProfileByKeycloakId(@PathVariable String keycloakId) {
+        return ResponseEntity.ok(profileService.getProfileByKeycloakId(keycloakId));
+    }
 }

@@ -23,6 +23,7 @@ public interface CandidateRepository extends MongoRepository<Candidate, String> 
 
     // Find by status
     List<Candidate> findByStatus(CandidateStatus status);
+    List<Candidate> findByIdProfile(String idProfile);
 
     // Find by applied position
     List<Candidate> findByAppliedPositionContainingIgnoreCase(String position);

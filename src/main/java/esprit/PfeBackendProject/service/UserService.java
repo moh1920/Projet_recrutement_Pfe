@@ -48,5 +48,12 @@ public class UserService {
                 .toList();
     }
 
+    public UserDTO getUserById(String keycloakId){
+         User user = userRepository.findByKeycloakId(keycloakId).orElseThrow(() -> new RuntimeException("user not found"));
+         UserDetais userDetais =  userDetaisRepository.findById(user.getIdDetaisUsers()).orElse(null);
+         return userMapper.mapToDTO(user,userDetais);
+
+    }
+
 
 }

@@ -12,7 +12,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ProfileRequestDTO {
+public
+class ProfileRequestDTO {
 
     private String userId;
 

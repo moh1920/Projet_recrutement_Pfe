@@ -461,4 +461,18 @@ public class InterviewService {
                 .map(JuryMember::getEmail)
                 .collect(Collectors.toList()));
     }
+
+
+
+    /**
+     * Get interviews by email profile
+     */
+    public List<InterviewDTO> getInterviewsByEmail(String email) {
+        log.info("Fetching interviews for candidate: {}", email);
+        List<Interview> interviews = interviewRepository.findByCandidateEmail(email);
+        return interviews.stream()
+                .map(interviewMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 }

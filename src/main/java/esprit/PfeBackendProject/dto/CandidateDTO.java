@@ -1,13 +1,10 @@
-package esprit.PfeBackendProject.entity;
+package esprit.PfeBackendProject.dto;
 
-
-import jakarta.validation.Valid;
+import esprit.PfeBackendProject.entity.CandidateStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,26 +13,23 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "candidates")
-public class Candidate {
+public class CandidateDTO {
 
-    @Id
     private String id;
-
-    private String idProfile ;
-    private String idOffre ;
+    private String idProfile;
+    private String idOffre;
 
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
 
-    private String resume; // URL
-    private String portfolio; // URL
-    private String linkedin; // URL
+    private String resume;
+    private String portfolio;
+    private String linkedin;
 
-    private Integer experience; // years
-    private List<Education> education;
+    private Integer experience;
+    private List<EducationDTO> education;
     private List<String> skills;
 
     private String appliedPosition;
@@ -46,22 +40,18 @@ public class Candidate {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // Embedded Class
+    private String fullName; // Champ calculé
+
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Education {
+    public static class EducationDTO {
         private String degree;
         private String institution;
         private String field;
         private String startDate;
         private String endDate;
         private Boolean current;
-    }
-
-    // Helper method
-    public String getFullName() {
-        return firstName + " " + lastName;
     }
 }

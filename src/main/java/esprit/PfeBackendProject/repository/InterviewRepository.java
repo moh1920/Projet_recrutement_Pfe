@@ -25,6 +25,7 @@ public interface InterviewRepository extends MongoRepository<Interview, String> 
 
     // Find by date
     List<Interview> findByDate(LocalDate date);
+    List<Interview> findByCandidateEmail(String email);
 
     // Find by date range
     List<Interview> findByDateBetween(LocalDate startDate, LocalDate endDate);

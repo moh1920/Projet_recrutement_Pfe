@@ -8,7 +8,9 @@ import esprit.PfeBackendProject.entity.ProfileDetails;
 import esprit.PfeBackendProject.exceptions.ProfileAlreadyExistsException;
 import esprit.PfeBackendProject.exceptions.ProfileNotFoundException;
 import esprit.PfeBackendProject.repository.ProfileRepository;
+import esprit.PfeBackendProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,10 +21,13 @@ import java.util.stream.Collectors;
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ProfileService(ProfileRepository profileRepository) {
+    public ProfileService(ProfileRepository profileRepository, UserRepository userRepository) {
+
         this.profileRepository = profileRepository;
+        this.userRepository = userRepository;
     }
 
     // ══════════════════════════════════════════════
@@ -58,6 +63,7 @@ public class ProfileService {
     }
 
     public ProfileResponseDTO getProfileByUserId(String userId) {
+
         ProfileDetails profile = profileRepository.findByUserId(userId)
                 .orElseThrow(() -> new ProfileNotFoundException("Profil introuvable pour l'utilisateur : " + userId));
         return mapToResponseDTO(profile);
@@ -159,6 +165,14 @@ public class ProfileService {
                 .stream().map(this::mapToResponseDTO).collect(Collectors.toList());
     }
 
+
+
+    public ProfileResponseDTO getProfileByKeycloakId(String keycloakId) {
+        String userId = userRepository.findByKeycloakId(keycloakId).orElseThrow(() -> new UsernameNotFoundException("user not fount")).getId();
+        ProfileDetails profile = profileRepository.findByUserId(userId)
+                .orElseThrow(() -> new ProfileNotFoundException("Profil introuvable pour l'utilisateur : " + keycloakId));
+        return mapToResponseDTO(profile);
+    }
     // ══════════════════════════════════════════════
     // MAPPING
     // ══════════════════════════════════════════════

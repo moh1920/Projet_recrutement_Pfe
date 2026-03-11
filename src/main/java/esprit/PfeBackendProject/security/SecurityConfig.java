@@ -41,9 +41,11 @@ public class SecurityConfig{
 
                         .requestMatchers(
                                 "/api/v1/me",
+                                "/api/v1/userAdminController/**",
                                 "/offre/**",
                                 "/profiles_users/**",
-                                "/interviews"
+                                "/interviews/**",
+                                "/candidature/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()

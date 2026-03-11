@@ -121,6 +121,18 @@ public class InterviewController {
     }
 
     /**
+     * GET /api/interviews/candidate/{candidateId}
+     * Get interviews by candidate
+     */
+    @GetMapping("/getInterviewsByEmail/{CandidateEmail}")
+    public ResponseEntity<List<InterviewDTO>> getInterviewsByEmail(
+            @PathVariable String CandidateEmail) {
+        log.info("REST request to get interviews for candidate: {}", CandidateEmail);
+        List<InterviewDTO> interviews = interviewService.getInterviewsByEmail(CandidateEmail);
+        return ResponseEntity.ok(interviews);
+    }
+
+    /**
      * GET /api/interviews/statistics
      * Get interview statistics
      */
