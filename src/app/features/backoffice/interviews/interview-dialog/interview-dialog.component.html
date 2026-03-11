@@ -162,7 +162,6 @@
                 <input matInput [matDatepicker]="picker" formControlName="date">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-icon matPrefix>calendar_today</mat-icon>
                 <mat-error *ngIf="f['date'].hasError('required')">Champ requis</mat-error>
               </mat-form-field>
 

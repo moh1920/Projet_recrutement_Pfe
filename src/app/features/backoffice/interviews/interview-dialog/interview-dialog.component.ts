@@ -89,6 +89,9 @@ export class InterviewDialogComponent implements OnInit {
 
   // ==================== Lifecycle ====================
 
+
+  isCandidatePreFilled = false;
+
   ngOnInit(): void {
     this.isEditMode = !!this.data?.id;
     this.buildForm();
@@ -114,7 +117,7 @@ export class InterviewDialogComponent implements OnInit {
       status: ['Planifié' as InterviewStatus, Validators.required],
 
       // --- Planning ---
-      date:     ['', Validators.required],
+      date:     [null, Validators.required],
       time:     ['', Validators.required],
       duration: [45, [Validators.required, Validators.min(15), Validators.max(480)]],
 
@@ -153,6 +156,16 @@ export class InterviewDialogComponent implements OnInit {
       notes:          this.data.notes          ?? '',
     });
 
+
+    // Détecter si le candidat vient d'une source externe (tableau candidats)
+    this.isCandidatePreFilled = !!(this.data.candidateName && !this.isEditMode);
+
+    if (this.isCandidatePreFilled) {
+      this.f['candidateName'].disable();
+      this.f['candidateId'].disable();
+      this.f['candidateEmail'].disable();
+      this.f['candidatePhone'].disable();
+    }
     // Jury
     if (this.data.jury && this.data.jury.length > 0) {
       this.juryMembers = this.data.jury.map((name, i) => ({
@@ -258,7 +271,9 @@ export class InterviewDialogComponent implements OnInit {
 
     this.isSubmitting = true;
 
-    const formValue = this.interviewForm.value;
+    const formValue = this.interviewForm.getRawValue();
+
+
 
     // Formatage de la date (DatePicker renvoie un objet Date)
     let dateStr = '';
@@ -272,7 +287,6 @@ export class InterviewDialogComponent implements OnInit {
     const result: Partial<Interview> = {
       // Conserver l'ID si mode édition
       ...(this.isEditMode && this.data?.id ? { id: this.data.id } : {}),
-
       // Candidat
       candidateName:  formValue.candidateName,
       candidateId:    formValue.candidateId    || undefined,
