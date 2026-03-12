@@ -1,0 +1,104 @@
+<!-- lobby-dialog.component.html -->
+<div class="dialog-overlay" (click)="onOverlayClick($event)">
+  <div class="dialog-box" role="dialog" aria-modal="true">
+
+    <!-- Close -->
+    <button class="btn-close" (click)="close()" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <!-- Top accent bar (rendered via ::before in CSS) -->
+
+    <!-- Logo / Brand -->
+    <div class="brand">
+      <div class="brand-icon">
+        <mat-icon>video_camera_front</mat-icon>
+      </div>
+      <div>
+        <h1 class="brand-title">Esprit Meeting</h1>
+        <p class="brand-sub">Plateforme de réunion audio/vidéo sécurisée</p>
+      </div>
+    </div>
+
+    <!-- ── Créer ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon create">
+          <mat-icon>add_circle</mat-icon>
+        </div>
+        <div>
+          <h2>Créer une réunion</h2>
+          <p class="section-desc">Démarrer une nouvelle réunion instantanée</p>
+        </div>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nom de la réunion</mat-label>
+        <mat-icon matPrefix>meeting_room</mat-icon>
+        <input matInput
+               [(ngModel)]="meetingTitle"
+               placeholder="Ex: Réunion équipe pédagogique"
+               (keyup.enter)="createMeeting()" />
+      </mat-form-field>
+
+      <button mat-raised-button
+              class="btn-create"
+              (click)="createMeeting()"
+              [disabled]="loading">
+        <mat-icon *ngIf="!loading">videocam</mat-icon>
+        <mat-spinner *ngIf="loading" diameter="18"></mat-spinner>
+        <span>{{ loading ? 'Création...' : 'Créer la réunion' }}</span>
+      </button>
+    </div>
+
+    <!-- ── Divider ── -->
+    <div class="divider">
+      <span>OU</span>
+    </div>
+
+    <!-- ── Rejoindre ── -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon join">
+          <mat-icon>login</mat-icon>
+        </div>
+        <div>
+          <h2>Rejoindre une réunion</h2>
+          <p class="section-desc">Entrez le code du salon pour participer</p>
+        </div>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Code du salon</mat-label>
+        <mat-icon matPrefix>key</mat-icon>
+        <input matInput
+               [(ngModel)]="roomCode"
+               placeholder="ABC-XYZ"
+               style="text-transform:uppercase; letter-spacing:2px"
+               (keyup.enter)="joinMeeting()" />
+        <mat-hint>Format : XXX-XXX</mat-hint>
+      </mat-form-field>
+
+      <button mat-stroked-button
+              class="btn-join"
+              (click)="joinMeeting()"
+              [disabled]="!roomCode || loading">
+        <mat-icon *ngIf="!loading">arrow_forward</mat-icon>
+        <mat-spinner *ngIf="loading" diameter="18"></mat-spinner>
+        <span>{{ loading ? 'Connexion...' : 'Rejoindre la réunion' }}</span>
+      </button>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-alert">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ error }}</span>
+    </div>
+
+    <!-- Footer -->
+    <div class="dialog-footer">
+      <button mat-button class="btn-cancel" (click)="close()">Annuler</button>
+    </div>
+
+  </div>
+</div>
