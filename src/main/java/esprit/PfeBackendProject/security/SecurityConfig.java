@@ -45,7 +45,9 @@ public class SecurityConfig{
                                 "/offre/**",
                                 "/profiles_users/**",
                                 "/interviews/**",
-                                "/candidature/**"
+                                "/candidature/**",
+                                "/meetings/**",
+                                "/ws-meeting/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()
