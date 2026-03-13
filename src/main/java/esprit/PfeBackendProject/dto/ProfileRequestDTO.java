@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-
+import java.util.Map;
+import java.util.Set;
 
 
 @Getter
@@ -91,7 +92,9 @@ class ProfileRequestDTO {
 
     // ── Documents ─────────────────────────────────
     private String cvPath;
-    private List<String> certificatsPath;
+    private List<String> document ;
+
+    private Map<String,String> certificatsPath;
 
 
 

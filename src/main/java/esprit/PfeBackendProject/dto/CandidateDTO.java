@@ -1,5 +1,6 @@
 package esprit.PfeBackendProject.dto;
 
+import esprit.PfeBackendProject.entity.Candidate;
 import esprit.PfeBackendProject.entity.CandidateStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,12 +37,15 @@ public class CandidateDTO {
     private LocalDateTime appliedDate;
     private CandidateStatus status;
 
+    private List<StepDTO> steps; // ✅ Ajouté
+
     private String notes;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private String fullName; // Champ calculé
+    private String fullName;
 
+    // ─── Embedded: EducationDTO ─────────────────────────────────────────────
     @Data
     @Builder
     @NoArgsConstructor
@@ -53,5 +57,18 @@ public class CandidateDTO {
         private String startDate;
         private String endDate;
         private Boolean current;
+    }
+
+    // ─── Embedded: StepDTO ──────────────────────────────────────────────────
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class StepDTO {
+        private String name;
+        private Candidate.StepStatus status;
+        private String date;
+        private String icon;
+        private String description;
     }
 }

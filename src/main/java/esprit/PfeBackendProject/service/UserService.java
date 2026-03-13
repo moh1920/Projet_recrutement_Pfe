@@ -10,6 +10,7 @@ import esprit.PfeBackendProject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,47 @@ public class UserService {
          UserDetais userDetais =  userDetaisRepository.findById(user.getIdDetaisUsers()).orElse(null);
          return userMapper.mapToDTO(user,userDetais);
 
+    }
+
+
+    public UserDTO updateUser(String keycloakId, UserDTO userDTO) {
+        // Find existing user
+        User user = userRepository.findByKeycloakId(keycloakId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Update User entity fields
+        if (userDTO.getEmail() != null) user.setEmail(userDTO.getEmail());
+        if (userDTO.getFirstName() != null) user.setFirstName(userDTO.getFirstName());
+        if (userDTO.getLastName() != null) user.setLastName(userDTO.getLastName());
+        if (userDTO.getRole() != null) user.setRole(userDTO.getRole());
+
+        userRepository.save(user);
+
+        // Update UserDetais entity fields
+        UserDetais userDetais;
+        if (user.getIdDetaisUsers() != null) {
+            // Details already exist → fetch and update
+            userDetais = userDetaisRepository.findById(user.getIdDetaisUsers())
+                    .orElseThrow(() -> new RuntimeException("UserDetais not found"));
+
+            if (userDTO.getDepartment() != null) userDetais.setDepartment(userDTO.getDepartment());
+            if (userDTO.getStatusUser() != null) userDetais.setStatusUser(userDTO.getStatusUser());
+            if (userDTO.getPhone() != null) userDetais.setPhone(userDTO.getPhone());
+
+        } else {
+            // Details don't exist yet → create new
+            userDetais = new UserDetais();
+            userDetais.setDepartment(userDTO.getDepartment());
+            userDetais.setStatusUser(userDTO.getStatusUser());
+            userDetais.setPhone(userDTO.getPhone());
+            userDetais.setDateDeCreation(LocalDate.now());
+        }
+
+        userDetais = userDetaisRepository.save(userDetais);
+        user.setIdDetaisUsers(userDetais.getId()); // ✅ use saved ID, not DTO id
+        userRepository.save(user);                 // ✅ persist the new reference
+
+        return userMapper.mapToDTO(user, userDetais);
     }
 
 

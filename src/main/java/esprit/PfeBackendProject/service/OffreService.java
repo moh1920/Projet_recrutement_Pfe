@@ -1,6 +1,7 @@
 package esprit.PfeBackendProject.service;
 
 import esprit.PfeBackendProject.configuration.OffreMapper;
+import esprit.PfeBackendProject.dto.OffreDTO;
 import esprit.PfeBackendProject.dto.OffreUpdateDto;
 import esprit.PfeBackendProject.entity.*;
 import esprit.PfeBackendProject.repository.*;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -22,10 +25,12 @@ public class OffreService {
 
     private final OffreRepository offreRepository;
     private final OffreMapper offreMapper ;
-    private final CriteresDeSelectionRepository criteresDeSelectionRepository;
+    private final CriteresDeSelectionRepository criteresRepository;
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
     private final CandidatureRepository candidatureRepository;
+    private final esprit.PfeBackendProject.mapper.OffreMapper offreMapperc;
+
 
     public Offre save(Offre offre) {
         return offreRepository.save(offre);
@@ -35,6 +40,28 @@ public class OffreService {
         Pageable pageable = PageRequest.of(page, size);
         return offreRepository.findAll(pageable);
     }
+    public List<Offre> findAllNotPage() {
+        return offreRepository.findAll();
+    }
+
+    public Page<OffreDTO> findAllDTO(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return offreRepository.findAll(pageable)
+                .map(offre -> {
+                    // Résoudre les DBRef manuellement
+                    if (offre.getCriteresDeSelections() != null
+                            && !offre.getCriteresDeSelections().isEmpty()) {
+                        List<CriteresDeSelection> criteres = offre.getCriteresDeSelections()
+                                .stream()
+                                .map(c -> criteresRepository.findById(c.getId()).orElse(null))
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList());
+                        offre.setCriteresDeSelections(criteres);
+                    }
+                    return offreMapperc.toDTO(offre);
+                });
+    }
+
 
     public Page<Offre> findAllSorted(int page, int size, String sortBy) {
         Pageable pageable = PageRequest.of(
@@ -71,7 +98,7 @@ public class OffreService {
         Offre offre = offreRepository.findById(idOffre).get();
         List<CriteresDeSelection> criteresDeSelections = new ArrayList<>();
         for (String id :idScriteresDeSelections){
-            criteresDeSelections.add(criteresDeSelectionRepository.findById(id).get());
+            criteresDeSelections.add(criteresRepository.findById(id).get());
         }
         offre.setCriteresDeSelections(criteresDeSelections);
         return offreRepository.save(offre);

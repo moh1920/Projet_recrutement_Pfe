@@ -42,6 +42,19 @@ public class OffreController {
                     .body("Erreur lors de la récupération des offres");
         }
     }
+    @GetMapping("/getDTOAll")
+    public ResponseEntity<?> getDTOAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        try {
+
+            return ResponseEntity.ok(offreService.findAllDTO(page, size));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la récupération des offres");
+        }
+    }
 
     @GetMapping("/getAllSorted")
     public ResponseEntity<?> getAllSorted(

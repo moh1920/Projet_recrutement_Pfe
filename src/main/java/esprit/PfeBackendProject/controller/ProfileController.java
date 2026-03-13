@@ -1,15 +1,20 @@
 package esprit.PfeBackendProject.controller;
 
 
+import esprit.PfeBackendProject.dto.DocumentResponseDTO;
 import esprit.PfeBackendProject.dto.ProfileRequestDTO;
 import esprit.PfeBackendProject.dto.ProfileResponseDTO;
+import esprit.PfeBackendProject.entity.ProfileDetails;
 import esprit.PfeBackendProject.service.ProfileService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -136,4 +141,21 @@ public class ProfileController {
     public ResponseEntity<ProfileResponseDTO> getProfileByKeycloakId(@PathVariable String keycloakId) {
         return ResponseEntity.ok(profileService.getProfileByKeycloakId(keycloakId));
     }
+
+
+    @PostMapping(value = "/{idProfile}/upload-cv")
+    public ResponseEntity<DocumentResponseDTO> addDocumentProfile(
+            @PathVariable String idProfile,
+            @RequestParam("file") MultipartFile file) {
+        try {
+            DocumentResponseDTO response = profileService.addDocumentProfile(idProfile, file);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
 }

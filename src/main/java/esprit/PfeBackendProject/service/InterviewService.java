@@ -196,17 +196,13 @@ public class InterviewService {
         log.info("Creating new interview for candidate: {}", interviewDTO.getCandidateName());
 
         Interview interview = interviewMapper.toEntity(interviewDTO);
-
-        // Enrich with jury information
         if (interviewDTO.getJuryIds() != null && !interviewDTO.getJuryIds().isEmpty()) {
             enrichWithJuryInfo(interview, interviewDTO.getJuryIds());
         }
 
-        // Set audit fields
         interview.setCreatedAt(LocalDateTime.now());
         interview.setUpdatedAt(LocalDateTime.now());
 
-        // Set default status if not provided
         if (interview.getStatus() == null) {
             interview.setStatus(InterviewStatus.PLANIFIE);
         }

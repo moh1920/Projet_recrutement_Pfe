@@ -1,6 +1,5 @@
 package esprit.PfeBackendProject.entity;
 
-
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,17 +21,17 @@ public class Candidate {
     @Id
     private String id;
 
-    private String idProfile ;
-    private String idOffre ;
+    private String idProfile;
+    private String idOffre;
 
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
 
-    private String resume; // URL
+    private String resume;    // URL
     private String portfolio; // URL
-    private String linkedin; // URL
+    private String linkedin;  // URL
 
     private Integer experience; // years
     private List<Education> education;
@@ -42,11 +41,13 @@ public class Candidate {
     private LocalDateTime appliedDate;
     private CandidateStatus status;
 
+    private List<Step> steps; // ✅ Recruitment pipeline steps
+
     private String notes;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // Embedded Class
+    // ─── Embedded: Education ────────────────────────────────────────────────
     @Data
     @Builder
     @NoArgsConstructor
@@ -60,7 +61,27 @@ public class Candidate {
         private Boolean current;
     }
 
-    // Helper method
+    // ─── Embedded: Step ─────────────────────────────────────────────────────
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Step {
+        private String name;        // e.g. "Entretien RH"
+        private StepStatus status;  // completed | current | pending
+        private String date;        // e.g. "14 Mars 2026" (nullable for pending)
+        private String icon;        // Material icon name, e.g. "person"
+        private String description; // Short description of the step
+    }
+
+    // ─── Enum: StepStatus ───────────────────────────────────────────────────
+    public enum StepStatus {
+        completed,
+        current,
+        pending
+    }
+
+    // ─── Helper ─────────────────────────────────────────────────────────────
     public String getFullName() {
         return firstName + " " + lastName;
     }

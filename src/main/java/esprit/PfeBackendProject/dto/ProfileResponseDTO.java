@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Setter
@@ -55,7 +56,9 @@ public class ProfileResponseDTO {
 
     // Documents
     private String cvPath;
-    private List<String> certificatsPath;
+    private List<String> document ;
+
+    private Map<String,String> certificatsPath;
 
     // Métadonnées
     private String dateCreationProfil;

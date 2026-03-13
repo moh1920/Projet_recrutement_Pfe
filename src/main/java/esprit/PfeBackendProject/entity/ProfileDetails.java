@@ -7,7 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Document(collection = "profile_details")
 @Data
@@ -66,7 +68,9 @@ public class ProfileDetails {
 
     // ── Documents ─────────────────────────────────
     private String cvPath;
-    private List<String> certificatsPath;
+    private List<String> document ;
+    @Builder.Default
+    private Map<String, String> certificatsPath = new HashMap<>();
 
     // ── Métadonnées ────────────────────────────────
     private LocalDateTime dateCreationProfil;

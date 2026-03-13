@@ -47,7 +47,11 @@ public class SecurityConfig{
                                 "/interviews/**",
                                 "/candidature/**",
                                 "/meetings/**",
-                                "/ws-meeting/**"
+                                "/ws-meeting/**",
+                                "/meeting-email/**",
+                                "/api/matching/**",
+                                "/upload/documents/**",
+                                "/notifications/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()

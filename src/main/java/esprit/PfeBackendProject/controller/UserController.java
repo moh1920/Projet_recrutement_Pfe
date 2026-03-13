@@ -35,4 +35,11 @@ public class UserController {
     }
 
 
+    @PutMapping("updateUser/{keycloakId}")
+    public ResponseEntity<UserDTO> updateUser(
+            @PathVariable String keycloakId,
+            @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.updateUser(keycloakId, userDTO));
+    }
+
 }

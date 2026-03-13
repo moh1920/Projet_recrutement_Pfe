@@ -3,10 +3,7 @@ package esprit.PfeBackendProject.service;
 import esprit.PfeBackendProject.configuration.CandidateMapper;
 import esprit.PfeBackendProject.dto.CandidateDTO;
 import esprit.PfeBackendProject.dto.ProfileResponseDTO;
-import esprit.PfeBackendProject.entity.Candidate;
-import esprit.PfeBackendProject.entity.CandidateStatus;
-import esprit.PfeBackendProject.entity.Candidature;
-import esprit.PfeBackendProject.entity.ProfileDetails;
+import esprit.PfeBackendProject.entity.*;
 import esprit.PfeBackendProject.repository.CandidateRepository;
 import esprit.PfeBackendProject.repository.CandidatureRepository;
 import esprit.PfeBackendProject.repository.OffreRepository;
@@ -31,10 +28,13 @@ public class CandidatureService {
     public Candidate postulerCandidature(String idProfile, String idOffre ) {
 
 
+        Offre offre = offreRepository.findById(idOffre)
+                .orElseThrow(() -> new RuntimeException("offre not found"));
 
-        if (offreRepository.findById(idOffre).isEmpty()){
-            throw new RuntimeException("offre not found");
+        if(candidatureRepository.findByIdProfile(idProfile)!=null && candidatureRepository.findByIdOffre(idOffre)!=null){
+          throw new RuntimeException("le profile est deja postuler");
         }
+
 
         ProfileDetails profileResponseDTO = profileRepository.findById(idProfile).orElseThrow(
                 ()-> new RuntimeException("profil not found"));
@@ -62,7 +62,6 @@ public class CandidatureService {
         // Informations de base
         candidate.setEmail(profileResponseDTO.getEmail());
         candidate.setPhone(profileResponseDTO.getTelephone());
-        candidate.setFirstName(fullName);
 
         // CV et documents
         candidate.setResume(profileResponseDTO.getCvPath());
@@ -125,6 +124,11 @@ public class CandidatureService {
         candidate.setCreatedAt(LocalDateTime.now());
         candidate.setUpdatedAt(LocalDateTime.now());
 
+
+        offre.setCandidateCount(offre.getCandidateCount() + 1);
+        offreRepository.save(offre);
+
+
         // Sauvegarder dans la base de données
         return candidatureRepository.save(candidate);
     }
@@ -150,6 +154,140 @@ public class CandidatureService {
                 .toList();
 
     }
+    public List<CandidateDTO> getAllCandidatureByOffre(String idOffre){
+        return candidatureRepository.findByIdOffre(idOffre)
+                .stream()
+                .map(candidateMapper::toDto)
+                .toList();
+    }
+    public List<CandidateDTO> getAllCandidatureById(String id){
+        return candidatureRepository.findById(id)
+                .stream()
+                .map(candidateMapper::toDto)
+                .toList();
+    }
+
+    // ─── Add a single step to a candidate ──────────────────────────────────────
+    public Candidate addStep(String candidateId, Candidate.Step step) {
+        Candidate candidate = candidatureRepository.findById(candidateId)
+                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + candidateId));
+
+        List<Candidate.Step> steps = candidate.getSteps();
+        if (steps == null) {
+            steps = new ArrayList<>();
+        }
+
+        steps.add(step);
+        candidate.setSteps(steps);
+        candidate.setUpdatedAt(LocalDateTime.now());
+
+        return candidatureRepository.save(candidate);
+    }
+
+    // ─── Replace all steps of a candidate ──────────────────────────────────────
+    public Candidate updateSteps(String candidateId, List<Candidate.Step> newSteps) {
+        Candidate candidate = candidatureRepository.findById(candidateId)
+                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + candidateId));
+
+        candidate.setSteps(newSteps);
+        candidate.setUpdatedAt(LocalDateTime.now());
+
+        return candidatureRepository.save(candidate);
+    }
+
+    // ─── Update the status of a specific step by name ──────────────────────────
+    public Candidate updateStepStatus(String candidateId, String stepName, Candidate.StepStatus newStatus, String date) {
+        Candidate candidate = candidatureRepository.findById(candidateId)
+                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + candidateId));
+
+        List<Candidate.Step> steps = candidate.getSteps();
+        if (steps == null || steps.isEmpty()) {
+            throw new RuntimeException("No steps found for candidate: " + candidateId);
+        }
+
+        steps.stream()
+                .filter(step -> step.getName().equalsIgnoreCase(stepName))
+                .findFirst()
+                .ifPresentOrElse(
+                        step -> {
+                            step.setStatus(newStatus);
+                            if (date != null) step.setDate(date);
+                        },
+                        () -> { throw new RuntimeException("Step not found: " + stepName); }
+                );
+
+        candidate.setSteps(steps);
+        candidate.setUpdatedAt(LocalDateTime.now());
+
+        return candidatureRepository.save(candidate);
+    }
+
+    // ─── Get all steps of a candidate ──────────────────────────────────────────
+    public List<Candidate.Step> getSteps(String candidateId) {
+        Candidate candidate = candidatureRepository.findById(candidateId)
+                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + candidateId));
+
+        return candidate.getSteps() != null ? candidate.getSteps() : new ArrayList<>();
+    }
+
+    // ─── Initialize default steps on postuler ──────────────────────────────────
+    private List<Candidate.Step> buildDefaultSteps() {
+        return List.of(
+                Candidate.Step.builder()
+                        .name("Candidature Soumise")
+                        .status(Candidate.StepStatus.completed)
+                        .date(LocalDateTime.now().toString())
+                        .icon("description")
+                        .description("CV et lettre de motivation reçus.")
+                        .build(),
+                Candidate.Step.builder()
+                        .name("Entretien RH")
+                        .status(Candidate.StepStatus.pending)
+                        .icon("person")
+                        .description("Premier contact avec les ressources humaines.")
+                        .build(),
+                Candidate.Step.builder()
+                        .name("Test Technique")
+                        .status(Candidate.StepStatus.pending)
+                        .icon("code")
+                        .description("Évaluation des compétences techniques.")
+                        .build(),
+                Candidate.Step.builder()
+                        .name("Entretien Manager")
+                        .status(Candidate.StepStatus.pending)
+                        .icon("groups")
+                        .description("Rencontre avec le futur manager.")
+                        .build(),
+                Candidate.Step.builder()
+                        .name("Décision Finale")
+                        .status(Candidate.StepStatus.pending)
+                        .icon("work")
+                        .description("Proposition ou refus.")
+                        .build()
+        );
+    }
+
+    // ─── Dans CandidatureService ────────────────────────────────────────────────
+    public Candidate deleteStep(String candidateId, String stepName) {
+        Candidate candidate = candidatureRepository.findById(candidateId)
+                .orElseThrow(() -> new RuntimeException("Candidate not found: " + candidateId));
+
+        List<Candidate.Step> steps = candidate.getSteps();
+        if (steps == null || steps.isEmpty()) {
+            throw new RuntimeException("No steps found for candidate: " + candidateId);
+        }
+
+        boolean removed = steps.removeIf(s -> s.getName().equalsIgnoreCase(stepName));
+        if (!removed) {
+            throw new RuntimeException("Step not found: " + stepName);
+        }
+
+        candidate.setSteps(steps);
+        candidate.setUpdatedAt(LocalDateTime.now());
+
+        return candidatureRepository.save(candidate);
+    }
+
 
 
 }

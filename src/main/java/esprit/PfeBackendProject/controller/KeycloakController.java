@@ -1,6 +1,7 @@
 package esprit.PfeBackendProject.controller;
 
 import esprit.PfeBackendProject.dto.CreateUserRequest;
+import esprit.PfeBackendProject.dto.UserDTO;
 import esprit.PfeBackendProject.entity.User;
 import esprit.PfeBackendProject.repository.UserRepository;
 import esprit.PfeBackendProject.service.KeycloakAdminService;
@@ -46,6 +47,11 @@ public class KeycloakController {
 
     @PostMapping("/createUser")
     public ResponseEntity<?> create(@RequestBody CreateUserRequest req) {
-        return ResponseEntity.ok("Utilisateur créé dans Keycloak" + service.createUser(req));
+        try {
+            UserDTO result = service.createUser(req);
+            return ResponseEntity.ok("Utilisateur créé dans Keycloak : " + result);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

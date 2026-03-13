@@ -15,19 +15,26 @@ public interface CandidateMapper {
 
     CandidateMapper INSTANCE = Mappers.getMapper(CandidateMapper.class);
 
-    // Mapping Entity -> DTO
+    // ─── Entity -> DTO ───────────────────────────────────────────────────────
     @Mapping(target = "fullName", expression = "java(candidate.getFullName())")
+    @Mapping(target = "steps", source = "steps")        // ✅ Ajouté
+    @Mapping(target = "education", source = "education")
     CandidateDTO toDto(Candidate candidate);
 
-    // Mapping DTO -> Entity
+    // ─── DTO -> Entity ───────────────────────────────────────────────────────
     @Mapping(target = "education", source = "education")
+    @Mapping(target = "steps", source = "steps")        // ✅ Ajouté
     Candidate toEntity(CandidateDTO candidateDTO);
 
-    // List mappings
+    // ─── List mappings ───────────────────────────────────────────────────────
     List<CandidateDTO> toDtoList(List<Candidate> candidates);
     List<Candidate> toEntityList(List<CandidateDTO> candidateDTOs);
 
-    // Nested mapping for Education
+    // ─── Nested: Education ───────────────────────────────────────────────────
     Candidate.Education toEducationEntity(CandidateDTO.EducationDTO educationDTO);
     CandidateDTO.EducationDTO toEducationDto(Candidate.Education education);
+
+    // ─── Nested: Step ────────────────────────────────────────────────────────
+    Candidate.Step toStepEntity(CandidateDTO.StepDTO stepDTO);   // ✅ Ajouté
+    CandidateDTO.StepDTO toStepDto(Candidate.Step step);         // ✅ Ajouté
 }

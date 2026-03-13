@@ -2,6 +2,7 @@ package esprit.PfeBackendProject.service;
 
 
 
+import esprit.PfeBackendProject.dto.DocumentResponseDTO;
 import esprit.PfeBackendProject.dto.ProfileRequestDTO;
 import esprit.PfeBackendProject.dto.ProfileResponseDTO;
 import esprit.PfeBackendProject.entity.ProfileDetails;
@@ -12,9 +13,14 @@ import esprit.PfeBackendProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,12 +28,14 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
     private final UserRepository userRepository;
+    private final DocumentService documentService ;
 
     @Autowired
-    public ProfileService(ProfileRepository profileRepository, UserRepository userRepository) {
+    public ProfileService(ProfileRepository profileRepository, UserRepository userRepository, DocumentService documentService) {
 
         this.profileRepository = profileRepository;
         this.userRepository = userRepository;
+        this.documentService = documentService;
     }
 
     // ══════════════════════════════════════════════
@@ -167,6 +175,35 @@ public class ProfileService {
 
 
 
+    public DocumentResponseDTO addDocumentProfile(String idProfile, MultipartFile file) throws IOException {
+
+        ProfileDetails profileDetails = profileRepository.findById(idProfile)
+                .orElseThrow(() -> new RuntimeException("profile non trouvé"));
+
+        DocumentResponseDTO documentResponseDTO = documentService.uploadCV(file);
+
+        if (profileDetails.getCertificatsPath() == null) {
+            profileDetails.setCertificatsPath(new HashMap<>());
+        }
+        String safeFileName = documentResponseDTO.getName().replace(".", "_");
+
+
+        // key = file name, value = URL
+        profileDetails.getCertificatsPath().put(
+                safeFileName,
+                documentResponseDTO.getUrl()
+        );
+
+        profileRepository.save(profileDetails);
+
+        return documentResponseDTO;
+    }
+
+
+
+
+
+
     public ProfileResponseDTO getProfileByKeycloakId(String keycloakId) {
         String userId = userRepository.findByKeycloakId(keycloakId).orElseThrow(() -> new UsernameNotFoundException("user not fount")).getId();
         ProfileDetails profile = profileRepository.findByUserId(userId)
@@ -208,6 +245,7 @@ public class ProfileService {
         p.setEspritEquipe(dto.getEspritEquipe());
         p.setMotivation(dto.getMotivation());
         p.setCvPath(dto.getCvPath());
+        p.setDocument(dto.getDocument());
         p.setCertificatsPath(dto.getCertificatsPath());
         return p;
     }
@@ -277,6 +315,7 @@ public class ProfileService {
         dto.setMotivation(p.getMotivation());
         dto.setCvPath(p.getCvPath());
         dto.setCertificatsPath(p.getCertificatsPath());
+        dto.setDocument(p.getDocument());
         dto.setDateCreationProfil(p.getDateCreationProfil() != null ? p.getDateCreationProfil().toString() : null);
         dto.setDateDerniereMiseAJour(p.getDateDerniereMiseAJour() != null ? p.getDateDerniereMiseAJour().toString() : null);
         return dto;

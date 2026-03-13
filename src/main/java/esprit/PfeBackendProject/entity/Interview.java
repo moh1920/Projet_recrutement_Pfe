@@ -36,7 +36,7 @@ public class Interview {
     private String department;
 
     // Schedule Information
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "MM-dd-yyyy")
     private LocalDate date;
     @JsonFormat(pattern = "HH:mm")
     private LocalTime time;

@@ -7,21 +7,22 @@ import java.util.List;
 @Data
 public class OffreUpdateDto {
 
-    private String titre;
+    // ✅ Noms identiques à ce que le frontend envoie (et à l'entité Offre)
+    private String title;
     private String description;
-    private String departement;
-    private String specialite;
+    private String department;
+    private String speciality;
 
-    private String typePoste;
-    private Integer chargeHoraire;
-    private String niveauRequis;
+    private String type;
+    private Integer workload;
+    private String requiredLevel;
 
     private List<String> modules;
 
-    private Integer minAnneesExperience;
-    private Boolean experienceAcademique;
-    private List<String> competencesRequises;
+    private Integer minYearsExperience;
+    private Boolean academicExperience;
+    private List<String> requiredSkills;
 
-    private LocalDate dateExpiration;
-    private String statut;
+    private LocalDate deadline;
+    private String status;
 }
