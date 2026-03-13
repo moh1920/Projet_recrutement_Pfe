@@ -2,11 +2,7 @@ import { KeycloakService } from 'keycloak-angular';
 import Keycloak from "keycloak-js";
 
 
-export const keycloak = new Keycloak({
-  url: 'http://localhost:9090',
-  realm: 'espritRecrutement',
-  clientId: 'espritRecrutement'
-});
+
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
@@ -29,4 +25,5 @@ export function initializeKeycloak(keycloak: KeycloakService) {
         return !isExcluded;
       }
     });
+
 }

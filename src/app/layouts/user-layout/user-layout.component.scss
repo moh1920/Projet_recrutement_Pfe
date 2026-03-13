@@ -538,6 +538,155 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     transform: translateY(0);
   }
 }
+// Profile Avatar Button in Navbar
+.profile-avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 6px 14px 6px 6px;
+  border-radius: 30px;
+  border: 2px solid rgba(139, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  margin-left: 8px;
+
+  .avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $esprit-red 0%, $esprit-red-light 100%);
+    @include flex-center;
+    box-shadow: 0 3px 10px rgba(139, 0, 0, 0.25);
+    transition: all 0.3s ease;
+
+    mat-icon {
+      color: white;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .avatar-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $text-muted;
+    transition: color 0.3s ease;
+  }
+
+  &:hover {
+    border-color: $esprit-red;
+    background: rgba(139, 0, 0, 0.04);
+
+    .avatar-circle {
+      transform: scale(1.1);
+      box-shadow: 0 6px 18px rgba(139, 0, 0, 0.35);
+    }
+
+    .avatar-label {
+      color: $esprit-red;
+    }
+  }
+
+  &.profile-active {
+    border-color: $esprit-red;
+    background: rgba(139, 0, 0, 0.06);
+
+    .avatar-label {
+      color: $esprit-red;
+    }
+
+    .avatar-circle {
+      box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+    }
+  }
+}
+
+// Logout button
+.logout-btn {
+  color: $text-muted;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $esprit-red;
+    background: rgba(139, 0, 0, 0.06);
+  }
+}
+
+// Mobile adjustments
+@media (max-width: 768px) {
+  .profile-avatar-btn {
+    width: 100%;
+    border-radius: 10px;
+    padding: 12px 16px;
+    border-color: rgba(139, 0, 0, 0.1);
+
+    .avatar-label {
+      font-size: 1rem;
+    }
+  }
+
+  .logout-btn {
+    width: 100%;
+    border-radius: 10px;
+    justify-content: flex-start;
+    padding: 12px 16px;
+  }
+}
+// Interviews Nav Button
+.interviews-btn {
+  position: relative;
+
+  .interviews-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .interviews-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    min-width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-shadow: 0 2px 8px rgba(255, 68, 68, 0.5);
+    animation: pulse-badge 2s infinite;
+    pointer-events: none;
+  }
+
+  &.active-link {
+    background: linear-gradient(135deg, rgba(139,0,0,0.08), rgba(183,28,28,0.05));
+
+    mat-icon {
+      color: $esprit-red;
+    }
+  }
+
+  &:hover {
+    .interviews-badge {
+      transform: scale(1.15);
+    }
+  }
+}
+
+@keyframes pulse-badge {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(255, 68, 68, 0.5);
+  }
+  50% {
+    box-shadow: 0 2px 14px rgba(255, 68, 68, 0.85);
+  }
+}
 
 .main-footer .footer-content > * {
   animation: fadeInUp 0.6s ease-out forwards;

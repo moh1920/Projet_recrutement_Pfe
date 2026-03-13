@@ -1,0 +1,168 @@
+<div class="details-page">
+
+  <!-- Loading -->
+  <div class="state-center" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Chargement du candidat…</p>
+  </div>
+
+  <!-- Error -->
+  <div class="state-center" *ngIf="error && !loading">
+    <mat-icon class="state-icon error-icon">error_outline</mat-icon>
+    <p>Impossible de charger le candidat.</p>
+    <button mat-stroked-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon> Retour
+    </button>
+  </div>
+
+  <!-- Content -->
+  <ng-container *ngIf="candidate && !loading">
+
+    <!-- ── Top bar ── -->
+    <div class="top-bar">
+      <button mat-icon-button class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="breadcrumb">
+        <span (click)="goBack()">Candidats</span>
+        <mat-icon>chevron_right</mat-icon>
+        <span class="current">{{ candidate.fullName ?? (candidate.firstName + ' ' + candidate.lastName) }}</span>
+      </div>
+    </div>
+
+    <!-- ── Hero card ── -->
+    <div class="hero-card">
+      <div class="hero-bg"></div>
+      <div class="hero-body">
+        <div class="avatar-wrap">
+          <div class="avatar">{{ getInitials(candidate) }}</div>
+          <span
+            class="status-dot-hero"
+            *ngIf="candidate.status"
+            [style.background]="statusConfig[candidate.status].color"
+            [matTooltip]="statusConfig[candidate.status].label"
+          ></span>
+        </div>
+        <div class="hero-info">
+          <h1>{{ candidate.fullName ?? (candidate.firstName + ' ' + candidate.lastName) }}</h1>
+          <p class="hero-position" *ngIf="candidate.appliedPosition">
+            <mat-icon>work_outline</mat-icon>
+            {{ candidate.appliedPosition }}
+          </p>
+          <div class="hero-meta">
+            <span *ngIf="candidate.email">
+              <mat-icon>mail_outline</mat-icon>{{ candidate.email }}
+            </span>
+            <span *ngIf="candidate.phone">
+              <mat-icon>phone</mat-icon>{{ candidate.phone }}
+            </span>
+            <span *ngIf="candidate.appliedDate">
+              <mat-icon>calendar_today</mat-icon>Postulé le {{ formatDate(candidate.appliedDate) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Status badge (right) -->
+        <div class="hero-right" *ngIf="candidate.status">
+          <span
+            class="status-badge"
+            [style.background]="statusConfig[candidate.status].color + '1a'"
+            [style.color]="statusConfig[candidate.status].color"
+            [style.borderColor]="statusConfig[candidate.status].color + '55'"
+          >
+            <mat-icon>{{ statusConfig[candidate.status].icon }}</mat-icon>
+            {{ statusConfig[candidate.status].label }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Grid ── -->
+    <div class="details-grid">
+
+      <!-- ── Links ── -->
+      <div class="card" *ngIf="candidate.resume || candidate.portfolio || candidate.linkedin">
+        <div class="card-header">
+          <mat-icon>link</mat-icon>
+          <span>Liens & documents</span>
+        </div>
+        <div class="links-list">
+          <a *ngIf="candidate.resume" [href]="candidate.resume" target="_blank" class="link-item">
+            <mat-icon>description</mat-icon>
+            <span>CV / Resume</span>
+            <mat-icon class="ext">open_in_new</mat-icon>
+          </a>
+          <a *ngIf="candidate.portfolio" [href]="candidate.portfolio" target="_blank" class="link-item">
+            <mat-icon>web</mat-icon>
+            <span>Portfolio</span>
+            <mat-icon class="ext">open_in_new</mat-icon>
+          </a>
+          <a *ngIf="candidate.linkedin" [href]="candidate.linkedin" target="_blank" class="link-item linkedin">
+            <mat-icon>badge</mat-icon>
+            <span>LinkedIn</span>
+            <mat-icon class="ext">open_in_new</mat-icon>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Experience ── -->
+      <div class="card" *ngIf="candidate.experience !== undefined">
+        <div class="card-header">
+          <mat-icon>timeline</mat-icon>
+          <span>Expérience</span>
+        </div>
+        <div class="exp-display">
+          <span class="exp-value">{{ candidate.experience }}</span>
+          <span class="exp-label">ans d'expérience</span>
+        </div>
+      </div>
+
+      <!-- ── Skills ── -->
+      <div class="card skills-card" *ngIf="candidate.skills && candidate.skills.length">
+        <div class="card-header">
+          <mat-icon>psychology</mat-icon>
+          <span>Compétences</span>
+        </div>
+        <div class="chips-wrap">
+          <span class="skill-chip" *ngFor="let skill of candidate.skills">{{ skill }}</span>
+        </div>
+      </div>
+
+      <!-- ── Education ── -->
+      <div class="card edu-card" *ngIf="candidate.education && candidate.education.length">
+        <div class="card-header">
+          <mat-icon>school</mat-icon>
+          <span>Formation</span>
+        </div>
+        <div class="edu-list">
+          <div class="edu-item" *ngFor="let edu of candidate.education">
+            <div class="edu-dot"></div>
+            <div class="edu-content">
+              <span class="edu-degree">{{ edu.degree }}
+                <span class="edu-field" *ngIf="edu.field"> — {{ edu.field }}</span>
+              </span>
+              <span class="edu-institution" *ngIf="edu.institution">
+                <mat-icon>location_city</mat-icon>{{ edu.institution }}
+              </span>
+              <span class="edu-dates">
+                {{ formatDate(edu.startDate) }}
+                <ng-container *ngIf="!edu.current && edu.endDate"> → {{ formatDate(edu.endDate) }}</ng-container>
+                <span class="current-tag" *ngIf="edu.current">En cours</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Notes ── -->
+      <div class="card notes-card" *ngIf="candidate.notes">
+        <div class="card-header">
+          <mat-icon>notes</mat-icon>
+          <span>Notes internes</span>
+        </div>
+        <p class="notes-text">{{ candidate.notes }}</p>
+      </div>
+
+    </div>
+  </ng-container>
+</div>

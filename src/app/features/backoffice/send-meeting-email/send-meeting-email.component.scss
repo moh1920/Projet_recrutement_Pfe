@@ -1,0 +1,504 @@
+/* ============================================
+   ESPRIT — Send Meeting Email Component
+   Thème : Rouge bordeaux ESPRIT + Blanc
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap');
+
+:host {
+  --esprit-red:       #8B0000;
+  --esprit-red-dark:  #6B0000;
+  --esprit-red-light: #f9f0f0;
+  --esprit-red-mid:   #c0392b;
+  --text-primary:     #1a1a2e;
+  --text-secondary:   #555;
+  --text-muted:       #888;
+  --border:           #e0e0e0;
+  --bg-page:          #f4f4f6;
+  --bg-card:          #ffffff;
+  --success:          #1a7a4a;
+  --success-bg:       #edfaf3;
+  --error-color:      #c0392b;
+  --error-bg:         #fff0f0;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* ============ WRAPPER PRINCIPAL ============ */
+.email-wrapper {
+  max-width: 780px;
+  margin: 2rem auto;
+  background: var(--bg-card);
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(139, 0, 0, 0.08), 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+/* ============ HEADER BANDE ROUGE ============ */
+.form-header {
+  background: linear-gradient(135deg, var(--esprit-red) 0%, var(--esprit-red-mid) 100%);
+  padding: 1.6rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .header-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .header-text {
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 0 0 0.2rem;
+    }
+    p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+      margin: 0;
+    }
+  }
+}
+
+/* ============ STEPPER ============ */
+.stepper {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--esprit-red-light);
+  border-bottom: 1px solid #f0d8d8;
+  gap: 0;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+
+  .step-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+
+  .step-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+
+  &.active {
+    .step-circle {
+      background: var(--esprit-red);
+      border-color: var(--esprit-red);
+      color: #fff;
+    }
+    .step-label { color: var(--esprit-red); font-weight: 700; }
+  }
+
+  &.done {
+    .step-circle {
+      background: var(--success);
+      border-color: var(--success);
+      color: #fff;
+    }
+    .step-label { color: var(--success); }
+  }
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  margin: 0 0.5rem;
+  max-width: 60px;
+  transition: background 0.3s;
+
+  &.done { background: var(--esprit-red); }
+}
+
+/* ============ BODY DU FORMULAIRE ============ */
+.form-body {
+  padding: 1.8rem 2rem;
+}
+
+/* ============ SECTION TITRES ============ */
+.section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--esprit-red);
+  margin: 1.5rem 0 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #f0d8d8;
+  }
+
+  &:first-child { margin-top: 0; }
+}
+
+/* ============ FORM GRID ============ */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    color: var(--text-primary);
+
+    .required { color: var(--esprit-red); margin-left: 2px; }
+  }
+
+  input, textarea, select {
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-primary);
+    background: #fafafa;
+    transition: all 0.2s;
+
+    &::placeholder { color: #bbb; }
+
+    &:focus {
+      outline: none;
+      border-color: var(--esprit-red);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.08);
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: var(--error-color);
+      background: #fff8f8;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+.field-error {
+  font-size: 0.75rem;
+  color: var(--error-color);
+  margin-top: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  &::before { content: '⚠'; font-size: 0.7rem; }
+}
+
+/* ============ TOGGLE TYPE ENTRETIEN ============ */
+.toggle-group {
+  display: flex;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 320px;
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  background: #fafafa;
+  color: var(--text-muted);
+  flex: 1;
+  border-right: 1.5px solid var(--border);
+  transition: all 0.2s;
+  user-select: none;
+
+  &:last-child { border-right: none; }
+  input[type="radio"] { display: none; }
+
+  &:hover:not(.active) {
+    background: var(--esprit-red-light);
+    color: var(--esprit-red);
+  }
+
+  &.active {
+    background: var(--esprit-red);
+    color: #fff;
+    font-weight: 700;
+  }
+}
+
+/* ============ CHAMP CONDITIONNEL (animation) ============ */
+.conditional-field {
+  animation: slideDown 0.25s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ BOUTON SUBMIT ============ */
+.submit-row {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--esprit-red);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+
+  &:hover:not(:disabled) {
+    background: var(--esprit-red-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(139, 0, 0, 0.3);
+  }
+
+  &:active:not(:disabled) { transform: translateY(0); }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  color: var(--text-primary);
+  border: 1.5px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #f5f5f5;
+    border-color: #ccc;
+  }
+
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+/* ============ MESSAGES ERREUR GLOBALE ============ */
+.alert-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--error-bg);
+  border: 1px solid #f5c0c0;
+  border-left: 4px solid var(--error-color);
+  color: var(--error-color);
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+
+  .alert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+}
+
+/* ============ PRÉVISUALISATION ============ */
+.preview-header {
+  padding: 1.2rem 2rem;
+  background: #f9f5f5;
+  border-bottom: 1px solid #f0d8d8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .preview-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--esprit-red);
+    font-weight: 600;
+  }
+
+  .preview-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #edfaf3;
+    border: 1px solid #b2dfcc;
+    color: var(--success);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+  }
+}
+
+.recipient-card {
+  margin: 1.5rem 2rem 0;
+  background: var(--esprit-red-light);
+  border: 1px solid #f0d8d8;
+  border-radius: 10px;
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  .recipient-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--esprit-red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .recipient-info {
+    .recipient-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+    .recipient-email {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  }
+}
+
+.preview-body {
+  padding: 1.2rem 2rem 2rem;
+}
+
+.preview-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ============ SPINNER ============ */
+.spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============ SUCCÈS ============ */
+.success-wrapper {
+  padding: 3.5rem 2rem;
+  text-align: center;
+
+  .success-circle {
+    width: 80px;
+    height: 80px;
+    background: var(--success-bg);
+    border: 2px solid #b2dfcc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--success);
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+
+    strong { color: var(--text-primary); }
+  }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .form-body { padding: 1.2rem; }
+  .form-header { padding: 1.2rem; }
+  .toggle-group { max-width: 100%; }
+  .preview-actions { flex-direction: column; gap: 0.75rem; }
+  .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+}

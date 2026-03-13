@@ -1,26 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-interface Application {
-  id: number;
-  offerTitle: string;
-  department: string;
-  location: string;
-  contractType: string;
-  status: 'interview' | 'in-progress' | 'rejected' | 'accepted';
-  statusLabel: string;
-  statusIcon: string;
-  currentStep: number;
-  totalSteps: number;
-  nextStep?: string;
-  nextStepDate?: string;
-  aiScore: number;
-  appliedDate: string;
-  updatedDate: string;
-  hasMessages?: boolean;
-  messageCount?: number;
-}
+import { Subject } from 'rxjs';
+import { takeUntil, switchMap } from 'rxjs/operators';
+import { CandidateDTO, CandidateService, CandidateStatus } from '../../../core/services/candidate.service';
+import { KeycloakService } from 'keycloak-angular';
+import { ProfileService } from '../../../core/services/profile.service';
 
 @Component({
   selector: 'app-applications',
@@ -29,144 +14,175 @@ interface Application {
   templateUrl: './my-applications.component.html',
   styleUrls: ['./my-applications.component.scss']
 })
-export class MyApplicationsComponent implements OnInit {
+export class MyApplicationsComponent implements OnInit, OnDestroy {
 
-  applications: Application[] = [
-    {
-      id: 1,
-      offerTitle: 'Enseignant Chercheur - Intelligence Artificielle',
-      department: 'Informatique',
-      location: 'Ariana',
-      contractType: 'CDI',
-      status: 'interview',
-      statusLabel: 'Entretien programmé',
-      statusIcon: 'event',
-      currentStep: 3,
-      totalSteps: 5,
-      nextStep: 'Entretien technique',
-      nextStepDate: '20 Fév 2024',
-      aiScore: 88,
-      appliedDate: '15 Jan 2024',
-      updatedDate: '10 Fév 2024',
-      hasMessages: true,
-      messageCount: 2
-    },
-    {
-      id: 2,
-      offerTitle: 'Responsable Pédagogique - Développement Web',
-      department: 'Informatique',
-      location: 'Ariana',
-      contractType: 'CDI',
-      status: 'in-progress',
-      statusLabel: 'En cours d\'analyse',
-      statusIcon: 'visibility',
-      currentStep: 2,
-      totalSteps: 5,
-      aiScore: 76,
-      appliedDate: '20 Jan 2024',
-      updatedDate: '05 Fév 2024'
-    },
-    {
-      id: 3,
-      offerTitle: 'Ingénieur de Recherche - IoT',
-      department: 'Électronique',
-      location: 'Ariana',
-      contractType: 'CDD',
-      status: 'rejected',
-      statusLabel: 'Refusée',
-      statusIcon: 'cancel',
-      currentStep: 0,
-      totalSteps: 5,
-      aiScore: 62,
-      appliedDate: '10 Déc 2023',
-      updatedDate: '15 Jan 2024'
-    }
-  ];
+  candidatures: CandidateDTO[]         = [];
+  filteredCandidatures: CandidateDTO[] = [];
+  activeFilter  = 'all';
+  isLoading     = false;
+  errorMessage  = '';
 
-  filteredApplications: Application[] = [];
-  activeFilter: string = 'all';
 
-  // Statistiques
-  get totalApplications(): number {
-    return this.applications.length;
+  // Expose enum to template
+  readonly CandidateStatus = CandidateStatus;
+
+  private readonly keycloakService = inject(KeycloakService);
+  private readonly profileService  = inject(ProfileService);
+  private readonly candidateSvc    = inject(CandidateService);
+  private readonly destroy$        = new Subject<void>();
+
+  // ─── Statistiques ──────────────────────────────────────────────────────────
+
+  get totalCandidatures(): number {
+    return this.candidatures.length;
   }
 
   get inProgressCount(): number {
-    return this.applications.filter(app =>
-      app.status === 'in-progress' || app.status === 'interview'
+    return this.candidatures.filter(c =>
+      c.status === CandidateStatus.NOUVEAU   ||
+      c.status === CandidateStatus.EN_COURS  ||
+      c.status === CandidateStatus.EN_ATTENTE
     ).length;
   }
 
   get acceptedCount(): number {
-    return this.applications.filter(app => app.status === 'accepted').length;
+    return this.candidatures.filter(c => c.status === CandidateStatus.ACCEPTE).length;
   }
 
-  get interviewCount(): number {
-    return this.applications.filter(app => app.status === 'interview').length;
+  get refusedCount(): number {
+    return this.candidatures.filter(c => c.status === CandidateStatus.REFUSE).length;
   }
+
+  // ─── Lifecycle ─────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
-    this.filterApplications('all');
+    const userId = this.keycloakService.getKeycloakInstance().tokenParsed?.['sub'];
+
+    if (!userId) {
+      this.errorMessage = 'Utilisateur non authentifié. Veuillez vous reconnecter.';
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.profileService.getProfileByUserId(userId)
+      .pipe(
+        switchMap(profile => {
+          if (!profile?.id) throw new Error('Profil introuvable');
+          return this.candidateSvc.getAllCandidatureByProfile(profile.id);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (data: CandidateDTO[]) => {
+          this.candidatures = data;
+          this.filterCandidatures(this.activeFilter);
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Erreur chargement candidatures :', err);
+          this.errorMessage = err?.message?.includes('Profil')
+            ? 'Profil introuvable. Veuillez vous reconnecter.'
+            : 'Impossible de charger vos candidatures. Veuillez réessayer.';
+          this.isLoading = false;
+        }
+      });
   }
 
-  filterApplications(filter: string): void {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  // ─── Filtrage ──────────────────────────────────────────────────────────────
+
+  filterCandidatures(filter: string): void {
     this.activeFilter = filter;
 
-    switch(filter) {
+    switch (filter) {
       case 'in-progress':
-        this.filteredApplications = this.applications.filter(app =>
-          app.status === 'in-progress' || app.status === 'interview'
+        this.filteredCandidatures = this.candidatures.filter(c =>
+          c.status === CandidateStatus.NOUVEAU   ||
+          c.status === CandidateStatus.EN_COURS  ||
+          c.status === CandidateStatus.EN_ATTENTE
         );
         break;
-      case 'interview':
-        this.filteredApplications = this.applications.filter(app =>
-          app.status === 'interview'
+      case 'accepted':
+        this.filteredCandidatures = this.candidatures.filter(c =>
+          c.status === CandidateStatus.ACCEPTE
         );
         break;
       case 'closed':
-        this.filteredApplications = this.applications.filter(app =>
-          app.status === 'rejected' || app.status === 'accepted'
+        this.filteredCandidatures = this.candidatures.filter(c =>
+          c.status === CandidateStatus.REFUSE ||
+          c.status === CandidateStatus.ACCEPTE
         );
         break;
       default:
-        this.filteredApplications = this.applications;
+        this.filteredCandidatures = [...this.candidatures];
     }
   }
 
-  getProgressWidth(currentStep: number, totalSteps: number): string {
-    return `${(currentStep / totalSteps) * 100}%`;
-  }
+  // ─── Helpers d'affichage ───────────────────────────────────────────────────
 
-  getScoreClass(score: number): string {
-    if (score >= 85) return 'excellent';
-    if (score >= 70) return 'good';
-    if (score >= 50) return 'average';
-    return 'low';
-  }
-
-  getStatusBadgeClass(status: string): string {
-    switch(status) {
-      case 'interview': return 'primary';
-      case 'in-progress': return 'info';
-      case 'accepted': return 'success';
-      case 'rejected': return 'danger';
-      default: return 'default';
+  getStatusLabel(status?: CandidateStatus): string {
+    switch (status) {
+      case CandidateStatus.NOUVEAU:    return 'Nouvelle candidature';
+      case CandidateStatus.EN_COURS:   return "En cours d'analyse";
+      case CandidateStatus.EN_ATTENTE: return 'En attente';
+      case CandidateStatus.ACCEPTE:    return 'Acceptée';
+      case CandidateStatus.REFUSE:     return 'Refusée';
+      default:                         return 'Inconnu';
     }
   }
 
-  viewDetails(application: Application): void {
-    console.log('Voir détails:', application);
-    // Navigation vers les détails
+  getStatusIcon(status?: CandidateStatus): string {
+    switch (status) {
+      case CandidateStatus.NOUVEAU:    return 'send';
+      case CandidateStatus.EN_COURS:   return 'visibility';
+      case CandidateStatus.EN_ATTENTE: return 'hourglass_empty';
+      case CandidateStatus.ACCEPTE:    return 'check_circle';
+      case CandidateStatus.REFUSE:     return 'cancel';
+      default:                         return 'help_outline';
+    }
   }
 
-  deleteApplication(application: Application): void {
+  getStatusBadgeClass(status?: CandidateStatus): string {
+    switch (status) {
+      case CandidateStatus.NOUVEAU:    return 'badge-nouveau';
+      case CandidateStatus.EN_COURS:   return 'badge-en-cours';
+      case CandidateStatus.EN_ATTENTE: return 'badge-en-attente';
+      case CandidateStatus.ACCEPTE:    return 'badge-accepte';
+      case CandidateStatus.REFUSE:     return 'badge-refuse';
+      default:                         return 'badge-default';
+    }
+  }
+
+  isActive(status?: CandidateStatus): boolean {
+    return status !== CandidateStatus.REFUSE && status !== CandidateStatus.ACCEPTE;
+  }
+
+  formatDate(dateStr?: string): string {
+    if (!dateStr) return 'N/A';
+    return new Date(dateStr).toLocaleDateString('fr-FR', {
+      day: 'numeric', month: 'short', year: 'numeric'
+    });
+  }
+
+  // ─── Actions ───────────────────────────────────────────────────────────────
+
+  viewDetails(candidature: CandidateDTO): void {
+    console.log('Voir détails :', candidature);
+  }
+
+  deleteCandidature(candidature: CandidateDTO): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cette candidature ?')) {
-      this.applications = this.applications.filter(app => app.id !== application.id);
-      this.filterApplications(this.activeFilter);
+      this.candidatures = this.candidatures.filter(c => c.id !== candidature.id);
+      this.filterCandidatures(this.activeFilter);
     }
   }
 
-  openChat(application: Application): void {
-    console.log('Ouvrir chat:', application);
+  openChat(candidature: CandidateDTO): void {
+    console.log('Ouvrir chat :', candidature);
   }
 }

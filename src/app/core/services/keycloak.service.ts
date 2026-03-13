@@ -1,45 +1,65 @@
 import { Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
+import {KeycloakService} from "keycloak-angular";
 
 @Injectable({
   providedIn: 'root'
 })
-export class KeycloakService {
-  private keycloak: Keycloak | undefined;
-
-  init(): Promise<boolean> {
-    this.keycloak = new Keycloak({
-      url: 'http://localhost:9090',
-      realm: 'espritRecrutement',
-      clientId: 'espritRecrutement'
-    });
-
-    return this.keycloak.init({
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-      checkLoginIframe: false
-    });
-  }
+export class AppKeycloakService {
+  constructor(private keycloak: KeycloakService) {}
 
   login(): Promise<void> {
-    return this.keycloak?.login() || Promise.resolve();
-  }
-
-  logout(): Promise<void> {
-    return this.keycloak?.logout() || Promise.resolve();
+    return this.keycloak.login();
   }
 
   isLoggedIn(): boolean {
-    return this.keycloak?.authenticated || false;
+    return this.keycloak.isLoggedIn();
   }
 
-  getToken(): string | undefined {
-    return this.keycloak?.token;
+  getToken(): Promise<string> {
+    return this.keycloak.getToken();
   }
 
   getUserRoles(): string[] {
-    return this.keycloak?.realmAccess?.roles || [];
+    return this.keycloak.getUserRoles();
   }
 
+  async logout(): Promise<void> {
+    // ✅ Accéder à l'instance keycloak-js sous-jacente
+    const keycloakInstance = this.keycloak.getKeycloakInstance();
 
+    console.log('=== LOGOUT DEBUG ===');
+    console.log('authenticated:', keycloakInstance.authenticated);
+    console.log('idToken:', keycloakInstance.idToken ? '✅' : '❌');
+    console.log('refreshToken:', keycloakInstance.refreshToken ? '✅' : '❌');
+
+    const idToken = keycloakInstance.idToken;
+    const refreshToken = keycloakInstance.refreshToken;
+
+    // ✅ Révoquer la session via POST
+    if (refreshToken) {
+      try {
+        const response = await fetch(
+          'http://localhost:9090/realms/espritRecrutement/protocol/openid-connect/logout',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              client_id: 'espritRecrutement',
+              refresh_token: refreshToken
+            })
+          }
+        );
+        console.log('Logout status:', response.status); // 204 = succès
+      } catch (error) {
+        console.error('POST logout échoué', error);
+      }
+    }
+
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // ✅ Logout via keycloak-angular
+    await this.keycloak.logout(window.location.origin + '/home');
+  }
 }

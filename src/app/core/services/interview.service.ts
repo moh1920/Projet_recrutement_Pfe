@@ -238,10 +238,8 @@ export class InterviewService {
    * Create a new interview
    */
   createInterview(interview: Partial<Interview>): Observable<Interview> {
-    return this.http.post<Interview>(this.API_URL, interview).pipe(
-      tap(() => this.invalidateCache()),
-      catchError(this.handleError)
-    );
+    return this.http.post<Interview>(`${this.API_URL}/create`, interview);
+
   }
 
   /**
@@ -678,5 +676,13 @@ export class InterviewService {
     nextWeek.setDate(today.getDate() + 7);
 
     return interviewDate >= today && interviewDate <= nextWeek;
+  }
+
+
+
+  getInterviewsByEmail(candidateEmail: string): Observable<Interview[]> {
+    return this.http.get<Interview[]>(
+      `${this.API_URL}/getInterviewsByEmail/${candidateEmail}`
+    );
   }
 }

@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, map, shareReplay } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
+import {AppKeycloakService} from "../../core/services/keycloak.service";
 
 interface Notification {
   icon: string;
@@ -44,6 +45,7 @@ interface Notification {
 export class AdminLayoutComponent {
   private breakpointObserver = inject(BreakpointObserver);
   authService = inject(AuthService);
+  appKeycloakService = inject(AppKeycloakService);
 
   currentUser$ = this.authService.currentUser$;
   isDarkMode = false;
@@ -61,7 +63,7 @@ export class AdminLayoutComponent {
     { icon: 'people', label: 'Candidats', route: '/admin/candidates' },
     { icon: 'event', label: 'Entretiens', route: '/admin/interviews' },
     { icon: 'manage_accounts', label: 'Utilisateurs', route: '/admin/users' },
-  ];
+    { icon: 'assignment_ind', label: 'Dossiers candidats', route: '/admin/profileCandidats' }  ];
 
   notifications: Notification[] = [
     { icon: 'person', message: 'Nouveau candidat: Ahmed Ben Ali', time: '5 min', color: 'primary', read: false },
@@ -84,6 +86,6 @@ export class AdminLayoutComponent {
   }
 
   logout(): void {
-    this.authService.logout();
+    this.appKeycloakService.logout();
   }
 }

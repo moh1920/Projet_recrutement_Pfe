@@ -19,6 +19,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { OffreService } from "../../../core/services/offre.service";
 import { Offre } from "../../../core/models/offre.model";
 import { JobOfferDialogComponent } from './job-offer-dialog/job-offer-dialog.component';
+import {CandidateService} from "../../../core/services/candidate.service";
+import {CandidatsDialogComponent} from "./candidats-dialog/candidats-dialog.component";
 
 @Component({
   selector: 'app-job-offers-admin',
@@ -48,6 +50,7 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
 
   jobOfferService = inject(OffreService);
   dialog = inject(MatDialog);
+  candidatesService = inject(CandidateService);
 
   displayedColumns: string[] = ['select', 'title', 'department', 'speciality', 'type', 'workload', 'candidates', 'deadline', 'status', 'actions'];
   dataSource = new MatTableDataSource<Offre>([]);
@@ -196,7 +199,14 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   }
 
   viewCandidates(offer: Offre): void {
-    console.log('Voir candidats pour:', offer.id);
+    if (!offer.id) return;
+    this.candidatesService.getAllCandidatureByOffre(offer.id).subscribe(data => {
+      this.dialog.open(CandidatsDialogComponent, {
+        width: '680px',
+        maxHeight: '90vh',
+        data: { offer, candidats: data }
+      });
+    });
   }
 
   isUrgent(deadline: string | undefined): boolean {

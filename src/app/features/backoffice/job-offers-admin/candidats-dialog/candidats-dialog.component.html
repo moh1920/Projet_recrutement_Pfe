@@ -1,0 +1,104 @@
+<div class="dialog-wrapper">
+
+  <!-- Header -->
+  <div class="dialog-header">
+    <div class="header-left">
+      <span class="header-icon">
+        <mat-icon>groups</mat-icon>
+      </span>
+      <div>
+        <h2 class="dialog-title">Candidats</h2>
+        <p class="dialog-subtitle">{{ data.offer.title?? data.offer.id }}</p>
+      </div>
+    </div>
+    <button mat-icon-button (click)="close()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-value">{{ data.candidats.length }}</span>
+      <span class="stat-label">Total</span>
+    </div>
+<!--    <div class="stat" *ngFor="let entry of statusConfig ">-->
+<!--      <span class="stat-value" [style.color]="entry.value.color">-->
+<!--        {{ data.candidats  }}-->
+<!--      </span>-->
+<!--      <span class="stat-label">{{ entry.value.label }}</span>-->
+<!--    </div>-->
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      [(ngModel)]="searchTerm"
+      placeholder="Rechercher par nom, email…"
+      class="search-input"
+    />
+    <button *ngIf="searchTerm" mat-icon-button (click)="searchTerm = ''" class="clear-btn">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+
+  <!-- List -->
+  <mat-dialog-content class="dialog-content">
+
+    <ng-container *ngIf="filteredCandidats.length > 0; else empty">
+      <div class="candidate-card" *ngFor="let c of filteredCandidats">
+
+        <!-- Avatar -->
+        <div class="avatar">{{ getInitials(c) }}</div>
+
+        <!-- Info -->
+        <div class="candidate-info">
+          <span class="candidate-name">{{ c.fullName ?? (c.firstName + ' ' + c.lastName) }}</span>
+          <span class="candidate-meta">
+            <mat-icon class="meta-icon">mail_outline</mat-icon>{{ c.email }}
+          </span>
+          <span class="candidate-meta" *ngIf="c.phone">
+            <mat-icon class="meta-icon">phone</mat-icon>{{ c.phone }}
+          </span>
+          <span class="candidate-meta" *ngIf="c.appliedDate">
+            <mat-icon class="meta-icon">calendar_today</mat-icon>
+            {{ c.appliedDate | date:'dd/MM/yyyy' }}
+          </span>
+        </div>
+
+        <!-- Status badge -->
+        <span
+          class="status-badge"
+          *ngIf="c.status"
+          [style.background]="statusConfig[c.status].color + '1a'"
+          [style.color]="statusConfig[c.status].color"
+          [style.borderColor]="statusConfig[c.status].color + '55'"
+        >
+          {{ statusConfig[c.status].label }}
+        </span>
+
+        <button mat-icon-button class="btn-details" [matTooltip]="'Voir détails'" (click)="viewDetails(c)">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+
+      </div>
+    </ng-container>
+
+
+    <!-- Empty state -->
+    <ng-template #empty>
+      <div class="empty-state">
+        <mat-icon>inbox</mat-icon>
+        <p>Aucun candidat trouvé</p>
+      </div>
+    </ng-template>
+
+  </mat-dialog-content>
+
+  <!-- Footer -->
+  <mat-dialog-actions class="dialog-footer">
+    <button mat-stroked-button (click)="close()">Fermer</button>
+  </mat-dialog-actions>
+
+</div>

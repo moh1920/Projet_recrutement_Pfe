@@ -85,12 +85,8 @@
 
                     <mat-form-field appearance="outline" class="form-field">
                       <mat-label>Poste visé</mat-label>
-                      <mat-select formControlName="position">
-                        <mat-option value="enseignant">Enseignant Chercheur</mat-option>
-                        <mat-option value="ingenieur">Ingénieur Pédagogique</mat-option>
-                        <mat-option value="responsable">Responsable de Département</mat-option>
-                      </mat-select>
-                      <mat-icon matPrefix>work</mat-icon>
+                        <input matInput formControlName="position" placeholder="Enseignant Chercheur">
+                          <mat-icon matPrefix>work</mat-icon>
                     </mat-form-field>
                   </div>
 
@@ -236,7 +232,7 @@
 
                   <div class="step-actions">
                     <button mat-stroked-button (click)="resetAnalysis()">Reanalyser</button>
-                    <button mat-raised-button color="primary" matStepperNext class="next-btn">
+                    <button mat-raised-button color="primary" (click)="postulerOffre()" matStepperNext class="next-btn">
                       Confirmer et soumettre
                       <mat-icon>check_circle</mat-icon>
                     </button>

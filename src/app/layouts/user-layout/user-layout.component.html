@@ -28,10 +28,42 @@
         <mat-icon>upload_file</mat-icon>
         Candidater
       </a>
-      <a mat-stroked-button class="login-btn" routerLink="/admin">
+      <a mat-button routerLink="/applications" routerLinkActive="active-link" *ngIf="isLoggedIn">
+        <mat-icon>description</mat-icon>
+        Mes Candidatures
+      </a>
+
+      <!-- Mes Entretiens — shown only when logged in -->
+      <a mat-button routerLink="/interview" routerLinkActive="active-link" *ngIf="isLoggedIn" class="interviews-btn">
+  <span class="interviews-icon-wrap">
+    <mat-icon>event_available</mat-icon>
+    <span class="interviews-badge" *ngIf="upcomingCount > 0">{{ upcomingCount }}</span>
+  </span>
+        Mes Entretiens
+      </a>
+
+      <!-- Profile Avatar Button — shown only when logged in -->
+      <a class="profile-avatar-btn" routerLink="/candidateProfile"
+         routerLinkActive="profile-active"
+         *ngIf="isLoggedIn"
+         matTooltip="Mon Profil">
+        <div class="avatar-circle">
+          <mat-icon>person</mat-icon>
+        </div>
+        <span class="avatar-label">Profil</span>
+      </a>
+
+
+
+      <a mat-stroked-button class="login-btn" routerLink="/admin" *ngIf="!isLoggedIn">
         <mat-icon>admin_panel_settings</mat-icon>
         Espace RH
       </a>
+
+      <!-- Logout if logged in -->
+      <button mat-icon-button class="logout-btn" (click)="logout()" *ngIf="isLoggedIn" matTooltip="Se déconnecter">
+        <mat-icon>logout</mat-icon>
+      </button>
     </nav>
   </div>
 </mat-toolbar>

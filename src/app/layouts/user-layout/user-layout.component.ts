@@ -1,10 +1,12 @@
 
-import { Component,HostListener  } from '@angular/core';
+import {Component, HostListener, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterLink } from '@angular/router';
+import {RouterModule, RouterLink, Router} from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import {MatTooltip} from "@angular/material/tooltip";
+import {AppKeycloakService} from "../../core/services/keycloak.service";
 
 @Component({
   selector: 'app-user-layout',
@@ -15,7 +17,8 @@ import { MatIconModule } from '@angular/material/icon';
     RouterLink,
     MatToolbarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltip
   ],
   templateUrl: './user-layout.component.html',
   styleUrl: './user-layout.component.scss'
@@ -23,7 +26,19 @@ import { MatIconModule } from '@angular/material/icon';
 export class UserLayoutComponent {
   isMobileMenuOpen = false;
   isScrolled = false;
+  isLoggedIn = true;
+  upcomingCount: number = 1 ; // à alimenter depuis votre servic
 
+  appKeycloakService = inject(AppKeycloakService);
+  constructor(private router : Router) {
+
+  }
+
+
+
+  async ngOnInit() {
+    this.isLoggedIn = await this.appKeycloakService.isLoggedIn();
+  }
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.isScrolled = window.pageYOffset > 50;
@@ -46,5 +61,9 @@ export class UserLayoutComponent {
   // Close mobile menu when clicking on a link
   onNavClick(): void {
     this.isMobileMenuOpen = false;
+  }
+  logout() {
+    this.isLoggedIn =false ;
+    this.appKeycloakService.logout();
   }
 }

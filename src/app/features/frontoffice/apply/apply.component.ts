@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { KeycloakService } from "keycloak-angular";
+import { ProfileResponseDTO, ProfileService } from "../../../core/services/profile.service";
+import {CandidateService} from "../../../core/services/candidate.service";
 
 interface Skill {
   name: string;
@@ -44,10 +47,26 @@ interface Experience {
   templateUrl: './apply.component.html',
   styleUrl: './apply.component.scss'
 })
-export class ApplyComponent {
+export class ApplyComponent implements OnInit {
+
+
+
+  offerId!: string;
+
+  ngOnInit(): void {
+    this.offerId = this.route.snapshot.queryParamMap.get('offer')!;
+    console.log("ID Offre :", this.offerId);
+    this.loadProfileAndUser();
+  }
+
   private _formBuilder = inject(FormBuilder);
   private _snackBar = inject(MatSnackBar);
+  keycloakService = inject(KeycloakService);
+  private profileService = inject(ProfileService);
+  private candidateService = inject(CandidateService)
 
+
+  profileCurrent!: ProfileResponseDTO;
   currentStep = 1;
   isAnalyzing = false;
   analysisComplete = false;
@@ -55,12 +74,8 @@ export class ApplyComponent {
   loadingProgress = 0;
   loadingStep = 'Initialisation...';
 
-  firstFormGroup = this._formBuilder.group({
-    name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    phone: [''],
-    position: ['', Validators.required]
-  });
+  // Initialize with default values first
+  firstFormGroup: FormGroup;
 
   mockAnalysis = {
     score: 85,
@@ -80,6 +95,16 @@ export class ApplyComponent {
     feedbackIcon: 'check_circle',
     feedbackTitle: 'Profil recommandé'
   };
+
+  constructor(private route: ActivatedRoute) {
+    // Initialize the form with empty/default values
+    this.firstFormGroup = this._formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      position: ['', Validators.required]
+    });
+  }
 
   onStepChange(event: StepperSelectionEvent): void {
     this.currentStep = event.selectedIndex + 1;
@@ -135,4 +160,38 @@ export class ApplyComponent {
     this.fileName = '';
     this.loadingProgress = 0;
   }
+
+  loadProfileAndUser() {
+    const userId = this.keycloakService.getKeycloakInstance().tokenParsed?.sub;
+    if (userId) {
+      this.profileService.getProfileByUserId(userId).subscribe({
+        next: (data) => {
+          this.profileCurrent = data;
+          console.log(this.profileCurrent.id);
+
+          this.firstFormGroup.patchValue({
+            name: data.nom || '',
+            email: data.email || '',
+            phone: data.telephone || '',
+            position: data.specialite || ''
+          });
+        },
+        error: (error) => {
+          console.error('Error loading profile:', error);
+          this._snackBar.open('Erreur lors du chargement du profil', 'Fermer', { duration: 3000 });
+        }
+      });
+    }
+  }
+
+
+
+  postulerOffre(){
+    this.candidateService.postulerCandidature(this.profileCurrent.id,this.offerId).subscribe(data =>{
+      console.log(data);
+    })
+  }
+
+
+
 }

@@ -33,7 +33,7 @@ export const routes: Routes = [
         canActivate: [authGuard]
       },
       {
-        path: 'interview/:id',
+        path: 'interview',
         loadComponent: () => import('./features/frontoffice/interview-room/interview-room.component').then(m => m.InterviewRoomComponent),
         canActivate: [authGuard]
       },
@@ -90,7 +90,42 @@ export const routes: Routes = [
         loadComponent: () => import('./features/backoffice/users/users.component').then(m => m.UsersComponent),
         canActivate: [roleGuard],
         data: { roles: ['admin', 'director'] } // ✅ Minuscules
-      }
+      },
+      {
+        path: 'profilePage',
+        loadComponent: () => import('./features/backoffice/profile/profile.component').then(m => m.ProfileComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },
+      {
+        path: 'profileCandidats',
+        loadComponent: () => import('./features/backoffice/profile-candidats/profile-candidats.component').then(m => m.ProfileCandidatsComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },
+      {
+        path: 'lobby',
+        loadComponent: () =>
+          import('./features/backoffice/lobby/lobby.component').then(m => m.LobbyComponent),
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },
+      {
+        path: 'meeting/:roomCode',
+        loadComponent: () =>
+          import('./features/backoffice/meeting/meeting.component').then(m => m.MeetingComponent),
+          data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },
+      {
+        path: 'emailSendMeeting',
+        loadComponent: () =>
+          import('./features/backoffice/send-meeting-email/send-meeting-email.component').then(m => m.SendMeetingEmailComponent),
+          data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },{
+        path: 'candidatsDetais/:id',
+        loadComponent: () =>
+          import('./features/backoffice/candidates/candidats-details/candidats-details.component').then(m => m.CandidatsDetailsComponent),
+          data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },
     ]
   },
 

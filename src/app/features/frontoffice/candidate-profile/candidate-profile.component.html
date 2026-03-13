@@ -1,22 +1,26 @@
-<div class="profile-page">
+<div class="profile-page" *ngIf="!isLoading; else loadingTpl">
+
   <!-- Header Hero -->
   <section class="profile-hero">
     <div class="hero-bg-pattern"></div>
     <div class="container">
       <div class="hero-content">
         <div class="profile-avatar-section">
+
+          <!-- Avatar -->
           <div class="avatar-container">
-            <div class="avatar" [class.has-image]="candidate.avatar">
-              <img *ngIf="candidate.avatar" [src]="candidate.avatar" alt="Profile">
-              <span *ngIf="!candidate.avatar" class="initials">{{ getInitials() }}</span>
+            <div class="avatar">
+              <span class="initials">{{ getInitials() }}</span>
               <button class="avatar-edit-btn" *ngIf="isEditing">
                 <span class="material-icons">photo_camera</span>
               </button>
             </div>
             <div class="completion-badge" *ngIf="!isEditing">
               <svg viewBox="0 0 36 36" class="circular-chart">
-                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                <path class="circle" [attr.stroke-dasharray]="stats.profileCompletion + ', 100'"
+                <path class="circle-bg"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="circle"
+                      [attr.stroke-dasharray]="stats.profileCompletion + ', 100'"
                       [style.stroke]="getCompletionColor()"
                       d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
               </svg>
@@ -24,23 +28,26 @@
             </div>
           </div>
 
+          <!-- Info -->
           <div class="profile-info">
-            <h1>{{ candidate.firstName }} {{ candidate.lastName }}</h1>
-            <p class="profile-title">{{ candidate.title }}</p>
+            <h1>{{ profileCurrent.nom }}</h1>
+            <p class="profile-title">{{ profileCurrent.specialite }}</p>
             <div class="profile-meta">
               <span class="meta-item">
                 <span class="material-icons">location_on</span>
-                {{ candidate.location }}
+                {{ profileCurrent.ville }}
               </span>
               <span class="meta-item">
                 <span class="material-icons">email</span>
-                {{ candidate.email }}
+                {{ profileCurrent.email }}
               </span>
-              <span class="meta-item status-badge" [class]="candidate.availability">
-                <span class="material-icons">circle</span>
-                {{ candidate.availability === 'immediate' ? 'Disponible immédiatement' :
-                candidate.availability === 'one_month' ? 'Disponible dans 1 mois' :
-                  candidate.availability === 'three_months' ? 'Disponible dans 3 mois' : 'Non disponible' }}
+              <span class="meta-item">
+                <span class="material-icons">phone</span>
+                {{ profileCurrent.telephone }}
+              </span>
+              <span class="meta-item">
+                <span class="material-icons">school</span>
+                {{ profileCurrent.niveauDiplome }}
               </span>
             </div>
           </div>
@@ -89,12 +96,14 @@
   <section class="profile-content">
     <div class="container">
 
-      <!-- OVERVIEW TAB -->
+      <!-- ══════════════ OVERVIEW TAB ══════════════ -->
       <div *ngIf="activeTab === 'overview'" class="tab-content overview-tab">
         <div class="content-grid">
+
           <!-- Left Column -->
           <div class="main-column">
-            <!-- About Card -->
+
+            <!-- À propos -->
             <div class="profile-card">
               <div class="card-header">
                 <h3>À propos</h3>
@@ -102,79 +111,100 @@
                   <span class="material-icons">edit</span>
                 </button>
               </div>
-              <p class="bio-text">{{ candidate.bio }}</p>
+              <p class="bio-text">{{ profileCurrent.motivation || '—' }}</p>
 
               <div class="info-grid">
                 <div class="info-item">
                   <span class="material-icons">work</span>
                   <div>
                     <label>Expérience</label>
-                    <span>{{ experiences.length }} postes</span>
+                    <span>{{ profileCurrent.nbAnneesExperience }} an(s)</span>
                   </div>
                 </div>
                 <div class="info-item">
                   <span class="material-icons">school</span>
                   <div>
-                    <label>Formation</label>
-                    <span>{{ educations.length }} diplômes</span>
+                    <label>Université</label>
+                    <span>{{ profileCurrent.universite }}</span>
                   </div>
                 </div>
                 <div class="info-item">
-                  <span class="material-icons">psychology</span>
+                  <span class="material-icons">cake</span>
                   <div>
-                    <label>Compétences</label>
-                    <span>{{ skills.length }} skills</span>
+                    <label>Date de naissance</label>
+                    <span>{{ profileCurrent.dateNaissance }}</span>
                   </div>
                 </div>
                 <div class="info-item">
-                  <span class="material-icons">phone</span>
+                  <span class="material-icons">flag</span>
                   <div>
-                    <label>Téléphone</label>
-                    <span>{{ candidate.phone }}</span>
+                    <label>Nationalité</label>
+                    <span>{{ profileCurrent.nationalite }}</span>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <span class="material-icons">grade</span>
+                  <div>
+                    <label>Grade académique</label>
+                    <span>{{ profileCurrent.gradeAcademique || '—' }}</span>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <span class="material-icons">event</span>
+                  <div>
+                    <label>Année diplôme</label>
+                    <span>{{ profileCurrent.anneeDiplome }}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Experience Card -->
-            <div class="profile-card">
+            <!-- Expérience académique -->
+            <div class="profile-card" *ngIf="profileCurrent.experienceAcademique">
               <div class="card-header">
-                <h3>Expérience professionnelle</h3>
-                <button class="btn-text" (click)="setActiveTab('edit')">+ Ajouter</button>
+                <h3>Expérience académique</h3>
               </div>
               <div class="timeline">
-                <div *ngFor="let exp of experiences; let i = index" class="timeline-item">
-                  <div class="timeline-marker" [class.current]="exp.current"></div>
+                <div *ngFor="let inst of profileCurrent.institutions" class="timeline-item">
+                  <div class="timeline-marker current"></div>
                   <div class="timeline-content">
-                    <div class="exp-header">
-                      <h4>{{ exp.title }}</h4>
-                      <span class="exp-period">
-                        {{ exp.startDate | date:'MMM yyyy' }} -
-                        {{ exp.current ? 'Présent' : (exp.endDate | date:'MMM yyyy') }}
-                      </span>
-                    </div>
-                    <p class="exp-company">{{ exp.company }} • {{ exp.location }}</p>
-                    <p class="exp-desc">{{ exp.description }}</p>
+                    <h4>{{ inst }}</h4>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Education Card -->
-            <div class="profile-card">
+            <!-- Modules enseignés -->
+            <div class="profile-card" *ngIf="profileCurrent.modulesEnseignes?.length">
               <div class="card-header">
-                <h3>Formation</h3>
-                <button class="btn-text" (click)="setActiveTab('edit')">+ Ajouter</button>
+                <h3>Modules enseignés</h3>
               </div>
-              <div class="education-list">
-                <div *ngFor="let edu of educations" class="edu-item">
-                  <div class="edu-icon">
-                    <span class="material-icons">school</span>
+              <div class="skills-cloud">
+                <span *ngFor="let mod of profileCurrent.modulesEnseignes" class="skill-tag level-3">{{ mod }}</span>
+              </div>
+            </div>
+
+            <!-- Méthodes pédagogiques -->
+            <div class="profile-card" *ngIf="profileCurrent.methodesEnseignement?.length">
+              <div class="card-header">
+                <h3>Méthodes d'enseignement</h3>
+              </div>
+              <div class="skills-cloud">
+                <span *ngFor="let m of profileCurrent.methodesEnseignement" class="skill-tag level-2">{{ m }}</span>
+              </div>
+              <div class="info-grid" style="margin-top:12px">
+                <div class="info-item">
+                  <span class="material-icons">supervised_user_circle</span>
+                  <div>
+                    <label>Encadrement</label>
+                    <span>{{ profileCurrent.encadrement ? 'Oui' : 'Non' }}</span>
                   </div>
-                  <div class="edu-content">
-                    <h4>{{ edu.degree }}</h4>
-                    <p>{{ edu.school }}</p>
-                    <span class="edu-field">{{ edu.field }} • {{ edu.year }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="material-icons">lightbulb</span>
+                  <div>
+                    <label>Innovation pédagogique</label>
+                    <span>{{ profileCurrent.innovationPedagogique ? 'Oui' : 'Non' }}</span>
                   </div>
                 </div>
               </div>
@@ -183,103 +213,110 @@
 
           <!-- Right Column -->
           <div class="side-column">
-            <!-- Skills Card -->
+
+            <!-- Compétences techniques -->
             <div class="profile-card skills-card">
               <div class="card-header">
-                <h3>Compétences</h3>
-              </div>
-              <div class="skills-cloud">
-                <div *ngFor="let skill of skills" class="skill-tag" [class]="'level-' + skill.level">
-                  {{ skill.name }}
-                  <span class="skill-level">{{ skill.level }}</span>
-                </div>
+                <h3>Compétences techniques</h3>
               </div>
 
+              <ng-container *ngFor="let cat of [
+                {label:'Langages',   items: profileCurrent.langages},
+                {label:'Frameworks', items: profileCurrent.frameworks},
+                {label:'Data',       items: profileCurrent.dataSkills},
+                {label:'IA',         items: profileCurrent.iaSkills},
+                {label:'ERP',        items: profileCurrent.erpSkills}
+              ]">
+                <div class="skill-category" *ngIf="cat.items?.length">
+                  <h5>{{ cat.label }}</h5>
+                  <div class="skills-cloud">
+                    <span *ngFor="let s of cat.items" class="skill-tag level-3">{{ s }}</span>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="profile-card">
+              <div class="card-header">
+                <h3>Soft Skills</h3>
+              </div>
               <div class="skills-detail">
-                <div *ngFor="let category of skillCategories" class="skill-category">
-                  <h5>{{ category }}</h5>
-                  <div class="category-skills">
-                    <div *ngFor="let skill of skills | slice:0:skills.length"
-                         [hidden]="skill.category !== category"
-                         class="skill-bar">
-                      <div class="skill-info">
-                        <span>{{ skill.name }}</span>
-                        <span>{{ getSkillLevelText(skill.level) }}</span>
-                      </div>
-                      <div class="progress-track">
-                        <div class="progress-fill" [style.width.%]="skill.level * 20"></div>
-                      </div>
-                    </div>
+                <div class="skill-bar">
+                  <div class="skill-info">
+                    <span>Communication</span>
+                    <span>{{ getSkillLevelText(profileCurrent.communication) }}</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" [style.width.%]="profileCurrent.communication * 20"></div>
+                  </div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-info">
+                    <span>Leadership</span>
+                    <span>{{ getSkillLevelText(profileCurrent.leadership) }}</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" [style.width.%]="profileCurrent.leadership * 20"></div>
+                  </div>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-info">
+                    <span>Esprit d'équipe</span>
+                    <span>{{ getSkillLevelText(profileCurrent.espritEquipe) }}</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" [style.width.%]="profileCurrent.espritEquipe * 20"></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Links Card -->
+            <!-- Métadonnées -->
             <div class="profile-card">
               <div class="card-header">
-                <h3>Liens</h3>
-              </div>
-              <div class="links-list">
-                <a [href]="'https://' + candidate.linkedin" target="_blank" class="link-item">
-                  <span class="material-icons">linkedin</span>
-                  <span>LinkedIn</span>
-                  <span class="material-icons">open_in_new</span>
-                </a>
-                <a [href]="'https://' + candidate.portfolio" target="_blank" class="link-item">
-                  <span class="material-icons">language</span>
-                  <span>Portfolio</span>
-                  <span class="material-icons">open_in_new</span>
-                </a>
-              </div>
-            </div>
-
-            <!-- Preferences Card -->
-            <div class="profile-card">
-              <div class="card-header">
-                <h3>Préférences</h3>
+                <h3>Informations du profil</h3>
               </div>
               <div class="pref-list">
-                <div class="pref-item">
-                  <span class="material-icons">payments</span>
+                <div class="pref-item" *ngIf="profileCurrent.dateCreationProfil">
+                  <span class="material-icons">calendar_today</span>
                   <div>
-                    <label>Salaire souhaité</label>
-                    <span>{{ candidate.salary }} TND / mois</span>
+                    <label>Créé le</label>
+                    <span>{{ profileCurrent.dateCreationProfil | date:'dd/MM/yyyy' }}</span>
                   </div>
                 </div>
-                <div class="pref-item">
-                  <span class="material-icons">commute</span>
+                <div class="pref-item" *ngIf="profileCurrent.dateDerniereMiseAJour">
+                  <span class="material-icons">update</span>
                   <div>
-                    <label>Mobilité</label>
-                    <span>{{ candidate.mobility === 'national' ? 'Nationale' :
-                      candidate.mobility === 'international' ? 'Internationale' : 'Locale' }}</span>
+                    <label>Mis à jour le</label>
+                    <span>{{ profileCurrent.dateDerniereMiseAJour | date:'dd/MM/yyyy' }}</span>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
 
-      <!-- EDIT TAB -->
+      <!-- ══════════════ EDIT TAB ══════════════ -->
       <div *ngIf="activeTab === 'edit'" class="tab-content edit-tab">
         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="edit-form">
           <div class="form-sections">
 
-            <!-- Personal Info -->
+            <!-- Informations personnelles -->
             <div class="form-section">
               <h3>Informations personnelles</h3>
               <div class="form-row">
                 <div class="form-group">
-                  <label>Prénom</label>
-                  <input type="text" formControlName="firstName" placeholder="Votre prénom">
+                  <label>Nom complet</label>
+                  <input type="text" formControlName="nom" placeholder="Nom complet">
                 </div>
                 <div class="form-group">
-                  <label>Nom</label>
-                  <input type="text" formControlName="lastName" placeholder="Votre nom">
+                  <label>Nationalité</label>
+                  <input type="text" formControlName="nationalite" placeholder="Nationalité">
                 </div>
               </div>
-
               <div class="form-row">
                 <div class="form-group">
                   <label>Email</label>
@@ -287,145 +324,114 @@
                 </div>
                 <div class="form-group">
                   <label>Téléphone</label>
-                  <input type="tel" formControlName="phone" placeholder="+216 XX XXX XXX">
+                  <input type="tel" formControlName="telephone" placeholder="+216 XX XXX XXX">
                 </div>
               </div>
-
-              <div class="form-group">
-                <label>Titre professionnel</label>
-                <input type="text" formControlName="title" placeholder="Ex: Ingénieur Full Stack">
-              </div>
-
-              <div class="form-group">
-                <label>Localisation</label>
-                <input type="text" formControlName="location" placeholder="Ville, Pays">
-              </div>
-
-              <div class="form-group">
-                <label>Bio</label>
-                <textarea formControlName="bio" rows="4" placeholder="Décrivez votre parcours..."></textarea>
-              </div>
-            </div>
-
-            <!-- Experience Edit -->
-            <div class="form-section">
-              <div class="section-header">
-                <h3>Expériences</h3>
-                <button type="button" class="btn-add" (click)="addExperience()">
-                  <span class="material-icons">add</span>
-                  Ajouter
-                </button>
-              </div>
-              <div class="editable-list">
-                <div *ngFor="let exp of experiences" class="editable-item">
-                  <div class="item-fields">
-                    <input type="text" [(ngModel)]="exp.title" [ngModelOptions]="{standalone: true}" placeholder="Poste">
-                    <input type="text" [(ngModel)]="exp.company" [ngModelOptions]="{standalone: true}" placeholder="Entreprise">
-                    <input type="text" [(ngModel)]="exp.location" [ngModelOptions]="{standalone: true}" placeholder="Lieu">
-                    <div class="date-row">
-                      <input type="month" [(ngModel)]="exp.startDate" [ngModelOptions]="{standalone: true}">
-                      <input type="month" [(ngModel)]="exp.endDate" [ngModelOptions]="{standalone: true}" [disabled]="exp.current">
-                      <label class="checkbox">
-                        <input type="checkbox" [(ngModel)]="exp.current" [ngModelOptions]="{standalone: true}">
-                        Poste actuel
-                      </label>
-                    </div>
-                    <textarea [(ngModel)]="exp.description" [ngModelOptions]="{standalone: true}" rows="2" placeholder="Description"></textarea>
-                  </div>
-                  <button type="button" class="btn-remove" (click)="removeExperience(exp.id)">
-                    <span class="material-icons">delete</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Education Edit -->
-            <div class="form-section">
-              <div class="section-header">
-                <h3>Formation</h3>
-                <button type="button" class="btn-add" (click)="addEducation()">
-                  <span class="material-icons">add</span>
-                  Ajouter
-                </button>
-              </div>
-              <div class="editable-list">
-                <div *ngFor="let edu of educations" class="editable-item compact">
-                  <div class="item-fields">
-                    <input type="text" [(ngModel)]="edu.degree" [ngModelOptions]="{standalone: true}" placeholder="Diplôme">
-                    <input type="text" [(ngModel)]="edu.school" [ngModelOptions]="{standalone: true}" placeholder="École">
-                    <div class="form-row">
-                      <input type="text" [(ngModel)]="edu.field" [ngModelOptions]="{standalone: true}" placeholder="Domaine">
-                      <input type="text" [(ngModel)]="edu.year" [ngModelOptions]="{standalone: true}" placeholder="Année">
-                    </div>
-                  </div>
-                  <button type="button" class="btn-remove" (click)="removeEducation(edu.id)">
-                    <span class="material-icons">delete</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Skills Edit -->
-            <div class="form-section">
-              <div class="section-header">
-                <h3>Compétences</h3>
-                <button type="button" class="btn-add" (click)="addSkill()">
-                  <span class="material-icons">add</span>
-                  Ajouter
-                </button>
-              </div>
-              <div class="skills-edit-grid">
-                <div *ngFor="let skill of skills; let i = index" class="skill-edit-item">
-                  <input type="text" [(ngModel)]="skill.name" [ngModelOptions]="{standalone: true}" placeholder="Compétence">
-                  <select [(ngModel)]="skill.category" [ngModelOptions]="{standalone: true}">
-                    <option *ngFor="let cat of skillCategories" [value]="cat">{{ cat }}</option>
-                  </select>
-                  <div class="level-selector">
-                    <button *ngFor="let level of [1,2,3,4,5]"
-                            type="button"
-                            [class.active]="skill.level >= level"
-                            (click)="skill.level = level">
-                    </button>
-                  </div>
-                  <button type="button" class="btn-remove-small" (click)="removeSkill(i)">
-                    <span class="material-icons">close</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Preferences -->
-            <div class="form-section">
-              <h3>Préférences de recherche</h3>
               <div class="form-row">
                 <div class="form-group">
-                  <label>Disponibilité</label>
-                  <select formControlName="availability">
-                    <option value="immediate">Immédiate</option>
-                    <option value="one_month">Dans 1 mois</option>
-                    <option value="three_months">Dans 3 mois</option>
-                    <option value="not_available">Non disponible</option>
-                  </select>
+                  <label>Ville</label>
+                  <input type="text" formControlName="ville" placeholder="Ville">
                 </div>
                 <div class="form-group">
-                  <label>Salaire souhaité (TND)</label>
-                  <select formControlName="salary">
-                    <option value="2000-3000">2000 - 3000</option>
-                    <option value="3000-4000">3000 - 4000</option>
-                    <option value="3500-4500">3500 - 4500</option>
-                    <option value="4500+">4500+</option>
-                  </select>
+                  <label>Date de naissance</label>
+                  <input type="date" formControlName="dateNaissance">
+                </div>
+              </div>
+            </div>
+
+            <!-- Formation académique -->
+            <div class="form-section">
+              <h3>Formation académique</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Niveau de diplôme</label>
+                  <input type="text" formControlName="niveauDiplome" placeholder="Ex: Master, Ingénieur">
+                </div>
+                <div class="form-group">
+                  <label>Spécialité</label>
+                  <input type="text" formControlName="specialite" placeholder="Spécialité">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Université</label>
+                  <input type="text" formControlName="universite" placeholder="Université">
+                </div>
+                <div class="form-group">
+                  <label>Année du diplôme</label>
+                  <input type="number" formControlName="anneeDiplome" placeholder="2020">
                 </div>
               </div>
               <div class="form-group">
-                <label>Mobilité géographique</label>
-                <select formControlName="mobility">
-                  <option value="local">Locale uniquement</option>
-                  <option value="national">Nationale</option>
-                  <option value="international">Internationale</option>
-                </select>
+                <label>Grade académique</label>
+                <input type="text" formControlName="gradeAcademique" placeholder="Ex: Très bien">
               </div>
             </div>
+
+            <!-- Expérience professionnelle -->
+            <div class="form-section">
+              <h3>Expérience professionnelle</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Nombre d'années d'expérience</label>
+                  <input type="number" formControlName="nbAnneesExperience" min="0">
+                </div>
+                <div class="form-group" style="align-self:center">
+                  <label class="checkbox">
+                    <input type="checkbox" formControlName="experienceAcademique">
+                    Expérience académique
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="form-section">
+              <h3>Soft Skills <small>(1 = Débutant — 5 = Maître)</small></h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Communication ({{ profileForm.get('communication')?.value }})</label>
+                  <input type="range" formControlName="communication" min="1" max="5" step="1">
+                </div>
+                <div class="form-group">
+                  <label>Leadership ({{ profileForm.get('leadership')?.value }})</label>
+                  <input type="range" formControlName="leadership" min="1" max="5" step="1">
+                </div>
+                <div class="form-group">
+                  <label>Esprit d'équipe ({{ profileForm.get('espritEquipe')?.value }})</label>
+                  <input type="range" formControlName="espritEquipe" min="1" max="5" step="1">
+                </div>
+              </div>
+            </div>
+
+            <!-- Pédagogie -->
+            <div class="form-section">
+              <h3>Compétences pédagogiques</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="checkbox">
+                    <input type="checkbox" formControlName="encadrement">
+                    Encadrement
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="checkbox">
+                    <input type="checkbox" formControlName="innovationPedagogique">
+                    Innovation pédagogique
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Motivation -->
+            <div class="form-section">
+              <h3>Motivation / Bio</h3>
+              <div class="form-group">
+                <textarea formControlName="motivation" rows="4"
+                          placeholder="Décrivez votre parcours et vos motivations..."></textarea>
+              </div>
+            </div>
+
           </div>
 
           <div class="form-actions">
@@ -438,7 +444,7 @@
         </form>
       </div>
 
-      <!-- DOCUMENTS TAB -->
+      <!-- ══════════════ DOCUMENTS TAB ══════════════ -->
       <div *ngIf="activeTab === 'documents'" class="tab-content documents-tab">
         <div class="documents-grid">
           <div class="upload-card">
@@ -448,12 +454,25 @@
               <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
             </div>
             <div class="upload-formats">
-              <span>Formats acceptés: PDF, DOC, DOCX (max 10MB)</span>
+              <span>Formats acceptés : PDF, DOC, DOCX (max 10 MB)</span>
             </div>
           </div>
 
           <div class="documents-list">
             <h3>Documents enregistrés</h3>
+
+            <!-- CV depuis le profil -->
+            <div class="doc-item" *ngIf="profileCurrent.cvPath">
+              <div class="doc-icon cv">
+                <span class="material-icons">description</span>
+              </div>
+              <div class="doc-info">
+                <h4>{{ profileCurrent.cvPath }}</h4>
+                <span>CV enregistré</span>
+              </div>
+            </div>
+
+            <!-- Documents locaux ajoutés -->
             <div *ngFor="let doc of documents" class="doc-item">
               <div class="doc-icon" [class]="doc.type">
                 <span class="material-icons">
@@ -474,11 +493,15 @@
                 </button>
               </div>
             </div>
+
+            <p *ngIf="!profileCurrent.cvPath && !documents.length" style="color:#888">
+              Aucun document enregistré.
+            </p>
           </div>
         </div>
       </div>
 
-      <!-- STATS TAB -->
+      <!-- ══════════════ STATS TAB ══════════════ -->
       <div *ngIf="activeTab === 'stats'" class="tab-content stats-tab">
         <div class="stats-grid">
           <div class="stat-card large">
@@ -489,12 +512,7 @@
               <span class="stat-number">{{ stats.profileViews }}</span>
               <span class="stat-label">Vues du profil (30j)</span>
             </div>
-            <div class="stat-trend up">
-              <span class="material-icons">trending_up</span>
-              +12%
-            </div>
           </div>
-
           <div class="stat-card large">
             <div class="stat-icon purple">
               <span class="material-icons">send</span>
@@ -504,7 +522,6 @@
               <span class="stat-label">Candidatures envoyées</span>
             </div>
           </div>
-
           <div class="stat-card large">
             <div class="stat-icon green">
               <span class="material-icons">event_available</span>
@@ -514,7 +531,6 @@
               <span class="stat-label">Taux d'entretien</span>
             </div>
           </div>
-
           <div class="stat-card large">
             <div class="stat-icon orange">
               <span class="material-icons">chat</span>
@@ -526,29 +542,17 @@
           </div>
         </div>
 
+        <!-- Complétion du profil -->
         <div class="stats-charts">
           <div class="chart-card">
-            <h4>Activité des 6 derniers mois</h4>
-            <div class="activity-bars">
-              <div *ngFor="let month of ['Août','Sept','Oct','Nov','Déc','Jan']" class="bar-item">
-                <div class="bar" [style.height.%]="[40,65,45,80,55,70]"></div>
-                <span>{{ month }}</span>
+            <h4>Complétion du profil</h4>
+            <div class="progress-track" style="height:20px">
+              <div class="progress-fill"
+                   [style.width.%]="stats.profileCompletion"
+                   [style.background]="getCompletionColor()">
               </div>
             </div>
-          </div>
-
-          <div class="chart-card">
-            <h4>Performance par catégorie</h4>
-            <div class="radar-placeholder">
-              <div class="radar-chart">
-                <div class="radar-skill" style="--value: 85; --angle: 0deg">Angular</div>
-                <div class="radar-skill" style="--value: 70; --angle: 60deg">Node.js</div>
-                <div class="radar-skill" style="--value: 90; --angle: 120deg">UI/UX</div>
-                <div class="radar-skill" style="--value: 60; --angle: 180deg">Python</div>
-                <div class="radar-skill" style="--value: 75; --angle: 240deg">DevOps</div>
-                <div class="radar-skill" style="--value: 80; --angle: 300deg">SQL</div>
-              </div>
-            </div>
+            <p style="margin-top:8px;font-weight:600">{{ stats.profileCompletion }}%</p>
           </div>
         </div>
       </div>
@@ -556,3 +560,12 @@
     </div>
   </section>
 </div>
+
+<!-- Loading state -->
+<ng-template #loadingTpl>
+  <div style="display:flex;justify-content:center;align-items:center;height:200px">
+    <span class="material-icons" style="animation:spin 1s linear infinite;font-size:48px;color:#6366f1">
+      autorenew
+    </span>
+  </div>
+</ng-template>

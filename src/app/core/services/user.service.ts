@@ -69,6 +69,9 @@ export class UserService {
   getAllUsers(): Observable<UserDTO[]> {
     return this.http.get<UserDTO[]>(`${this.apiUrl}/userAdminController/getAllUser`);
   }
+  getUserById(keycloakId: string): Observable<UserDTO> {
+    return this.http.get<UserDTO>(`${this.apiUrl}/userAdminController/getUserById/${keycloakId}`);
+  }
 
 
 }

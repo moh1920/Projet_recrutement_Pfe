@@ -25,6 +25,7 @@ import {CalendarDay, Interview, InterviewService} from "../../../core/services/i
 import {takeUntil} from "rxjs/operators";
 import {InterviewDialogComponent} from "../interviews/interview-dialog/interview-dialog.component";
 import {Subject} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-candidates',
@@ -58,6 +59,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   private snackBar         = inject(MatSnackBar);
   private dialog           = inject(MatDialog);
   private interviewService = inject(InterviewService);
+  private router = inject(Router);
 
   // ─── ViewChild ───────────────────────────────────────────────────────────────
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -230,9 +232,9 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     this.showSnackBar(`Modification de ${candidate.fullName}`, 'info');
   }
 
-  viewProfile(candidate: CandidateDTO): void {
-    // TODO: this.router.navigate(['/candidats', candidate.id]);
-    this.showSnackBar(`Profil de ${candidate.fullName}`, 'info');
+  viewDetais(candidate: CandidateDTO): void {
+    console.log(candidate.id);
+    this.router.navigate(['/admin/candidatsDetais', candidate.id]);
   }
 
   downloadResume(candidate: CandidateDTO): void {

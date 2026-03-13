@@ -1,149 +1,338 @@
+<!-- ==========================================
+     applications-page.component.html
+     ========================================== -->
+
 <div class="applications-page">
-  <!-- Header -->
+
+  <!-- ── Header Hero ── -->
   <section class="page-header">
+    <div class="header-pattern"></div>
     <div class="container">
       <div class="header-content">
-        <div>
+        <div class="header-text">
+          <div class="breadcrumb">
+            <span class="material-icons">home</span>
+            <span class="separator">/</span>
+            <span>Espace Candidat</span>
+            <span class="separator">/</span>
+            <span class="current">Mes Candidatures</span>
+          </div>
           <h1>Mes Candidatures</h1>
-          <p>Suivez l'évolution de vos candidatures chez ESPRIT</p>
+          <p class="subtitle">Suivez l'évolution de vos candidatures et gérez vos postulations chez ESPRIT</p>
         </div>
         <button class="btn-primary" routerLink="/offers">
-          <span class="material-icons icon">search</span>
-          Découvrir les offres
+          <span class="material-icons">search</span>
+          <span>Découvrir les offres</span>
         </button>
       </div>
     </div>
+
+    <!-- Vague décorative -->
+    <div class="header-wave">
+      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+              fill="#f8fafc"/>
+      </svg>
+    </div>
   </section>
 
-  <!-- Main Content -->
+  <!-- ── Contenu Principal ── -->
   <section class="applications-content">
     <div class="container">
-      <!-- Statistics -->
-      <div class="stats-bar">
-        <div class="stat-item" [class.active]="activeFilter === 'all'" (click)="filterApplications('all')">
-          <span class="stat-value">{{ totalApplications }}</span>
-          <span class="stat-label">Total</span>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="spinner-container">
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
         </div>
-        <div class="stat-item" [class.active]="activeFilter === 'in-progress'" (click)="filterApplications('in-progress')">
-          <span class="stat-value">{{ inProgressCount }}</span>
-          <span class="stat-label">En cours</span>
-        </div>
-        <div class="stat-item success" [class.active]="activeFilter === 'accepted'">
-          <span class="stat-value">{{ acceptedCount }}</span>
-          <span class="stat-label">Acceptées</span>
-        </div>
-        <div class="stat-item warning" [class.active]="activeFilter === 'interview'" (click)="filterApplications('interview')">
-          <span class="stat-value">{{ interviewCount }}</span>
-          <span class="stat-label">Entretiens</span>
-        </div>
+        <p>Chargement de vos candidatures...</p>
       </div>
 
-      <!-- Filters -->
-      <div class="filters-section">
-        <div class="filter-tabs">
-          <button [class.active]="activeFilter === 'all'" (click)="filterApplications('all')">Toutes</button>
-          <button [class.active]="activeFilter === 'in-progress'" (click)="filterApplications('in-progress')">En cours</button>
-          <button [class.active]="activeFilter === 'interview'" (click)="filterApplications('interview')">Entretiens</button>
-          <button [class.active]="activeFilter === 'closed'" (click)="filterApplications('closed')">Clôturées</button>
+      <!-- Error State -->
+      <div *ngIf="!isLoading && errorMessage" class="error-state">
+        <div class="error-icon">
+          <span class="material-icons">error_outline</span>
         </div>
+        <h3>Oups ! Une erreur est survenue</h3>
+        <p>{{ errorMessage }}</p>
+<!--        <button class="btn-outline" (click)="loadCandidatures()">-->
+<!--          <span class="material-icons">refresh</span>-->
+<!--          Réessayer-->
+<!--        </button>-->
       </div>
 
-      <!-- Applications List -->
-      <div class="applications-list">
-        <div *ngFor="let app of filteredApplications"
-             class="application-card"
-             [class.interview]="app.status === 'interview'"
-             [class.rejected]="app.status === 'rejected'">
+      <!-- Contenu -->
+      <ng-container *ngIf="!isLoading && !errorMessage">
 
-          <!-- Card Header -->
-          <div class="card-header">
-            <div class="offer-info">
-              <h3 class="offer-title">{{ app.offerTitle }}</h3>
-              <div class="offer-meta">
-                <span class="meta-item">
-                  <span class="material-icons icon">business</span>
-                  {{ app.department }}
-                </span>
-                <span class="meta-item">
-                  <span class="material-icons icon">location_on</span>
-                  {{ app.location }}
-                </span>
-                <span class="meta-item">
-                  <span class="material-icons icon">schedule</span>
-                  {{ app.contractType }}
-                </span>
+        <!-- Statistiques Cards -->
+        <div class="stats-grid">
+          <div class="stat-card"
+               [class.active]="activeFilter === 'all'"
+               (click)="filterCandidatures('all')">
+            <div class="stat-icon total">
+              <span class="material-icons">folder_open</span>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value">{{ totalCandidatures }}</span>
+              <span class="stat-label">Candidatures totales</span>
+            </div>
+            <div class="stat-trend" *ngIf="totalCandidatures > 0">
+              <span class="material-icons">trending_up</span>
+            </div>
+          </div>
+
+          <div class="stat-card"
+               [class.active]="activeFilter === 'in-progress'"
+               (click)="filterCandidatures('in-progress')">
+            <div class="stat-icon progress">
+              <span class="material-icons">pending_actions</span>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value">{{ inProgressCount }}</span>
+              <span class="stat-label">En cours de traitement</span>
+            </div>
+            <div class="stat-badge" *ngIf="inProgressCount > 0">{{ inProgressCount }}</div>
+          </div>
+
+          <div class="stat-card success"
+               [class.active]="activeFilter === 'accepted'"
+               (click)="filterCandidatures('accepted')">
+            <div class="stat-icon success">
+              <span class="material-icons">check_circle</span>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value">{{ acceptedCount }}</span>
+              <span class="stat-label">Candidatures acceptées</span>
+            </div>
+            <div class="stat-badge success" *ngIf="acceptedCount > 0">{{ acceptedCount }}</div>
+          </div>
+
+          <div class="stat-card danger"
+               [class.active]="activeFilter === 'closed'"
+               (click)="filterCandidatures('closed')">
+            <div class="stat-icon danger">
+              <span class="material-icons">archive</span>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value">{{ refusedCount }}</span>
+              <span class="stat-label">Candidatures clôturées</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtres & Toolbar -->
+        <div class="toolbar-section">
+          <div class="filter-tabs">
+            <button [class.active]="activeFilter === 'all'" (click)="filterCandidatures('all')">
+              <span class="material-icons">apps</span>
+              <span>Toutes</span>
+              <span class="tab-badge" *ngIf="totalCandidatures > 0">{{ totalCandidatures }}</span>
+            </button>
+            <button [class.active]="activeFilter === 'in-progress'" (click)="filterCandidatures('in-progress')">
+              <span class="material-icons">pending</span>
+              <span>En cours</span>
+            </button>
+            <button [class.active]="activeFilter === 'accepted'" (click)="filterCandidatures('accepted')">
+              <span class="material-icons">verified</span>
+              <span>Acceptées</span>
+            </button>
+            <button [class.active]="activeFilter === 'closed'" (click)="filterCandidatures('closed')">
+              <span class="material-icons">inventory_2</span>
+              <span>Clôturées</span>
+            </button>
+          </div>
+
+          <div class="view-options">
+            <button class="btn-icon active" title="Vue liste">
+              <span class="material-icons">view_list</span>
+            </button>
+            <button class="btn-icon" title="Vue grille">
+              <span class="material-icons">grid_view</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Liste des Candidatures -->
+        <div class="applications-list" [@staggerAnimation]="filteredCandidatures.length">
+
+          <div *ngFor="let c of filteredCandidatures; let i = index"
+               class="application-card"
+               [class]="getStatusBadgeClass(c.status)">
+
+            <!-- Barre de statut animée -->
+            <div class="card-status-bar"></div>
+
+            <!-- En-tête de la carte -->
+            <div class="card-header">
+              <div class="offer-info">
+                <div class="offer-badge" [class]="getStatusBadgeClass(c.status)">
+                  <span class="material-icons">{{ getStatusIcon(c.status) }}</span>
+                  <span>{{ getStatusLabel(c.status) }}</span>
+                </div>
+
+                <h3 class="offer-title">{{ c.appliedPosition }}</h3>
+
+                <div class="offer-meta">
+                  <span class="meta-item" *ngIf="c.fullName">
+                    <span class="material-icons">person_outline</span>
+                    {{ c.fullName }}
+                  </span>
+                  <span class="meta-item" *ngIf="c.experience !== undefined">
+                    <span class="material-icons">work_history</span>
+                    {{ c.experience }} an{{ c.experience > 1 ? 's' : '' }} d'expérience
+                  </span>
+                  <span class="meta-item">
+                    <span class="material-icons">event</span>
+                    Postulé le {{ formatDate(c.appliedDate) }}
+                  </span>
+                </div>
+              </div>
+
+<!--              &lt;!&ndash; Score AI &ndash;&gt;-->
+<!--              <div class="ai-score" *ngIf="c.aiScore" [class]="getScoreClass(c.aiScore)">-->
+<!--                <div class="score-ring">-->
+<!--                  <svg viewBox="0 0 36 36">-->
+<!--                    <path class="circle-bg"-->
+<!--                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />-->
+<!--                    <path class="circle"-->
+<!--                          [attr.stroke-dasharray]="c.aiScore + ', 100'"-->
+<!--                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />-->
+<!--                  </svg>-->
+<!--                  <div class="score-value">{{ c.aiScore }}</div>-->
+<!--                </div>-->
+<!--                <span class="score-label">Score AI</span>-->
+<!--              </div>-->
+            </div>
+
+            <!-- Corps de la carte -->
+            <div class="card-body">
+
+              <!-- Compétences -->
+              <div class="section skills-section" *ngIf="c.skills && c.skills.length > 0">
+                <div class="section-title">
+                  <span class="material-icons">psychology</span>
+                  Compétences clés
+                </div>
+                <div class="skills-cloud">
+                  <span class="skill-tag" *ngFor="let skill of c.skills">{{ skill }}</span>
+                </div>
+              </div>
+
+              <!-- Formation -->
+              <div class="section education-section" *ngIf="c.education && c.education.length > 0">
+                <div class="section-title">
+                  <span class="material-icons">school</span>
+                  Formation
+                </div>
+                <div class="education-list">
+                  <div class="edu-item" *ngFor="let edu of c.education">
+                    <div class="edu-timeline">
+                      <div class="edu-dot"></div>
+                      <div class="edu-line" *ngIf="c.education.length > 1"></div>
+                    </div>
+                    <div class="edu-content">
+                      <div class="edu-degree">{{ edu.degree }}</div>
+                      <div class="edu-school">{{ edu.institution }}</div>
+                      <div class="edu-dates" *ngIf="edu.startDate">
+                        {{ formatDate(edu.startDate) }} – {{ edu.current ? 'Présent' : formatDate(edu.endDate) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Liens -->
+              <div class="section links-section" *ngIf="c.linkedin || c.portfolio">
+                <div class="section-title">
+                  <span class="material-icons">link</span>
+                  Liens professionnels
+                </div>
+                <div class="links-list">
+                  <a *ngIf="c.linkedin" [href]="c.linkedin" target="_blank" class="link-btn linkedin">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                    LinkedIn
+                  </a>
+                  <a *ngIf="c.portfolio" [href]="c.portfolio" target="_blank" class="link-btn portfolio">
+                    <span class="material-icons">language</span>
+                    Portfolio
+                  </a>
+                </div>
+              </div>
+
+              <!-- Notes -->
+              <div class="section notes-section" *ngIf="c.notes">
+                <div class="section-title">
+                  <span class="material-icons">sticky_note_2</span>
+                  Notes
+                </div>
+                <div class="notes-content">
+                  <span class="material-icons">format_quote</span>
+                  <p>{{ c.notes }}</p>
+                </div>
               </div>
             </div>
-            <div class="status-badge" [class]="getStatusBadgeClass(app.status)">
-              <span class="material-icons icon">{{ app.statusIcon }}</span>
-              <span>{{ app.statusLabel }}</span>
-            </div>
-          </div>
 
-          <!-- Progress Section -->
-          <div class="progress-section" *ngIf="app.status !== 'rejected' && app.status !== 'accepted'">
-            <div class="progress-header">
-              <span>Progression</span>
-              <span>Étape {{ app.currentStep }} sur {{ app.totalSteps }}</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" [style.width.%]="(app.currentStep / app.totalSteps) * 100"></div>
-            </div>
-            <div class="next-step" *ngIf="app.nextStep">
-              <span class="material-icons icon">arrow_forward</span>
-              <span>Prochaine étape : <strong>{{ app.nextStep }}</strong></span>
-              <span class="step-date">{{ app.nextStepDate }}</span>
-            </div>
-          </div>
+            <!-- Pied de carte -->
+            <div class="card-footer">
+              <div class="timeline-info">
+                <div class="timeline-item">
+                  <div class="timeline-icon">
+                    <span class="material-icons">send</span>
+                  </div>
+                  <div class="timeline-text">
+                    <span class="label">Candidature envoyée</span>
+                    <span class="date">{{ formatDate(c.appliedDate) }}</span>
+                  </div>
+                </div>
 
-          <!-- AI Score Section -->
-          <div class="ai-score-section">
-            <div class="score-header">
-              <span class="material-icons icon">psychology</span>
-              <span>Score IA</span>
-            </div>
-            <div class="score-display" [class]="getScoreClass(app.aiScore)">
-              <span class="score-value">{{ app.aiScore }}</span>
-              <span class="score-label">/ 100</span>
-            </div>
-          </div>
+                <div class="timeline-connector" *ngIf="c.updatedAt"></div>
 
-          <!-- Card Footer -->
-          <div class="card-footer">
-            <div class="dates">
-              <div class="date-item">
-                <span class="material-icons icon">send</span>
-                <span>Postulé le {{ app.appliedDate }}</span>
+                <div class="timeline-item" *ngIf="c.updatedAt">
+                  <div class="timeline-icon update">
+                    <span class="material-icons">update</span>
+                  </div>
+                  <div class="timeline-text">
+                    <span class="label">Dernière mise à jour</span>
+                    <span class="date">{{ formatDate(c.updatedAt) }}</span>
+                  </div>
+                </div>
               </div>
-              <div class="date-item">
-                <span class="material-icons icon">update</span>
-                <span>Mis à jour le {{ app.updatedDate }}</span>
+
+              <div class="card-actions">
+                <button class="btn-action view" (click)="viewDetails(c)">
+                  <span class="material-icons">visibility</span>
+                  Voir détails
+                </button>
+                <button class="btn-action delete" (click)="deleteCandidature(c)">
+                  <span class="material-icons">delete_outline</span>
+                </button>
               </div>
             </div>
-            <div class="actions">
-              <button *ngIf="app.hasMessages"
-                      class="btn-icon badge"
-                      (click)="openChat(app)">
-                <span class="material-icons icon">chat</span>
-                <span class="badge-count">{{ app.messageCount }}</span>
-              </button>
-              <button class="btn-outline" (click)="viewDetails(app)">
-                <span class="material-icons icon">visibility</span>
-                Détails
-              </button>
-              <button class="btn-icon danger" (click)="deleteApplication(app)">
-                <span class="material-icons icon">delete_outline</span>
-              </button>
-            </div>
+
           </div>
         </div>
-      </div>
 
-      <!-- Empty State -->
-      <div *ngIf="filteredApplications.length === 0" class="empty-state">
-        <span class="material-icons icon">inbox</span>
-        <p>Aucune candidature trouvée</p>
-      </div>
+        <!-- État vide -->
+        <div *ngIf="filteredCandidatures.length === 0" class="empty-state">
+          <div class="empty-illustration">
+            <div class="empty-icon">
+              <span class="material-icons">inbox</span>
+            </div>
+            <div class="empty-orbit"></div>
+          </div>
+          <h3>Aucune candidature trouvée</h3>
+          <p>Vous n'avez pas encore de candidatures {{ activeFilter !== 'all' ? 'dans cette catégorie' : '' }}.</p>
+          <button class="btn-primary" routerLink="/offers">
+            <span class="material-icons">search</span>
+            Explorer les offres
+          </button>
+        </div>
+
+      </ng-container>
     </div>
   </section>
 </div>

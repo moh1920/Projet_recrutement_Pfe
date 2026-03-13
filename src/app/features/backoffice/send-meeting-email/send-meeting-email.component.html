@@ -1,0 +1,237 @@
+<div class="email-wrapper">
+
+  <!-- ===== HEADER ===== -->
+  <div class="form-header">
+    <div class="header-icon">✉️</div>
+    <div class="header-text">
+      <h2>Invitation d'entretien</h2>
+      <p>Générez et envoyez une convocation professionnelle via Gemini AI</p>
+    </div>
+  </div>
+
+  <!-- ===== STEPPER ===== -->
+  <div class="stepper">
+    <div class="step-item" [class.active]="step === 'form'" [class.done]="step === 'preview' || step === 'success'">
+      <div class="step-circle">{{ step === 'preview' || step === 'success' ? '✓' : '1' }}</div>
+      <span class="step-label">Formulaire</span>
+    </div>
+    <div class="step-line" [class.done]="step === 'preview' || step === 'success'"></div>
+    <div class="step-item" [class.active]="step === 'preview'" [class.done]="step === 'success'">
+      <div class="step-circle">{{ step === 'success' ? '✓' : '2' }}</div>
+      <span class="step-label">Prévisualisation</span>
+    </div>
+    <div class="step-line" [class.done]="step === 'success'"></div>
+    <div class="step-item" [class.active]="step === 'success'">
+      <div class="step-circle">3</div>
+      <span class="step-label">Envoi</span>
+    </div>
+  </div>
+
+  <!-- ===== ÉTAPE 1 : FORMULAIRE ===== -->
+  <div *ngIf="step === 'form'">
+    <div class="form-body">
+      <form [formGroup]="form" (ngSubmit)="onGenerate()">
+
+        <!-- Candidat -->
+        <div class="section-title">Informations du candidat</div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Nom complet <span class="required">*</span></label>
+            <input formControlName="recipientName"
+                   type="text"
+                   placeholder="Ex: Ahmed Ben Salem" />
+            <span class="field-error"
+                  *ngIf="form.get('recipientName')?.invalid && form.get('recipientName')?.touched">
+              Champ obligatoire
+            </span>
+          </div>
+
+          <div class="field">
+            <label>Email <span class="required">*</span></label>
+            <input formControlName="recipientEmail"
+                   type="email"
+                   placeholder="candidat@email.com" />
+            <span class="field-error"
+                  *ngIf="form.get('recipientEmail')?.invalid && form.get('recipientEmail')?.touched">
+              Adresse email invalide
+            </span>
+          </div>
+        </div>
+
+        <!-- Entretien -->
+        <div class="section-title">Détails de l'entretien</div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Date <span class="required">*</span></label>
+            <input formControlName="meetingDate" type="date" />
+            <span class="field-error"
+                  *ngIf="form.get('meetingDate')?.invalid && form.get('meetingDate')?.touched">
+              Champ obligatoire
+            </span>
+          </div>
+
+          <div class="field">
+            <label>Heure <span class="required">*</span></label>
+            <input formControlName="meetingTime" type="time" />
+            <span class="field-error"
+                  *ngIf="form.get('meetingTime')?.invalid && form.get('meetingTime')?.touched">
+              Champ obligatoire
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Poste / Spécialité <span class="required">*</span></label>
+          <input formControlName="meetingSubject"
+                 type="text"
+                 placeholder="Ex: Enseignant Spring Boot et Angular" />
+          <span class="field-error"
+                *ngIf="form.get('meetingSubject')?.invalid && form.get('meetingSubject')?.touched">
+            Champ obligatoire
+          </span>
+        </div>
+
+        <!-- Type -->
+        <div class="section-title">Mode de l'entretien</div>
+
+        <div class="field">
+          <label>Type <span class="required">*</span></label>
+          <div class="toggle-group">
+            <label class="toggle-option" [class.active]="interviewType === 'ONLINE'">
+              <input type="radio" formControlName="interviewType" value="ONLINE" />
+              💻 En ligne
+            </label>
+            <label class="toggle-option" [class.active]="interviewType === 'PRESENTIEL'">
+              <input type="radio" formControlName="interviewType" value="PRESENTIEL" />
+              🏢 Présentiel
+            </label>
+          </div>
+        </div>
+
+        <!-- Conditionnel ONLINE -->
+        <div class="field conditional-field" *ngIf="interviewType === 'ONLINE'">
+          <label>Lien / Code de la salle <span class="required">*</span></label>
+          <input formControlName="roomCode"
+                 type="text"
+                 placeholder="Ex: https://meet.jit.si/esprit-abc ou AAA_888" />
+          <span class="field-error"
+                *ngIf="form.get('roomCode')?.invalid && form.get('roomCode')?.touched">
+            Le lien ou code de salle est obligatoire
+          </span>
+        </div>
+
+        <!-- Conditionnel PRÉSENTIEL -->
+        <div class="field conditional-field" *ngIf="interviewType === 'PRESENTIEL'">
+          <label>Adresse de l'entretien <span class="required">*</span></label>
+          <input formControlName="location"
+                 type="text"
+                 placeholder="Ex: ESPRIT, 2 Rue de l'Artisanat, Ariana, Tunis" />
+          <span class="field-error"
+                *ngIf="form.get('location')?.invalid && form.get('location')?.touched">
+            L'adresse est obligatoire
+          </span>
+        </div>
+
+        <!-- Détails -->
+        <div class="section-title">Informations complémentaires</div>
+
+        <div class="field">
+          <label>Détails supplémentaires <span style="color:#aaa;font-weight:400">(optionnel)</span></label>
+          <textarea formControlName="additionalDetails"
+                    rows="3"
+                    placeholder="Documents à préparer, matériel requis, instructions particulières...">
+          </textarea>
+        </div>
+
+        <!-- Erreur globale -->
+        <div class="alert-error" *ngIf="errorMessage">
+          <span class="alert-icon">⚠️</span>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-row">
+          <button type="submit" class="btn-primary" [disabled]="isGenerating">
+            <span *ngIf="!isGenerating">✨ Générer avec Gemini AI</span>
+            <span *ngIf="isGenerating" style="display:flex;align-items:center;gap:0.5rem">
+              <span class="spinner"></span> Génération en cours...
+            </span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== ÉTAPE 2 : PRÉVISUALISATION ===== -->
+  <div *ngIf="step === 'preview'">
+
+    <div class="preview-header">
+      <span class="preview-title">Prévisualisation de l'email</span>
+      <span class="preview-badge">✓ Généré par Gemini AI</span>
+    </div>
+
+    <div class="recipient-card">
+      <div class="recipient-icon">👤</div>
+      <div class="recipient-info">
+        <div class="recipient-name">{{ preview?.recipientName }}</div>
+        <div class="recipient-email">{{ preview?.recipientEmail }}</div>
+      </div>
+    </div>
+
+    <div class="preview-body">
+
+      <div class="field" style="margin-top:0.5rem">
+        <label>Objet de l'email</label>
+        <input [(ngModel)]="editableSubject" type="text" />
+      </div>
+
+      <div class="field">
+        <label>Corps de l'email
+          <span style="color:#aaa;font-weight:400;font-size:0.78rem;margin-left:0.4rem">
+            (modifiable avant envoi)
+          </span>
+        </label>
+        <textarea [(ngModel)]="editableBody" rows="18"
+                  style="font-size:0.88rem;line-height:1.6;font-family:monospace">
+        </textarea>
+      </div>
+
+      <!-- Erreur -->
+      <div class="alert-error" *ngIf="errorMessage">
+        <span class="alert-icon">⚠️</span>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <div class="preview-actions">
+        <button class="btn-secondary" (click)="onBackToForm()" [disabled]="isSending">
+          ← Retour au formulaire
+        </button>
+        <button class="btn-primary" (click)="onSend()" [disabled]="isSending">
+          <span *ngIf="!isSending">📤 Confirmer et envoyer</span>
+          <span *ngIf="isSending" style="display:flex;align-items:center;gap:0.5rem">
+            <span class="spinner"></span> Envoi en cours...
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== ÉTAPE 3 : SUCCÈS ===== -->
+  <div *ngIf="step === 'success'" class="success-wrapper">
+    <div class="success-circle">✅</div>
+    <h2>Email envoyé avec succès !</h2>
+    <p>
+      L'invitation a bien été envoyée à
+      <strong>{{ preview?.recipientName }}</strong><br>
+      <span style="color:#aaa">{{ preview?.recipientEmail }}</span>
+    </p>
+    <button class="btn-primary" (click)="onReset()">
+      + Envoyer une autre invitation
+    </button>
+  </div>
+
+</div>

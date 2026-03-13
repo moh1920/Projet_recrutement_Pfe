@@ -1,31 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-interface Experience {
-  id: number;
-  title: string;
-  company: string;
-  location: string;
-  startDate: string;
-  endDate: string | null;
-  current: boolean;
-  description: string;
-}
-
-interface Education {
-  id: number;
-  degree: string;
-  school: string;
-  field: string;
-  year: string;
-}
-
-interface Skill {
-  name: string;
-  level: number; // 1-5
-  category: string;
-}
+import { KeycloakService } from 'keycloak-angular';
+import { ProfileRequestDTO, ProfileResponseDTO, ProfileService } from '../../../core/services/profile.service';
 
 @Component({
   selector: 'app-candidate-profile',
@@ -37,188 +14,137 @@ interface Skill {
 export class CandidateProfileComponent implements OnInit {
 
   activeTab: 'overview' | 'edit' | 'documents' | 'stats' = 'overview';
-  isEditing: boolean = false;
+  isEditing = false;
+  isLoading = true;
 
   profileForm!: FormGroup;
+  profileCurrent!: ProfileResponseDTO;
 
-  candidate = {
-    firstName: 'Ahmed',
-    lastName: 'Ben Salah',
-    email: 'ahmed.bensalah@email.com',
-    phone: '+216 98 123 456',
-    location: 'Ariana, Tunisie',
-    title: 'Ingénieur en Informatique',
-    bio: 'Passionné par l\'intelligence artificielle et le développement web. Plus de 5 ans d\'expérience dans l\'enseignement et la recherche.',
-    avatar: null,
-    linkedin: 'linkedin.com/in/ahmedbensalah',
-    portfolio: 'ahmedbensalah.dev',
-    availability: 'immediate', // immediate, one_month, three_months, not_available
-    salary: '3500-4500',
-    mobility: 'national'
-  };
-
-  experiences: Experience[] = [
-    {
-      id: 1,
-      title: 'Développeur Full Stack Senior',
-      company: 'TechCorp Tunisie',
-      location: 'Tunis',
-      startDate: '2021-03',
-      endDate: null,
-      current: true,
-      description: 'Développement d\'applications web avec Angular et Node.js. Gestion d\'équipe de 3 développeurs.'
-    },
-    {
-      id: 2,
-      title: 'Enseignant Vacataire',
-      company: 'ESPRIT',
-      location: 'Ariana',
-      startDate: '2019-09',
-      endDate: '2021-02',
-      current: false,
-      description: 'Cours de développement web et programmation orientée objet.'
-    }
-  ];
-
-  educations: Education[] = [
-    {
-      id: 1,
-      degree: 'Diplôme d\'Ingénieur',
-      school: 'ESPRIT',
-      field: 'Informatique',
-      year: '2019'
-    },
-    {
-      id: 2,
-      degree: 'Master Recherche',
-      school: 'Université de Tunis',
-      field: 'Intelligence Artificielle',
-      year: '2021'
-    }
-  ];
-
-  skills: Skill[] = [
-    { name: 'Angular', level: 5, category: 'Frontend' },
-    { name: 'TypeScript', level: 5, category: 'Frontend' },
-    { name: 'Node.js', level: 4, category: 'Backend' },
-    { name: 'Python', level: 4, category: 'Langages' },
-    { name: 'Machine Learning', level: 3, category: 'Data' },
-    { name: 'Docker', level: 3, category: 'DevOps' },
-    { name: 'PostgreSQL', level: 4, category: 'Database' },
-    { name: 'Git', level: 5, category: 'Outils' }
-  ];
-
-  documents = [
-    { name: 'CV_Ahmed_BenSalah.pdf', size: '2.4 MB', date: '15 Jan 2024', type: 'cv' },
-    { name: 'Lettre_Motivation_ESPRIT.pdf', size: '1.1 MB', date: '10 Jan 2024', type: 'letter' },
-    { name: 'Diplome_Ingenieur.pdf', size: '3.2 MB', date: '05 Jan 2024', type: 'diploma' }
-  ];
+  // Documents (gérés séparément, pas dans ProfileResponseDTO)
+  documents: { name: string; size: string; date: string; type: string }[] = [];
 
   stats = {
-    profileViews: 128,
-    applications: 3,
-    interviewRate: 67,
-    responseRate: 85,
-    profileCompletion: 92
+    profileViews: 0,
+    applications: 0,
+    interviewRate: 0,
+    responseRate: 0,
+    profileCompletion: 0
   };
 
-  skillCategories = ['Frontend', 'Backend', 'Langages', 'Data', 'DevOps', 'Database', 'Outils'];
+  skillCategories = ['Langages', 'Frameworks', 'Data', 'IA', 'ERP'];
+
+  keycloakService = inject(KeycloakService);
+  profileService = inject(ProfileService);
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.initForm();
+    this.loadProfile();
   }
 
+  // ── LOAD ────────────────────────────────────────
+
+  loadProfile(): void {
+    const userId = this.keycloakService.getKeycloakInstance().tokenParsed?.sub;
+    if (userId) {
+      this.profileService.getProfileByUserId(userId).subscribe({
+        next: (data) => {
+          this.profileCurrent = data;
+          this.stats.profileCompletion = this.computeCompletion(data);
+          this.initForm();
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+        }
+      });
+    }
+  }
+
+  // ── FORM ────────────────────────────────────────
+
   initForm(): void {
+    const p = this.profileCurrent;
     this.profileForm = this.fb.group({
-      firstName: [this.candidate.firstName, Validators.required],
-      lastName: [this.candidate.lastName, Validators.required],
-      email: [this.candidate.email, [Validators.required, Validators.email]],
-      phone: [this.candidate.phone, Validators.required],
-      location: [this.candidate.location],
-      title: [this.candidate.title],
-      bio: [this.candidate.bio],
-      linkedin: [this.candidate.linkedin],
-      portfolio: [this.candidate.portfolio],
-      availability: [this.candidate.availability],
-      salary: [this.candidate.salary],
-      mobility: [this.candidate.mobility]
+      // Informations Personnelles
+      nom:           [p?.nom          || '', Validators.required],
+      email:         [p?.email        || '', [Validators.required, Validators.email]],
+      telephone:     [p?.telephone    || '', Validators.required],
+      nationalite:   [p?.nationalite  || ''],
+      ville:         [p?.ville        || ''],
+      dateNaissance: [p?.dateNaissance|| ''],
+
+      // Formation Académique
+      niveauDiplome:    [p?.niveauDiplome    || ''],
+      specialite:       [p?.specialite       || ''],
+      universite:       [p?.universite       || ''],
+      anneeDiplome:     [p?.anneeDiplome     || null],
+      gradeAcademique:  [p?.gradeAcademique  || ''],
+
+      // Expérience Professionnelle
+      nbAnneesExperience:  [p?.nbAnneesExperience  ?? 0],
+      experienceAcademique:[p?.experienceAcademique ?? false],
+
+      // Soft Skills
+      communication: [p?.communication ?? 1, [Validators.min(1), Validators.max(5)]],
+      leadership:    [p?.leadership    ?? 1, [Validators.min(1), Validators.max(5)]],
+      espritEquipe:  [p?.espritEquipe  ?? 1, [Validators.min(1), Validators.max(5)]],
+      motivation:    [p?.motivation    || ''],
+
+      // Pédagogie
+      encadrement:          [p?.encadrement          ?? false],
+      innovationPedagogique:[p?.innovationPedagogique ?? false],
     });
   }
+
+  onSubmit(): void {
+    if (!this.profileForm.valid || !this.profileCurrent?.id) return;
+
+    const dto: ProfileRequestDTO = {
+      ...this.profileForm.value,
+      userId:            this.profileCurrent.userId,
+      institutions:      this.profileCurrent.institutions      || [],
+      modulesEnseignes:  this.profileCurrent.modulesEnseignes  || [],
+      langages:          this.profileCurrent.langages          || [],
+      frameworks:        this.profileCurrent.frameworks        || [],
+      dataSkills:        this.profileCurrent.dataSkills        || [],
+      iaSkills:          this.profileCurrent.iaSkills          || [],
+      erpSkills:         this.profileCurrent.erpSkills         || [],
+      methodesEnseignement: this.profileCurrent.methodesEnseignement || [],
+    };
+
+    this.profileService.updateProfile(this.profileCurrent.id, dto).subscribe({
+      next: (updated) => {
+        this.profileCurrent = updated;
+        this.stats.profileCompletion = this.computeCompletion(updated);
+        this.setActiveTab('overview');
+      }
+    });
+  }
+
+  cancelEdit(): void {
+    this.initForm();
+    this.setActiveTab('overview');
+  }
+
+  // ── TABS ────────────────────────────────────────
 
   setActiveTab(tab: 'overview' | 'edit' | 'documents' | 'stats'): void {
     this.activeTab = tab;
     this.isEditing = tab === 'edit';
   }
 
-  onSubmit(): void {
-    if (this.profileForm.valid) {
-      this.candidate = { ...this.candidate, ...this.profileForm.value };
-      this.isEditing = false;
-      this.activeTab = 'overview';
-      // Appel API pour sauvegarder
-      console.log('Profil mis à jour:', this.candidate);
-    }
-  }
-
-  cancelEdit(): void {
-    this.initForm();
-    this.isEditing = false;
-    this.activeTab = 'overview';
-  }
-
-  addExperience(): void {
-    const newExp: Experience = {
-      id: Date.now(),
-      title: 'Nouveau poste',
-      company: 'Entreprise',
-      location: '',
-      startDate: new Date().toISOString().split('T')[0],
-      endDate: null,
-      current: true,
-      description: ''
-    };
-    this.experiences.unshift(newExp);
-  }
-
-  removeExperience(id: number): void {
-    this.experiences = this.experiences.filter(e => e.id !== id);
-  }
-
-  addEducation(): void {
-    const newEdu: Education = {
-      id: Date.now(),
-      degree: 'Nouveau diplôme',
-      school: 'Établissement',
-      field: '',
-      year: new Date().getFullYear().toString()
-    };
-    this.educations.unshift(newEdu);
-  }
-
-  removeEducation(id: number): void {
-    this.educations = this.educations.filter(e => e.id !== id);
-  }
-
-  addSkill(): void {
-    this.skills.push({ name: 'Nouvelle compétence', level: 3, category: 'Autre' });
-  }
-
-  removeSkill(index: number): void {
-    this.skills.splice(index, 1);
-  }
-
-  getSkillLevelText(level: number): string {
-    const levels = ['Débutant', 'Intermédiaire', 'Avancé', 'Expert', 'Maître'];
-    return levels[level - 1] || 'Intermédiaire';
-  }
+  // ── DOCUMENTS ───────────────────────────────────
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      console.log('Fichier sélectionné:', file.name);
-      // Upload logique ici
+      this.documents.push({
+        name: file.name,
+        size: (file.size / 1024 / 1024).toFixed(1) + ' MB',
+        date: new Date().toLocaleDateString('fr-FR'),
+        type: 'cv'
+      });
     }
   }
 
@@ -232,13 +158,42 @@ export class CandidateProfileComponent implements OnInit {
     console.log('Téléchargement:', doc.name);
   }
 
+  // ── HELPERS ─────────────────────────────────────
+
   getInitials(): string {
-    return `${this.candidate.firstName[0]}${this.candidate.lastName[0]}`.toUpperCase();
+    if (!this.profileCurrent?.nom) return '?';
+    const parts = this.profileCurrent.nom.trim().split(' ');
+    return parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : parts[0][0].toUpperCase();
   }
 
   getCompletionColor(): string {
-    if (this.stats.profileCompletion >= 80) return '#22c55e';
-    if (this.stats.profileCompletion >= 50) return '#f59e0b';
+    const v = this.stats.profileCompletion;
+    if (v >= 80) return '#22c55e';
+    if (v >= 50) return '#f59e0b';
     return '#ef4444';
+  }
+
+  getSkillLevelText(level: number): string {
+    return ['Débutant', 'Intermédiaire', 'Avancé', 'Expert', 'Maître'][level - 1] || 'Intermédiaire';
+  }
+
+  private computeCompletion(p: ProfileResponseDTO): number {
+    const checks = [
+      !!p.nom, !!p.email, !!p.telephone, !!p.ville,
+      !!p.specialite, !!p.universite, !!p.niveauDiplome,
+      p.nbAnneesExperience > 0,
+      (p.langages?.length  || 0) > 0,
+      (p.frameworks?.length|| 0) > 0,
+      !!p.motivation,
+      !!p.cvPath,
+    ];
+    return Math.round((checks.filter(Boolean).length / checks.length) * 100);
+  }
+
+  // Helpers pour afficher les tableaux sous forme de string
+  join(arr: string[] | undefined): string {
+    return arr?.join(', ') || '—';
   }
 }
