@@ -55,6 +55,12 @@
           <mat-icon>add</mat-icon>
           Planifier
         </button>
+        <!-- Bouton déclencheur -->
+        <button mat-raised-button (click)="openLobby()">
+          <mat-icon>video_camera_front</mat-icon>
+          Nouvelle réunion
+        </button>
+
       </div>
     </div>
 
@@ -449,5 +455,6 @@
   <button mat-fab class="fab-mobile" (click)="openAddDialog()" matTooltip="Planifier un entretien">
     <mat-icon>add</mat-icon>
   </button>
+  <app-lobby-dialog #lobbyDialog></app-lobby-dialog>
 
 </div>

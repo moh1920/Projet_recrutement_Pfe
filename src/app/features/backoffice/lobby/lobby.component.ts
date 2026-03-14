@@ -29,6 +29,7 @@ export class LobbyComponent {
 
   @Output() closed = new EventEmitter<void>();
 
+  isOpen       = false;   // ← contrôle l'affichage
   meetingTitle = '';
   roomCode     = '';
   loading      = false;
@@ -37,8 +38,17 @@ export class LobbyComponent {
   private router     = inject(Router);
   private meetingApi = inject(MeetingApiService);
 
-  /* ── Close ─────────────────────────────────────────── */
+  /** Appeler depuis le parent pour ouvrir */
+  open(): void {
+    this.meetingTitle = '';
+    this.roomCode     = '';
+    this.error        = '';
+    this.loading      = false;
+    this.isOpen       = true;
+  }
+
   close(): void {
+    this.isOpen = false;
     this.closed.emit();
   }
 
@@ -48,7 +58,6 @@ export class LobbyComponent {
     }
   }
 
-  /* ── Create ────────────────────────────────────────── */
   createMeeting(): void {
     this.loading = true;
     this.error   = '';
@@ -64,7 +73,6 @@ export class LobbyComponent {
     });
   }
 
-  /* ── Join ──────────────────────────────────────────── */
   joinMeeting(): void {
     if (!this.roomCode.trim()) return;
     this.loading = true;

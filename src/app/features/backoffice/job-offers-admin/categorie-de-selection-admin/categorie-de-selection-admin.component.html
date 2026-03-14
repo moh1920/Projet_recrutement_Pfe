@@ -1,0 +1,278 @@
+<!-- categorie-de-selection-admin.component.html -->
+<div class="categories-container">
+
+  <!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+  <header class="page-header">
+    <div class="header-bg-pattern"></div>
+    <div class="header-content">
+      <div class="title-section">
+        <div class="icon-wrapper">
+          <mat-icon>tune</mat-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Catégories de Sélection</h1>
+          <p class="subtitle">Gérez les critères d'évaluation et leur pondération</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="stats-summary">
+          <div class="stat-item">
+            <span class="stat-value">{{ stats.total }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-item accent">
+            <span class="stat-value">{{ stats.totalPoids }}%</span>
+            <span class="stat-label">Poids cumulé</span>
+          </div>
+        </div>
+        <button mat-raised-button class="btn-add" (click)="openAddDialog()">
+          <mat-icon>add</mat-icon>
+          Nouvelle Catégorie
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════ TOOLBAR ═══════════════════════════ -->
+  <div class="toolbar-section">
+    <div class="filter-group">
+      <mat-form-field appearance="outline" class="search-box">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [(ngModel)]="searchText" (input)="applyFilter()"
+               placeholder="Rechercher une catégorie..." />
+        <button mat-icon-button matSuffix *ngIf="searchText" (click)="searchText=''; applyFilter()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-chip-listbox class="filter-chips">
+        <mat-chip-option *ngFor="let f of filters"
+                         [selected]="selectedFilter === f"
+                         (click)="setFilter(f)">{{ f }}</mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+    <div class="view-actions">
+      <button mat-icon-button matTooltip="Vue grille" (click)="viewMode='grid'"
+              [class.active-view]="viewMode==='grid'">
+        <mat-icon>grid_view</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Vue tableau" (click)="viewMode='table'"
+              [class.active-view]="viewMode==='table'">
+        <mat-icon>view_list</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Exporter">
+        <mat-icon>download</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ POIDS GLOBAL BAR ═══════════════════════════ -->
+  <div class="poids-banner" *ngIf="stats.total > 0">
+    <div class="poids-banner-inner">
+      <span class="poids-banner-label">
+        <mat-icon>speed</mat-icon>
+        Répartition des poids
+      </span>
+      <div class="poids-track">
+        <div class="poids-segment" *ngFor="let cat of filteredCategories"
+             [style.width.%]="cat.poids"
+             [matTooltip]="cat.nom + ' — ' + cat.poids + '%'"
+             [style.background]="getCatColor(cat.nom)">
+          <span *ngIf="(cat.poids || 0) > 8">{{ cat.poids }}%</span>
+        </div>
+      </div>
+      <span class="poids-total" [class.over]="stats.totalPoids > 100">
+        {{ stats.totalPoids }}%
+      </span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ CONTENT ═══════════════════════════ -->
+  <div class="content-area">
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-overlay">
+      <mat-spinner diameter="44"></mat-spinner>
+      <span>Chargement des catégories...</span>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!isLoading && filteredCategories.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <mat-icon>category</mat-icon>
+      </div>
+      <h3>Aucune catégorie trouvée</h3>
+      <p>Créez votre première catégorie de sélection</p>
+      <button mat-raised-button (click)="openAddDialog()">
+        <mat-icon>add</mat-icon>
+        Créer une catégorie
+      </button>
+    </div>
+
+    <!-- ── GRID VIEW ── -->
+    <div class="grid-view" *ngIf="!isLoading && viewMode === 'grid' && filteredCategories.length > 0">
+      <div class="cat-card" *ngFor="let cat of filteredCategories; let i = index"
+           [style.animation-delay]="i * 60 + 'ms'"
+           (click)="editCategorie(cat)">
+
+        <div class="cat-card-accent" [style.background]="getCatColor(cat.nom)"></div>
+
+        <div class="cat-card-header">
+          <div class="cat-icon-wrap" [style.background]="getCatColorLight(cat.nom)">
+            <mat-icon [style.color]="getCatColor(cat.nom)">{{ getCatIcon(cat.nom) }}</mat-icon>
+          </div>
+          <div class="cat-badge-poids" [style.background]="getCatColor(cat.nom)">
+            {{ cat.poids ?? 0 }}%
+          </div>
+        </div>
+
+        <div class="cat-card-body">
+          <h3 class="cat-name">{{ cat.nom }}</h3>
+          <p class="cat-desc">{{ cat.description || 'Aucune description' }}</p>
+        </div>
+
+        <div class="cat-card-footer">
+          <div class="poids-mini-bar">
+            <div class="poids-fill" [style.width.%]="cat.poids || 0"
+                 [style.background]="getCatColor(cat.nom)"></div>
+          </div>
+
+          <div class="cat-actions">
+            <button mat-icon-button class="act-edit" (click)="editCategorie(cat); $event.stopPropagation()"
+                    matTooltip="Modifier">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="act-delete" (click)="deleteCategorie(cat); $event.stopPropagation()"
+                    matTooltip="Supprimer">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+            <button mat-icon-button class="act-more" [matMenuTriggerFor]="cardMenu"
+                    (click)="$event.stopPropagation()">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #cardMenu="matMenu">
+              <button mat-menu-item (click)="viewOffres(cat)">
+                <mat-icon>work</mat-icon><span>Voir les offres liées</span>
+              </button>
+              <button mat-menu-item (click)="duplicateCategorie(cat)">
+                <mat-icon>content_copy</mat-icon><span>Dupliquer</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── TABLE VIEW ── -->
+    <div class="table-container" *ngIf="!isLoading && viewMode === 'table' && filteredCategories.length > 0"
+         style="position:relative;">
+
+      <!-- Bulk actions -->
+      <div class="table-header" *ngIf="selection.hasValue()">
+        <div class="bulk-actions">
+          <span class="selection-count">{{ selection.selected.length }} sélectionné(s)</span>
+          <button mat-stroked-button color="warn" (click)="deleteSelected()">
+            <mat-icon>delete</mat-icon>Supprimer
+          </button>
+        </div>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" matSort class="modern-table">
+
+        <!-- Select -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Nom -->
+        <ng-container matColumnDef="nom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Catégorie</th>
+          <td mat-cell *matCellDef="let cat" class="nom-cell">
+            <div class="nom-wrapper">
+              <div class="nom-dot" [style.background]="getCatColor(cat.nom)"></div>
+              <div class="nom-icon-wrap" [style.background]="getCatColorLight(cat.nom)">
+                <mat-icon [style.color]="getCatColor(cat.nom)" style="font-size:16px;width:16px;height:16px;">
+                  {{ getCatIcon(cat.nom) }}
+                </mat-icon>
+              </div>
+              <div>
+                <span class="nom-title">{{ cat.nom }}</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Description -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let cat" class="desc-cell">
+            {{ cat.description || '—' }}
+          </td>
+        </ng-container>
+
+        <!-- Poids -->
+        <ng-container matColumnDef="poids">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Poids</th>
+          <td mat-cell *matCellDef="let cat" class="poids-cell">
+            <div class="poids-display">
+              <div class="poids-bar-mini">
+                <div class="poids-fill-mini" [style.width.%]="cat.poids || 0"
+                     [style.background]="getCatColor(cat.nom)"></div>
+              </div>
+              <span class="poids-num" [style.color]="getCatColor(cat.nom)">
+                {{ cat.poids ?? 0 }}%
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let cat" class="actions-cell">
+            <div class="action-buttons">
+              <button mat-icon-button class="btn-edit" (click)="editCategorie(cat)" matTooltip="Modifier">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button class="btn-delete" (click)="deleteCategorie(cat)" matTooltip="Supprimer">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+              <button mat-icon-button class="btn-more" [matMenuTriggerFor]="tableMenu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #tableMenu="matMenu">
+                <button mat-menu-item (click)="viewOffres(cat)">
+                  <mat-icon>work</mat-icon><span>Voir les offres liées</span>
+                </button>
+                <button mat-menu-item (click)="duplicateCategorie(cat)">
+                  <mat-icon>content_copy</mat-icon><span>Dupliquer</span>
+                </button>
+              </mat-menu>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            [class.selected]="selection.isSelected(row)"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons class="modern-paginator">
+      </mat-paginator>
+    </div>
+
+  </div>
+</div>

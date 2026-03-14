@@ -1,0 +1,243 @@
+<!-- critere-de-selection-admin.component.html -->
+<div class="criteres-container">
+
+  <!-- ══════════ HEADER ══════════ -->
+  <header class="page-header">
+    <div class="header-bg-pattern"></div>
+    <div class="header-content">
+      <div class="title-section">
+        <div class="icon-wrapper">
+          <mat-icon>checklist</mat-icon>
+        </div>
+        <div>
+          <h1 class="page-title">Critères de Sélection</h1>
+          <p class="subtitle">Gérez les critères d'évaluation des candidats</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="stats-summary">
+          <div class="stat-item">
+            <span class="stat-value">{{ stats.total }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-item accent">
+            <span class="stat-value">{{ stats.avecCategories }}</span>
+            <span class="stat-label">Affectés</span>
+          </div>
+        </div>
+        <button mat-raised-button class="btn-add" (click)="openAddDialog()">
+          <mat-icon>add</mat-icon>
+          Nouveau Critère
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════ TOOLBAR ══════════ -->
+  <div class="toolbar-section">
+    <div class="filter-group">
+      <mat-form-field appearance="outline" class="search-box">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [(ngModel)]="searchText" (input)="applyFilter()"
+               placeholder="Rechercher un critère..." />
+        <button mat-icon-button matSuffix *ngIf="searchText"
+                (click)="searchText=''; applyFilter()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-chip-listbox class="filter-chips">
+        <mat-chip-option *ngFor="let f of filters"
+                         [selected]="selectedFilter === f"
+                         (click)="setFilter(f)">{{ f }}</mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+    <div class="view-actions">
+      <button mat-icon-button matTooltip="Vue grille"
+              (click)="viewMode='grid'" [class.active-view]="viewMode==='grid'">
+        <mat-icon>grid_view</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Vue tableau"
+              (click)="viewMode='table'" [class.active-view]="viewMode==='table'">
+        <mat-icon>view_list</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════ CONTENT ══════════ -->
+  <div class="content-area">
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-overlay">
+      <mat-spinner diameter="44"></mat-spinner>
+      <span>Chargement des critères...</span>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!isLoading && filteredCriteres.length === 0" class="empty-state">
+      <div class="empty-icon"><mat-icon>rule</mat-icon></div>
+      <h3>Aucun critère trouvé</h3>
+      <p>Créez votre premier critère de sélection</p>
+      <button mat-raised-button (click)="openAddDialog()">
+        <mat-icon>add</mat-icon> Créer un critère
+      </button>
+    </div>
+
+    <!-- ── GRID VIEW ── -->
+    <div class="grid-view"
+         *ngIf="!isLoading && viewMode === 'grid' && filteredCriteres.length > 0">
+
+      <div class="critere-card" *ngFor="let critere of filteredCriteres; let i = index"
+           [style.animation-delay]="i * 50 + 'ms'"
+           (click)="editCritere(critere)">
+
+        <div class="card-accent"></div>
+
+        <div class="card-header">
+          <div class="card-avatar">
+            {{ critere.nom?.charAt(0)?.toUpperCase() }}
+          </div>
+          <div class="card-categories-count"
+               [class.has-cats]="getCategoriesCount(critere) > 0">
+            <mat-icon>tune</mat-icon>
+            {{ getCategoriesCount(critere) }}
+          </div>
+        </div>
+
+        <div class="card-body">
+          <h3 class="card-nom">{{ critere.nom }}</h3>
+          <p class="card-desc">{{ critere.description || 'Aucune description' }}</p>
+        </div>
+
+        <!-- Catégories tags -->
+        <div class="card-cats" *ngIf="getCategoriesCount(critere) > 0">
+          <span class="cat-tag" *ngFor="let cat of getCategories(critere) | slice:0:2">
+            {{ cat.nom }}
+          </span>
+          <span class="cat-tag more" *ngIf="getCategoriesCount(critere) > 2">
+            +{{ getCategoriesCount(critere) - 2 }}
+          </span>
+        </div>
+        <div class="card-cats empty-cats" *ngIf="getCategoriesCount(critere) === 0">
+          <span class="no-cat-label">
+            <mat-icon>link_off</mat-icon>
+            Non affecté
+          </span>
+        </div>
+
+        <div class="card-footer">
+          <div class="card-actions">
+            <button mat-icon-button class="act-edit"
+                    (click)="editCritere(critere); $event.stopPropagation()" matTooltip="Modifier">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="act-delete"
+                    (click)="deleteCritere(critere); $event.stopPropagation()" matTooltip="Supprimer">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TABLE VIEW ── -->
+    <div class="table-container"
+         *ngIf="!isLoading && viewMode === 'table' && filteredCriteres.length > 0"
+         style="position:relative;">
+
+      <div class="table-header" *ngIf="selection.hasValue()">
+        <div class="bulk-actions">
+          <span class="selection-count">{{ selection.selected.length }} sélectionné(s)</span>
+          <button mat-stroked-button color="warn" (click)="deleteSelected()">
+            <mat-icon>delete</mat-icon> Supprimer
+          </button>
+        </div>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" matSort class="modern-table">
+
+        <!-- Select -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Nom -->
+        <ng-container matColumnDef="nom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Critère</th>
+          <td mat-cell *matCellDef="let critere" class="nom-cell">
+            <div class="nom-wrapper">
+              <div class="table-avatar">{{ critere.nom?.charAt(0)?.toUpperCase() }}</div>
+              <div>
+                <span class="nom-title">{{ critere.nom }}</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Description -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let critere" class="desc-cell">
+            {{ critere.description || '—' }}
+          </td>
+        </ng-container>
+
+        <!-- Catégories -->
+        <ng-container matColumnDef="categories">
+          <th mat-header-cell *matHeaderCellDef>Catégories</th>
+          <td mat-cell *matCellDef="let critere" class="cats-cell">
+            <div class="cats-wrapper" *ngIf="getCategoriesCount(critere) > 0">
+              <span class="cat-tag" *ngFor="let cat of getCategories(critere) | slice:0:2">
+                {{ cat.nom }}
+              </span>
+              <span class="cat-tag more" *ngIf="getCategoriesCount(critere) > 2">
+                +{{ getCategoriesCount(critere) - 2 }}
+              </span>
+            </div>
+            <span class="no-cats-badge" *ngIf="getCategoriesCount(critere) === 0">
+              Non affecté
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let critere" class="actions-cell">
+            <div class="action-buttons">
+              <button mat-icon-button class="btn-edit"
+                      (click)="editCritere(critere)" matTooltip="Modifier">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button class="btn-delete"
+                      (click)="deleteCritere(critere)" matTooltip="Supprimer">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            [class.selected]="selection.isSelected(row)"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[8, 16, 32]"
+                     showFirstLastButtons class="modern-paginator">
+      </mat-paginator>
+    </div>
+
+  </div>
+</div>

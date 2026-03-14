@@ -90,4 +90,8 @@ export class JobOfferService {
   updateOfferS(id: string, param2: { status: string }) {
 
   }
+
+
+
+
 }

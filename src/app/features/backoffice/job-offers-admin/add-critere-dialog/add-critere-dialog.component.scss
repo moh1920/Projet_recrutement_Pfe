@@ -1,0 +1,298 @@
+// add-critere-dialog.component.scss
+// ==================== Variables ====================
+$esprit-red:       #8B0000;
+$esprit-red-light: #a50000;
+$esprit-red-dark:  #5c0000;
+$esprit-cream:     #fef3f3;
+$text-primary:     #1a1a2e;
+$text-secondary:   #64748b;
+$text-muted:       #94a3b8;
+$bg-light:         #f8fafc;
+$white:            #ffffff;
+$success:          #10b981;
+$warning:          #f59e0b;
+$info:             #3b82f6;
+$border:           #e2e8f0;
+
+@mixin shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+@mixin shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04); }
+
+// ==================== Wrapper ====================
+.esprit-dialog-container {
+  min-width: 560px;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+// ==================== Header ====================
+.dlg-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 45%, $esprit-red 100%);
+  color: #fff;
+  overflow: hidden;
+
+  .dlg-header-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .dlg-header-content {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; gap: 14px;
+  }
+
+  .dlg-icon-wrap {
+    width: 46px; height: 46px;
+    background: rgba(#fff, 0.12);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(#fff, 0.2);
+    flex-shrink: 0;
+    mat-icon { font-size: 24px; color: #fff; }
+  }
+
+  .dlg-header-text {
+    h2 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.2px; color: #fff; }
+    p  { margin: 2px 0 0; font-size: 0.8rem; opacity: 0.75; color: #fff; font-weight: 400; }
+  }
+
+  .dlg-close-btn {
+    position: relative; z-index: 1;
+    color: rgba(#fff, 0.8); transition: all 0.2s; margin-left: auto;
+    &:hover { color: #fff; background: rgba(#fff, 0.15); }
+  }
+}
+
+// ==================== Stepper ====================
+.esprit-stepper {
+  flex: 1; overflow: hidden;
+
+  ::ng-deep .mat-stepper-header-container {
+    background: $bg-light; border-bottom: 1px solid $border; padding: 0 24px;
+  }
+
+  ::ng-deep .mat-step-header {
+    padding: 12px 16px;
+    .mat-step-icon { background: $text-muted; }
+    .mat-step-icon-selected,
+    .mat-step-icon-state-edit,
+    .mat-step-icon-state-done { background: $esprit-red !important; color: $white !important; }
+    .mat-step-label {
+      font-size: 0.85rem; font-weight: 600; color: $text-secondary;
+      &.mat-step-label-active   { color: $esprit-red; }
+      &.mat-step-label-selected { color: $esprit-red; font-weight: 700; }
+    }
+    &:hover .mat-step-label { color: $esprit-red; }
+  }
+
+  ::ng-deep .mat-stepper-horizontal-line { border-top-color: $border; }
+  ::ng-deep .mat-horizontal-stepper-content { overflow: hidden; }
+}
+
+.step-label {
+  display: flex; align-items: center; gap: 6px;
+  mat-icon { font-size: 16px; width: 16px; height: 16px; }
+}
+
+// ==================== Step Body ====================
+.step-body {
+  padding: 18px 24px 14px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+// ==================== Field Wrapper ====================
+.field-wrapper {
+  display: flex; align-items: center; gap: 10px;
+  &--top { align-items: flex-start; padding-top: 18px; }
+
+  .field-ico {
+    font-size: 20px; width: 20px; height: 20px;
+    color: $text-muted; flex-shrink: 0; transition: color 0.2s;
+  }
+  &:focus-within .field-ico { color: $esprit-red; }
+}
+
+// ==================== Form Fields ====================
+.dlg-field {
+  flex: 1;
+
+  ::ng-deep {
+    .mat-mdc-form-field-subscript-wrapper { margin-top: 2px; }
+    .mat-mdc-text-field-wrapper { background: $bg-light; }
+    .mdc-text-field--outlined { --mdc-outlined-text-field-container-shape: 10px; }
+    .mdc-text-field--focused .mdc-notched-outline__leading,
+    .mdc-text-field--focused .mdc-notched-outline__notch,
+    .mdc-text-field--focused .mdc-notched-outline__trailing { border-color: $esprit-red !important; }
+    .mdc-text-field--focused .mdc-floating-label { color: $esprit-red !important; }
+  }
+}
+
+// ==================== Info Banner ====================
+.affectation-info-banner {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 14px;
+  background: rgba($info, 0.06);
+  border: 1px solid rgba($info, 0.2); border-left: 4px solid $info;
+  border-radius: 10px; font-size: 0.82rem; color: darken($info, 12%); line-height: 1.5;
+  mat-icon { color: $info; font-size: 18px; width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+  strong { font-weight: 700; }
+}
+
+// ==================== Search Bar ====================
+.offres-search-wrap {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px; background: $bg-light;
+  border-radius: 10px; border: 1px solid $border;
+  transition: border 0.2s, background 0.2s;
+  &:focus-within { border-color: $esprit-red; background: $white; @include shadow-sm; }
+
+  .search-ico { color: $text-muted; font-size: 20px; width: 20px; height: 20px; flex-shrink: 0; }
+  .offres-search-input {
+    flex: 1; border: none; background: transparent;
+    font-size: 0.875rem; outline: none; color: $text-primary;
+    &::placeholder { color: $text-muted; }
+  }
+  .search-clear {
+    width: 28px; height: 28px; line-height: 28px; color: $text-muted; flex-shrink: 0;
+    mat-icon { font-size: 16px; }
+    &:hover { color: $esprit-red; }
+  }
+}
+
+// ==================== List Header ====================
+.offres-list-header {
+  display: flex; align-items: center; justify-content: space-between; padding: 4px 2px;
+  .select-all-label  { font-size: 0.84rem; font-weight: 600; color: $text-secondary; }
+  .offres-count-label { font-size: 0.75rem; color: $text-muted; font-weight: 500; }
+}
+
+// ==================== Scroll List ====================
+.offres-list-scroll {
+  max-height: 240px; overflow-y: auto;
+  border: 1px solid $border; border-radius: 10px; background: $white;
+  &::-webkit-scrollbar { width: 5px; }
+  &::-webkit-scrollbar-thumb { background: $border; border-radius: 4px;
+    &:hover { background: darken($border, 8%); } }
+}
+
+.offres-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 40px 20px; color: $text-muted;
+  mat-icon { font-size: 48px; width: 48px; height: 48px; opacity: 0.4; }
+  p { margin: 0; font-size: 0.875rem; font-weight: 500; }
+}
+
+// ==================== Category Row ====================
+.offre-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba($border, 0.6);
+  background: $white; cursor: pointer; transition: all 0.2s;
+
+  &:last-child { border-bottom: none; }
+
+  &:hover { background: $esprit-cream; @include shadow-sm; }
+
+  &.is-selected {
+    background: $esprit-cream;
+    border-left: 3px solid $esprit-red; padding-left: 11px;
+  }
+
+  .offre-check ::ng-deep .mdc-checkbox__ripple { display: none; }
+
+  // Avatar rond avec initiale pour les catégories
+  .offre-row-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; @include shadow-sm;
+
+    // Override pour cat-avatar (initiale lettre)
+    &.cat-avatar {
+      font-size: 1rem; font-weight: 700; color: $white;
+      mat-icon { display: none; } // cache l'icône si présente
+    }
+
+    span {
+      font-size: 1rem; font-weight: 700; color: $white;
+      line-height: 1;
+    }
+  }
+
+  .offre-row-body {
+    flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;
+    .offre-row-title {
+      font-size: 0.9rem; font-weight: 600; color: $text-primary;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .offre-row-dept {
+      font-size: 0.75rem; color: $text-muted;
+      display: flex; align-items: center; gap: 4px;
+      mat-icon { font-size: 13px; width: 13px; height: 13px; flex-shrink: 0; }
+    }
+  }
+
+  .offre-row-right { flex-shrink: 0; }
+}
+
+// Poids pill pour les catégories
+.poids-pill {
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700;
+  background: rgba($esprit-red, 0.08);
+  color: $esprit-red;
+  border: 1px solid rgba($esprit-red, 0.2);
+  white-space: nowrap;
+}
+
+// ==================== Selection Pill ====================
+.selection-pill {
+  display: flex; align-items: center; gap: 8px; padding: 8px 14px;
+  background: rgba($success, 0.08); border: 1px solid rgba($success, 0.3);
+  border-radius: 10px; font-size: 0.84rem; color: darken($success, 8%);
+  mat-icon { color: $success; font-size: 18px; width: 18px; height: 18px; }
+  span { flex: 1; font-weight: 600; }
+  .clear-sel-btn {
+    width: 28px; height: 28px; line-height: 28px; color: $text-muted;
+    &:hover { color: #ef4444; }
+    mat-icon { font-size: 15px; width: 15px; height: 15px; }
+  }
+}
+
+// ==================== Step Footer ====================
+.step-footer {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 10px; padding: 14px 0 0;
+  border-top: 1px solid $border; margin-top: 4px;
+
+  .btn-cancel, .btn-back, .btn-skip {
+    border-radius: 10px; font-weight: 600;
+    color: $text-secondary; border-color: $border;
+    transition: all 0.2s; display: flex; align-items: center; gap: 6px; height: 38px;
+    &:hover { border-color: $esprit-red; color: $esprit-red; background: $esprit-cream; }
+  }
+
+  .btn-skip {
+    font-size: 0.84rem;
+    mat-icon { font-size: 16px; width: 16px; height: 16px; }
+  }
+
+  .btn-next, .btn-save {
+    background: $esprit-red !important; color: $white !important;
+    border-radius: 10px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
+    height: 38px; padding: 0 20px;
+    @include shadow-md; transition: all 0.2s;
+    mat-icon { font-size: 18px; width: 18px; height: 18px; }
+    &:hover:not(:disabled) { background: $esprit-red-dark !important; transform: translateY(-1px); }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+}
+
+.save-spinner { ::ng-deep circle { stroke: $white !important; } }

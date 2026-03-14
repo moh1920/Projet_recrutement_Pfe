@@ -408,7 +408,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.webrtcService.closeAllPeers();
     this.webrtcService.stopLocalStream();
     this.wsService.disconnect();
-    this.router.navigate(['/admin/lobby']);
+    this.router.navigate(['/admin/interviews']);
   }
 
   ngOnDestroy(): void {

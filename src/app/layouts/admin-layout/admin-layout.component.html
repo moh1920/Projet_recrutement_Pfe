@@ -5,22 +5,51 @@
                [opened]="!(isHandset$ | async)">
 
     <!-- Logo -->
-    <!-- Logo -->
     <div class="sidenav-header">
       <div class="logo">
         <img src="assets/img/img.png" alt="ESPRIT" class="logo-img">
       </div>
     </div>
 
-
     <!-- Navigation -->
     <mat-nav-list>
-      <a mat-list-item *ngFor="let item of menuItems"
-         [routerLink]="item.route"
-         routerLinkActive="active">
-        <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
-        <span matListItemTitle>{{item.label}}</span>
-      </a>
+      <ng-container *ngFor="let item of menuItems">
+
+        <!-- Item avec sous-menu -->
+        <ng-container *ngIf="item.children; else simpleItem">
+          <a mat-list-item class="parent-item" (click)="toggleSubmenu(item)"
+             [class.active-parent]="item.isExpanded">
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+            <mat-icon class="chevron-icon" [class.rotated]="item.isExpanded">
+              expand_more
+            </mat-icon>
+          </a>
+
+          <!-- Sous-menu -->
+          <div class="submenu" [class.open]="item.isExpanded">
+            <a mat-list-item
+               *ngFor="let child of item.children"
+               [routerLink]="child.route"
+               routerLinkActive="active"
+               class="submenu-item">
+              <mat-icon matListItemIcon>{{ child.icon }}</mat-icon>
+              <span matListItemTitle>{{ child.label }}</span>
+            </a>
+          </div>
+        </ng-container>
+
+        <!-- Item simple -->
+        <ng-template #simpleItem>
+          <a mat-list-item
+             [routerLink]="item.route"
+             routerLinkActive="active">
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+          </a>
+        </ng-template>
+
+      </ng-container>
     </mat-nav-list>
 
     <!-- Footer -->
@@ -40,18 +69,21 @@
         <mat-icon>menu</mat-icon>
       </button>
 
-      <span class="page-title">{{getCurrentPageTitle()}}</span>
+      <span class="page-title">{{ getCurrentPageTitle() }}</span>
 
       <span class="spacer"></span>
 
       <!-- Dark Mode Toggle -->
-      <button mat-icon-button class="theme-btn" (click)="toggleDarkMode()" [matTooltip]="isDarkMode ? 'Mode clair' : 'Mode sombre'">
-        <mat-icon>{{isDarkMode ? 'light_mode' : 'dark_mode'}}</mat-icon>
+      <button mat-icon-button class="theme-btn" (click)="toggleDarkMode()"
+              [matTooltip]="isDarkMode ? 'Mode clair' : 'Mode sombre'">
+        <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
 
       <!-- Notification -->
       <button mat-icon-button class="notification-btn" [matMenuTriggerFor]="notifMenu">
-        <mat-icon [matBadge]="notificationCount" matBadgeColor="warn" matBadgeSize="small">notifications</mat-icon>
+        <mat-icon [matBadge]="notificationCount" matBadgeColor="warn" matBadgeSize="small">
+          notifications
+        </mat-icon>
       </button>
 
       <mat-menu #notifMenu="matMenu" class="notification-menu">
@@ -61,11 +93,12 @@
         </div>
         <mat-divider></mat-divider>
         <div class="notification-list">
-          <div class="notification-item" *ngFor="let notif of notifications" [class.unread]="!notif.read">
-            <mat-icon [color]="notif.color">{{notif.icon}}</mat-icon>
+          <div class="notification-item" *ngFor="let notif of notifications"
+               [class.unread]="!notif.read">
+            <mat-icon [color]="notif.color">{{ notif.icon }}</mat-icon>
             <div class="notification-content">
-              <p>{{notif.message}}</p>
-              <span>{{notif.time}}</span>
+              <p>{{ notif.message }}</p>
+              <span>{{ notif.time }}</span>
             </div>
           </div>
         </div>
@@ -73,7 +106,7 @@
 
       <!-- User -->
       <div class="user-menu" [matMenuTriggerFor]="userMenu">
-        <span *ngIf="currentUser$ | async as user">{{user.name}}</span>
+        <span *ngIf="currentUser$ | async as user">{{ user.name }}</span>
         <mat-icon>account_circle</mat-icon>
       </div>
 

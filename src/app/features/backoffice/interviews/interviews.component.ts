@@ -1,4 +1,12 @@
-import { Component, inject, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ViewChild
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +24,7 @@ import { map, takeUntil, catchError, tap, shareReplay, switchMap } from 'rxjs/op
 import { MatChipsModule } from "@angular/material/chips";
 import { FormsModule } from "@angular/forms";
 import { MatDividerModule } from "@angular/material/divider";
+import {LobbyComponent} from "../lobby/lobby.component";
 
 
 // ==================== Interfaces ====================
@@ -97,11 +106,15 @@ interface Stats {
     MatChipsModule,
     FormsModule,
     MatDividerModule,
+    LobbyComponent
   ],
   templateUrl: './interviews.component.html',
   styleUrl: './interviews.component.scss'
 })
 export class InterviewsComponent implements OnInit, OnDestroy {
+
+  @ViewChild('lobbyDialog') lobbyDialog!: LobbyComponent;
+
 
   // ==================== Services ====================
   private interviewService = inject(InterviewService);
@@ -855,5 +868,9 @@ export class InterviewsComponent implements OnInit, OnDestroy {
       horizontalPosition: 'end',
       verticalPosition: 'top'
     });
+  }
+
+  openLobby(): void {
+    this.lobbyDialog.open();   // ← la fonction d'ouverture
   }
 }

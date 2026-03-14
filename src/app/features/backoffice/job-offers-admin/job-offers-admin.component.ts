@@ -21,6 +21,7 @@ import { Offre } from "../../../core/models/offre.model";
 import { JobOfferDialogComponent } from './job-offer-dialog/job-offer-dialog.component';
 import {CandidateService} from "../../../core/services/candidate.service";
 import {CandidatsDialogComponent} from "./candidats-dialog/candidats-dialog.component";
+import {AddCategorieDialogComponent} from "./add-categorie-dialog/add-categorie-dialog.component";
 
 @Component({
   selector: 'app-job-offers-admin',
@@ -229,5 +230,22 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
           this.loadOffers();
           });
       });
+  }
+
+
+  // ── 2a. Open to ADD a new categorie ──────────────────────────────────────────
+  openAddCategorieDialog(): void {
+    const dialogRef = this.dialog.open(AddCategorieDialogComponent, {
+      width: '640px',
+      disableClose: true,
+      data: {}           // no pre-filled data = create mode
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.success) {
+        // result.categorie = the saved CategorieDeSelection object
+        console.log('Catégorie créée :', result.categorie);
+      }
+    });
   }
 }

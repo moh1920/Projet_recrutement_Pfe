@@ -103,12 +103,12 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['admin', 'director'] } // ✅ Minuscules
       },
-      {
-        path: 'lobby',
-        loadComponent: () =>
-          import('./features/backoffice/lobby/lobby.component').then(m => m.LobbyComponent),
-        data: { roles: ['admin', 'director'] } // ✅ Minuscules
-      },
+      // {
+      //   path: 'lobby',
+      //   loadComponent: () =>
+      //     import('./features/backoffice/lobby/lobby.component').then(m => m.LobbyComponent),
+      //   data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      // },
       {
         path: 'meeting/:roomCode',
         loadComponent: () =>
@@ -124,6 +124,16 @@ export const routes: Routes = [
         path: 'candidatsDetais/:id',
         loadComponent: () =>
           import('./features/backoffice/candidates/candidats-details/candidats-details.component').then(m => m.CandidatsDetailsComponent),
+          data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },{
+        path: 'categorieSelection',
+        loadComponent: () =>
+          import('./features/backoffice/job-offers-admin/categorie-de-selection-admin/categorie-de-selection-admin.component').then(m => m.CategorieDeSelectionAdminComponent),
+          data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },{
+        path: 'critereDeSelection',
+        loadComponent: () =>
+          import('./features/backoffice/job-offers-admin/critere-de-selection-admin/critere-de-selection-admin.component').then(m => m.CritereDeSelectionAdminComponent),
           data: { roles: ['admin', 'director'] } // ✅ Minuscules
       },
     ]

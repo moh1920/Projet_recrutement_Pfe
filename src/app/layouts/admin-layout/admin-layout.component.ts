@@ -13,7 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, map, shareReplay } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
-import {AppKeycloakService} from "../../core/services/keycloak.service";
+import { AppKeycloakService } from '../../core/services/keycloak.service';
 
 interface Notification {
   icon: string;
@@ -21,6 +21,20 @@ interface Notification {
   time: string;
   color: string;
   read: boolean;
+}
+
+interface SubMenuItem {
+  icon: string;
+  label: string;
+  route: string;
+}
+
+interface MenuItem {
+  icon: string;
+  label: string;
+  route?: string;
+  children?: SubMenuItem[];
+  isExpanded?: boolean;
 }
 
 @Component({
@@ -57,19 +71,34 @@ export class AdminLayoutComponent {
       shareReplay()
     );
 
-  menuItems = [
+  menuItems: MenuItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/admin/dashboard' },
-    { icon: 'work', label: 'Offres', route: '/admin/job-offers' },
+    {
+      icon: 'work',
+      label: 'Offres',
+      isExpanded: false,
+      children: [
+        { icon: 'list', label: 'Liste des offres', route: '/admin/job-offers' },
+        { icon: 'category', label: 'Catégories de sélection', route: '/admin/categorieSelection' },
+        { icon: 'checklist', label: 'Critères de sélection', route: '/admin/critereDeSelection' },
+      ]
+    },
     { icon: 'people', label: 'Candidats', route: '/admin/candidates' },
     { icon: 'event', label: 'Entretiens', route: '/admin/interviews' },
     { icon: 'manage_accounts', label: 'Utilisateurs', route: '/admin/users' },
-    { icon: 'assignment_ind', label: 'Dossiers candidats', route: '/admin/profileCandidats' }  ];
+    { icon: 'assignment_ind', label: 'Dossiers candidats', route: '/admin/profileCandidats' },
+    { icon: 'email', label: 'Email Entretien', route: '/admin/emailSendMeeting' },
+  ];
 
   notifications: Notification[] = [
     { icon: 'person', message: 'Nouveau candidat: Ahmed Ben Ali', time: '5 min', color: 'primary', read: false },
     { icon: 'event', message: 'Entretien confirmé à 14h00', time: '30 min', color: 'accent', read: false },
     { icon: 'check_circle', message: 'Offre publiée avec succès', time: '2h', color: 'primary', read: true },
   ];
+
+  toggleSubmenu(item: MenuItem): void {
+    item.isExpanded = !item.isExpanded;
+  }
 
   getCurrentPageTitle(): string {
     return 'Administration';

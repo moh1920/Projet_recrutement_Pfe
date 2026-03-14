@@ -1,41 +1,105 @@
-/* ============================================
-   ESPRIT — Send Meeting Email Component
-   Thème : Rouge bordeaux ESPRIT + Blanc
-   ============================================ */
+// ============================================
+//   ESPRIT — Send Meeting Email Component
+//   Thème : Rouge bordeaux ESPRIT + Blanc
+// ============================================
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap');
 
+// ==================== Variables ====================
+$esprit-red:       #8B0000;
+$esprit-red-dark:  #6B0000;
+$esprit-red-light: #f9f0f0;
+$esprit-red-mid:   #c0392b;
+$text-primary:     #1a1a2e;
+$text-secondary:   #555;
+$text-muted:       #888;
+$border:           #e0e0e0;
+$bg-page:          #f4f4f6;
+$bg-card:          #ffffff;
+$success:          #1a7a4a;
+$success-bg:       #edfaf3;
+$error-color:      #c0392b;
+$error-bg:         #fff0f0;
+
+// ==================== Host CSS Variables ====================
 :host {
-  --esprit-red:       #8B0000;
-  --esprit-red-dark:  #6B0000;
-  --esprit-red-light: #f9f0f0;
-  --esprit-red-mid:   #c0392b;
-  --text-primary:     #1a1a2e;
-  --text-secondary:   #555;
-  --text-muted:       #888;
-  --border:           #e0e0e0;
-  --bg-page:          #f4f4f6;
-  --bg-card:          #ffffff;
-  --success:          #1a7a4a;
-  --success-bg:       #edfaf3;
-  --error-color:      #c0392b;
-  --error-bg:         #fff0f0;
+  --esprit-red:       #{$esprit-red};
+  --esprit-red-dark:  #{$esprit-red-dark};
+  --esprit-red-light: #{$esprit-red-light};
+  --esprit-red-mid:   #{$esprit-red-mid};
+  --text-primary:     #{$text-primary};
+  --text-secondary:   #{$text-secondary};
+  --text-muted:       #{$text-muted};
+  --border:           #{$border};
+  --bg-page:          #{$bg-page};
+  --bg-card:          #{$bg-card};
+  --success:          #{$success};
+  --success-bg:       #{$success-bg};
+  --error-color:      #{$error-color};
+  --error-bg:         #{$error-bg};
   font-family: 'Nunito', sans-serif;
 }
 
-/* ============ WRAPPER PRINCIPAL ============ */
+// ==================== Mixins ====================
+@mixin red-focus {
+  outline: none;
+  border-color: $esprit-red;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba($esprit-red, 0.08);
+}
+
+@mixin invalid-field {
+  border-color: $error-color;
+  background: #fff8f8;
+}
+
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+
+  &:active:not(:disabled) { transform: translateY(0); }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+// ==================== Animations ====================
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+// ==================== Wrapper Principal ====================
 .email-wrapper {
   max-width: 780px;
   margin: 2rem auto;
-  background: var(--bg-card);
+  background: $bg-card;
   border-radius: 16px;
-  box-shadow: 0 4px 32px rgba(139, 0, 0, 0.08), 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow:
+    0 4px 32px rgba($esprit-red, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
-/* ============ HEADER BANDE ROUGE ============ */
+// ==================== Header ====================
 .form-header {
-  background: linear-gradient(135deg, var(--esprit-red) 0%, var(--esprit-red-mid) 100%);
+  background: linear-gradient(135deg, $esprit-red 0%, $esprit-red-mid 100%);
   padding: 1.6rem 2rem;
   display: flex;
   align-items: center;
@@ -44,7 +108,7 @@
   .header-icon {
     width: 44px;
     height: 44px;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -61,20 +125,21 @@
       color: #fff;
       margin: 0 0 0.2rem;
     }
+
     p {
       font-size: 0.82rem;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255, 255, 255, 0.75);
       margin: 0;
     }
   }
 }
 
-/* ============ STEPPER ============ */
+// ==================== Stepper ====================
 .stepper {
   display: flex;
   align-items: center;
   padding: 1rem 2rem;
-  background: var(--esprit-red-light);
+  background: $esprit-red-light;
   border-bottom: 1px solid #f0d8d8;
   gap: 0;
 }
@@ -89,14 +154,14 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border: 2px solid var(--border);
+    border: 2px solid $border;
     background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--text-muted);
+    color: $text-muted;
     flex-shrink: 0;
     transition: all 0.3s;
   }
@@ -104,53 +169,58 @@
   .step-label {
     font-size: 0.78rem;
     font-weight: 500;
-    color: var(--text-muted);
+    color: $text-muted;
     white-space: nowrap;
     transition: color 0.3s;
   }
 
   &.active {
     .step-circle {
-      background: var(--esprit-red);
-      border-color: var(--esprit-red);
+      background: $esprit-red;
+      border-color: $esprit-red;
       color: #fff;
     }
-    .step-label { color: var(--esprit-red); font-weight: 700; }
+
+    .step-label {
+      color: $esprit-red;
+      font-weight: 700;
+    }
   }
 
   &.done {
     .step-circle {
-      background: var(--success);
-      border-color: var(--success);
+      background: $success;
+      border-color: $success;
       color: #fff;
     }
-    .step-label { color: var(--success); }
+
+    .step-label { color: $success; }
   }
 }
 
 .step-line {
   flex: 1;
   height: 2px;
-  background: var(--border);
+  background: $border;
   margin: 0 0.5rem;
   max-width: 60px;
   transition: background 0.3s;
 
-  &.done { background: var(--esprit-red); }
+  &.done { background: $esprit-red; }
 }
 
-/* ============ BODY DU FORMULAIRE ============ */
+// ==================== Form Body ====================
 .form-body {
   padding: 1.8rem 2rem;
 }
 
-/* ============ SECTION TITRES ============ */
+// ==================== Section Titles ====================
 .section-title {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--esprit-red);
+  color: $esprit-red;
   margin: 1.5rem 0 0.8rem;
   display: flex;
   align-items: center;
@@ -166,7 +236,7 @@
   &:first-child { margin-top: 0; }
 }
 
-/* ============ FORM GRID ============ */
+// ==================== Form Grid ====================
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -182,34 +252,31 @@
     font-size: 0.82rem;
     font-weight: 600;
     margin-bottom: 0.35rem;
-    color: var(--text-primary);
+    color: $text-primary;
 
-    .required { color: var(--esprit-red); margin-left: 2px; }
+    .required {
+      color: $esprit-red;
+      margin-left: 2px;
+    }
   }
 
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     padding: 0.65rem 0.9rem;
-    border: 1.5px solid var(--border);
+    border: 1.5px solid $border;
     border-radius: 8px;
     font-size: 0.92rem;
     font-family: 'Nunito', sans-serif;
-    color: var(--text-primary);
+    color: $text-primary;
     background: #fafafa;
     transition: all 0.2s;
 
     &::placeholder { color: #bbb; }
 
-    &:focus {
-      outline: none;
-      border-color: var(--esprit-red);
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.08);
-    }
+    &:focus { @include red-focus; }
 
-    &.ng-invalid.ng-touched {
-      border-color: var(--error-color);
-      background: #fff8f8;
-    }
+    &.ng-invalid.ng-touched { @include invalid-field; }
   }
 
   textarea {
@@ -220,19 +287,22 @@
 
 .field-error {
   font-size: 0.75rem;
-  color: var(--error-color);
+  color: $error-color;
   margin-top: 0.3rem;
   display: flex;
   align-items: center;
   gap: 0.3rem;
 
-  &::before { content: '⚠'; font-size: 0.7rem; }
+  &::before {
+    content: '⚠';
+    font-size: 0.7rem;
+  }
 }
 
-/* ============ TOGGLE TYPE ENTRETIEN ============ */
+// ==================== Toggle Type Entretien ====================
 .toggle-group {
   display: flex;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid $border;
   border-radius: 10px;
   overflow: hidden;
   width: 100%;
@@ -249,116 +319,98 @@
   font-size: 0.88rem;
   font-weight: 500;
   background: #fafafa;
-  color: var(--text-muted);
+  color: $text-muted;
   flex: 1;
-  border-right: 1.5px solid var(--border);
+  border-right: 1.5px solid $border;
   transition: all 0.2s;
   user-select: none;
 
   &:last-child { border-right: none; }
+
   input[type="radio"] { display: none; }
 
   &:hover:not(.active) {
-    background: var(--esprit-red-light);
-    color: var(--esprit-red);
+    background: $esprit-red-light;
+    color: $esprit-red;
   }
 
   &.active {
-    background: var(--esprit-red);
+    background: $esprit-red;
     color: #fff;
     font-weight: 700;
   }
 }
 
-/* ============ CHAMP CONDITIONNEL (animation) ============ */
+// ==================== Champ Conditionnel ====================
 .conditional-field {
   animation: slideDown 0.25s ease;
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+// ==================== Boutons ====================
+.btn-primary {
+  @include btn-base;
+  gap: 0.6rem;
+  background: $esprit-red;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+
+  &:hover:not(:disabled) {
+    background: $esprit-red-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba($esprit-red, 0.3);
+  }
 }
 
-/* ============ BOUTON SUBMIT ============ */
+.btn-secondary {
+  @include btn-base;
+  gap: 0.5rem;
+  background: #fff;
+  color: $text-primary;
+  border: 1.5px solid $border;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    background: #f5f5f5;
+    border-color: #ccc;
+  }
+}
+
+// ==================== Submit Row ====================
 .submit-row {
   margin-top: 1.5rem;
   display: flex;
   justify-content: flex-end;
 }
 
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: var(--esprit-red);
-  color: #fff;
-  border: none;
-  padding: 0.8rem 2rem;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  font-family: 'Nunito', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: 0.02em;
-
-  &:hover:not(:disabled) {
-    background: var(--esprit-red-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(139, 0, 0, 0.3);
-  }
-
-  &:active:not(:disabled) { transform: translateY(0); }
-
-  &:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-    transform: none;
-  }
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #fff;
-  color: var(--text-primary);
-  border: 1.5px solid var(--border);
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
-  font-size: 0.92rem;
-  font-weight: 600;
-  font-family: 'Nunito', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover:not(:disabled) {
-    background: #f5f5f5;
-    border-color: #ccc;
-  }
-
-  &:disabled { opacity: 0.6; cursor: not-allowed; }
-}
-
-/* ============ MESSAGES ERREUR GLOBALE ============ */
+// ==================== Alert Erreur ====================
 .alert-error {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  background: var(--error-bg);
+  background: $error-bg;
   border: 1px solid #f5c0c0;
-  border-left: 4px solid var(--error-color);
-  color: var(--error-color);
+  border-left: 4px solid $error-color;
+  color: $error-color;
   padding: 0.85rem 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
   font-size: 0.88rem;
 
-  .alert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .alert-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
 }
 
-/* ============ PRÉVISUALISATION ============ */
+// ==================== Prévisualisation ====================
 .preview-header {
   padding: 1.2rem 2rem;
   background: #f9f5f5;
@@ -370,7 +422,7 @@
   .preview-title {
     font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
-    color: var(--esprit-red);
+    color: $esprit-red;
     font-weight: 600;
   }
 
@@ -380,7 +432,7 @@
     gap: 0.4rem;
     background: #edfaf3;
     border: 1px solid #b2dfcc;
-    color: var(--success);
+    color: $success;
     font-size: 0.75rem;
     font-weight: 700;
     padding: 0.3rem 0.75rem;
@@ -390,7 +442,7 @@
 
 .recipient-card {
   margin: 1.5rem 2rem 0;
-  background: var(--esprit-red-light);
+  background: $esprit-red-light;
   border: 1px solid #f0d8d8;
   border-radius: 10px;
   padding: 0.85rem 1.1rem;
@@ -401,7 +453,7 @@
   .recipient-icon {
     width: 36px;
     height: 36px;
-    background: var(--esprit-red);
+    background: $esprit-red;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -415,11 +467,12 @@
     .recipient-name {
       font-weight: 700;
       font-size: 0.9rem;
-      color: var(--text-primary);
+      color: $text-primary;
     }
+
     .recipient-email {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: $text-muted;
     }
   }
 }
@@ -434,26 +487,22 @@
   justify-content: space-between;
   margin-top: 1.5rem;
   padding-top: 1.2rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid $border;
 }
 
-/* ============ SPINNER ============ */
+// ==================== Spinner ====================
 .spinner {
   display: inline-block;
   width: 15px;
   height: 15px;
-  border: 2px solid rgba(255,255,255,0.35);
+  border: 2px solid rgba(255, 255, 255, 0.35);
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* ============ SUCCÈS ============ */
+// ==================== Succès ====================
 .success-wrapper {
   padding: 3.5rem 2rem;
   text-align: center;
@@ -461,7 +510,7 @@
   .success-circle {
     width: 80px;
     height: 80px;
-    background: var(--success-bg);
+    background: $success-bg;
     border: 2px solid #b2dfcc;
     border-radius: 50%;
     display: flex;
@@ -475,30 +524,37 @@
   h2 {
     font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
-    color: var(--success);
+    color: $success;
     margin-bottom: 0.5rem;
   }
 
   p {
-    color: var(--text-secondary);
+    color: $text-secondary;
     font-size: 0.9rem;
     margin-bottom: 2rem;
 
-    strong { color: var(--text-primary); }
+    strong { color: $text-primary; }
   }
 }
 
-@keyframes popIn {
-  from { transform: scale(0.5); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-/* ============ RESPONSIVE ============ */
+// ==================== Responsive ====================
 @media (max-width: 600px) {
   .form-row { grid-template-columns: 1fr; }
+
   .form-body { padding: 1.2rem; }
+
   .form-header { padding: 1.2rem; }
+
   .toggle-group { max-width: 100%; }
-  .preview-actions { flex-direction: column; gap: 0.75rem; }
-  .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+
+  .preview-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
 }

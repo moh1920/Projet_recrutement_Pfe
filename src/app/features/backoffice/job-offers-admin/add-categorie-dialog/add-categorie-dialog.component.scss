@@ -1,0 +1,184 @@
+// add-categorie-dialog.component.scss
+// ==================== Variables ====================
+$esprit-red:       #8B0000;
+$esprit-red-light: #a50000;
+$esprit-red-dark:  #5c0000;
+$esprit-cream:     #fef3f3;
+$text-primary:     #1a1a2e;
+$text-secondary:   #64748b;
+$text-muted:       #94a3b8;
+$bg-light:         #f8fafc;
+$white:            #ffffff;
+$border:           #e2e8f0;
+
+@mixin shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+@mixin shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04); }
+
+// ==================== Wrapper ====================
+.esprit-dialog-container {
+  min-width: 520px;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+// ==================== Header ====================
+.dlg-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 45%, $esprit-red 100%);
+  color: #fff;
+  overflow: hidden;
+
+  .dlg-header-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .dlg-header-content {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; gap: 14px;
+  }
+
+  .dlg-icon-wrap {
+    width: 46px; height: 46px;
+    background: rgba(#fff, 0.12); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(#fff, 0.2); flex-shrink: 0;
+    mat-icon { font-size: 24px; color: #fff; }
+  }
+
+  .dlg-header-text {
+    h2 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.2px; color: #fff; }
+    p  { margin: 2px 0 0; font-size: 0.8rem; opacity: 0.75; color: #fff; }
+  }
+
+  .dlg-close-btn {
+    position: relative; z-index: 1; margin-left: auto;
+    color: rgba(#fff, 0.8); transition: all 0.2s;
+    &:hover { color: #fff; background: rgba(#fff, 0.15); }
+  }
+}
+
+// ==================== Form ====================
+.dlg-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ==================== Field Wrapper ====================
+.field-wrapper {
+  display: flex; align-items: center; gap: 10px;
+  &--top { align-items: flex-start; padding-top: 18px; }
+
+  .field-ico {
+    font-size: 20px; width: 20px; height: 20px;
+    color: $text-muted; flex-shrink: 0; transition: color 0.2s;
+  }
+  &:focus-within .field-ico { color: $esprit-red; }
+}
+
+// ==================== Mat Form Field ====================
+.dlg-field {
+  flex: 1;
+  ::ng-deep {
+    .mat-mdc-form-field-subscript-wrapper { margin-top: 2px; }
+    .mat-mdc-text-field-wrapper { background: $bg-light; }
+    .mdc-text-field--outlined { --mdc-outlined-text-field-container-shape: 10px; }
+    .mdc-text-field--focused .mdc-notched-outline__leading,
+    .mdc-text-field--focused .mdc-notched-outline__notch,
+    .mdc-text-field--focused .mdc-notched-outline__trailing { border-color: $esprit-red !important; }
+    .mdc-text-field--focused .mdc-floating-label { color: $esprit-red !important; }
+  }
+}
+
+// ==================== Poids Section ====================
+.poids-section {
+  background: $bg-light; border: 1px solid $border;
+  border-radius: 12px; padding: 14px 16px;
+
+  .poids-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+
+    .poids-label-group {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.875rem; font-weight: 700; color: $text-primary;
+      mat-icon { font-size: 18px; width: 18px; height: 18px; color: $esprit-red; }
+    }
+
+    .poids-badge {
+      background: $esprit-red; color: $white;
+      font-size: 0.875rem; font-weight: 800;
+      padding: 3px 14px; border-radius: 20px;
+      min-width: 52px; text-align: center;
+      @include shadow-sm;
+    }
+  }
+
+  .esprit-slider {
+    width: 100%; margin: 0 -4px;
+    ::ng-deep {
+      .mdc-slider__track--active_fill          { background: $esprit-red !important; }
+      .mdc-slider__thumb-knob                  { background: $esprit-red !important; border-color: $esprit-red !important; }
+      .mdc-slider__thumb--focused .mdc-slider__thumb-knob { box-shadow: 0 0 0 6px rgba($esprit-red,.15) !important; }
+      .mdc-slider__value-indicator-container   { bottom: 44px !important; }
+      .mdc-slider__value-indicator             { background: $esprit-red !important;
+        &::before { border-top-color: $esprit-red !important; } }
+    }
+  }
+
+  .poids-scale {
+    display: flex; justify-content: space-between;
+    font-size: 0.7rem; color: $text-muted; font-weight: 500; margin-top: 2px;
+  }
+
+  .poids-preview-bar {
+    height: 8px; background: $border; border-radius: 6px;
+    margin-top: 10px; overflow: hidden;
+    .poids-preview-fill {
+      height: 100%;
+      background: linear-gradient(90deg, $esprit-red-dark 0%, $esprit-red 60%, lighten($esprit-red, 10%) 100%);
+      border-radius: 6px; transition: width 0.3s ease;
+    }
+  }
+}
+
+// ==================== Footer ====================
+.dlg-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid $border;
+  margin-top: 4px;
+
+  .btn-cancel {
+    border-radius: 10px; font-weight: 600;
+    color: $text-secondary; border-color: $border;
+    height: 40px; transition: all 0.2s;
+    &:hover { border-color: $esprit-red; color: $esprit-red; background: $esprit-cream; }
+  }
+
+  .btn-save {
+    background: $esprit-red !important; color: $white !important;
+    border-radius: 10px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
+    height: 40px; padding: 0 22px;
+    @include shadow-md; transition: all 0.2s;
+    mat-icon { font-size: 18px; width: 18px; height: 18px; }
+    &:hover:not(:disabled) { background: $esprit-red-dark !important; transform: translateY(-1px); }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+}
+
+.save-spinner {
+  ::ng-deep circle { stroke: $white !important; }
+}
