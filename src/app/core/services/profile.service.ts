@@ -1,11 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // ══════════════════════════════════════════════════
 // INTERFACES
 // ══════════════════════════════════════════════════
 
+
+export interface DocumentResponse {
+  name: string;
+  size: string;
+  date: string;
+  type: string;
+  url: string;
+  publicId: string;
+}
 export interface ProfileRequestDTO {
   userId?: string;
 
@@ -98,8 +107,7 @@ export interface ProfileResponseDTO {
 
   // Documents
   cvPath?: string;
-  certificatsPath?: string[];
-
+  certificatsPath: { [key: string]: string };
   // Métadonnées
   dateCreationProfil?: string;
   dateDerniereMiseAJour?: string;
@@ -208,4 +216,20 @@ export class ProfileService {
   getProfilesWithCV(): Observable<ProfileResponseDTO[]> {
     return this.http.get<ProfileResponseDTO[]>(`${this.BASE_URL}/getProfilesWithCV`);
   }
+
+
+
+  uploadCV(idProfile: string, file: File): Observable<DocumentResponse> {
+    const formData = new FormData();
+
+    // ⚠️ MUST match @RequestParam("file")
+    formData.append('file', file);
+
+    return this.http.post<DocumentResponse>(
+      `${this.BASE_URL}/${idProfile}/upload-cv`,
+      formData
+    );
+  }
+
+
 }

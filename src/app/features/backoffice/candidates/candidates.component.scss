@@ -185,6 +185,31 @@ $status-en-attente: #64748b;
   }
 }
 
+.offre-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+.offre-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b91c1c;
+  flex-shrink: 0;
+}
+
+.offre-row {
+  font-size: 13px;
+  font-weight: 500;
+  color: #b91c1c;
+  white-space: nowrap;
+}
+
 // Toolbar Section
 .toolbar-section {
   display: flex;

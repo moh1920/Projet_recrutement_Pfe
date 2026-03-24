@@ -1,78 +1,72 @@
-// ============================================
-//   ESPRIT — Send Meeting Email Component
-//   Thème : Rouge bordeaux ESPRIT + Blanc
-// ============================================
+// ══════════════════════════════════════════════════════════════════════════════
+//  Invitation d'entretien — Component Styles
+//  Theme: ESPRIT Professional
+// ══════════════════════════════════════════════════════════════════════════════
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap');
+// ─── Tokens ───────────────────────────────────────────────────────────────────
+$red:           #8B0000;
+$red-light:     #a50000;
+$red-dark:      #5c0000;
+$red-subtle:    rgba(139, 0, 0, 0.08);
+$red-border:    rgba(139, 0, 0, 0.2);
 
-// ==================== Variables ====================
-$esprit-red:       #8B0000;
-$esprit-red-dark:  #6B0000;
-$esprit-red-light: #f9f0f0;
-$esprit-red-mid:   #c0392b;
-$text-primary:     #1a1a2e;
-$text-secondary:   #555;
-$text-muted:       #888;
-$border:           #e0e0e0;
-$bg-page:          #f4f4f6;
-$bg-card:          #ffffff;
-$success:          #1a7a4a;
-$success-bg:       #edfaf3;
-$error-color:      #c0392b;
-$error-bg:         #fff0f0;
+$text:          #1a1a2e;
+$text-muted:    #64748b;
+$bg:            #f8fafc;
+$white:         #ffffff;
+$border:        #e2e8f0;
 
-// ==================== Host CSS Variables ====================
-:host {
-  --esprit-red:       #{$esprit-red};
-  --esprit-red-dark:  #{$esprit-red-dark};
-  --esprit-red-light: #{$esprit-red-light};
-  --esprit-red-mid:   #{$esprit-red-mid};
-  --text-primary:     #{$text-primary};
-  --text-secondary:   #{$text-secondary};
-  --text-muted:       #{$text-muted};
-  --border:           #{$border};
-  --bg-page:          #{$bg-page};
-  --bg-card:          #{$bg-card};
-  --success:          #{$success};
-  --success-bg:       #{$success-bg};
-  --error-color:      #{$error-color};
-  --error-bg:         #{$error-bg};
-  font-family: 'Nunito', sans-serif;
+$success:       #10b981;
+$success-bg:    #d1fae5;
+$error:         #dc2626;
+$error-bg:      #fef2f2;
+$error-border:  #fecaca;
+
+$radius-sm:     8px;
+$radius-md:     12px;
+$radius-lg:     16px;
+
+$shadow-sm:     0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+$shadow-md:     0 4px 12px rgba(0,0,0,0.08);
+$shadow-red:    0 2px 10px rgba(139,0,0,0.25);
+
+// ─── Mixins ───────────────────────────────────────────────────────────────────
+@mixin flex($align: center, $justify: flex-start, $gap: 0) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  @if $gap != 0 { gap: $gap; }
 }
 
-// ==================== Mixins ====================
-@mixin red-focus {
+@mixin transition($props: all, $dur: 0.2s) {
+  transition: $props $dur ease;
+}
+
+@mixin input-base {
+  width: 100%;
+  padding: 0.6875rem 0.875rem;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  color: $text;
+  background: $bg;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
   outline: none;
-  border-color: $esprit-red;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba($esprit-red, 0.08);
-}
+  box-sizing: border-box;
+  @include transition(border-color box-shadow);
 
-@mixin invalid-field {
-  border-color: $error-color;
-  background: #fff8f8;
-}
+  &::placeholder { color: lighten($text-muted, 20%); }
 
-@mixin btn-base {
-  display: inline-flex;
-  align-items: center;
-  font-family: 'Nunito', sans-serif;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-
-  &:active:not(:disabled) { transform: translateY(0); }
-
-  &:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-    transform: none;
+  &:focus {
+    border-color: $red;
+    background: $white;
+    box-shadow: 0 0 0 3px $red-subtle;
   }
 }
 
-// ==================== Animations ====================
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
+// ─── Animations ───────────────────────────────────────────────────────────────
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -80,118 +74,109 @@ $error-bg:         #fff0f0;
   to { transform: rotate(360deg); }
 }
 
-@keyframes popIn {
-  from { transform: scale(0.5); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+@keyframes successPop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-// ==================== Wrapper Principal ====================
+// ══════════════════════════════════════════════════════════════════════════════
+//  Wrapper
+// ══════════════════════════════════════════════════════════════════════════════
 .email-wrapper {
-  max-width: 780px;
-  margin: 2rem auto;
-  background: $bg-card;
-  border-radius: 16px;
-  box-shadow:
-    0 4px 32px rgba($esprit-red, 0.08),
-    0 1px 4px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
+  max-width: 720px;
+  margin: 0 auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: $text;
+  animation: fadeSlideUp 0.4s ease both;
 }
 
-// ==================== Header ====================
+// ══════════════════════════════════════════════════════════════════════════════
+//  Header
+// ══════════════════════════════════════════════════════════════════════════════
 .form-header {
-  background: linear-gradient(135deg, $esprit-red 0%, $esprit-red-mid 100%);
-  padding: 1.6rem 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  @include flex(center, flex-start, 1rem);
+  padding: 1.75rem 2rem;
+  background: linear-gradient(135deg, #1a1a2e 0%, $red 100%);
+  border-radius: $radius-lg $radius-lg 0 0;
+  color: $white;
 
   .header-icon {
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    flex-shrink: 0;
+    font-size: 2rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
   }
 
   .header-text {
     h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #fff;
-      margin: 0 0 0.2rem;
+      margin: 0 0 0.25rem;
+      font-size: 1.375rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
     }
 
     p {
-      font-size: 0.82rem;
-      color: rgba(255, 255, 255, 0.75);
       margin: 0;
+      font-size: 0.875rem;
+      opacity: 0.8;
     }
   }
 }
 
-// ==================== Stepper ====================
+// ══════════════════════════════════════════════════════════════════════════════
+//  Stepper
+// ══════════════════════════════════════════════════════════════════════════════
 .stepper {
-  display: flex;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: $esprit-red-light;
-  border-bottom: 1px solid #f0d8d8;
-  gap: 0;
+  @include flex(center, center, 0);
+  padding: 1.25rem 2rem;
+  background: $white;
+  border-left: 1px solid $border;
+  border-right: 1px solid $border;
+  border-bottom: 1px solid $border;
 }
 
 .step-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex: 1;
+  @include flex(center, flex-start, 0.5rem);
+  flex-direction: column;
+  text-align: center;
 
   .step-circle {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     border: 2px solid $border;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 700;
+    background: $white;
     color: $text-muted;
-    flex-shrink: 0;
-    transition: all 0.3s;
+    font-size: 0.875rem;
+    font-weight: 700;
+    @include flex(center, center);
+    @include transition();
   }
 
   .step-label {
-    font-size: 0.78rem;
-    font-weight: 500;
+    font-size: 0.75rem;
+    font-weight: 600;
     color: $text-muted;
     white-space: nowrap;
-    transition: color 0.3s;
+    @include transition(color);
   }
 
   &.active {
     .step-circle {
-      background: $esprit-red;
-      border-color: $esprit-red;
-      color: #fff;
+      background: $red;
+      border-color: $red;
+      color: $white;
+      box-shadow: $shadow-red;
     }
 
-    .step-label {
-      color: $esprit-red;
-      font-weight: 700;
-    }
+    .step-label { color: $red; }
   }
 
   &.done {
     .step-circle {
       background: $success;
       border-color: $success;
-      color: #fff;
+      color: $white;
     }
 
     .step-label { color: $success; }
@@ -203,95 +188,95 @@ $error-bg:         #fff0f0;
   height: 2px;
   background: $border;
   margin: 0 0.5rem;
-  max-width: 60px;
-  transition: background 0.3s;
+  margin-bottom: 1.25rem; // align with circles
+  @include transition(background);
 
-  &.done { background: $esprit-red; }
+  &.done { background: $success; }
 }
 
-// ==================== Form Body ====================
+// ══════════════════════════════════════════════════════════════════════════════
+//  Form Body (Step 1)
+// ══════════════════════════════════════════════════════════════════════════════
 .form-body {
-  padding: 1.8rem 2rem;
+  padding: 2rem;
+  background: $white;
+  border: 1px solid $border;
+  border-top: none;
+  border-radius: 0 0 $radius-lg $radius-lg;
 }
 
-// ==================== Section Titles ====================
+// Section title
 .section-title {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: $esprit-red;
-  margin: 1.5rem 0 0.8rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  &::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #f0d8d8;
-  }
+  color: $text-muted;
+  margin: 1.75rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $border;
 
   &:first-child { margin-top: 0; }
 }
 
-// ==================== Form Grid ====================
+// Form row
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
 }
 
+// Field
 .field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  gap: 0.375rem;
 
   label {
-    font-size: 0.82rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 0.35rem;
-    color: $text-primary;
+    color: $text;
 
-    .required {
-      color: $esprit-red;
-      margin-left: 2px;
-    }
+    .required { color: $red; margin-left: 2px; }
   }
 
-  input,
-  textarea,
-  select {
-    padding: 0.65rem 0.9rem;
-    border: 1.5px solid $border;
-    border-radius: 8px;
-    font-size: 0.92rem;
-    font-family: 'Nunito', sans-serif;
-    color: $text-primary;
-    background: #fafafa;
-    transition: all 0.2s;
-
-    &::placeholder { color: #bbb; }
-
-    &:focus { @include red-focus; }
-
-    &.ng-invalid.ng-touched { @include invalid-field; }
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="time"] {
+    @include input-base;
   }
 
   textarea {
+    @include input-base;
     resize: vertical;
-    min-height: 80px;
+    min-height: 90px;
+    line-height: 1.6;
   }
 }
 
+// Conditional field (animated reveal)
+.conditional-field {
+  animation: fadeSlideUp 0.25s ease both;
+  padding: 1.25rem;
+  background: rgba($red, 0.03);
+  border: 1px dashed $red-border;
+  border-radius: $radius-md;
+  margin-top: 0.25rem;
+}
+
+// Field error
 .field-error {
-  font-size: 0.75rem;
-  color: $error-color;
-  margin-top: 0.3rem;
+  font-size: 0.78rem;
+  color: $error;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
 
   &::before {
     content: '⚠';
@@ -299,262 +284,287 @@ $error-bg:         #fff0f0;
   }
 }
 
-// ==================== Toggle Type Entretien ====================
+// ─── Toggle group (online / présentiel) ───────────────────────────────────────
 .toggle-group {
-  display: flex;
-  border: 1.5px solid $border;
-  border-radius: 10px;
-  overflow: hidden;
-  width: 100%;
-  max-width: 320px;
+  @include flex(center, flex-start, 0.75rem);
+  flex-wrap: wrap;
 }
 
 .toggle-option {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.2rem;
+  @include flex(center, flex-start, 0.5rem);
+  padding: 0.5625rem 1.125rem;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
   cursor: pointer;
-  font-size: 0.88rem;
+  font-size: 0.9375rem;
   font-weight: 500;
-  background: #fafafa;
   color: $text-muted;
-  flex: 1;
-  border-right: 1.5px solid $border;
-  transition: all 0.2s;
+  background: $bg;
+  @include transition();
   user-select: none;
-
-  &:last-child { border-right: none; }
 
   input[type="radio"] { display: none; }
 
-  &:hover:not(.active) {
-    background: $esprit-red-light;
-    color: $esprit-red;
+  &:hover {
+    border-color: $red-border;
+    color: $red;
+    background: $red-subtle;
   }
 
   &.active {
-    background: $esprit-red;
-    color: #fff;
-    font-weight: 700;
+    border-color: $red;
+    background: $red-subtle;
+    color: $red;
+    font-weight: 600;
+    box-shadow: 0 0 0 3px rgba($red, 0.06);
   }
 }
 
-// ==================== Champ Conditionnel ====================
-.conditional-field {
-  animation: slideDown 0.25s ease;
+// ─── Alert error ─────────────────────────────────────────────────────────────
+.alert-error {
+  @include flex(flex-start, flex-start, 0.625rem);
+  padding: 0.875rem 1rem;
+  background: $error-bg;
+  border: 1px solid $error-border;
+  border-radius: $radius-sm;
+  color: $error;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 1rem;
+
+  .alert-icon { flex-shrink: 0; }
 }
 
-// ==================== Boutons ====================
+// ─── Submit row ───────────────────────────────────────────────────────────────
+.submit-row {
+  @include flex(center, flex-end);
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border;
+}
+
+// ─── Buttons ──────────────────────────────────────────────────────────────────
 .btn-primary {
-  @include btn-base;
-  gap: 0.6rem;
-  background: $esprit-red;
-  color: #fff;
-  padding: 0.8rem 2rem;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  @include flex(center, center, 0.5rem);
+  padding: 0.6875rem 1.75rem;
+  background: $red;
+  color: $white;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: $shadow-red;
+  @include transition(all, 0.2s);
 
   &:hover:not(:disabled) {
-    background: $esprit-red-dark;
+    background: $red-dark;
     transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba($esprit-red, 0.3);
+    box-shadow: 0 4px 14px rgba($red, 0.4);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
   }
 }
 
 .btn-secondary {
-  @include btn-base;
-  gap: 0.5rem;
-  background: #fff;
-  color: $text-primary;
+  @include flex(center, center, 0.5rem);
+  padding: 0.6875rem 1.5rem;
+  background: $white;
+  color: $text;
   border: 1.5px solid $border;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
-  font-size: 0.92rem;
+  border-radius: $radius-sm;
+  font-size: 0.9375rem;
   font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  @include transition();
 
   &:hover:not(:disabled) {
-    background: #f5f5f5;
-    border-color: #ccc;
+    background: $bg;
+    border-color: darken($border, 8%);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }
 
-// ==================== Submit Row ====================
-.submit-row {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: flex-end;
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba($white, 0.3);
+  border-top-color: $white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
-// ==================== Alert Erreur ====================
-.alert-error {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  background: $error-bg;
-  border: 1px solid #f5c0c0;
-  border-left: 4px solid $error-color;
-  color: $error-color;
-  padding: 0.85rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 0.88rem;
-
-  .alert-icon {
-    font-size: 1rem;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-}
-
-// ==================== Prévisualisation ====================
+// ══════════════════════════════════════════════════════════════════════════════
+//  Preview (Step 2)
+// ══════════════════════════════════════════════════════════════════════════════
 .preview-header {
-  padding: 1.2rem 2rem;
-  background: #f9f5f5;
-  border-bottom: 1px solid #f0d8d8;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex(center, space-between, 0.75rem);
+  padding: 1.25rem 2rem;
+  background: $bg;
+  border: 1px solid $border;
+  border-top: none;
+  flex-wrap: wrap;
 
   .preview-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: $esprit-red;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $text;
   }
 
   .preview-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: #edfaf3;
-    border: 1px solid #b2dfcc;
+    @include flex(center, flex-start, 0.375rem);
+    font-size: 0.8125rem;
+    font-weight: 600;
     color: $success;
-    font-size: 0.75rem;
-    font-weight: 700;
+    background: $success-bg;
+    border: 1px solid rgba($success, 0.25);
     padding: 0.3rem 0.75rem;
     border-radius: 20px;
   }
 }
 
 .recipient-card {
-  margin: 1.5rem 2rem 0;
-  background: $esprit-red-light;
-  border: 1px solid #f0d8d8;
-  border-radius: 10px;
-  padding: 0.85rem 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  @include flex(center, flex-start, 0.875rem);
+  padding: 1.25rem 2rem;
+  background: $white;
+  border: 1px solid $border;
+  border-top: none;
+  border-bottom: none;
 
   .recipient-icon {
-    width: 36px;
-    height: 36px;
-    background: $esprit-red;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    color: #fff;
+    background: linear-gradient(135deg, $red 0%, $red-light 100%);
+    color: $white;
+    font-size: 1.25rem;
+    @include flex(center, center);
     flex-shrink: 0;
+    box-shadow: $shadow-red;
   }
 
   .recipient-info {
     .recipient-name {
+      font-size: 0.9375rem;
       font-weight: 700;
-      font-size: 0.9rem;
-      color: $text-primary;
+      color: $text;
     }
 
     .recipient-email {
-      font-size: 0.8rem;
+      font-size: 0.8125rem;
       color: $text-muted;
+      margin-top: 0.125rem;
     }
   }
 }
 
 .preview-body {
-  padding: 1.2rem 2rem 2rem;
+  padding: 1.5rem 2rem 2rem;
+  background: $white;
+  border: 1px solid $border;
+  border-top: none;
+  border-radius: 0 0 $radius-lg $radius-lg;
+
+  .preview-actions {
+    @include flex(center, space-between, 1rem);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid $border;
+    flex-wrap: wrap;
+  }
 }
 
-.preview-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1.5rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid $border;
-}
-
-// ==================== Spinner ====================
-.spinner {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  flex-shrink: 0;
-}
-
-// ==================== Succès ====================
+// ══════════════════════════════════════════════════════════════════════════════
+//  Success (Step 3)
+// ══════════════════════════════════════════════════════════════════════════════
 .success-wrapper {
-  padding: 3.5rem 2rem;
+  @include flex(center, center, 1.25rem);
+  flex-direction: column;
   text-align: center;
+  padding: 4rem 2rem;
+  background: $white;
+  border: 1px solid $border;
+  border-top: none;
+  border-radius: 0 0 $radius-lg $radius-lg;
+  animation: fadeSlideUp 0.4s ease both;
 
   .success-circle {
-    width: 80px;
-    height: 80px;
-    background: $success-bg;
-    border: 2px solid #b2dfcc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    margin: 0 auto 1.5rem;
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 3.5rem;
+    line-height: 1;
+    animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 
   h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    color: $success;
-    margin-bottom: 0.5rem;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $text;
   }
 
   p {
-    color: $text-secondary;
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
+    margin: 0;
+    font-size: 1rem;
+    color: $text-muted;
+    line-height: 1.7;
 
-    strong { color: $text-primary; }
+    strong { color: $text; }
+  }
+
+  .btn-primary {
+    margin-top: 0.5rem;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
   }
 }
 
-// ==================== Responsive ====================
+// ══════════════════════════════════════════════════════════════════════════════
+//  Responsive
+// ══════════════════════════════════════════════════════════════════════════════
 @media (max-width: 600px) {
-  .form-row { grid-template-columns: 1fr; }
+  .form-header {
+    padding: 1.25rem 1.25rem;
 
-  .form-body { padding: 1.2rem; }
+    .header-text h2 { font-size: 1.125rem; }
+    .header-text p  { font-size: 0.8rem; }
+  }
 
-  .form-header { padding: 1.2rem; }
+  .form-body,
+  .preview-body {
+    padding: 1.25rem;
+  }
 
-  .toggle-group { max-width: 100%; }
+  .preview-header,
+  .recipient-card {
+    padding: 1rem 1.25rem;
+  }
 
+  .stepper { padding: 1rem 1.25rem; }
+
+  .step-label { display: none; }
+
+  .submit-row,
   .preview-actions {
     flex-direction: column;
-    gap: 0.75rem;
+    align-items: stretch;
+
+    button { width: 100%; justify-content: center; }
   }
 
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-    justify-content: center;
-  }
+  .success-wrapper { padding: 2.5rem 1.25rem; }
 }

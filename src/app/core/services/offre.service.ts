@@ -74,7 +74,7 @@ export class OffreService {
 
   affecterCriteresDeSelection(
     idOffre: string,
-    idCriteres: string[]
+    idCriteres: (string | undefined)[]
   ): Observable<Offre> {
     return this.http.put<Offre>(
       `${this.baseUrl}/affecterCriteresDeSelection/${idOffre}`,

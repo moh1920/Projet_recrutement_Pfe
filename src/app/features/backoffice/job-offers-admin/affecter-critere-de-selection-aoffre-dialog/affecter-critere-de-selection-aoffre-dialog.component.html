@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Affecter des critères de sélection</h2>
+
+<mat-dialog-content>
+  <mat-selection-list [(ngModel)]="critereDeSelectionSelected">
+    <mat-list-option
+      *ngFor="let critere of critereDeSelections"
+      [value]="critere">
+      {{ critere.nom }}
+      {{ critere.description }}
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary"
+          [disabled]="critereDeSelectionSelected.length === 0"
+          (click)="affecterCritereDeSelection()">
+    Affecter
+  </button>
+</mat-dialog-actions>

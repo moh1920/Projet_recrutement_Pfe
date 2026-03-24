@@ -2,7 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { KeycloakService } from 'keycloak-angular';
-import { ProfileRequestDTO, ProfileResponseDTO, ProfileService } from '../../../core/services/profile.service';
+import {
+  DocumentResponse,
+  ProfileRequestDTO,
+  ProfileResponseDTO,
+  ProfileService
+} from '../../../core/services/profile.service';
+import {HttpEventType} from "@angular/common/http";
 
 @Component({
   selector: 'app-candidate-profile',
@@ -16,7 +22,10 @@ export class CandidateProfileComponent implements OnInit {
   activeTab: 'overview' | 'edit' | 'documents' | 'stats' = 'overview';
   isEditing = false;
   isLoading = true;
-
+  uploadProgress = 0;
+  isUploading = false;
+  errorMessage = '';
+  documentsResponse: DocumentResponse[] = [];
   profileForm!: FormGroup;
   profileCurrent!: ProfileResponseDTO;
 
@@ -30,6 +39,12 @@ export class CandidateProfileComponent implements OnInit {
     responseRate: 0,
     profileCompletion: 0
   };
+
+
+  loadCertificate(){
+
+  }
+
 
   skillCategories = ['Langages', 'Frameworks', 'Data', 'IA', 'ERP'];
 
@@ -51,6 +66,7 @@ export class CandidateProfileComponent implements OnInit {
         next: (data) => {
           this.profileCurrent = data;
           this.stats.profileCompletion = this.computeCompletion(data);
+
           this.initForm();
           this.isLoading = false;
         },
@@ -136,18 +152,22 @@ export class CandidateProfileComponent implements OnInit {
 
   // ── DOCUMENTS ───────────────────────────────────
 
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.documents.push({
-        name: file.name,
-        size: (file.size / 1024 / 1024).toFixed(1) + ' MB',
-        date: new Date().toLocaleDateString('fr-FR'),
-        type: 'cv'
-      });
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      console.warn('No file selected');
+      return;
     }
+    const file: File = input.files[0];
+    this.profileService.uploadCV(this.profileCurrent.id, file).subscribe({
+      next: (res) => {
+        console.log('Upload success', res);
+      },
+      error: (err) => {
+        console.error('Upload failed', err);
+      }
+    });
   }
-
   deleteDocument(doc: any): void {
     if (confirm(`Supprimer ${doc.name} ?`)) {
       this.documents = this.documents.filter(d => d !== doc);

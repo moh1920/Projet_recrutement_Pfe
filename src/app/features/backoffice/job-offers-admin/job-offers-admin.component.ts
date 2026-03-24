@@ -22,6 +22,9 @@ import { JobOfferDialogComponent } from './job-offer-dialog/job-offer-dialog.com
 import {CandidateService} from "../../../core/services/candidate.service";
 import {CandidatsDialogComponent} from "./candidats-dialog/candidats-dialog.component";
 import {AddCategorieDialogComponent} from "./add-categorie-dialog/add-categorie-dialog.component";
+import {
+  AffecterCritereDeSelectionAOffreDialogComponent
+} from "./affecter-critere-de-selection-aoffre-dialog/affecter-critere-de-selection-aoffre-dialog.component";
 
 @Component({
   selector: 'app-job-offers-admin',
@@ -53,7 +56,7 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   dialog = inject(MatDialog);
   candidatesService = inject(CandidateService);
 
-  displayedColumns: string[] = ['select', 'title', 'department', 'speciality', 'type', 'workload', 'candidates', 'deadline', 'status', 'actions'];
+  displayedColumns: string[] = ['select', 'title', 'department', 'speciality', 'type', 'workload', 'candidates', 'deadline', 'status',"criteres", 'actions'];
   dataSource = new MatTableDataSource<Offre>([]);
   selection = new SelectionModel<Offre>(true, []);
 
@@ -81,7 +84,9 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
     this.isLoading = true;
     this.jobOfferService.getAllOffres().subscribe({
       next: (data) => {
-        this.dataSource.data = data.content || [];
+        // data est déjà un tableau, pas un objet paginé
+        this.dataSource.data = Array.isArray(data) ? data : data.content || [];
+        console.log(this.dataSource.data);
         this.updateStats();
         this.isLoading = false;
       },
@@ -233,18 +238,16 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   }
 
 
-  // ── 2a. Open to ADD a new categorie ──────────────────────────────────────────
-  openAddCategorieDialog(): void {
-    const dialogRef = this.dialog.open(AddCategorieDialogComponent, {
+  openAffecteCritereDeSelectionDialog(offre: Offre): void {
+    const dialogRef = this.dialog.open(AffecterCritereDeSelectionAOffreDialogComponent, {
       width: '640px',
       disableClose: true,
-      data: {}           // no pre-filled data = create mode
+      data: { offre }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result?.success) {
-        // result.categorie = the saved CategorieDeSelection object
-        console.log('Catégorie créée :', result.categorie);
+        // refresh liste si besoin
       }
     });
   }

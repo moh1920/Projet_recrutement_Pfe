@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -15,8 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import {ProfileRequestDTO, ProfileService} from '../../../core/services/profile.service';
-import {KeycloakService} from "keycloak-angular";
+import { ProfileRequestDTO, ProfileService } from '../../../core/services/profile.service';
+import { KeycloakService } from "keycloak-angular";
 
 @Component({
   selector: 'app-profile-builder',
@@ -48,7 +48,7 @@ import {KeycloakService} from "keycloak-angular";
     ])
   ]
 })
-export class ProfileBuilderComponent {
+export class ProfileBuilderComponent implements OnInit {
   private fb = inject(FormBuilder);
   private profileService = inject(ProfileService);
   private router = inject(Router);
@@ -81,11 +81,113 @@ export class ProfileBuilderComponent {
     this.initForms();
   }
 
+  ngOnInit(): void {
+    const extractedData = history.state.extractedData;
+    if (extractedData) {
+      this.patchExtractedData(extractedData);
+    }
+  }
+
+  private patchExtractedData(data: any): void {
+    if (!data) return;
+
+    // Mapping according to new LLM JSON output structure
+    if (data.identification) {
+      this.personalInfoForm.patchValue({
+        nom: data.identification.nom || this.personalInfoForm.value.nom,
+        email: data.identification.email || this.personalInfoForm.value.email,
+        telephone: data.identification.telephone || this.personalInfoForm.value.telephone
+      });
+    }
+
+    if (data.formation) {
+      this.educationForm.patchValue({
+        niveauDiplome: data.formation.niveau_diplome || this.educationForm.value.niveauDiplome,
+        specialite: data.formation.specialite || this.educationForm.value.specialite,
+        universite: data.formation.universite || this.educationForm.value.universite,
+        anneeDiplome: data.formation.annee_diplome || this.educationForm.value.anneeDiplome,
+        gradeAcademique: data.formation.grade_academique || this.educationForm.value.gradeAcademique
+      });
+    }
+
+    if (data.experience) {
+      this.experienceForm.patchValue({
+        nbAnneesExperience: data.experience.nb_annees_experience || this.experienceForm.value.nbAnneesExperience,
+        experienceAcademique: data.experience.experience_academique || this.experienceForm.value.experienceAcademique
+      });
+      
+      if (data.experience.institutions && Array.isArray(data.experience.institutions)) {
+        this.institutions.clear();
+        data.experience.institutions.forEach((inst: string) => {
+          if (inst) this.institutions.push(this.fb.control(inst, Validators.required));
+        });
+      }
+      
+      if (data.experience.modules_enseignes && Array.isArray(data.experience.modules_enseignes)) {
+        this.modulesEnseignes.clear();
+        data.experience.modules_enseignes.forEach((mod: string) => {
+          if (mod) this.modulesEnseignes.push(this.fb.control(mod, Validators.required));
+        });
+      }
+    }
+
+    if (data.competences) {
+      const getMatches = (skills: string[], predefinedList: string[]) => {
+        if (!skills || !Array.isArray(skills)) return [];
+        return predefinedList.filter(l => skills.some(s => s?.toLowerCase() === l.toLowerCase() || s?.toLowerCase().includes(l.toLowerCase()) || l.toLowerCase().includes(s?.toLowerCase())));
+      };
+
+      this.technicalSkillsForm.patchValue({
+        langages: getMatches(data.competences.langages, this.langagesList),
+        frameworks: getMatches(data.competences.frameworks, this.frameworksList),
+        dataSkills: getMatches(data.competences.data, this.dataSkillsList),
+        iaSkills: getMatches(data.competences.ia, this.iaSkillsList),
+        erpSkills: getMatches(data.competences.erp, this.erpSkillsList)
+      });
+    }
+
+    // Mapping according to Spacy NER basic output (fallback)
+    if (data.PER && data.PER.length > 0 && !data.identification?.nom) {
+      this.personalInfoForm.patchValue({ nom: data.PER[0] });
+    }
+    if (data.EMAIL && data.EMAIL.length > 0 && !data.identification?.email) {
+      this.personalInfoForm.patchValue({ email: data.EMAIL[0] });
+    }
+    if (data.PHONE && data.PHONE.length > 0 && !data.identification?.telephone) {
+      this.personalInfoForm.patchValue({ telephone: data.PHONE[0] });
+    }
+    if (data.LOC && data.LOC.length > 0 && !data.identification?.localisation) {
+      this.personalInfoForm.patchValue({ ville: data.LOC[0] });
+    }
+
+    if (data.SKILL && Array.isArray(data.SKILL)) {
+      const getMatches = (skills: string[], predefinedList: string[]) => {
+        if (!skills || !Array.isArray(skills)) return [];
+        return predefinedList.filter(l => skills.some(s => s?.toLowerCase() === l.toLowerCase() || s?.toLowerCase().includes(l.toLowerCase()) || l.toLowerCase().includes(s?.toLowerCase())));
+      };
+      
+      this.technicalSkillsForm.patchValue({
+        langages: getMatches(data.SKILL, this.langagesList),
+        frameworks: getMatches(data.SKILL, this.frameworksList)
+      });
+    }
+
+    // Support for older LLM / Hybrid model outputs (JSON objects)
+    if (data.information_personnelles) {
+      this.personalInfoForm.patchValue({
+        nom: data.information_personnelles.nom || data.information_personnelles.prenom || this.personalInfoForm.value.nom,
+        email: data.information_personnelles.email || this.personalInfoForm.value.email,
+        telephone: data.information_personnelles.telephone || this.personalInfoForm.value.telephone,
+        ville: data.information_personnelles.localisation || this.personalInfoForm.value.ville
+      });
+    }
+  }
+
   private initForms(): void {
     const userId = this.keycloak.getKeycloakInstance().tokenParsed?.sub;
 
     this.personalInfoForm = this.fb.group({
-      userId : [userId],
+      userId: [userId],
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.required],

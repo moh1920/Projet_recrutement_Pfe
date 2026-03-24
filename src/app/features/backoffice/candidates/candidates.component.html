@@ -59,6 +59,19 @@
           </mat-chip-option>
         </mat-chip-listbox>
       </div>
+
+      <!-- ✅ Chips Offre — nouveau -->
+      <div class="filter-chips offre-chips">
+    <span class="filter-label">
+    </span>
+        <mat-chip-listbox aria-label="Filtres par offre">
+          <mat-chip-option *ngFor="let offre of availableOffres"
+                           [selected]="selectedOffre === offre.id"
+                           (selectionChange)="filterByOffre(offre.id)">
+            {{ offre.title }}
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
     </div>
 
     <div class="view-actions">
@@ -206,6 +219,19 @@
           </div>
         </td>
       </ng-container>
+
+      <!-- Offre Column -->
+      <ng-container matColumnDef="offre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Offre</th>
+        <td mat-cell *matCellDef="let candidate">
+          <div class="offre-cell">
+            <span class="offre-dot"></span>
+            <span class="offre-row">{{ getOffreName(candidate.idOffre) }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+
 
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">

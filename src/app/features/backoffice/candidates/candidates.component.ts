@@ -26,6 +26,7 @@ import {takeUntil} from "rxjs/operators";
 import {InterviewDialogComponent} from "../interviews/interview-dialog/interview-dialog.component";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
+import {OffreService} from "../../../core/services/offre.service";
 
 @Component({
   selector: 'app-candidates',
@@ -59,6 +60,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   private snackBar         = inject(MatSnackBar);
   private dialog           = inject(MatDialog);
   private interviewService = inject(InterviewService);
+  private offreService = inject(OffreService);
   private router = inject(Router);
 
   // ─── ViewChild ───────────────────────────────────────────────────────────────
@@ -78,6 +80,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     'skills',
     'status',
     'appliedDate',
+    'offre',
     'actions'
   ];
 
@@ -88,7 +91,8 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     'experience',
     'skills',
     'status',
-    'appliedDate'
+    'appliedDate',
+    'offre'
   ];
 
   // ─── Filters ─────────────────────────────────────────────────────────────────
@@ -96,6 +100,10 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   // Le filterPredicate les lit directement → pas besoin de sérialiser en JSON.
   searchValue    = '';
   selectedStatus = 'Tous';
+
+  // ─── Offre Filter ─────────────────────────────────────────────────────────────
+  selectedOffre = 'Tous';
+  availableOffres: { id: string; title: string }[] = [];
 
   availableStatuses: string[] = [
     'Tous',
@@ -127,6 +135,34 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     this.loadCandidates();
   }
 
+  filterByOffre(offreId: string): void {
+    this.selectedOffre = offreId;
+    this.refreshFilter();
+  }
+
+
+  offreNameMap: { [id: string]: string } = {};
+
+
+  loadOffreNames(candidates: any[]) {
+    const uniqueIds = [...new Set(candidates.map(c => c.idOffre).filter(Boolean))];
+
+    // Reset
+    this.availableOffres = [{ id: 'Tous', title: 'Toutes les offres' }];
+
+    uniqueIds.forEach(id => {
+      this.offreService.getOffreById(id).subscribe(offre => {
+        this.offreNameMap[id] = offre.title;
+        // Ajouter à la liste des filtres
+        this.availableOffres.push({ id, title: offre.title });
+      });
+    });
+  }
+
+  getOffreName(id: string): string {
+    return this.offreNameMap[id] || '—';
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort      = this.sort;
@@ -137,6 +173,8 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     this.candidateService.getAllCandidature().subscribe({
       next: (candidates) => {
         this.dataSource.data = candidates;
+        this.loadOffreNames(candidates);
+
       },
       error: (err) => {
         console.error('Erreur chargement candidatures:', err);
@@ -163,7 +201,11 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
       const matchesStatus =
         this.selectedStatus === 'Tous' || data.status === this.selectedStatus;
 
-      return matchesSearch && matchesStatus;
+      // ✅ Nouveau filtre offre
+      const matchesOffre =
+        this.selectedOffre === 'Tous' || data.idOffre === this.selectedOffre;
+
+      return matchesSearch && matchesStatus && matchesOffre;
     };
   }
 

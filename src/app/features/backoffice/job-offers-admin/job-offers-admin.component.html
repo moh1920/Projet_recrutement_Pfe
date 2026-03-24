@@ -195,6 +195,22 @@
           </td>
         </ng-container>
 
+        <!-- Critères Column -->
+        <ng-container matColumnDef="criteres">
+          <th mat-header-cell *matHeaderCellDef> Critères </th>
+          <td mat-cell *matCellDef="let offer" class="criteres-cell">
+            <div class="criteres-list" *ngIf="offer.criteresDeSelections?.length;">
+                <span class="critere-badge" *ngFor="let critere of offer.criteresDeSelections">
+                  {{ critere.nom }}
+                </span>
+            </div>
+          </td>
+        </ng-container>
+
+
+
+
+
         <!-- Actions Column -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
@@ -215,9 +231,9 @@
                   <mat-icon>archive</mat-icon>
                   <span>Archiver</span>
                 </button>
-                <button mat-menu-item (click)="openAddCategorieDialog()">
+                <button mat-menu-item (click)="openAffecteCritereDeSelectionDialog(offer)">
                   <mat-icon>archive</mat-icon>
-                  <span>Archiver</span>
+                  <span>Affecter criteres</span>
                 </button>
               </mat-menu>
             </div>

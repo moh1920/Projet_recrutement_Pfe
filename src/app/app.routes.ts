@@ -28,6 +28,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
       },
       {
+        path: 'cv-upload',
+        loadComponent: () => import('./features/frontoffice/cv-upload/cv-upload.component').then(m => m.CvUploadComponent),
+        canActivate: [authGuard]
+      },
+      {
         path: 'profile-builder',
         loadComponent: () => import('./features/frontoffice/profile-builder/profile-builder.component').then(m => m.ProfileBuilderComponent),
         canActivate: [authGuard]
@@ -45,6 +50,11 @@ export const routes: Routes = [
       {
         path: 'candidateProfile',
         loadComponent: () => import('./features/frontoffice/candidate-profile/candidate-profile.component').then(m => m.CandidateProfileComponent),
+        canActivate: [authGuard]
+      },
+      {
+        path: 'cv',
+        loadComponent: () => import('./features/frontoffice/cv-upload/cv-upload.component').then(m => m.CvUploadComponent),
         canActivate: [authGuard]
       }
     ]
@@ -113,28 +123,28 @@ export const routes: Routes = [
         path: 'meeting/:roomCode',
         loadComponent: () =>
           import('./features/backoffice/meeting/meeting.component').then(m => m.MeetingComponent),
-          data: { roles: ['admin', 'director'] } // ✅ Minuscules
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
       },
       {
         path: 'emailSendMeeting',
         loadComponent: () =>
           import('./features/backoffice/send-meeting-email/send-meeting-email.component').then(m => m.SendMeetingEmailComponent),
-          data: { roles: ['admin', 'director'] } // ✅ Minuscules
-      },{
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      }, {
         path: 'candidatsDetais/:id',
         loadComponent: () =>
           import('./features/backoffice/candidates/candidats-details/candidats-details.component').then(m => m.CandidatsDetailsComponent),
-          data: { roles: ['admin', 'director'] } // ✅ Minuscules
-      },{
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      }, {
         path: 'categorieSelection',
         loadComponent: () =>
           import('./features/backoffice/job-offers-admin/categorie-de-selection-admin/categorie-de-selection-admin.component').then(m => m.CategorieDeSelectionAdminComponent),
-          data: { roles: ['admin', 'director'] } // ✅ Minuscules
-      },{
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      }, {
         path: 'critereDeSelection',
         loadComponent: () =>
           import('./features/backoffice/job-offers-admin/critere-de-selection-admin/critere-de-selection-admin.component').then(m => m.CritereDeSelectionAdminComponent),
-          data: { roles: ['admin', 'director'] } // ✅ Minuscules
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
       },
     ]
   },

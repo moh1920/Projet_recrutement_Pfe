@@ -473,27 +473,23 @@
             </div>
 
             <!-- Documents locaux ajoutés -->
-            <div *ngFor="let doc of documents" class="doc-item">
-              <div class="doc-icon" [class]="doc.type">
-                <span class="material-icons">
-                  {{ doc.type === 'cv' ? 'description' :
-                  doc.type === 'letter' ? 'mail' : 'school' }}
-                </span>
-              </div>
-              <div class="doc-info">
-                <h4>{{ doc.name }}</h4>
-                <span>{{ doc.size }} • {{ doc.date }}</span>
-              </div>
-              <div class="doc-actions">
-                <button class="btn-icon" (click)="downloadDocument(doc)">
-                  <span class="material-icons">download</span>
-                </button>
-                <button class="btn-icon danger" (click)="deleteDocument(doc)">
-                  <span class="material-icons">delete</span>
-                </button>
-              </div>
-            </div>
+            <div *ngFor="let doc of profileCurrent.certificatsPath | keyvalue" class="doc-item">
 
+              <div class="doc-icon cv">
+                <span class="material-icons">description</span>
+              </div>
+
+              <div class="doc-info">
+                <!-- doc.key = file name -->
+                <h4>{{ doc.key.replaceAll('_', '.') }}</h4>
+
+                <!-- doc.value = URL -->
+                <a [href]="doc.value" target="_blank">Voir / Télécharger</a>
+
+                <span>Les Certificates</span>
+              </div>
+
+            </div>
             <p *ngIf="!profileCurrent.cvPath && !documents.length" style="color:#888">
               Aucun document enregistré.
             </p>
@@ -502,7 +498,7 @@
       </div>
 
       <!-- ══════════════ STATS TAB ══════════════ -->
-      <div *ngIf="activeTab === 'stats'" class="tab-content stats-tab">
+        <div *ngIf="activeTab === 'stats'" class="tab-content stats-tab">
         <div class="stats-grid">
           <div class="stat-card large">
             <div class="stat-icon blue">

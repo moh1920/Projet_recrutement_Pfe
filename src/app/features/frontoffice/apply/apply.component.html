@@ -85,8 +85,8 @@
 
                     <mat-form-field appearance="outline" class="form-field">
                       <mat-label>Poste visé</mat-label>
-                        <input matInput formControlName="position" placeholder="Enseignant Chercheur">
-                          <mat-icon matPrefix>work</mat-icon>
+                      <input matInput formControlName="position" placeholder="Enseignant Chercheur">
+                      <mat-icon matPrefix>work</mat-icon>
                     </mat-form-field>
                   </div>
 
@@ -184,32 +184,180 @@
                   </div>
                 </div>
 
-                <!-- Results State -->
+                <!-- Results State (real API data) -->
                 <div class="analysis-results" *ngIf="analysisComplete">
                   <div class="results-header">
                     <div class="score-container">
-                      <div class="score-ring" [style.--score]="mockAnalysis.score">
-                        <div class="score-value">{{mockAnalysis.score}}%</div>
+                      <div class="score-ring" [style.--score]="displayScore">
+                        <div class="score-value">{{displayScore}}%</div>
                       </div>
                       <div class="score-label">Adéquation</div>
                     </div>
                     <div class="results-title">
                       <h2>Analyse Complétée</h2>
-                      <p>Votre profil correspond bien à ce poste</p>
+                      <p *ngIf="analysisResult">{{analysisResult.candidateName}} — {{analysisResult.offerTitle}}</p>
+                      <p *ngIf="!analysisResult">Votre profil a été analysé avec succès</p>
+                    </div>
+                  </div>
+
+                  <!-- Score breakdown (only shown when real API data is available) -->
+                  <div class="breakdown-section" *ngIf="analysisResult">
+                    <h4><mat-icon>bar_chart</mat-icon> Détail du score</h4>
+                    <div class="breakdown-grid">
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>school</mat-icon>
+                          <span>Niveau d'éducation</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div class="breakdown-fill"
+                                 [style.width.%]="(analysisResult.breakdown.educationLevel.score / analysisResult.breakdown.educationLevel.max) * 100">
+                            </div>
+                          </div>
+                          <span class="breakdown-score">
+                            {{analysisResult.breakdown.educationLevel.score}}/{{analysisResult.breakdown.educationLevel.max}}
+                          </span>
+                        </div>
+                        <small class="breakdown-comment" *ngIf="analysisResult.breakdown.educationLevel.comment">
+                          {{analysisResult.breakdown.educationLevel.comment}}
+                        </small>
+                      </div>
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>code</mat-icon>
+                          <span>Compétences</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div class="breakdown-fill"
+                                 [style.width.%]="(analysisResult.breakdown.skillsMatch.score / analysisResult.breakdown.skillsMatch.max) * 100">
+                            </div>
+                          </div>
+                          <span class="breakdown-score">
+                            {{analysisResult.breakdown.skillsMatch.score}}/{{analysisResult.breakdown.skillsMatch.max}}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>work_history</mat-icon>
+                          <span>Expérience</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div class="breakdown-fill"
+                                 [style.width.%]="(analysisResult.breakdown.experience.score / analysisResult.breakdown.experience.max) * 100">
+                            </div>
+                          </div>
+                          <span class="breakdown-score">
+                            {{analysisResult.breakdown.experience.score}}/{{analysisResult.breakdown.experience.max}}
+                          </span>
+                        </div>
+                        <small class="breakdown-comment" *ngIf="analysisResult.breakdown.experience.comment">
+                          {{analysisResult.breakdown.experience.comment}}
+                        </small>
+                      </div>
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>cast_for_education</mat-icon>
+                          <span>Expérience académique</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div class="breakdown-fill"
+                                 [style.width.%]="(analysisResult.breakdown.academicExperience.score / analysisResult.breakdown.academicExperience.max) * 100">
+                            </div>
+                          </div>
+                          <span class="breakdown-score">
+                            {{analysisResult.breakdown.academicExperience.score}}/{{analysisResult.breakdown.academicExperience.max}}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>menu_book</mat-icon>
+                          <span>Modules</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div class="breakdown-fill"
+                                 [style.width.%]="(analysisResult.breakdown.modulesAlignment.score / analysisResult.breakdown.modulesAlignment.max) * 100">
+                            </div>
+                          </div>
+                          <span class="breakdown-score">
+                            {{analysisResult.breakdown.modulesAlignment.score}}/{{analysisResult.breakdown.modulesAlignment.max}}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>biotech</mat-icon>
+                          <span>Spécialité</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div class="breakdown-fill"
+                                 [style.width.%]="(analysisResult.breakdown.specialityFit.score / analysisResult.breakdown.specialityFit.max) * 100">
+                            </div>
+                          </div>
+                          <span class="breakdown-score">
+                            {{analysisResult.breakdown.specialityFit.score}}/{{analysisResult.breakdown.specialityFit.max}}
+                          </span>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
 
                   <div class="skills-section">
                     <h4><mat-icon>verified</mat-icon> Compétences Détectées</h4>
                     <div class="skills-cloud">
-                                            <span class="skill-tag" *ngFor="let skill of mockAnalysis.skills" [class]="skill.level">
-                                                {{skill.name}}
-                                              <small>{{skill.level}}</small>
-                                            </span>
+                      <span class="skill-tag" *ngFor="let skill of displaySkills" [class]="skill.level">
+                        {{skill.name}}
+                        <small>{{skill.level}}</small>
+                      </span>
+                    </div>
+
+                    <!-- Missing skills (only when real data) -->
+                    <div *ngIf="analysisResult?.breakdown?.skillsMatch?.missingSkills?.length">
+                      <h5 style="margin-top: 12px; color: #e57373;">
+                        <mat-icon style="vertical-align:middle; font-size:16px;">warning</mat-icon>
+                        Compétences manquantes
+                      </h5>
+                      <div class="skills-cloud">
+                        <span class="skill-tag beginner"
+                              *ngFor="let skill of analysisResult!.breakdown.skillsMatch.missingSkills">
+                          {{skill}}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="experience-section">
+                  <!-- Strengths & Weaknesses (real data) -->
+                  <div class="strengths-weaknesses" *ngIf="analysisResult">
+                    <div class="sw-column strengths">
+                      <h4><mat-icon>thumb_up</mat-icon> Points forts</h4>
+                      <ul>
+                        <li *ngFor="let s of analysisResult.strengths">{{s}}</li>
+                      </ul>
+                    </div>
+                    <div class="sw-column weaknesses">
+                      <h4><mat-icon>thumb_down</mat-icon> Points à améliorer</h4>
+                      <ul>
+                        <li *ngFor="let w of analysisResult.weaknesses">{{w}}</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <!-- Experience timeline (mock fallback) -->
+                  <div class="experience-section" *ngIf="!analysisResult">
                     <h4><mat-icon>timeline</mat-icon> Expérience Détectée</h4>
                     <div class="timeline">
                       <div class="timeline-item" *ngFor="let exp of mockAnalysis.experience">
@@ -222,11 +370,11 @@
                     </div>
                   </div>
 
-                  <div class="feedback-section" [class]="mockAnalysis.feedbackType">
-                    <mat-icon>{{mockAnalysis.feedbackIcon}}</mat-icon>
+                  <div class="feedback-section" [class]="displayFeedbackType">
+                    <mat-icon>{{displayFeedbackIcon}}</mat-icon>
                     <div>
-                      <h4>{{mockAnalysis.feedbackTitle}}</h4>
-                      <p>{{mockAnalysis.feedback}}</p>
+                      <h4>{{displayFeedbackTitle}}</h4>
+                      <p>{{displayFeedback}}</p>
                     </div>
                   </div>
 
@@ -269,6 +417,14 @@
                     <div>
                       <span>Délai de réponse estimé</span>
                       <strong>3 à 5 jours ouvrés</strong>
+                    </div>
+                  </div>
+                  <!-- Show final score in confirmation if available -->
+                  <div class="detail-item" *ngIf="analysisResult">
+                    <mat-icon>analytics</mat-icon>
+                    <div>
+                      <span>Score d'adéquation IA</span>
+                      <strong>{{analysisResult.globalScore}}% — {{analysisResult.grade}}</strong>
                     </div>
                   </div>
                 </div>
