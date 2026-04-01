@@ -1,7 +1,13 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import spacy
-from utils import extract_information, CVExtraction, extract_text_from_file, extract_information_llm, extract_information_hybrid
+import json
+from utils import (
+    extract_information, CVExtraction, extract_text_from_file, 
+    extract_information_llm, extract_information_hybrid,
+    EvaluationRequest, EvaluationResult, evaluate_cv_against_offer
+)
 import os
 from dotenv import load_dotenv
 
@@ -11,6 +17,14 @@ app = FastAPI(
     title="API d'Extraction CV - Modele NER",
     description="API permettant d'extraire les données d'un CV texte au format JSON à l'aide d'un modèle SpaCy personnalisé.",
     version="1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Global variable to hold our model
@@ -136,6 +150,64 @@ async def extract_cv_file_hybrid(file: UploadFile = File(...)):
 @app.get("/health")
 def health_check():
     return {"status": "ok", "model_loaded": nlp_model is not None}
+
+@app.post("/api/v2/evaluate-cv", response_model=EvaluationResult)
+async def evaluate_cv(payload: EvaluationRequest):
+    """
+    Évaluation d'un CV par rapport à une offre d'emploi (Academic Teacher Matching).
+    Prend en entrée l'offre et les données du CV (texte ou JSON) et génère un score détaillé.
+    """
+    if not payload.cvText and not payload.cvData:
+        raise HTTPException(status_code=400, detail="Vous devez fournir au moins cvText ou cvData du candidat.")
+        
+    try:
+        result_dict = evaluate_cv_against_offer(payload)
+        return result_dict
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur lors de l'évaluation du CV par le LLM: {str(e)}")
+
+@app.post("/api/v2/evaluate-cv-file", response_model=EvaluationResult)
+async def evaluate_cv_file(
+    file: UploadFile = File(...),
+    offer_json: str = Form(...)
+):
+    """
+    Évaluation d'un CV (fichier PDF/DOCX) par rapport à une offre d'emploi.
+    L'offre doit être envoyée en tant que string JSON dans un champ 'offer_json' (multipart/form-data).
+    """
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
+        
+    try:
+        from utils import JobOffer
+        # 1. Parser l'offre depuis le string JSON form-data
+        offer_dict = json.loads(offer_json)
+        job_offer = JobOffer(**offer_dict)
+        
+        # 2. Extraire le texte du CV
+        content = await file.read()
+        extracted_text = extract_text_from_file(content, file.filename)
+        
+        if not extracted_text.strip():
+             raise HTTPException(status_code=400, detail="Impossible d'extraire du texte de ce fichier.")
+             
+        # 3. Construire la payload
+        payload = EvaluationRequest(
+            jobOffer=job_offer,
+            cvText=extracted_text
+        )
+        
+        # 4. Évaluer via LLM
+        result_dict = evaluate_cv_against_offer(payload)
+        return result_dict
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="offer_json field must be a valid JSON string.")
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur lors du traitement du fichier ou de l'évaluation: {str(e)}")
 
 # To run the app:
 # uvicorn app:app --reload

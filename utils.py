@@ -57,6 +57,60 @@ class CVExtraction(BaseModel):
     langues: List[Langue] = []
     indicateurs_ia: IndicateursIA = IndicateursIA()
 
+# --- Pydantic Models for Job Match Evaluation ---
+
+class JobOffer(BaseModel):
+    title: Optional[str] = None
+    requiredLevel: Optional[str] = None
+    minYearsExperience: int = 0
+    requiredSkills: List[str] = []
+    academicExperience: bool = False
+    modules: List[str] = []
+    department: Optional[str] = None
+    speciality: Optional[str] = None
+
+    class Config:
+        extra = 'ignore'  # Ignore extra fields like _id, createdAt, etc.
+
+class ScoreComment(BaseModel):
+    score: int
+    max: int
+    comment: str
+
+class SkillsMatch(BaseModel):
+    score: int
+    max: int
+    matchedSkills: List[str]
+    missingSkills: List[str]
+
+class ModulesAlignment(BaseModel):
+    score: int
+    max: int
+    matchedModules: List[str]
+
+class EvaluationBreakdown(BaseModel):
+    educationLevel: ScoreComment
+    skillsMatch: SkillsMatch
+    experience: ScoreComment
+    academicExperience: ScoreComment
+    modulesAlignment: ModulesAlignment
+    specialityFit: ScoreComment
+
+class EvaluationResult(BaseModel):
+    candidateName: str
+    offerTitle: str
+    globalScore: int
+    grade: str
+    breakdown: EvaluationBreakdown
+    strengths: List[str]
+    weaknesses: List[str]
+    recommendation: str
+
+class EvaluationRequest(BaseModel):
+    jobOffer: JobOffer
+    cvText: Optional[str] = None
+    cvData: Optional[dict] = None
+
 # --- Helper Logic ---
 
 def clean_llm_json(raw_text: str) -> str:
@@ -355,3 +409,101 @@ def extract_information_hybrid(text: str, nlp_model) -> dict:
     
     # 3. On passe le relais au LLM (V2) avec ce texte enrichi au lieu du texte brut
     return extract_information_llm(enriched_cv_text)
+
+
+def evaluate_cv_against_offer(request: EvaluationRequest) -> dict:
+    """Analyse un CV par rapport à une offre d'emploi et produit un score de compatibilité."""
+    if "HUGGINGFACEHUB_API_TOKEN" not in os.environ:
+        raise ValueError("Missing HUGGINGFACEHUB_API_TOKEN. Veuillez ajouter cette variable dans votre fichier .env pour utiliser l'évaluation LLM.")
+
+    parser = PydanticOutputParser(pydantic_object=EvaluationResult)
+    
+    # Using the same powerful instruct model for strict JSON output and reasoning
+    llm_endpoint = HuggingFaceEndpoint(
+        repo_id="Qwen/Qwen2.5-7B-Instruct",
+        temperature=0.01,
+        max_new_tokens=4000,
+        return_full_text=False
+    )
+    llm = ChatHuggingFace(llm=llm_endpoint)
+    
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "Tu es un assistant IA expert en recrutement académique spécialisé dans l'évaluation des candidats pour des postes d'enseignants universitaires.\n"
+                   "Tu vas recevoir une offre d'emploi au format JSON et un CV de candidat (texte ou au format JSON).\n"
+                   "Ton rôle est d'analyser le CV du candidat par rapport à l'offre d'emploi et de produire un score de compatibilité détaillé avec le JSON demandé.\n\n"
+                   "MÉTHODOLOGIE D'ÉVALUATION ET DE NOTATION OBLIGATOIRE (Total: 100 points) :\n\n"
+                   "1. Education Level (20 points):\n"
+                   "- Correspondance exacte (ex: Doctorat requis -> a Doctorat): 20/20\n"
+                   "- Un niveau en dessous (ex: Master au lieu de Doctorat): 10/20\n"
+                   "- Deux niveaux ou plus en dessous: 0/20\n\n"
+                   "2. Required Skills Match (30 points):\n"
+                   "- Score = (compétences identifiées / total requises) * 30\n"
+                   "- Prends en compte les correspondances partielles (ex: 'PyTorch' correspond à 'Deep Learning ecosystem'). Liste explicitement les compétences trouvées et manquantes deduites du CV.\n\n"
+                   "3. Years of Experience (20 points):\n"
+                   "- Atteint ou dépasse minYearsExperience: 20/20\n"
+                   "- À moins d'1 an en dessous: 12/20\n"
+                   "- À moins de 2 ans en dessous: 6/20\n"
+                   "- Plus de 2 ans en dessous: 0/20\n\n"
+                   "4. Academic Experience (10 points):\n"
+                   "- Si academicExperience = true dans l'offre :\n"
+                   "  - Le candidat a de l'expérience d'enseignement/recherche (conférences, TP, thèses encadrées, publications) : 10/10\n"
+                   "  - Aucune expérience académique trouvée : 0/10\n"
+                   "- Si academicExperience = false : auto-accorde 10/10\n\n"
+                   "5. Module/Domain Alignment (15 points):\n"
+                   "- Compare les cours enseignés / domaines de recherche avec les `modules` requis.\n"
+                   "- Alignement total (3+ modules correspondants): 15/15\n"
+                   "- Alignement partiel (1-2 modules): 8/15\n"
+                   "- Aucun alignement: 0/15\n\n"
+                   "6. Department/Speciality Fit (5 points):\n"
+                   "- Correspondance exacte de la specialite ou du department: 5/5\n"
+                   "- Domaine lié / connexe: 3/5\n"
+                   "- Non lié: 0/5\n\n"
+                   "CALCUL DU SCORE GLOBAL ET GRADE :\n"
+                   "Le score global (sur 100) est la somme exacte des 6 critères.\n"
+                   "Grade Scale :\n"
+                   "- 90-100 -> 'Excellent'\n"
+                   "- 75-89  -> 'Très Bon'\n"
+                   "- 60-74  -> 'Acceptable'\n"
+                   "- 40-59  -> 'Faible'\n"
+                   "- 0-39   -> 'Non compatible'\n\n"
+                   "RÈGLES STRICTES :\n"
+                   "- Toujours extraire les compétences du CV même si elles ne sont pas dans une section 'compétences'.\n"
+                   "- Sois strict sur le niveau du diplôme. Ne gonfle pas les scores.\n"
+                   "- Le CV peut être en français ou arabe, l'extraire correctement.\n"
+                   "- Si une information est manquante dans le CV, le score est 0 et le noter comme 'Information manquante'.\n"
+                   "- N'invente AUCUNE qualification non présente.\n\n"
+                   "INSTRUCTIONS DE FORMATAGE :\n{format_instructions}\n"
+                   "PRODUIS STRICTEMENT CE JSON. N'AJOUTE AUCUN TEXTE AUTOUR.\n"
+        ),
+        ("user", "OFFRE D'EMPLOI:\n{job_offer}\n\nDONNÉES DU CANDIDAT (Texte Brut):\n{cv_text}\n\nDONNÉES DU CANDIDAT (JSON Extrait):\n{cv_data}")
+    ])
+    
+    extraction_chain = prompt | llm
+    
+    import json
+    # Préparer les inputs
+    job_offer_str = request.jobOffer.model_dump_json() if hasattr(request.jobOffer, 'model_dump_json') else json.dumps(request.jobOffer)
+    cv_text_str = request.cvText if request.cvText else ""
+    cv_data_str = json.dumps(request.cvData) if request.cvData else ""
+    
+    resultat_brut = extraction_chain.invoke({
+        "job_offer": job_offer_str,
+        "cv_text": cv_text_str,
+        "cv_data": cv_data_str,
+        "format_instructions": parser.get_format_instructions()
+    })
+    
+    cleaned_json_text = clean_llm_json(resultat_brut.content)
+    
+    try:
+        import json_repair
+        dict_output = json_repair.loads(cleaned_json_text)
+        
+        if not isinstance(dict_output, dict):
+            raise ValueError("Le résultat n'est pas un dictionnaire JSON valide.")
+            
+        parsed_result = EvaluationResult(**dict_output)
+        return parsed_result.model_dump()
+    except Exception as e:
+        raise ValueError(f"Erreur de conversion JSON pour l'évaluation. Extrait : {cleaned_json_text[:200]}... / Erreur: {str(e)}")
+
