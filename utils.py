@@ -216,17 +216,17 @@ def extract_information(text: str, nlp_model) -> dict:
     
     for ent in doc.ents:
         if ent.label_ == 'PER':
-            person_names.append(ent.text)
+            person_names.append(ent.text.strip())
         elif ent.label_ == 'ORG':
-            orgs.append(ent.text)
+            orgs.append(ent.text.strip())
         elif ent.label_ == 'LOC':
-            locations.append(ent.text)
+            locations.append(ent.text.strip())
         elif ent.label_ in ['DATE', 'MISC']:
-            dates.append(ent.text)
+            dates.append(ent.text.strip())
         elif ent.label_ == 'SKILL_TECH':
             skills.append(clean_text(ent.text))
         elif ent.label_ == 'DIPLOMA':
-            diplomas.append(ent.text)
+            diplomas.append(ent.text.strip())
         
     # Use basic heuristic for the name (often at the very beginning of the CV)
     words = text.split()
@@ -253,8 +253,18 @@ def extract_information(text: str, nlp_model) -> dict:
             if len(clean_inst) > 5 and len(clean_inst) < 150:
                 cv.experience.institutions.append(clean_inst)
     
-    # Deduplicate and assign to formation
-    cv.experience.institutions = list(set([i for i in cv.experience.institutions if len(i.split()) > 1]))
+    # Intégrer les organisations extraites par le modèle NER
+    cv.experience.institutions.extend(orgs)
+    
+    # Déduplication robuste (case-insensitive) et mise en forme titre
+    unique_institutions = {}
+    for inst in cv.experience.institutions:
+        i_clean = inst.strip()
+        if len(i_clean.split()) > 1:
+            unique_institutions[i_clean.lower()] = i_clean.title()
+    
+    cv.experience.institutions = list(unique_institutions.values())
+    
     if cv.experience.institutions and not cv.formation.universite:
         cv.formation.universite = cv.experience.institutions[0]
         

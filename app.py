@@ -11,12 +11,35 @@ from utils import (
 import os
 from dotenv import load_dotenv
 
+from contextlib import asynccontextmanager
+
 load_dotenv() # Load environment variables from .env file
+
+# Global variable to hold our model
+nlp_model = None
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global nlp_model
+    model_dir = "./models/model_ner_cv"
+    if not os.path.exists(model_dir):
+        print(f"Warning: Modèle non trouvé dans {model_dir}. Utilisation du modèle de base fr_core_news_lg.")
+        try:
+            nlp_model = spacy.load("fr_core_news_lg")
+        except OSError:
+            import subprocess
+            subprocess.run(["python", "-m", "spacy", "download", "fr_core_news_lg"])
+            nlp_model = spacy.load("fr_core_news_lg")
+    else:
+        print(f"Loading custom NER model from {model_dir}...")
+        nlp_model = spacy.load(model_dir)
+    yield
 
 app = FastAPI(
     title="API d'Extraction CV - Modele NER",
     description="API permettant d'extraire les données d'un CV texte au format JSON à l'aide d'un modèle SpaCy personnalisé.",
-    version="1.0"
+    version="1.0",
+    lifespan=lifespan
 )
 
 app.add_middleware(
@@ -27,24 +50,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Global variable to hold our model
-nlp_model = None
-
-@app.on_event("startup")
-def load_nlp_model():
-    global nlp_model
-    model_dir = "./models/model_ner_cv"
-    if not os.path.exists(model_dir):
-        print(f"Warning: Modèle non trouvé dans {model_dir}. Utilisation du modèle de base fr_core_news_sm.")
-        try:
-            nlp_model = spacy.load("fr_core_news_sm")
-        except OSError:
-            import subprocess
-            subprocess.run(["python", "-m", "spacy", "download", "fr_core_news_sm"])
-            nlp_model = spacy.load("fr_core_news_sm")
-    else:
-        print(f"Loading custom NER model from {model_dir}...")
-        nlp_model = spacy.load(model_dir)
+# Lifespan and model initialization are now defined above.
 
 class CVTextInput(BaseModel):
     texte_brut: str
@@ -66,8 +72,15 @@ async def extract_cv_file(file: UploadFile = File(...)):
     if not file.filename:
         raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
         
+    ext = os.path.splitext(file.filename)[1].lower()
+    if ext not in ['.pdf', '.docx', '.doc']:
+        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF ou un DOCX.")
+        
     try:
         content = await file.read()
+        if len(content) > 5 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Le fichier est trop volumineux (max 5 Mo).")
+            
         extracted_text = extract_text_from_file(content, file.filename)
         
         if not extracted_text.strip():
@@ -99,8 +112,15 @@ async def extract_cv_file_llm(file: UploadFile = File(...)):
     if not file.filename:
         raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
         
+    ext = os.path.splitext(file.filename)[1].lower()
+    if ext not in ['.pdf', '.docx', '.doc']:
+        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF ou un DOCX.")
+        
     try:
         content = await file.read()
+        if len(content) > 5 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Le fichier est trop volumineux (max 5 Mo).")
+            
         extracted_text = extract_text_from_file(content, file.filename)
         
         if not extracted_text.strip():
@@ -133,8 +153,15 @@ async def extract_cv_file_hybrid(file: UploadFile = File(...)):
     if not file.filename:
         raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
         
+    ext = os.path.splitext(file.filename)[1].lower()
+    if ext not in ['.pdf', '.docx', '.doc']:
+        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF ou un DOCX.")
+        
     try:
         content = await file.read()
+        if len(content) > 5 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Le fichier est trop volumineux (max 5 Mo).")
+            
         extracted_text = extract_text_from_file(content, file.filename)
         
         if not extracted_text.strip():
@@ -180,6 +207,10 @@ async def evaluate_cv_file(
     if not file.filename:
         raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
         
+    ext = os.path.splitext(file.filename)[1].lower()
+    if ext not in ['.pdf', '.docx', '.doc']:
+        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF ou un DOCX.")
+        
     try:
         from utils import JobOffer
         # 1. Parser l'offre depuis le string JSON form-data
@@ -188,6 +219,8 @@ async def evaluate_cv_file(
         
         # 2. Extraire le texte du CV
         content = await file.read()
+        if len(content) > 5 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Le fichier est trop volumineux (max 5 Mo).")
         extracted_text = extract_text_from_file(content, file.filename)
         
         if not extracted_text.strip():
