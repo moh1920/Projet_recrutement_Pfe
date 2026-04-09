@@ -1,5 +1,6 @@
 // job-offers-admin.component.ts
 import {Component, inject, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -55,6 +56,8 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   jobOfferService = inject(OffreService);
   dialog = inject(MatDialog);
   candidatesService = inject(CandidateService);
+  router = inject(Router);
+  activatedRouter = inject(ActivatedRoute);
 
   displayedColumns: string[] = ['select', 'title', 'department', 'speciality', 'type', 'workload', 'candidates', 'deadline', 'status',"criteres", 'actions'];
   dataSource = new MatTableDataSource<Offre>([]);
@@ -173,30 +176,28 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // ─── ADD mode ────────────────────────────────────────────────────────────────
   openAddDialog(): void {
     const dialogRef = this.dialog.open(JobOfferDialogComponent, {
       width: '800px',
       maxHeight: '90vh'
+      // No `data` → dialog detects add mode automatically
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadOffers();
-      }
+      if (result) this.loadOffers();
     });
   }
 
-  editOffer(offer: Offre): void {
+  openEditDialog(offer: Offre): void {
     const dialogRef = this.dialog.open(JobOfferDialogComponent, {
       width: '800px',
       maxHeight: '90vh',
-      data: offer
+      data: { offre: offer }   // pass the existing offre → dialog pre-fills and calls updateOffre()
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadOffers();
-      }
+      if (result) this.loadOffers();
     });
   }
 
@@ -212,6 +213,13 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
         maxHeight: '90vh',
         data: { offer, candidats: data }
       });
+    });
+  }
+
+  viewProgression(offer: Offre): void {
+    if (!offer.id) return;
+    this.router.navigate(['/admin/candidate-progression'], {
+      queryParams: { offerId: offer.id }
     });
   }
 
@@ -250,5 +258,10 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
         // refresh liste si besoin
       }
     });
+  }
+
+
+  openRanking(offerId: string, offerTitle: string): void {
+   this.router.navigate(['admin/rankingCandidats',offerId])
   }
 }

@@ -24,22 +24,18 @@
         <mat-icon>work</mat-icon>
         Offres
       </a>
-      <a mat-button routerLink="/apply" routerLinkActive="active-link">
-        <mat-icon>upload_file</mat-icon>
-        Candidater
-      </a>
       <a mat-button routerLink="/applications" routerLinkActive="active-link" *ngIf="isLoggedIn">
-        <mat-icon>description</mat-icon>
-        Mes Candidatures
+        <mat-icon>description</mat-icon>Mes Candidatures
       </a>
 
       <!-- Mes Entretiens — shown only when logged in -->
       <a mat-button routerLink="/interview" routerLinkActive="active-link" *ngIf="isLoggedIn" class="interviews-btn">
-  <span class="interviews-icon-wrap">
     <mat-icon>event_available</mat-icon>
-<!--    <span class="interviews-badge" *ngIf="upcomingCount > 0">{{ upcomingCount }}</span>-->
-  </span>
         Mes Entretiens
+      </a>
+      <a mat-button routerLink="/meeting-lobby" routerLinkActive="active-link" *ngIf="isLoggedIn" class="meet-icon">
+        <mat-icon>meeting_room</mat-icon>
+        Réunion
       </a>
 
       <!-- Profile Avatar Button — shown only when logged in -->

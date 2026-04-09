@@ -1,0 +1,44 @@
+h2[mat-dialog-title] {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  color: #1e293b;
+  font-weight: 600;
+  padding: 24px 24px 16px;
+}
+
+.dialog-subtitle {
+  color: #64748b;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 450px;
+  max-width: 100vw;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.message-field {
+  margin-bottom: 8px; /* Extra space at bottom of dialog content */
+}
+
+mat-dialog-actions {
+  padding: 16px 24px 24px;
+  gap: 12px;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+  
+  &:not(:disabled) {
+    background-color: #2563eb;
+  }
+}

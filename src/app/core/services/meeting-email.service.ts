@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // ============ INTERFACES ============
@@ -59,5 +59,15 @@ export class MeetingEmailService {
       sendRequest,
       { headers: this.headers, responseType: 'text' }
     );
+  }
+
+  sendEmailContact(sendRequest: EmailSendRequest): Observable<any> {
+    // const email = {
+    //   recipientEmail: toEmail,
+    //   confirmedSubject: subject,
+    //   confirmedBody: body
+    // };
+
+    return this.http.post(`${this.API_URL}/sendEmail`, sendRequest);
   }
 }

@@ -1,20 +1,8 @@
-
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import {HttpClient} from "@angular/common/http";
+import { Observable } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
 
-// export interface Candidate {
-//     id: string;
-//     name: string;
-//     email: string;
-//     phone: string;
-//     specialty: string;
-//     experience: number;
-//     score: number;
-//     status: 'Nouveau' | 'Analysé' | 'Entretien' | 'Admis' | 'Rejeté';
-//     appliedDate: Date;
-// }
+// ─── Interfaces ─────────────────────────────────────────────────────────────
 
 export interface CandidateDTO {
   id?: string;
@@ -36,13 +24,12 @@ export interface CandidateDTO {
 
   appliedPosition?: string;
   appliedDate?: string;
-
   status?: CandidateStatus;
+  steps?: StepDTO[];       // ✅ Ajouté
 
   notes?: string;
   createdAt?: string;
   updatedAt?: string;
-
   fullName?: string;
 }
 
@@ -55,51 +42,136 @@ export interface EducationDTO {
   current?: boolean;
 }
 
+export interface StepDTO {
+  name?: string;
+  status?: StepStatus;
+  date?: string;
+  icon?: string;
+  description?: string;
+}
+
 export enum CandidateStatus {
-  NOUVEAU = 'NOUVEAU',
-  EN_COURS = 'EN_COURS',
-  ACCEPTE = 'ACCEPTE',
-  REFUSE = 'REFUSE',
+  NOUVEAU    = 'NOUVEAU',
+  EN_COURS   = 'EN_COURS',
+  ACCEPTE    = 'ACCEPTE',
+  REFUSE     = 'REFUSE',
   EN_ATTENTE = 'EN_ATTENTE'
 }
 
+export enum StepStatus {
+  completed = 'completed',
+  current   = 'current',
+  pending   = 'pending'
+}
+
+// ─── Service ─────────────────────────────────────────────────────────────────
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CandidateService {
 
-  private apiUrl = 'http://localhost:8020/candidature'; // URL de ton backend
+  private apiUrl = 'http://localhost:8020/candidature';
+
   constructor(private http: HttpClient) {}
 
+  // ─── Candidature ──────────────────────────────────────────────────────────
 
-
-
-
-  postulerCandidature(idProfile: string, idOffre: string): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/postulerCandidature/${idProfile}/${idOffre}`,
-      {}
+  postulerCandidature(idProfile: string, idOffre: string): Observable<CandidateDTO> {
+    return this.http.post<CandidateDTO>(
+      `${this.apiUrl}/postulerCandidature/${idProfile}/${idOffre}`, {}
     );
   }
 
-
-  getAllCandidature(): Observable<CandidateDTO[]> {
-    return this.http.get<CandidateDTO[]>(`${this.apiUrl}/getAllCandidature`);
+  createCandidature(candidate: CandidateDTO): Observable<CandidateDTO> {
+    return this.http.post<CandidateDTO>(
+      `${this.apiUrl}/createCandidature`, candidate
+    );
   }
 
-
+  getAllCandidature(): Observable<CandidateDTO[]> {
+    return this.http.get<CandidateDTO[]>(
+      `${this.apiUrl}/getAllCandidature`
+    );
+  }
 
   getAllCandidatureByProfile(idProfile: string): Observable<CandidateDTO[]> {
     return this.http.get<CandidateDTO[]>(
       `${this.apiUrl}/getAllCandidatureByProfile/${idProfile}`
     );
   }
+
   getAllCandidatureByOffre(idOffre: string): Observable<CandidateDTO[]> {
-    return this.http.get<CandidateDTO[]>(`${this.apiUrl}/getAllCandidatureByOffre/${idOffre}`);
+    return this.http.get<CandidateDTO[]>(
+      `${this.apiUrl}/getAllCandidatureByOffre/${idOffre}`
+    );
   }
 
   getAllCandidatureById(id: string): Observable<CandidateDTO[]> {
-    return this.http.get<CandidateDTO[]>(`${this.apiUrl}/getAllCandidatureById/${id}`);
+    return this.http.get<CandidateDTO[]>(
+      `${this.apiUrl}/getAllCandidatureById/${id}`
+    );
+  }
+
+  // ─── Steps ────────────────────────────────────────────────────────────────
+
+  /**
+   * GET /candidature/{id}/steps
+   * Récupérer toutes les étapes d'un candidat
+   */
+  getSteps(id: string): Observable<StepDTO[]> {
+    return this.http.get<StepDTO[]>(
+      `${this.apiUrl}/${id}/steps`
+    );
+  }
+
+  /**
+   * POST /candidature/{id}/steps
+   * Ajouter une seule étape
+   */
+  addStep(id: string, step: StepDTO): Observable<CandidateDTO> {
+    return this.http.post<CandidateDTO>(
+      `${this.apiUrl}/${id}/steps`, step
+    );
+  }
+
+  /**
+   * PUT /candidature/{id}/steps
+   * Remplacer toute la liste des étapes
+   */
+  updateSteps(id: string, steps: StepDTO[]): Observable<CandidateDTO> {
+    return this.http.put<CandidateDTO>(
+      `${this.apiUrl}/${id}/steps`, steps
+    );
+  }
+
+  /**
+   * PATCH /candidature/{id}/steps/{stepName}?status=completed&date=21 Mars 2026
+   * Mettre à jour le statut d'une étape précise
+   */
+  updateStepStatus(
+    id: string,
+    stepName: string,
+    status: StepStatus,
+    date?: string
+  ): Observable<CandidateDTO> {
+    let params: any = { status };
+    if (date) params['date'] = date;
+
+    return this.http.patch<CandidateDTO>(
+      `${this.apiUrl}/${id}/steps/${encodeURIComponent(stepName)}`,
+      {},
+      { params }
+    );
+  }
+
+  /**
+   * DELETE /candidature/{id}/steps/{stepName}
+   * Supprimer une étape par son nom
+   */
+  deleteStep(id: string, stepName: string): Observable<CandidateDTO> {
+    return this.http.delete<CandidateDTO>(
+      `${this.apiUrl}/${id}/steps/${encodeURIComponent(stepName)}`
+    );
   }
 }

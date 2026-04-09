@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, switchMap } from 'rxjs/operators';
 import { CandidateDTO, CandidateService, CandidateStatus } from '../../../core/services/candidate.service';
 import { KeycloakService } from 'keycloak-angular';
+import { Router } from '@angular/router';
 import { ProfileService } from '../../../core/services/profile.service';
 
 @Component({
@@ -29,6 +30,7 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
   private readonly keycloakService = inject(KeycloakService);
   private readonly profileService  = inject(ProfileService);
   private readonly candidateSvc    = inject(CandidateService);
+  private readonly router          = inject(Router);
   private readonly destroy$        = new Subject<void>();
 
   // ─── Statistiques ──────────────────────────────────────────────────────────
@@ -172,7 +174,9 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
   // ─── Actions ───────────────────────────────────────────────────────────────
 
   viewDetails(candidature: CandidateDTO): void {
-    console.log('Voir détails :', candidature);
+    if (candidature.id) {
+      this.router.navigate(['/applications', candidature.id]);
+    }
   }
 
   deleteCandidature(candidature: CandidateDTO): void {

@@ -408,7 +408,13 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.webrtcService.closeAllPeers();
     this.webrtcService.stopLocalStream();
     this.wsService.disconnect();
-    this.router.navigate(['/admin/interviews']);
+    
+    // Dynamic fallback
+    if (this.router.url.includes('/admin/')) {
+      this.router.navigate(['/admin/interviews']);
+    } else {
+      this.router.navigate(['/meeting-lobby']);
+    }
   }
 
   ngOnDestroy(): void {

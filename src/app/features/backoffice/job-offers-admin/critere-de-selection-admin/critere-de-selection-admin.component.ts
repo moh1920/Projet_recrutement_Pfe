@@ -47,7 +47,7 @@ export class CritereDeSelectionAdminComponent implements OnInit {
   filters = ['Tous', 'Affectés', 'Non affectés'];
   selectedFilter = 'Tous';
   searchText = '';
-  viewMode: 'grid' | 'table' = 'grid';
+  viewMode: 'grid' | 'table' = 'table';
   isLoading = false;
 
   stats = { total: 0, avecCategories: 0 };

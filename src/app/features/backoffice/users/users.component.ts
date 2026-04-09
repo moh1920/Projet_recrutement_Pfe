@@ -83,10 +83,11 @@ export class UsersComponent implements AfterViewInit {
   loadAllUsers() {
     this.userService.getAllUsers().subscribe({
       next: (data) => {
-        this.listUsers = data;
+        this.listUsers = data.filter(u => u.role.toLowerCase() != "candidate" );
+
 
         // Transform data to match template expectations
-        const transformedUsers = data.map(user => this.transformUserData(user));
+        const transformedUsers = this.listUsers.map(user => this.transformUserData(user));
         this.dataSource.data = transformedUsers;
 
         // Update stats
@@ -244,7 +245,7 @@ export class UsersComponent implements AfterViewInit {
     });
   }
 
-  openEditDialog(user: User): void {
+  openEditDialog(user: any): void {
     const dialogRef = this.dialog.open(UserDialogComponent, {
       width: '600px',
       panelClass: 'modern-dialog',
@@ -253,7 +254,7 @@ export class UsersComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-      //  this.userService.updateUser(user.id, result).subscribe(() => this.loadAllUsers());
+        this.loadAllUsers();
       }
     });
   }

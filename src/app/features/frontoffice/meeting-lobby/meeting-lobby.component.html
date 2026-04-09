@@ -1,0 +1,72 @@
+<!-- ─── Header ──────────────────────────────────────────────────────────────── -->
+<div class="page-header">
+  <div class="header-content">
+
+    <nav class="breadcrumb" aria-label="Fil d'Ariane">
+      <span>Espace Réunion</span>
+      <span class="sep">/</span>
+      <span class="current">Mes Réunions</span>
+    </nav>
+
+    <div class="header-top">
+      <div>
+        <h1 class="page-title">Mes Réunions</h1>
+        <p class="page-subtitle">Consultez et gérez vos entretiens planifiés chez ESPRIT</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lobby-container">
+
+  <div class="lobby-card">
+    <!-- Icon -->
+    <div class="icon-wrapper">
+      <mat-icon>video_camera_front</mat-icon>
+    </div>
+
+    <h2>Rejoindre un entretien</h2>
+    <p>Saisissez le code de la réunion pour rejoindre l'appel vidéo sécurisé avec votre conseiller ESPRIT.</p>
+
+    <div class="form-container">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Code de la réunion</mat-label>
+        <input matInput
+               [(ngModel)]="roomCode"
+               (keyup.enter)="joinMeeting()"
+               placeholder="Ex: MEET-2024-ABC123"
+               maxlength="20" />
+        <mat-icon matSuffix>meeting_room</mat-icon>
+      </mat-form-field>
+
+      <div class="error-msg" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <button mat-flat-button
+              color="primary"
+              class="w-100 join-btn"
+              [disabled]="loading || !roomCode.trim()"
+              (click)="joinMeeting()">
+        <ng-container *ngIf="!loading">
+          <mat-icon>login</mat-icon>
+          Rejoindre l'appel
+        </ng-container>
+        <mat-spinner diameter="24" *ngIf="loading"></mat-spinner>
+      </button>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="quick-links">
+      <a href="#" (click)="$event.preventDefault(); openHelp()">
+        <mat-icon>help_outline</mat-icon>
+        Besoin d'aide ?
+      </a>
+      <a href="#" (click)="$event.preventDefault(); testAudio()">
+        <mat-icon>headset_mic</mat-icon>
+        Tester mon matériel
+      </a>
+    </div>
+  </div>
+</div>

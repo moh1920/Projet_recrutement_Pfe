@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Nouvel utilisateur</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Modifier utilisateur' : 'Nouvel utilisateur' }}</h2>
 
 <mat-dialog-content>
   <form [formGroup]="createUserForm" class="simple-form">
@@ -21,15 +21,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Nom d'utilisateur -->
-    <mat-form-field appearance="outline">
-      <mat-label>Nom d'utilisateur</mat-label>
-      <input matInput formControlName="userName" placeholder="jdoe">
-      <mat-error *ngIf="createUserForm.get('userName')?.hasError('required')">
-        Champs requis
-      </mat-error>
-    </mat-form-field>
-
     <!-- Email -->
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
@@ -42,8 +33,8 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Mot de passe -->
-    <mat-form-field appearance="outline">
+    <!-- Mot de passe (CREATE uniquement) -->
+    <mat-form-field appearance="outline" *ngIf="!isEditMode">
       <mat-label>Mot de passe</mat-label>
       <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
       <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
@@ -100,14 +91,14 @@
       </mat-error>
     </mat-form-field>
 
-
+    <!-- Messages -->
     <div class="alert success" *ngIf="successMessage">
       {{ successMessage }}
     </div>
-
     <div class="alert error" *ngIf="errorMessage">
       {{ errorMessage }}
     </div>
+
   </form>
 </mat-dialog-content>
 
@@ -117,6 +108,6 @@
           [disabled]="createUserForm.invalid || isLoading"
           (click)="submit()">
     <mat-icon *ngIf="isLoading" class="spin">refresh</mat-icon>
-    {{ isLoading ? 'Création...' : 'Créer' }}
+    {{ isLoading ? (isEditMode ? 'Modification...' : 'Création...') : (isEditMode ? 'Modifier' : 'Créer') }}
   </button>
 </mat-dialog-actions>

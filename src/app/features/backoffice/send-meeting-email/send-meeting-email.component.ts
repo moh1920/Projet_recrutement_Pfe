@@ -115,7 +115,7 @@ export class SendMeetingEmailComponent {
       confirmedBody:    this.editableBody
     };
 
-    this.emailService.sendEmail(sendRequest).subscribe({
+    this.emailService.sendEmailContact(sendRequest).subscribe({
       next: () => {
         this.step     = 'success';
         this.isSending = false;

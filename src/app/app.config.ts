@@ -9,9 +9,11 @@ import {initializeKeycloak} from "./core/utils/keycloak-init";
 import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {keycloakInterceptor} from "./core/auth/keycloak.interceptor";
 import {provideAnimations} from "@angular/platform-browser/animations";
+import {provideNativeDateAdapter} from "@angular/material/core";
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    provideNativeDateAdapter(),
     provideAnimations(),
     KeycloakService, // ← IMPORTANT: Ajouter le service
     {

@@ -32,8 +32,9 @@ $border:           #e2e8f0;
   justify-content: space-between;
   padding: 20px 24px;
   background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 45%, $esprit-red 100%);
-  color: #fff;
+  color: $white;
   overflow: hidden;
+  flex-shrink: 0;
 
   .dlg-header-bg {
     position: absolute; inset: 0; pointer-events: none;
@@ -47,65 +48,105 @@ $border:           #e2e8f0;
 
   .dlg-icon-wrap {
     width: 46px; height: 46px;
-    background: rgba(#fff, 0.12); border-radius: 12px;
+    background: rgba($white, 0.12); border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(#fff, 0.2); flex-shrink: 0;
-    mat-icon { font-size: 24px; color: #fff; }
+    border: 1px solid rgba($white, 0.2); flex-shrink: 0;
+    mat-icon { font-size: 24px; width: 24px; height: 24px; color: $white; }
   }
 
   .dlg-header-text {
-    h2 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.2px; color: #fff; }
-    p  { margin: 2px 0 0; font-size: 0.8rem; opacity: 0.75; color: #fff; }
+    h2 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.2px; color: $white; }
+    p  { margin: 2px 0 0; font-size: 0.8rem; opacity: 0.75; color: $white; font-weight: 400; }
   }
 
   .dlg-close-btn {
     position: relative; z-index: 1; margin-left: auto;
-    color: rgba(#fff, 0.8); transition: all 0.2s;
-    &:hover { color: #fff; background: rgba(#fff, 0.15); }
+    color: rgba($white, 0.8); transition: all 0.2s;
+    &:hover { color: $white; background: rgba($white, 0.15); border-radius: 50%; }
   }
 }
 
 // ==================== Form ====================
+// Le form contient tous les champs + le footer
 .dlg-form {
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background: $white;
 }
 
 // ==================== Field Wrapper ====================
 .field-wrapper {
-  display: flex; align-items: center; gap: 10px;
-  &--top { align-items: flex-start; padding-top: 18px; }
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  // Variante pour textarea : aligne l'icône en haut
+  &.field-wrapper--top {
+    align-items: flex-start;
+    padding-top: 18px;
+  }
 
   .field-ico {
     font-size: 20px; width: 20px; height: 20px;
-    color: $text-muted; flex-shrink: 0; transition: color 0.2s;
+    color: $text-muted; flex-shrink: 0;
+    transition: color 0.2s;
   }
+
+  // L'icône prend la couleur ESPRIT quand un enfant a le focus
   &:focus-within .field-ico { color: $esprit-red; }
 }
 
 // ==================== Mat Form Field ====================
 .dlg-field {
   flex: 1;
+
   ::ng-deep {
+    // Subscript (hint + error) : moins d'espace mort
     .mat-mdc-form-field-subscript-wrapper { margin-top: 2px; }
+
+    // Fond légèrement coloré
     .mat-mdc-text-field-wrapper { background: $bg-light; }
-    .mdc-text-field--outlined { --mdc-outlined-text-field-container-shape: 10px; }
-    .mdc-text-field--focused .mdc-notched-outline__leading,
-    .mdc-text-field--focused .mdc-notched-outline__notch,
-    .mdc-text-field--focused .mdc-notched-outline__trailing { border-color: $esprit-red !important; }
-    .mdc-text-field--focused .mdc-floating-label { color: $esprit-red !important; }
+
+    // Coins arrondis
+    .mdc-text-field--outlined {
+      --mdc-outlined-text-field-container-shape: 10px;
+    }
+
+    // Couleur de la bordure au focus
+    .mdc-text-field--focused {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing { border-color: $esprit-red !important; }
+
+      // Label flottant rouge
+      .mdc-floating-label { color: $esprit-red !important; }
+    }
+
+    // Hint align end (compteur de caractères)
+    .mat-mdc-form-field-hint-end { font-size: 0.72rem; color: $text-muted; }
+
+    // Messages d'erreur
+    mat-error {
+      font-size: 0.78rem; font-weight: 500;
+      display: flex; align-items: center; gap: 4px;
+      &::before { content: '⚠'; font-size: 0.72rem; }
+    }
   }
 }
 
 // ==================== Poids Section ====================
 .poids-section {
-  background: $bg-light; border: 1px solid $border;
-  border-radius: 12px; padding: 14px 16px;
+  background: $bg-light;
+  border: 1px solid $border;
+  border-radius: 12px;
+  padding: 14px 16px;
 
+  // ---- En-tête : label + badge valeur ----
   .poids-header {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
 
     .poids-label-group {
       display: flex; align-items: center; gap: 8px;
@@ -122,35 +163,61 @@ $border:           #e2e8f0;
     }
   }
 
+  // ---- Slider ----
   .esprit-slider {
-    width: 100%; margin: 0 -4px;
+    width: 100%;
+    margin: 0 -4px;
+
     ::ng-deep {
-      .mdc-slider__track--active_fill          { background: $esprit-red !important; }
-      .mdc-slider__thumb-knob                  { background: $esprit-red !important; border-color: $esprit-red !important; }
-      .mdc-slider__thumb--focused .mdc-slider__thumb-knob { box-shadow: 0 0 0 6px rgba($esprit-red,.15) !important; }
-      .mdc-slider__value-indicator-container   { bottom: 44px !important; }
-      .mdc-slider__value-indicator             { background: $esprit-red !important;
-        &::before { border-top-color: $esprit-red !important; } }
+      // Track active (gauche du thumb)
+      .mdc-slider__track--active_fill { background: $esprit-red !important; }
+
+      // Thumb
+      .mdc-slider__thumb-knob {
+        background: $esprit-red !important;
+        border-color: $esprit-red !important;
+      }
+
+      // Halo au focus
+      .mdc-slider__thumb--focused .mdc-slider__thumb-knob {
+        box-shadow: 0 0 0 6px rgba($esprit-red, 0.15) !important;
+      }
+
+      // Bulle de valeur discrete
+      .mdc-slider__value-indicator-container { bottom: 44px !important; }
+      .mdc-slider__value-indicator {
+        background: $esprit-red !important;
+        &::before { border-top-color: $esprit-red !important; }
+      }
     }
   }
 
+  // ---- Graduation ----
   .poids-scale {
     display: flex; justify-content: space-between;
-    font-size: 0.7rem; color: $text-muted; font-weight: 500; margin-top: 2px;
+    font-size: 0.7rem; color: $text-muted; font-weight: 500;
+    margin-top: 2px;
   }
 
+  // ---- Barre de preview ----
   .poids-preview-bar {
-    height: 8px; background: $border; border-radius: 6px;
-    margin-top: 10px; overflow: hidden;
+    height: 8px;
+    background: $border;
+    border-radius: 6px;
+    margin-top: 10px;
+    overflow: hidden;
+
     .poids-preview-fill {
       height: 100%;
       background: linear-gradient(90deg, $esprit-red-dark 0%, $esprit-red 60%, lighten($esprit-red, 10%) 100%);
-      border-radius: 6px; transition: width 0.3s ease;
+      border-radius: 6px;
+      transition: width 0.3s ease;
     }
   }
 }
 
-// ==================== Footer ====================
+// ==================== Footer (dans .dlg-form) ====================
+// Le footer est le dernier enfant du form, séparé par une border-top
 .dlg-footer {
   display: flex;
   align-items: center;
@@ -158,27 +225,85 @@ $border:           #e2e8f0;
   gap: 10px;
   padding-top: 8px;
   border-top: 1px solid $border;
-  margin-top: 4px;
+  margin-top: 4px; // compense le gap du form
 
+  // ---- Bouton Annuler ----
   .btn-cancel {
-    border-radius: 10px; font-weight: 600;
-    color: $text-secondary; border-color: $border;
-    height: 40px; transition: all 0.2s;
-    &:hover { border-color: $esprit-red; color: $esprit-red; background: $esprit-cream; }
+    border-radius: 10px;
+    font-weight: 600;
+    color: $text-secondary;
+    border-color: $border;
+    height: 40px;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: $esprit-red;
+      color: $esprit-red;
+      background: $esprit-cream;
+    }
   }
 
+  // ---- Bouton Sauvegarder ----
   .btn-save {
-    background: $esprit-red !important; color: $white !important;
-    border-radius: 10px; font-weight: 700;
+    background: $esprit-red !important;
+    color: $white !important;
+    border-radius: 10px;
+    font-weight: 700;
     display: flex; align-items: center; gap: 6px;
     height: 40px; padding: 0 22px;
-    @include shadow-md; transition: all 0.2s;
+    @include shadow-md;
+    transition: all 0.2s;
+
     mat-icon { font-size: 18px; width: 18px; height: 18px; }
-    &:hover:not(:disabled) { background: $esprit-red-dark !important; transform: translateY(-1px); }
+
+    &:hover:not(:disabled) {
+      background: $esprit-red-dark !important;
+      transform: translateY(-1px);
+    }
+
     &:disabled { opacity: 0.6; cursor: not-allowed; }
   }
 }
 
+// ==================== Spinner dans le bouton ====================
 .save-spinner {
   ::ng-deep circle { stroke: $white !important; }
+}
+
+// ==================== Global overrides ====================
+::ng-deep {
+  // Checkbox couleur ESPRIT (si utilisé ailleurs dans le dialog)
+  .mat-mdc-checkbox.mat-primary {
+    --mdc-checkbox-selected-checkmark-color:    #{$white};
+    --mdc-checkbox-selected-icon-color:         #{$esprit-red};
+    --mdc-checkbox-selected-hover-icon-color:   #{$esprit-red-light};
+    --mdc-checkbox-selected-pressed-icon-color: #{$esprit-red-dark};
+    --mdc-checkbox-selected-focus-icon-color:   #{$esprit-red};
+  }
+
+  // Spinner couleur ESPRIT
+  .mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: #{$white};
+  }
+
+  // Dialog container arrondi (panelClass: 'esprit-dialog')
+  .esprit-dialog .mat-mdc-dialog-container {
+    border-radius: 18px !important;
+    overflow: hidden;
+    padding: 0 !important;
+  }
+
+  // Backdrop flouté
+  .cdk-overlay-backdrop.cdk-overlay-dark-backdrop {
+    background: rgba(15, 15, 26, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+// ==================== Responsive ====================
+@media (max-width: 600px) {
+  .esprit-dialog-container { min-width: unset; }
+  .dlg-header  { padding: 16px 18px; }
+  .dlg-form    { padding: 18px; gap: 14px; }
 }

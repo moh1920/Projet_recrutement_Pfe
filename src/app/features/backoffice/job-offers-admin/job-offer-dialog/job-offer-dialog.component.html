@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Créer une Offre d'Emploi</h2>
+<h2 mat-dialog-title>{{ dialogTitle }}</h2>
 
 <mat-dialog-content>
   <form [formGroup]="offreForm" class="offer-form">
@@ -150,8 +150,8 @@
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()" [disabled]="loading">Annuler</button>
-  <button mat-raised-button color="primary" (click)="create()" [disabled]="!offreForm.valid || loading">
+  <button mat-raised-button color="primary" (click)="submit()" [disabled]="!offreForm.valid || loading">
     <mat-spinner *ngIf="loading" diameter="16" style="display: inline-block; margin-right: 8px;"></mat-spinner>
-    {{ loading ? 'Création...' : 'Créer' }}
+    {{ loading ? loadingLabel : submitLabel }}
   </button>
 </mat-dialog-actions>

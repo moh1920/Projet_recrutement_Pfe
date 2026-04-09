@@ -10,9 +10,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SlicePipe } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ProfileResponseDTO, ProfileService } from '../../../core/services/profile.service';
-
+import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 @Component({
   selector: 'app-profile-candidats',
   standalone: true,
@@ -27,6 +29,8 @@ import { ProfileResponseDTO, ProfileService } from '../../../core/services/profi
     MatTableModule,
     MatSortModule,
     MatTooltipModule,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   templateUrl: './profile-candidats.component.html',
   styleUrl: './profile-candidats.component.scss'
@@ -34,6 +38,8 @@ import { ProfileResponseDTO, ProfileService } from '../../../core/services/profi
 export class ProfileCandidatsComponent implements OnInit {
 
   private profileService = inject(ProfileService);
+  private dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
 
   // ── Data ─────────────────────────────────────────────────────────────────
   prfileCandiadatsList: ProfileResponseDTO[] = [];
@@ -41,7 +47,7 @@ export class ProfileCandidatsComponent implements OnInit {
 
   // ── UI State ──────────────────────────────────────────────────────────────
   loading         = true;
-  viewMode: 'grid' | 'list' = 'grid';
+  viewMode: 'grid' | 'list' = 'list';
   selectedProfile: ProfileResponseDTO | null = null;
 
   // ── Filters ───────────────────────────────────────────────────────────────
@@ -157,6 +163,21 @@ export class ProfileCandidatsComponent implements OnInit {
   // ── Actions ───────────────────────────────────────────────────────────────
 
   contact(profile: ProfileResponseDTO): void {
-    window.open(`mailto:${profile.email}`, '_blank');
+    const dialogRef = this.dialog.open(EmailDialogComponent, {
+      width: '600px',
+      data: { email: profile.email, nom: profile.nom }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Mock email sending
+        console.log('Sending email:', result);
+        this.snackBar.open(`Email envoyé à ${result.to}`, 'Fermer', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+        });
+      }
+    });
   }
 }

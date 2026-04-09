@@ -79,14 +79,15 @@ export class AdminLayoutComponent {
       isExpanded: false,
       children: [
         { icon: 'list', label: 'Liste des offres', route: '/admin/job-offers' },
-        { icon: 'category', label: 'Catégories de sélection', route: '/admin/categorieSelection' },
         { icon: 'checklist', label: 'Critères de sélection', route: '/admin/critereDeSelection' },
+        { icon: 'category', label: 'Catégories de sélection', route: '/admin/categorieSelection' },
       ]
     },
-    { icon: 'people', label: 'Candidats', route: '/admin/candidates' },
+    { icon: 'people', label: 'Dossiers candidats', route: '/admin/candidates' },
+    { icon: 'trending_up', label: 'Candidats-progression', route: '/admin/candidate-progression' },
     { icon: 'event', label: 'Entretiens', route: '/admin/interviews' },
     { icon: 'manage_accounts', label: 'Utilisateurs', route: '/admin/users' },
-    { icon: 'assignment_ind', label: 'Dossiers candidats', route: '/admin/profileCandidats' },
+    { icon: 'assignment_ind', label: 'candidats', route: '/admin/profileCandidats' },
     { icon: 'email', label: 'Email Entretien', route: '/admin/emailSendMeeting' },
   ];
 

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,28 +37,50 @@ export class JobOfferDialogComponent {
   private dialogRef = inject(MatDialogRef<JobOfferDialogComponent>);
   private offreService = inject(OffreService);
 
+  // MAT_DIALOG_DATA will be null for "add" mode, or an Offre object for "edit" mode
+  data: { offre?: Offre } | null = inject(MAT_DIALOG_DATA, { optional: true });
+
   offreForm: FormGroup;
   loading = false;
 
+  // True when opened with an existing offre
+  get isEditMode(): boolean {
+    return !!this.data?.offre;
+  }
+
+  get dialogTitle(): string {
+    return this.isEditMode ? "Modifier l'Offre d'Emploi" : "Créer une Offre d'Emploi";
+  }
+
+  get submitLabel(): string {
+    return this.isEditMode ? 'Modifier' : 'Créer';
+  }
+
+  get loadingLabel(): string {
+    return this.isEditMode ? 'Modification...' : 'Création...';
+  }
+
   constructor() {
+    const existing = this.data?.offre;
+
     this.offreForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(5)]],
-      department: ['', Validators.required],
-      speciality: ['', Validators.required],
-      type: ['Permanent', Validators.required],
-      workload: [1, [Validators.required, Validators.min(1), Validators.max(40)]],
-      requiredLevel: ['Master', Validators.required],
-      minYearsExperience: [0, [Validators.required, Validators.min(0)]],
-      description: ['', [Validators.required, Validators.minLength(20)]],
-      modules: ['', Validators.required],
-      requiredSkills: ['', Validators.required],
-      deadline: [null],
-      status: ['Ouverte', Validators.required],
-      academicExperience: [false]
+      title: [existing?.title ?? '', [Validators.required, Validators.minLength(5)]],
+      department: [existing?.department ?? '', Validators.required],
+      speciality: [existing?.speciality ?? '', Validators.required],
+      type: [existing?.type ?? 'Permanent', Validators.required],
+      workload: [existing?.workload ?? 1, [Validators.required, Validators.min(1), Validators.max(40)]],
+      requiredLevel: [existing?.requiredLevel ?? 'Master', Validators.required],
+      minYearsExperience: [existing?.minYearsExperience ?? 0, [Validators.required, Validators.min(0)]],
+      description: [existing?.description ?? '', [Validators.required, Validators.minLength(20)]],
+      modules: [existing?.modules?.join(', ') ?? '', Validators.required],
+      requiredSkills: [existing?.requiredSkills?.join(', ') ?? '', Validators.required],
+      deadline: [existing?.deadline ? new Date(existing.deadline) : null],
+      status: [existing?.status ?? 'Ouverte', Validators.required],
+      academicExperience: [existing?.academicExperience ?? false]
     });
   }
 
-  create(): void {
+  submit(): void {
     if (this.offreForm.invalid) {
       this.offreForm.markAllAsTouched();
       return;
@@ -67,7 +89,13 @@ export class JobOfferDialogComponent {
     this.loading = true;
     const formValue = this.offreForm.value;
 
+    // 🔍 DIAGNOSTIC
+    console.log('isEditMode:', this.isEditMode);
+    console.log('data:', this.data);
+    console.log('offre.id:', this.data?.offre?.id);
+
     const offre: Offre = {
+      ...(this.isEditMode ? this.data!.offre : {}),
       title: formValue.title,
       description: formValue.description,
       department: formValue.department,
@@ -80,23 +108,37 @@ export class JobOfferDialogComponent {
       academicExperience: formValue.academicExperience,
       requiredSkills: this.parseCommaSeparated(formValue.requiredSkills),
       status: formValue.status,
-      postedDate: new Date().toISOString().split('T')[0],
-      deadline: formValue.deadline ? formValue.deadline.toISOString().split('T')[0] : undefined,
-      createdAt: new Date().toISOString()
+      postedDate: this.isEditMode
+        ? this.data!.offre!.postedDate
+        : new Date().toISOString().split('T')[0],
+      deadline: formValue.deadline
+        ? formValue.deadline.toISOString().split('T')[0]
+        : undefined,
+      createdAt: this.isEditMode
+        ? this.data!.offre!.createdAt
+        : new Date().toISOString()
     };
 
-    this.offreService.createOffre(offre).subscribe({
-      next: (created) => {
+    // 🔍 DIAGNOSTIC
+    console.log('offre envoyé:', offre);
+    console.log('updateOffre existe?', typeof this.offreService.updateOffre);
+
+    const request$ = this.isEditMode
+      ? this.offreService.updateOffre(offre.id!, offre)
+      : this.offreService.createOffre(offre);
+
+    request$.subscribe({
+      next: (result) => {
+        console.log('✅ résultat:', result); // 🔍 DIAGNOSTIC
         this.loading = false;
-        this.dialogRef.close(created);
+        this.dialogRef.close(result);
       },
       error: (err) => {
         this.loading = false;
-        console.error('Erreur création offre:', err);
+        console.error('❌ Erreur:', err);
       }
     });
   }
-
   onCancel(): void {
     this.dialogRef.close();
   }

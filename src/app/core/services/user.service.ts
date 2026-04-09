@@ -72,6 +72,13 @@ export class UserService {
   getUserById(keycloakId: string): Observable<UserDTO> {
     return this.http.get<UserDTO>(`${this.apiUrl}/userAdminController/getUserById/${keycloakId}`);
   }
+  updateUser(keycloakId: string, userDTO: UserDTO): Observable<UserDTO> {
+    return this.http.put<UserDTO>(
+      `${this.apiUrl}/updateUser/${keycloakId}`,
+      userDTO
+    );
+  }
+
 
 
 }

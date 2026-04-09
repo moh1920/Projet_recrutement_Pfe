@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>
+  <mat-icon style="vertical-align: middle; margin-right: 8px;">mail</mat-icon>
+  Nouveau Message
+</h2>
+
+<mat-dialog-content>
+  <p class="dialog-subtitle">Envoyer un email à <strong>{{ data.nom }}</strong></p>
+
+  <div class="form-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>À (Destinataire)</mat-label>
+      <input matInput [(ngModel)]="toEmail" readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Objet</mat-label>
+      <input matInput [(ngModel)]="subject" placeholder="Sujet de l'email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width message-field">
+      <mat-label>Message</mat-label>
+      <textarea matInput [(ngModel)]="message" rows="5" placeholder="Votre message..." required></textarea>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" class="btn-primary" (click)="onSend()" [disabled]="!subject || !message">
+    <mat-icon>send</mat-icon> Envoyer
+  </button>
+</mat-dialog-actions>

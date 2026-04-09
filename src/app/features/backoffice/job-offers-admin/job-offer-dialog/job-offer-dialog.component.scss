@@ -1,63 +1,334 @@
-:host {
-  display: block;
+// ==================== Variables thème ESPRIT ====================
+$esprit-red: #8B0000;
+$esprit-red-light: #a50000;
+$esprit-red-mid: #b31212;
+$esprit-red-dark: #5c0000;
+$esprit-cream: #fef3f3;
+$esprit-cream-dark: #fde8e8;
+
+$text-primary: #1a1a2e;
+$text-secondary: #64748b;
+$text-muted: #94a3b8;
+$bg-light: #f8fafc;
+$bg-card: #ffffff;
+$white: #ffffff;
+
+$success: #10b981;
+$warning: #f59e0b;
+$info: #3b82f6;
+$danger: #ef4444;
+$border: #e2e8f0;
+$border-light: #f1f5f9;
+
+// ==================== Mixins ====================
+@mixin shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
+@mixin shadow-md {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+@mixin shadow-lg {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+// ==================== Animations ====================
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ==================== Dialog Title ====================
+h2[mat-dialog-title] {
+  margin: 0;
+  padding: 24px 28px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: -0.2px;
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    margin-top: 16px;
+    height: 2px;
+    background: linear-gradient(90deg, $esprit-red 0%, $esprit-cream-dark 100%);
+    border-radius: 2px;
+  }
+}
+
+// ==================== Dialog Content ====================
+mat-dialog-content {
+  padding: 20px 28px !important;
+  max-height: 72vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  animation: slideInUp 0.3s ease-out;
+
+  // Scrollbar subtile
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb {
+    background: $border;
+    border-radius: 3px;
+    &:hover { background: darken($border, 10%); }
+  }
+}
+
+// ==================== Formulaire ====================
 .offer-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-width: 500px;
-  max-width: 600px;
-  padding: 8px 0;
-}
 
-.form-row {
-  display: flex;
-  gap: 16px;
+  // ---- Ligne double ----
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
 
-  mat-form-field {
-    flex: 1;
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
 
-    &:first-child {
-      flex: 1;
+  // ---- Checkbox row ----
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    background: $bg-light;
+    border-radius: 10px;
+    border: 1.5px solid $border;
+    transition: border-color 0.2s ease, background 0.2s ease;
+
+    &:hover {
+      border-color: darken($border, 8%);
+      background: $white;
     }
 
-    &:last-child {
-      flex: 1;
+    mat-checkbox {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: $text-primary;
     }
   }
 }
 
-.checkbox-row {
-  margin: 8px 0;
-}
-
+// ==================== Material Form Fields ====================
 mat-form-field {
   width: 100%;
+
+  // Outline color override
+  &.mat-mdc-form-field {
+    --mdc-outlined-text-field-focus-outline-color: #{$esprit-red};
+    --mdc-outlined-text-field-focus-label-text-color: #{$esprit-red};
+    --mdc-outlined-text-field-hover-outline-color: #{darken($border, 12%)};
+    --mdc-outlined-text-field-outline-color: #{$border};
+    --mdc-outlined-text-field-label-text-color: #{$text-secondary};
+    --mdc-outlined-text-field-input-text-color: #{$text-primary};
+    --mdc-outlined-text-field-caret-color: #{$esprit-red};
+  }
+
+  // Label focus
+  .mat-mdc-floating-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  // Input interne
+  input.mat-mdc-input-element,
+  textarea.mat-mdc-input-element {
+    font-size: 0.9rem;
+    color: $text-primary;
+
+    &::placeholder {
+      color: $text-muted;
+      font-style: italic;
+    }
+  }
+
+  // Select panel arrow
+  .mat-mdc-select-arrow {
+    color: $text-secondary;
+  }
+
+  // Textarea
+  textarea.mat-mdc-input-element {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  // Error messages
+  mat-error {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: $danger;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &::before {
+      content: '⚠';
+      font-size: 0.75rem;
+    }
+  }
 }
 
-textarea {
-  resize: vertical;
-  min-height: 80px;
+// ==================== Datepicker ============================
+.mat-datepicker-toggle {
+  color: $text-muted;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $esprit-red;
+  }
 }
 
+// ==================== Select Panel (global) ====================
+::ng-deep {
+  .mat-mdc-select-panel {
+    border-radius: 10px !important;
+    @include shadow-lg;
+    border: 1px solid $border;
+    overflow: hidden;
+
+    .mat-mdc-option {
+      font-size: 0.875rem;
+      color: $text-primary;
+      transition: background 0.15s ease;
+
+      &:hover,
+      &.mat-mdc-option-active {
+        background: $esprit-cream !important;
+        color: $esprit-red;
+      }
+
+      &.mdc-list-item--selected {
+        background: rgba($esprit-red, 0.06) !important;
+        color: $esprit-red;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // Checkbox couleur primaire
+  .mat-mdc-checkbox {
+    &.mat-primary {
+      --mdc-checkbox-selected-checkmark-color: #{$white};
+      --mdc-checkbox-selected-icon-color: #{$esprit-red};
+      --mdc-checkbox-selected-hover-icon-color: #{$esprit-red-light};
+      --mdc-checkbox-selected-pressed-icon-color: #{$esprit-red-dark};
+      --mdc-checkbox-selected-focus-icon-color: #{$esprit-red};
+    }
+  }
+
+  // Spinner couleur primaire
+  .mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: #{$esprit-red};
+  }
+}
+
+// ==================== Dialog Actions ====================
 mat-dialog-actions {
-  padding: 16px 24px;
+  padding: 16px 28px 20px !important;
+  margin: 0 !important;
+  display: flex !important;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid $border;
+  background: $bg-light;
+  border-radius: 0 0 12px 12px;
+  flex-shrink: 0;
 
-  button {
-    margin-left: 8px;
+  // Bouton Annuler
+  button[mat-button] {
+    border-radius: 8px;
+    padding: 7px 18px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: $text-secondary;
+    background: transparent;
+    border: 1.5px solid $border;
+    transition: all 0.2s ease;
+
+    &:not(:disabled):hover {
+      background: $white;
+      border-color: darken($border, 10%);
+      color: $text-primary;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // Bouton Soumettre
+  button[mat-raised-button][color="primary"] {
+    border-radius: 8px;
+    padding: 7px 22px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    background: $esprit-red !important;
+    color: $white !important;
+    @include shadow-sm;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &:not(:disabled):hover {
+      background: $esprit-red-light !important;
+      @include shadow-md;
+      transform: translateY(-1px);
+    }
+
+    &:not(:disabled):active {
+      background: $esprit-red-dark !important;
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      background: lighten($esprit-red, 25%) !important;
+      color: rgba($white, 0.7) !important;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    // Spinner inline dans le bouton
+    mat-spinner {
+      display: inline-block;
+      --mdc-circular-progress-active-indicator-color: #{$white};
+    }
   }
 }
 
-// Responsive
-@media (max-width: 600px) {
-  .offer-form {
-    min-width: unset;
-    width: 100%;
+// ==================== Dialog Container (hôte) ====================
+::ng-deep {
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-shape: 14px;
+
+    .mdc-dialog__surface {
+      border-radius: 14px !important;
+      @include shadow-lg;
+      overflow: hidden;
+    }
   }
 
-  .form-row {
-    flex-direction: column;
-    gap: 0;
+  // Backdrop personnalisé
+  .cdk-overlay-backdrop.cdk-overlay-dark-backdrop {
+    background: rgba(15, 15, 26, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 }

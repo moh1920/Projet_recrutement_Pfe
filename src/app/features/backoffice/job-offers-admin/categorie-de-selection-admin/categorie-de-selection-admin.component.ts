@@ -49,7 +49,7 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
   filters = ['Tous', 'Poids élevé (≥50%)', 'Poids faible (<50%)'];
   selectedFilter = 'Tous';
   searchText = '';
-  viewMode: 'grid' | 'table' = 'grid';
+  viewMode: 'grid' | 'table' = 'table';
   isLoading = false;
 
   stats = { total: 0, totalPoids: 0 };

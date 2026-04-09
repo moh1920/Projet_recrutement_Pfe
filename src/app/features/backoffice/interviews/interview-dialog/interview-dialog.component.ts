@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatDatepickerInputEvent, MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -34,6 +34,7 @@ interface JuryMember {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatNativeDateModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -147,7 +148,7 @@ export class InterviewDialogComponent implements OnInit {
       department:     this.data.department     ?? '',
       type:           this.data.type           ?? 'interview',
       status:         this.data.status         ?? 'Planifié',
-      date:           this.data.date ? new Date(this.data.date) : '',
+      date: this.data.date ? new Date(this.data.date) : null,
       time:           this.data.time           ?? '',
       duration:       this.data.duration       ?? 45,
       room:           this.data.room           ?? '',
@@ -275,10 +276,13 @@ export class InterviewDialogComponent implements OnInit {
 
 
 
-    // Formatage de la date (DatePicker renvoie un objet Date)
     let dateStr = '';
     if (formValue.date instanceof Date) {
-      dateStr = formValue.date.toISOString().split('T')[0];
+      const d = formValue.date;
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      dateStr = `${year}-${month}-${day}`;
     } else if (typeof formValue.date === 'string') {
       dateStr = formValue.date;
     }
@@ -333,5 +337,16 @@ export class InterviewDialogComponent implements OnInit {
 
   onCancel(): void {
     this.dialogRef.close(null);
+  }
+
+  onDateSelected(event: MatDatepickerInputEvent<Date>) {
+    console.log('Date saisie :', event.value);
+  }
+
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+    console.log('Date sélectionnée :', event.value);
+    // Récupérer la valeur du formulaire
+    const dateValue = this.interviewForm.get('date')?.value;
+    console.log('Valeur du form :', dateValue);
   }
 }

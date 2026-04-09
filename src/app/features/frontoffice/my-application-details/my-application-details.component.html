@@ -1,0 +1,327 @@
+<div class="application-details-page">
+
+  <!-- Header Section -->
+  <section class="page-header">
+    <div class="header-pattern"></div>
+    <div class="container">
+      <div class="header-content">
+        <div class="header-text">
+          <div class="breadcrumb">
+            <span class="material-icons">home</span>
+            <span class="separator">/</span>
+            <span>Espace Candidat</span>
+            <span class="separator">/</span>
+            <a class="breadcrumb-link" routerLink="/my-applications">Mes Candidatures</a>
+            <span class="separator">/</span>
+            <span class="current">Détail</span>
+          </div>
+          <h1>Détail de la candidature</h1>
+          <p class="subtitle">Consultez l'ensemble des informations de votre postulation chez ESPRIT</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-back" (click)="goBack()">
+            <span class="material-icons">arrow_back</span>
+            <span>Retour</span>
+          </button>
+          <button class="btn-primary" routerLink="/offers">
+            <span class="material-icons">search</span>
+            <span>Découvrir les offres</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="header-wave">
+      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+              fill="#f8fafc"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="main-content">
+    <div class="container">
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="spinner-container">
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+        </div>
+        <p>Chargement des détails...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="!isLoading && errorMessage" class="error-state">
+        <div class="error-icon">
+          <span class="material-icons">error_outline</span>
+        </div>
+        <h3>Oups ! Une erreur est survenue</h3>
+        <p>{{ errorMessage }}</p>
+        <button class="btn-primary" (click)="goBack()">
+          <span class="material-icons">arrow_back</span>
+          Retour aux candidatures
+        </button>
+      </div>
+
+      <ng-container *ngIf="!isLoading && !errorMessage && candidature">
+
+        <!-- ── Status Banner ─────────────────────────────────────────── -->
+        <div class="status-banner" [ngClass]="getStatusBadgeClass(candidature.status)">
+          <div class="status-banner-icon">
+            <span class="material-icons">{{ getStatusIcon(candidature.status) }}</span>
+          </div>
+          <div class="status-banner-text">
+            <span class="status-banner-label">Statut de la candidature</span>
+            <span class="status-banner-value">{{ getStatusLabel(candidature.status) }}</span>
+          </div>
+          <div class="status-banner-date" *ngIf="candidature.appliedDate">
+            <span class="material-icons">event</span>
+            <div>
+              <span class="status-banner-label">Postulé le</span>
+              <span class="status-banner-value">{{ formatDate(candidature.appliedDate) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Content Grid ──────────────────────────────────────────── -->
+        <div class="content-grid">
+
+          <!-- ═══ LEFT COLUMN ═══ -->
+          <div class="details-column">
+
+            <!-- Card: Poste & Identité -->
+            <div class="card overview-card">
+              <div class="card-accent"></div>
+              <div class="card-header">
+                <div class="offer-info">
+                  <h2 class="offer-title">{{ candidature.appliedPosition || 'Poste non spécifié' }}</h2>
+                </div>
+              </div>
+              <div class="card-body">
+
+                <!-- Identité -->
+                <div class="section" *ngIf="candidature.firstName || candidature.lastName || candidature.email || candidature.phone">
+                  <h3 class="section-title">
+                    <span class="material-icons">person</span> Informations personnelles
+                  </h3>
+                  <div class="info-grid">
+                    <div class="info-item" *ngIf="candidature.firstName || candidature.lastName">
+                      <span class="info-label">Nom complet</span>
+                      <span class="info-value">{{ candidature.firstName }} {{ candidature.lastName }}</span>
+                    </div>
+                    <div class="info-item" *ngIf="candidature.email">
+                      <span class="info-label">Email</span>
+                      <a class="info-value info-link" href="mailto:{{ candidature.email }}">
+                        <span class="material-icons">mail_outline</span>
+                        {{ candidature.email }}
+                      </a>
+                    </div>
+                    <div class="info-item" *ngIf="candidature.phone">
+                      <span class="info-label">Téléphone</span>
+                      <a class="info-value info-link" href="tel:{{ candidature.phone }}">
+                        <span class="material-icons">phone</span>
+                        {{ candidature.phone }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Expérience -->
+                <div class="section" *ngIf="candidature.experience !== undefined">
+                  <h3 class="section-title">
+                    <span class="material-icons">work_history</span> Expérience
+                  </h3>
+                  <div class="experience-badge">
+                    <span class="exp-number">{{ candidature.experience }}</span>
+                    <span class="exp-label">an{{ candidature.experience > 1 ? 's' : '' }} d'expérience</span>
+                  </div>
+                </div>
+
+                <!-- Compétences -->
+                <div class="section" *ngIf="candidature.skills && candidature.skills.length > 0">
+                  <h3 class="section-title">
+                    <span class="material-icons">psychology</span> Compétences
+                  </h3>
+                  <div class="skills-cloud">
+                    <span class="skill-tag" *ngFor="let skill of candidature.skills">{{ skill }}</span>
+                  </div>
+                </div>
+
+                <!-- Formation -->
+                <div class="section" *ngIf="candidature.education && candidature.education.length > 0">
+                  <h3 class="section-title">
+                    <span class="material-icons">school</span> Formation
+                  </h3>
+                  <ul class="education-list">
+                    <li *ngFor="let edu of candidature.education; let last = last">
+                      <div class="edu-timeline">
+                        <div class="edu-dot"></div>
+                        <div class="edu-line" *ngIf="!last"></div>
+                      </div>
+                      <div class="edu-content">
+                        <span class="edu-degree">{{ edu.degree }}</span>
+                        <span class="edu-school">{{ edu.institution }}</span>
+                        <span class="edu-field" *ngIf="edu.field">{{ edu.field }}</span>
+                        <span class="edu-dates">
+                          {{ formatDate(edu.startDate) }} —
+                          {{ edu.current ? 'Présent' : formatDate(edu.endDate) }}
+                        </span>
+                        <span class="edu-current-badge" *ngIf="edu.current">En cours</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Card: Liens & Documents -->
+            <div class="card links-card" *ngIf="candidature.linkedin || candidature.portfolio || candidature.resume">
+              <div class="card-accent links-accent"></div>
+              <div class="card-header">
+                <h3 class="section-title" style="margin-bottom:0">
+                  <span class="material-icons">insert_link</span> Liens & Documents
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="links-list">
+
+                  <a *ngIf="candidature.linkedin"
+                     [href]="candidature.linkedin" target="_blank" rel="noopener"
+                     class="link-btn linkedin">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    LinkedIn
+                    <span class="material-icons" style="font-size:14px;margin-left:auto">open_in_new</span>
+                  </a>
+
+                  <a *ngIf="candidature.portfolio"
+                     [href]="candidature.portfolio" target="_blank" rel="noopener"
+                     class="link-btn portfolio">
+                    <span class="material-icons">language</span>
+                    Portfolio
+                    <span class="material-icons" style="font-size:14px;margin-left:auto">open_in_new</span>
+                  </a>
+
+                  <a *ngIf="candidature.resume"
+                     [href]="candidature.resume" target="_blank" rel="noopener"
+                     class="link-btn resume">
+                    <span class="material-icons">description</span>
+                    Curriculum Vitae
+                    <span class="material-icons" style="font-size:14px;margin-left:auto">download</span>
+                  </a>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Card: Notes -->
+            <div class="card notes-card" *ngIf="candidature.notes">
+              <div class="card-accent notes-accent"></div>
+              <div class="card-header">
+                <h3 class="section-title" style="margin-bottom:0">
+                  <span class="material-icons">sticky_note_2</span> Notes
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="notes-content">
+                  <span class="material-icons">format_quote</span>
+                  <p>{{ candidature.notes }}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ═══ RIGHT COLUMN ═══ -->
+          <div class="timeline-column">
+
+            <!-- Card: Étapes de recrutement -->
+            <div class="card tracking-card">
+              <div class="card-accent tracking-accent"></div>
+              <div class="card-header">
+                <h3 class="section-title" style="margin-bottom:0">
+                  <span class="material-icons">timeline</span> Étapes de recrutement
+                </h3>
+                <span class="steps-count" *ngIf="steps.length > 0">{{ steps.length }} étape{{ steps.length > 1 ? 's' : '' }}</span>
+              </div>
+              <div class="card-body">
+
+                <div *ngIf="steps.length === 0" class="empty-steps">
+                  <div class="empty-steps-icon">
+                    <span class="material-icons">pending_actions</span>
+                  </div>
+                  <p>Aucune étape enregistrée pour le moment.</p>
+                </div>
+
+                <ul class="steps-timeline" *ngIf="steps.length > 0">
+                  <li class="timeline-step"
+                      *ngFor="let step of steps; let isLast = last"
+                      [ngClass]="step.status || 'pending'">
+
+                    <div class="step-indicator">
+                      <div class="step-icon">
+                        <span class="material-icons">{{ step.icon || 'radio_button_unchecked' }}</span>
+                      </div>
+                      <div class="step-line" *ngIf="!isLast"></div>
+                    </div>
+
+                    <div class="step-content">
+                      <h4 class="step-name">{{ step.name }}</h4>
+                      <p class="step-date" *ngIf="step.date">
+                        <span class="material-icons">calendar_today</span>
+                        {{ formatDate(step.date) }}
+                      </p>
+                      <p class="step-status-label" *ngIf="!step.date">
+                        <span class="material-icons">schedule</span>
+                        {{ step.status === 'completed' ? 'Terminé' : step.status === 'current' ? 'En cours' : 'En attente' }}
+                      </p>
+                      <p class="step-description" *ngIf="step.description">{{ step.description }}</p>
+                    </div>
+
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+
+            <!-- Card: Métadonnées -->
+            <div class="card meta-card" *ngIf="candidature.createdAt || candidature.updatedAt">
+              <div class="card-accent meta-accent"></div>
+              <div class="card-header">
+                <h3 class="section-title" style="margin-bottom:0">
+                  <span class="material-icons">info_outline</span> Informations système
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="meta-list">
+                  <div class="meta-item" *ngIf="candidature.id">
+                    <span class="meta-label">ID candidature</span>
+                    <span class="meta-value meta-id">{{ candidature.id }}</span>
+                  </div>
+                  <div class="meta-item" *ngIf="candidature.createdAt">
+                    <span class="meta-label">
+                      <span class="material-icons">add_circle_outline</span> Créée le
+                    </span>
+                    <span class="meta-value">{{ formatDate(candidature.createdAt) }}</span>
+                  </div>
+                  <div class="meta-item" *ngIf="candidature.updatedAt">
+                    <span class="meta-label">
+                      <span class="material-icons">update</span> Mise à jour
+                    </span>
+                    <span class="meta-value">{{ formatDate(candidature.updatedAt) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+  </section>
+</div>

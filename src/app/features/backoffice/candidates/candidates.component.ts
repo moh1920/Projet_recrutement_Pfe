@@ -279,6 +279,12 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/admin/candidatsDetais', candidate.id]);
   }
 
+  viewProgression(candidate: CandidateDTO): void {
+    this.router.navigate(['/admin/candidate-progression'], {
+      queryParams: { candidateId: candidate.id }
+    });
+  }
+
   downloadResume(candidate: CandidateDTO): void {
     if (!candidate.resume) {
       this.showSnackBar('Aucun CV disponible pour ce candidat', 'warning');

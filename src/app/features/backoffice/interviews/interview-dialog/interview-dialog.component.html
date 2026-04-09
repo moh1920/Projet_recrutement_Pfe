@@ -159,7 +159,14 @@
             <div class="form-row three-cols">
               <mat-form-field appearance="outline">
                 <mat-label>Date *</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="date">
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="date"
+                  (click)="picker.open()"
+                  (dateInput)="onDateSelected($event)"
+                (dateChange)="onDateChange($event)"
+                readonly>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="f['date'].hasError('required')">Champ requis</mat-error>

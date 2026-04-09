@@ -25,37 +25,71 @@ export const routes: Routes = [
       {
         path: 'apply',
         loadComponent: () => import('./features/frontoffice/apply/apply.component').then(m => m.ApplyComponent),
-        canActivate: [authGuard]
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
       },
       {
         path: 'cv-upload',
         loadComponent: () => import('./features/frontoffice/cv-upload/cv-upload.component').then(m => m.CvUploadComponent),
-        canActivate: [authGuard]
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
       },
       {
         path: 'profile-builder',
         loadComponent: () => import('./features/frontoffice/profile-builder/profile-builder.component').then(m => m.ProfileBuilderComponent),
-        canActivate: [authGuard]
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
+
       },
       {
         path: 'interview',
         loadComponent: () => import('./features/frontoffice/interview-room/interview-room.component').then(m => m.InterviewRoomComponent),
-        canActivate: [authGuard]
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
+
       },
       {
         path: 'applications',
         loadComponent: () => import('./features/frontoffice/my-applications/my-applications.component').then(m => m.MyApplicationsComponent),
-        canActivate: [authGuard]
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
+
+      },
+      {
+        path: 'applications/:id',
+        loadComponent: () => import('./features/frontoffice/my-application-details/my-application-details.component').then(m => m.MyApplicationDetailsComponent),
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
       },
       {
         path: 'candidateProfile',
         loadComponent: () => import('./features/frontoffice/candidate-profile/candidate-profile.component').then(m => m.CandidateProfileComponent),
-        canActivate: [authGuard]
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
+      },
+      {
+        path: 'candidateBestOffers',
+        loadComponent: () => import('./features/frontoffice/candidate-best-offers/candidate-best-offers.component').then(m => m.CandidateBestOffersComponent),
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
       },
       {
         path: 'cv',
         loadComponent: () => import('./features/frontoffice/cv-upload/cv-upload.component').then(m => m.CvUploadComponent),
-        canActivate: [authGuard]
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] } // ✅ Minuscules
+      },
+      {
+        path: 'meeting-lobby',
+        loadComponent: () => import('./features/frontoffice/meeting-lobby/meeting-lobby.component').then(m => m.MeetingLobbyComponent),
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] }
+      },
+      {
+        path: 'meeting/:roomCode',
+        loadComponent: () => import('./features/backoffice/meeting/meeting.component').then(m => m.MeetingComponent),
+        canActivate: [authGuard,roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] }
       }
     ]
   },
@@ -86,6 +120,12 @@ export const routes: Routes = [
       {
         path: 'candidates',
         loadComponent: () => import('./features/backoffice/candidates/candidates.component').then(m => m.CandidatesComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'director', 'head_dept'] } // ✅ Minuscules
+      },
+      {
+        path: 'candidate-progression',
+        loadComponent: () => import('./features/backoffice/candidate-progression/candidate-progression.component').then(m => m.CandidateProgressionComponent),
         canActivate: [roleGuard],
         data: { roles: ['admin', 'director', 'head_dept'] } // ✅ Minuscules
       },
@@ -144,6 +184,11 @@ export const routes: Routes = [
         path: 'critereDeSelection',
         loadComponent: () =>
           import('./features/backoffice/job-offers-admin/critere-de-selection-admin/critere-de-selection-admin.component').then(m => m.CritereDeSelectionAdminComponent),
+        data: { roles: ['admin', 'director'] } // ✅ Minuscules
+      },{
+        path: 'rankingCandidats/:offerId',
+        loadComponent: () =>
+          import('./features/backoffice/job-offers-admin/ranking-candidats-dialog/ranking-candidats.component').then(m => m.RankingCandidatsComponent),
         data: { roles: ['admin', 'director'] } // ✅ Minuscules
       },
     ]
