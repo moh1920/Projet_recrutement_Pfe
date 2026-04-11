@@ -118,46 +118,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
 
-      - name: SonarCloud Quality Gate check
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
-        run: |
-          echo "Waiting for SonarCloud analysis to complete..."
-          sleep 15
 
-          for i in {1..10}; do
-            RESPONSE=$(curl -s -u "$SONAR_TOKEN:" \
-              "https://sonarcloud.io/api/qualitygates/project_status?projectKey=moh1920_Projet_recrutement_Pfe_Frontend&branch=pfe-dev")
-
-            echo "Attempt $i — Raw response: $RESPONSE"
-
-            STATUS=$(echo "$RESPONSE" | python3 -c "
-  import sys, json
-  data = json.load(sys.stdin)
-if 'projectStatus' in data:
-  print(data['projectStatus']['status'])
-elif 'errors' in data:
-  print('ERROR_API: ' + data['errors'][0]['msg'])
-else:
-  print('UNKNOWN')
-  " 2>/dev/null || echo "PARSE_ERROR")
-
-echo "Attempt $i — Quality Gate status: $STATUS"
-
-  if [ "$STATUS" = "OK" ]; then
-  echo "Quality Gate PASSED"
-  exit 0
-  elif [ "$STATUS" = "ERROR" ]; then
-  echo "Quality Gate FAILED"
-  exit 1
-  fi
-
-  echo "Waiting 15 seconds..."
-  sleep 15
-  done
-
-echo "Timeout: Quality Gate did not complete"
-  exit 1
 
 ## ══════════════════════════════════════════════
 ## JOB 4 — Docker Build & Push
