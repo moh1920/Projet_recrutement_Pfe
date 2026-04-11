@@ -179,12 +179,12 @@ jobs:
           file: ./docker/backend/Dockerfile
           push: true
           tags: |
-            ${{ env.DOCKER_IMAGE }}:latest
-            ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+            sayarimohamed/pfe-backend:latest
+            sayarimohamed/pfe-backend:${{ github.sha }}
           build-args: |
             PROFILE=prod
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Image digest
-        run: echo "Image pushed ${{ env.DOCKER_IMAGE }}:${{ github.sha }}"
+        run: echo "Image pushed sayarimohamed/pfe-backend:${{ github.sha }}"
