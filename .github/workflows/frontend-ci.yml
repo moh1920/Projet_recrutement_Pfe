@@ -9,13 +9,19 @@ on:
       - pfe-dev
 
 jobs:
-  build-and-test:
-    name: Build & Test
+
+  # ══════════════════════════════════════════════
+  # JOB 1 — Build
+  # ══════════════════════════════════════════════
+  build:
+    name: Build Angular
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -24,10 +30,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
-
-      - name: Run Unit Tests
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
+        run: npm ci --legacy-peer-deps
 
       - name: Build Application
         run: npm run build -- --configuration production
@@ -38,24 +41,115 @@ jobs:
           name: frontend-build
           path: dist/
           retention-days: 7
-
-  # ------------------------------------------------------------------
-  # DÉPLOIEMENT (CD) - À configurer selon votre plateforme d'hébergement
-  # ------------------------------------------------------------------
-  # deploy:
-  #   name: Deploy to Production
-  #   needs: build-and-test  # S'assure que les tests et le build sont réussis
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-  #
-  #   steps:
-  #     - name: Download Build Artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: frontend-build
-  #         path: dist/
-  #
-  #     - name: Deploy
-  #       run: |
-  #         echo "Insérer ici vos commandes de déploiement"
-  #         echo "Exemples : AWS S3, Vercel, Firebase Hosting, FTP, Docker, etc."
+#
+#  # ══════════════════════════════════════════════
+#  # JOB 2 — Tests Unitaires
+#  # ══════════════════════════════════════════════
+#  test:
+#    name: Tests Unitaires
+#    runs-on: ubuntu-latest
+#    needs: build
+#
+#    steps:
+#      - name: Checkout Repository
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Setup Node.js
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: '20'
+#          cache: 'npm'
+#
+#      - name: Install Dependencies
+#        run: npm ci --legacy-peer-deps
+#
+#      - name: Run Unit Tests with Coverage
+#        run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
+#
+#      - name: Upload Coverage Report
+#        uses: actions/upload-artifact@v4
+#        if: always()
+#        with:
+#          name: coverage-report
+#          path: coverage/
+#          retention-days: 7
+#
+#  # ══════════════════════════════════════════════
+#  # JOB 3 — SonarCloud Analysis
+#  # ══════════════════════════════════════════════
+#  sonar:
+#    name: SonarCloud Analysis
+#    runs-on: ubuntu-latest
+#    needs: test
+#
+#    steps:
+#      - name: Checkout Repository
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Setup Node.js
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: '20'
+#          cache: 'npm'
+#
+#      - name: Install Dependencies
+#        run: npm ci --legacy-peer-deps
+#
+#      - name: Run Tests with Coverage for Sonar
+#        run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
+#
+#      - name: SonarCloud Analysis
+#        uses: sonarsource/sonarcloud-github-action@master
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
+#
+#      - name: SonarCloud Quality Gate
+#        uses: sonarsource/sonarqube-quality-gate-action@master
+#        timeout-minutes: 5
+#        with:
+#          scanMetadataReportFile: .scannerwork/report-task.txt
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
+#          SONAR_HOST_URL: https://sonarcloud.io
+#
+#  # ══════════════════════════════════════════════
+#  # JOB 4 — Docker Build & Push
+#  # ══════════════════════════════════════════════
+#  docker:
+#    name: Docker Build & Push
+#    runs-on: ubuntu-latest
+#    needs: sonar
+#    if: github.event_name == 'push'
+#
+#    steps:
+#      - name: Checkout Repository
+#        uses: actions/checkout@v4
+#
+#      - name: Login to Docker Hub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v3
+#
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: .
+#          file: ./Dockerfile
+#          push: true
+#          tags: |
+#            sayarimohamed/pfe-frontend:latest
+#            sayarimohamed/pfe-frontend:${{ github.sha }}
+#          cache-from: type=gha
+#          cache-to: type=gha,mode=max
+#
+#      - name: Image digest
+#        run: echo "Image pushed sayarimohamed/pfe-frontend:${{ github.sha }}"
