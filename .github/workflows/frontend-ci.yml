@@ -119,14 +119,18 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
 
       - name: SonarCloud Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
-        with:
-          scanMetadataReportFile: .scannerwork/report-task.txt
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
-          SONAR_HOST_URL: https://sonarcloud.io
-          SONAR_ROOT_CERT: ""
+        run: |
+            STATUS=$(curl -s -u "$SONAR_TOKEN:" \
+              "https://sonarcloud.io/api/qualitygates/project_status?projectKey=moh1920_Projet_recrutement_Pfe_Frontend" \
+              | python3 -c "import sys,json; print(json.load(sys.stdin)['projectStatus']['status'])")
+            echo "Quality Gate status: $STATUS"
+            if [ "$STATUS" != "OK" ]; then
+              echo "Quality Gate FAILED"
+              exit 1
+            fi
+            echo "Quality Gate PASSED"
 #
 #  # ══════════════════════════════════════════════
 #  # JOB 4 — Docker Build & Push
