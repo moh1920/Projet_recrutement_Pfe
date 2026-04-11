@@ -3,12 +3,10 @@ name: Frontend CI/CD Pipeline
 on:
   push:
     branches:
-      - main
-      - master
+      - pfe-dev
   pull_request:
     branches:
-      - main
-      - master
+      - pfe-dev
 
 jobs:
   build-and-test:
