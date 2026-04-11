@@ -16,7 +16,8 @@
     </button>
 
     <nav class="nav-links" [class.mobile-open]="isMobileMenuOpen">
-      <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+      <a mat-button routerLink="/" routerLinkActive="active-link"
+         [routerLinkActiveOptions]="{exact: true}">
         <mat-icon>home</mat-icon>
         Accueil
       </a>
@@ -25,20 +26,19 @@
         Offres
       </a>
       <a mat-button routerLink="/applications" routerLinkActive="active-link" *ngIf="isLoggedIn">
-        <mat-icon>description</mat-icon>Mes Candidatures
+        <mat-icon>description</mat-icon>
+        Mes Candidatures
       </a>
-
-      <!-- Mes Entretiens — shown only when logged in -->
-      <a mat-button routerLink="/interview" routerLinkActive="active-link" *ngIf="isLoggedIn" class="interviews-btn">
-    <mat-icon>event_available</mat-icon>
+      <a mat-button routerLink="/interview" routerLinkActive="active-link"
+         *ngIf="isLoggedIn" class="interviews-btn">
+        <mat-icon>event_available</mat-icon>
         Mes Entretiens
       </a>
-      <a mat-button routerLink="/meeting-lobby" routerLinkActive="active-link" *ngIf="isLoggedIn" class="meet-icon">
+      <a mat-button routerLink="/meeting-lobby" routerLinkActive="active-link"
+         *ngIf="isLoggedIn" class="meet-icon">
         <mat-icon>meeting_room</mat-icon>
         Réunion
       </a>
-
-      <!-- Profile Avatar Button — shown only when logged in -->
       <a class="profile-avatar-btn" routerLink="/candidateProfile"
          routerLinkActive="profile-active"
          *ngIf="isLoggedIn"
@@ -49,27 +49,30 @@
         <span class="avatar-label">Profil</span>
       </a>
 
-
-
       <a mat-stroked-button class="login-btn" routerLink="/admin" *ngIf="!isLoggedIn">
         <mat-icon>admin_panel_settings</mat-icon>
         Espace RH
       </a>
 
-      <!-- Logout if logged in -->
-      <button mat-icon-button class="logout-btn" (click)="logout()" *ngIf="isLoggedIn" matTooltip="Se déconnecter">
+      <app-notification-bell *ngIf="isLoggedIn"></app-notification-bell>
+
+      <button mat-icon-button class="logout-btn"
+              (click)="logout()" *ngIf="isLoggedIn"
+              matTooltip="Se déconnecter">
         <mat-icon>logout</mat-icon>
       </button>
     </nav>
   </div>
 </mat-toolbar>
 
+<!-- Toasts globaux — en dehors de la toolbar, dans le layout -->
+<app-notification-toast></app-notification-toast>
+
 <!-- Main Content -->
 <main class="main-content">
   <router-outlet></router-outlet>
 </main>
 
-<!-- Footer -->
 <footer class="main-footer">
   <div class="footer-waves">
     <svg viewBox="0 0 1200 120" preserveAspectRatio="none">

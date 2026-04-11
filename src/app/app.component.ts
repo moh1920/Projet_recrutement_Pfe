@@ -1,6 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {UserService} from "./core/services/user.service";
+import {NotificationService} from "./core/notifications/notification.service";
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,13 @@ import {UserService} from "./core/services/user.service";
 })
 export class AppComponent implements OnInit {
   userService = inject(UserService);
+  constructor(private notifService: NotificationService) {}
 
-  ngOnInit(): void {
+
+
+ async ngOnInit(): Promise<void> {
+    await this.notifService.connect();  // Lance WebSocket + charge l'historique
+
     this.userService.getCurrentUser().subscribe({
       next: user => {
         console.log('User synchronisé:', user);

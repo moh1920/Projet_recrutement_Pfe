@@ -1,12 +1,15 @@
-
-import {Component, HostListener, inject} from '@angular/core';
+import { Component, HostListener, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, RouterLink, Router} from '@angular/router';
+import { RouterModule, RouterLink, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTooltip} from "@angular/material/tooltip";
-import {AppKeycloakService} from "../../core/services/keycloak.service";
+import { MatTooltip } from '@angular/material/tooltip';
+import { Subscription } from 'rxjs';
+import { AppKeycloakService } from '../../core/services/keycloak.service';
+import { NotificationBellComponent } from '../../core/notifications/notification-bell.component';
+import { NotificationToastComponent } from '../../core/notifications/notification-toast.component';
+import { NotificationService } from '../../core/notifications/notification.service';
 
 @Component({
   selector: 'app-user-layout',
@@ -18,39 +21,43 @@ import {AppKeycloakService} from "../../core/services/keycloak.service";
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltip
+    MatTooltip,
+    NotificationBellComponent,   // ← cloche
+    NotificationToastComponent,  // ← toasts
   ],
   templateUrl: './user-layout.component.html',
   styleUrl: './user-layout.component.scss'
 })
-export class UserLayoutComponent {
+export class UserLayoutComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
   isScrolled = false;
-  isLoggedIn = true;
-  upcomingCount: number = 1 ; // à alimenter depuis votre servic
+  isLoggedIn = false;
+  upcomingCount: number = 1;
 
   appKeycloakService = inject(AppKeycloakService);
-  constructor(private router : Router) {
 
-  }
+  private subs = new Subscription();
 
+  constructor(
+    private router: Router,
+    private notifService: NotificationService
+  ) {}
 
-
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.isLoggedIn = await this.appKeycloakService.isLoggedIn();
+
+    // Connecter le WebSocket seulement si l'utilisateur est connecté
+    if (this.isLoggedIn) {
+      await this.notifService.connect();
+    }
   }
+
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.isScrolled = window.pageYOffset > 50;
-
-    // Add/remove scrolled class to toolbar
     const toolbar = document.querySelector('.main-toolbar');
     if (toolbar) {
-      if (this.isScrolled) {
-        toolbar.classList.add('scrolled');
-      } else {
-        toolbar.classList.remove('scrolled');
-      }
+      toolbar.classList.toggle('scrolled', this.isScrolled);
     }
   }
 
@@ -58,12 +65,17 @@ export class UserLayoutComponent {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  // Close mobile menu when clicking on a link
   onNavClick(): void {
     this.isMobileMenuOpen = false;
   }
-  logout() {
-    this.isLoggedIn =false ;
+
+  logout(): void {
+    this.isLoggedIn = false;
+    this.notifService.disconnect(); // ← couper proprement le WebSocket
     this.appKeycloakService.logout();
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
