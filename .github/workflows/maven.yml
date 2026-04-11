@@ -69,10 +69,18 @@ jobs:
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
             --file pom.xml
 
+      - name: Verify report-task.txt exists
+        run: |
+          echo "Checking for report-task.txt..."
+          find . -name "report-task.txt" 2>/dev/null
+          cat .scannerwork/report-task.txt
+
       - name: SonarCloud Quality Gate
         uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
+        with:
+          scanMetadataReportFile: .scannerwork/report-task.txt
 
