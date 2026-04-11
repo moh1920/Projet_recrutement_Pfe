@@ -62,8 +62,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B sonar:sonar \
-            -Dsonar.projectKey=mohamed-sayari_Projet_recrutement_Pfe \
-            -Dsonar.organization=mohamed-sayari \
+            -Dsonar.projectKey=moh1920_Projet_recrutement_Pfe \
+            -Dsonar.organization=moh1920 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \

@@ -31,8 +31,8 @@
 		<java.version>17</java.version>
 
 		<!-- SonarCloud — NE PAS mettre localhost ici -->
-		<sonar.organization>mohamed-sayari</sonar.organization>
-		<sonar.projectKey>mohamed-sayari_Projet_recrutement_Pfe</sonar.projectKey>
+		<sonar.organization>moh1920</sonar.organization>
+		<sonar.projectKey>moh1920_Projet_recrutement_Pfe</sonar.projectKey>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
