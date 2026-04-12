@@ -1,0 +1,552 @@
+[
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Tunis",
+    "candidate_text": "5 ans développeur React, Node.js, PostgreSQL, Docker. Missions e-commerce et fintech.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Ingénieur Frontend Angular TypeScript 2 ans",
+    "candidate_text": "Développeur Angular 3 ans TypeScript RxJS NgRx Material Design applications bancaires.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Vue.js Nuxt.js expérience 2 ans minimum",
+    "candidate_text": "Développeur Vue.js 3 ans Nuxt.js Pinia Tailwind CSS projets SaaS.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Développeur Backend Laravel PHP MySQL REST API",
+    "candidate_text": "Ingénieur PHP Laravel 4 ans MySQL Redis API REST microservices.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Tunis",
+    "candidate_text": "Développeur React 2 ans Node.js Express MongoDB applications web.",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Tunis",
+    "candidate_text": "Développeur frontend React 1 an stage e-commerce, notions Node.js.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Ingénieur Frontend Angular TypeScript 2 ans",
+    "candidate_text": "Développeur React 3 ans, connaissance Angular basique, JavaScript ES6.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Développeur Backend Laravel PHP MySQL REST API",
+    "candidate_text": "Développeur Symfony PHP 2 ans MySQL Doctrine ORM API Platform.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Développeur Vue.js Nuxt.js expérience 2 ans minimum",
+    "candidate_text": "Développeur frontend JavaScript React 3 ans, notions Vue.js autodidacte.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Tunis",
+    "candidate_text": "Comptable 10 ans expérience Excel, bilan financier, fiscalité tunisienne.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Ingénieur Frontend Angular TypeScript 2 ans",
+    "candidate_text": "Médecin généraliste 5 ans consultations urgences clinique privée Tunis.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Backend Laravel PHP MySQL REST API",
+    "candidate_text": "Chauffeur livreur permis B 3 ans livraison marchandises grande distribution.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur Backend Python Django REST API microservices",
+    "candidate_text": "Développeur Python 4 ans Django, FastAPI, Kubernetes, CI/CD GitHub Actions.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot microservices Kafka",
+    "candidate_text": "Ingénieur Java 5 ans Spring Boot Spring Cloud Kafka PostgreSQL déploiement AWS.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot microservices Kafka",
+    "candidate_text": "Développeur Java 3 ans Spring MVC Hibernate MySQL applications web.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Ingénieur Backend Python Django REST API microservices",
+    "candidate_text": "Développeur Python 2 ans Flask SQLAlchemy PostgreSQL scripts ETL.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot microservices Kafka",
+    "candidate_text": "Développeur C# .NET 4 ans ASP.NET Core Entity Framework SQL Server.",
+    "score": 0.45
+  },
+  {
+    "offer_text": "Ingénieur Backend Python Django REST API microservices",
+    "candidate_text": "Chef de projet marketing digital SEO/SEA campagnes Google Ads.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot microservices Kafka",
+    "candidate_text": "Agent immobilier 6 ans vente appartements promoteur immobilier Sfax.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+    "candidate_text": "Data Scientist 3 ans Python scikit-learn TensorFlow NLP classification texte.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Ingénieur IA Computer Vision PyTorch OpenCV",
+    "candidate_text": "Ingénieur Deep Learning 4 ans PyTorch Computer Vision détection objets YOLO.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Data Analyst Power BI SQL Python reporting",
+    "candidate_text": "Analyste données 3 ans Power BI DAX SQL Server Python pandas tableaux de bord.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+    "candidate_text": "Étudiant Master IA Python pandas scikit-learn projet NLP universitaire.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Ingénieur IA Computer Vision PyTorch OpenCV",
+    "candidate_text": "Data Scientist NLP 3 ans Python TensorFlow BERT classification sentiment.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Data Analyst Power BI SQL Python reporting",
+    "candidate_text": "Développeur web React Node.js 3 ans e-commerce.",
+    "score": 0.15
+  },
+  {
+    "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+    "candidate_text": "Infirmier urgences 8 ans soins intensifs bloc opératoire hôpital Charles Nicolle.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur IA Computer Vision PyTorch OpenCV",
+    "candidate_text": "Professeur mathématiques lycée pilote algèbre géométrie analytique.",
+    "score": 0.05
+  },
+  {
+    "offer_text": "Data Engineer Pipeline Spark Kafka AWS S3",
+    "candidate_text": "Data Engineer 5 ans Spark, Kafka, AWS S3 Glue, orchestration Airflow.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Ingénieur Big Data Hadoop Hive Spark Scala",
+    "candidate_text": "Ingénieur Big Data 4 ans Hadoop HDFS Hive Spark Scala Zookeeper.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Data Engineer Pipeline Spark Kafka AWS S3",
+    "candidate_text": "Ingénieur données 2 ans Python Airflow PostgreSQL, notions Spark.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "Ingénieur Big Data Hadoop Hive Spark Scala",
+    "candidate_text": "Data Engineer 3 ans Spark Python Kafka, peu d'expérience Scala.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Data Engineer Pipeline Spark Kafka AWS S3",
+    "candidate_text": "Professeur mathématiques lycée algèbre géométrie.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Ingénieur Big Data Hadoop Hive Spark Scala",
+    "candidate_text": "Commercial export 5 ans marché maghrébin produits alimentaires.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+    "candidate_text": "DevOps 6 ans AWS EKS Terraform Helm Jenkins pipeline CI/CD GitLab.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure Kubernetes AKS Terraform",
+    "candidate_text": "Cloud Engineer 4 ans Azure AKS Terraform ARM Templates DevOps Azure Pipelines.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+    "candidate_text": "Administrateur système Linux 3 ans scripts Bash, notions Docker.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure Kubernetes AKS Terraform",
+    "candidate_text": "DevOps AWS 3 ans Terraform Kubernetes, peu d'expérience Azure.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+    "candidate_text": "Designer UX/UI Figma prototypage maquettes responsive.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure Kubernetes AKS Terraform",
+    "candidate_text": "Juriste droit des affaires 6 ans contrats commerciaux droit OHADA.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Expert Cybersécurité pentest SIEM SOC certifié CISSP",
+    "candidate_text": "Ingénieur sécu 5 ans pentest Metasploit SIEM Splunk certif OSCP CISSP.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Analyste SOC Tier 2 SIEM QRadar incidents réponse",
+    "candidate_text": "Analyste cybersécurité 3 ans SOC QRadar IBM analyse logs incidents investigation.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Expert Cybersécurité pentest SIEM SOC certifié CISSP",
+    "candidate_text": "Administrateur réseau Cisco 3 ans CCNA VPN firewall, notions sécu.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Analyste SOC Tier 2 SIEM QRadar incidents réponse",
+    "candidate_text": "Ingénieur sécurité 2 ans débutant Splunk, certif CompTIA Security+.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Expert Cybersécurité pentest SIEM SOC certifié CISSP",
+    "candidate_text": "Commercial grands comptes télécoms négociation contrats B2B.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Analyste SOC Tier 2 SIEM QRadar incidents réponse",
+    "candidate_text": "Enseignant primaire 10 ans pédagogie lecture écriture.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift SwiftUI 3 ans",
+    "candidate_text": "Développeur iOS 4 ans Swift SwiftUI Combine CoreData App Store publication.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Mobile Android Kotlin Jetpack Compose",
+    "candidate_text": "Développeur Android 3 ans Kotlin Jetpack Compose Room Retrofit Firebase.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur Flutter cross-platform iOS Android",
+    "candidate_text": "Développeur Flutter 3 ans Dart iOS Android Firebase Riverpod applications mobiles.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift SwiftUI 3 ans",
+    "candidate_text": "Développeur Flutter 2 ans iOS Android, notions Swift basiques.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Développeur Mobile Android Kotlin Jetpack Compose",
+    "candidate_text": "Développeur Android Java 4 ans, migration en cours vers Kotlin.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Développeur Flutter cross-platform iOS Android",
+    "candidate_text": "Développeur React Native 3 ans iOS Android JavaScript.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift SwiftUI 3 ans",
+    "candidate_text": "Analyste financier audit interne contrôle de gestion.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Développeur Mobile Android Kotlin Jetpack Compose",
+    "candidate_text": "Médecin dentiste 7 ans cabinet privé chirurgie buccale.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Chef de projet IT Agile Scrum PMP 5 ans",
+    "candidate_text": "Chef de projet 6 ans Agile Scrum Jira roadmap équipe 10 personnes certif PMP.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Scrum Master certifié CSM équipe agile 3 ans",
+    "candidate_text": "Scrum Master 4 ans CSM SAFe facilitation cérémonies agile équipes distribuées.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Chef de projet IT Agile Scrum PMP 5 ans",
+    "candidate_text": "Développeur senior 8 ans, lead tech, notions gestion projet Kanban.",
+    "score": 0.48
+  },
+  {
+    "offer_text": "Scrum Master certifié CSM équipe agile 3 ans",
+    "candidate_text": "Chef de projet junior 1 an Trello Agile, en cours de certification CSM.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Chef de projet IT Agile Scrum PMP 5 ans",
+    "candidate_text": "Développeur frontend Angular TypeScript RxJS.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Scrum Master certifié CSM équipe agile 3 ans",
+    "candidate_text": "Comptable général 5 ans bilan TVA clôture annuelle.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Responsable RH recrutement SIRH Workday 5 ans",
+    "candidate_text": "RH généraliste 7 ans recrutement cadres SIRH Workday paie ADP gestion contrats.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Chargé de recrutement IT sourcing LinkedIn 2 ans",
+    "candidate_text": "Recruteur IT 3 ans sourcing LinkedIn chasseur de têtes profils tech.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Responsable RH recrutement SIRH Workday 5 ans",
+    "candidate_text": "RH junior 2 ans recrutement opérateurs, notions Workday formation.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "Chargé de recrutement IT sourcing LinkedIn 2 ans",
+    "candidate_text": "Recruteur généraliste 3 ans, peu d'expérience profils IT.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Responsable RH recrutement SIRH Workday 5 ans",
+    "candidate_text": "Ingénieur réseau Cisco CCNA VPN MPLS.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Chargé de recrutement IT sourcing LinkedIn 2 ans",
+    "candidate_text": "Technicien maintenance industrielle machines CNC.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Contrôleur de gestion reporting Power BI SAP 4 ans",
+    "candidate_text": "Contrôleur de gestion 5 ans budgets reporting mensuel Power BI SAP FI/CO.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Auditeur financier externe Big 4 CPA 3 ans",
+    "candidate_text": "Auditeur 4 ans Big Four KPMG audit légal IFRS contrôle interne.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Contrôleur de gestion reporting Power BI SAP 4 ans",
+    "candidate_text": "Comptable général 4 ans bilan comptes annuels, notions contrôle gestion.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Auditeur financier externe Big 4 CPA 3 ans",
+    "candidate_text": "Contrôleur de gestion 3 ans, peu d'expérience audit externe.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Contrôleur de gestion reporting Power BI SAP 4 ans",
+    "candidate_text": "Développeur Symfony PHP MySQL API REST.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Auditeur financier externe Big 4 CPA 3 ans",
+    "candidate_text": "Chauffeur de taxi 8 ans transport urbain Tunis.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Enseignant universitaire informatique Java algorithmique",
+    "candidate_text": "Enseignant chercheur 8 ans Java Python algorithmique publication IEEE.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Formateur développement web HTML CSS JavaScript",
+    "candidate_text": "Formateur tech 5 ans HTML CSS JavaScript React formation professionnelle.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Enseignant universitaire informatique Java algorithmique",
+    "candidate_text": "Développeur Java 4 ans Spring Boot, intérêt pour l'enseignement.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Formateur développement web HTML CSS JavaScript",
+    "candidate_text": "Développeur web 3 ans, experience ponctuelle formation stagiaires.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Enseignant universitaire informatique Java algorithmique",
+    "candidate_text": "Logisticien supply chain entrepôt gestion stocks.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Formateur développement web HTML CSS JavaScript",
+    "candidate_text": "Plombier chauffagiste 10 ans installation sanitaires.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur réseau Cisco CCNP VPN MPLS BGP",
+    "candidate_text": "Ingénieur réseau 5 ans Cisco CCNP VPN MPLS BGP OSPF administration.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Administrateur système Linux Windows Active Directory",
+    "candidate_text": "Admin système 4 ans Linux Red Hat Windows Server Active Directory GPO.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Ingénieur réseau Cisco CCNP VPN MPLS BGP",
+    "candidate_text": "Admin réseau 2 ans Cisco CCNA, en cours de certification CCNP.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Administrateur système Linux Windows Active Directory",
+    "candidate_text": "Technicien support N1 Windows helpdesk, notions Linux basiques.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Ingénieur réseau Cisco CCNP VPN MPLS BGP",
+    "candidate_text": "Designer graphique Photoshop Illustrator identité visuelle.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Administrateur système Linux Windows Active Directory",
+    "candidate_text": "Agent de sécurité ronde surveillance site industriel.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Consultant SAP FI/CO implémentation 3 ans",
+    "candidate_text": "Consultant SAP 5 ans modules FI CO SD implémentation migration S/4HANA.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Odoo ERP Python XML modules 2 ans",
+    "candidate_text": "Développeur Odoo 3 ans Python XML modules custom OWL Odoo 16.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Consultant SAP FI/CO implémentation 3 ans",
+    "candidate_text": "Consultant ERP Odoo 3 ans, notions SAP basiques formation récente.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Développeur Odoo ERP Python XML modules 2 ans",
+    "candidate_text": "Développeur Python Django 3 ans, intérêt Odoo formation autodidacte.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Consultant SAP FI/CO implémentation 3 ans",
+    "candidate_text": "Développeur web PHP Laravel 4 ans projets e-commerce.",
+    "score": 0.08
+  },
+  {
+    "offer_text": "Développeur Odoo ERP Python XML modules 2 ans",
+    "candidate_text": "Infirmier bloc opératoire 6 ans chirurgie orthopédique.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Designer UX/UI Figma prototypage user research 3 ans",
+    "candidate_text": "Designer UX 4 ans Figma prototypage wireframes tests utilisateurs design système.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Designer graphique Adobe CC identité visuelle branding",
+    "candidate_text": "Graphiste 5 ans Adobe Photoshop Illustrator InDesign identité visuelle packaging.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Designer UX/UI Figma prototypage user research 3 ans",
+    "candidate_text": "Développeur frontend React 3 ans, expérience légère Figma.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "Designer graphique Adobe CC identité visuelle branding",
+    "candidate_text": "Designer UX/UI Figma 3 ans, notions Photoshop Illustrator.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "Designer UX/UI Figma prototypage user research 3 ans",
+    "candidate_text": "DBA Oracle 5 ans tuning requêtes sauvegarde restauration.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Designer graphique Adobe CC identité visuelle branding",
+    "candidate_text": "Développeur Java Spring Boot microservices 4 ans.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js خبرة 3 سنوات تونس",
+    "candidate_text": "مطور 5 سنوات React Node.js PostgreSQL Docker مشاريع تجارة إلكترونية.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي Python TensorFlow سنتان",
+    "candidate_text": "خبير بيانات 3 سنوات Python scikit-learn TensorFlow معالجة لغات طبيعية.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS Terraform 4 سنوات",
+    "candidate_text": "مهندس DevOps 5 سنوات AWS EKS Terraform Helm Jenkins CI/CD.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "مطور تطبيقات Flutter iOS Android 3 سنوات",
+    "candidate_text": "مطور Flutter 4 سنوات Dart iOS Android Firebase Riverpod.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js خبرة 3 سنوات تونس",
+    "candidate_text": "محاسب 10 سنوات ميزانية ضرائب تونسية Excel.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي Python TensorFlow سنتان",
+    "candidate_text": "ممرض طوارئ 8 سنوات عناية مركزة مستشفى عام.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS Terraform 4 سنوات",
+    "candidate_text": "وكيل عقارات 6 سنوات بيع شقق صفاقس.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Tech Lead Backend Java microservices équipe 5 personnes",
+    "candidate_text": "Développeur Java senior 7 ans, lead informal, prêt pour responsabilités management.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Ingénieur Full Stack React Python Django",
+    "candidate_text": "Développeur Python Django 3 ans backend, notions React frontend.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Data Engineer Python Airflow dbt Snowflake",
+    "candidate_text": "Analyste BI SQL Power BI, commence apprentissage Python Airflow.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "Architecte Cloud AWS solutions multi-régions",
+    "candidate_text": "DevOps AWS 5 ans EC2 S3 Lambda, peu d'expérience architecture globale.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Manager équipe développement 10 ingénieurs",
+    "candidate_text": "Tech Lead 5 ans gestion projet, première expérience management formel.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Développeur Embedded C C++ RTOS IoT",
+    "candidate_text": "Développeur C++ desktop Qt 4 ans, notions RTOS basiques.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Ingénieur QA automation Selenium Python Cypress",
+    "candidate_text": "Testeur manuel 3 ans, formation Selenium Python en cours.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Product Manager SaaS B2B roadmap KPI 4 ans",
+    "candidate_text": "Chef de projet IT Agile 5 ans, transition vers Product Management.",
+    "score": 0.55
+  }
+]

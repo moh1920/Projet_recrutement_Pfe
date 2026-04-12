@@ -9,12 +9,13 @@ Ce service s'intègre avec une architecture backend (ex: Spring Boot) pour fourn
 - **Matching Simple** (`/api/match`) : Compare 1 Candidat avec 1 Offre.
 - **Ranking de Candidats** (`/api/rank-candidates`) : Filtre et classe simultanément une liste de Candidats pour 1 Offre (Trié du plus compatible au moins compatible).
 - **Ranking d'Offres** (`/api/rank-offers`) : Filtre et classe simultanément une liste d'Offres pour 1 Candidat (Trié du plus compatible au moins compatible).
+- **Ranking Profil/Offres** (`/api/rank-profile-offers`) : Filtre et classe une liste d'Offres en se basant sur les informations uniques du profil connecté.
 - **Entraînement du Modèle** (`/api/train`) : Permet de Fine-Tuner le modèle NLP avec des exemples historiques d'adéquation (Offres/Candidats).
 
 ### 🔍 L'algorithme (Score sur 100%)
 
 Le calcul du score (`globalScore`) est pondéré sur 4 critères d'évaluation :
-1. **Similarité Sémantique (40%)** : Utilise le modèle Transformer NLP de HuggingFace (`paraphrase-multilingual-MiniLM-L12-v2`). Il convertit les textes en vecteurs pour analyser le *sens* du profil par rapport à la description de l'offre (NLP).
+1. **Similarité Sémantique (40%)** : Utilise le modèle Transformer NLP optimisé de HuggingFace (`intfloat/multilingual-e5-base`), potentiellement fine-tuné sur nos données RH. Il convertit les textes en vecteurs pour analyser le *sens* du profil par rapport à la description de l'offre.
 2. **Compétences Techniques (30%)** : Matching exact des compétences exigées (Langages de programmation, Outils, Frameworks).
 3. **Niveau d'Études (15%)** : Vérification de la hiérarchie académique (Licence, Master, Ingénieur, Doctorat).
 4. **Expérience (15%)** : Minimum d'années d'expérience confronté au profil du candidat.
@@ -36,7 +37,15 @@ Le calcul du score (`globalScore`) est pondéré sur 4 critères d'évaluation :
    ```bash
    python -m uvicorn main:app --port 8001 --reload
    ```
-   > **Note :** Lors du 1er lancement, le modèle linguistique NLP sera téléchargé manuellement d'Internet (environ 470 Mo) la console peut donc rester bloquée pendant un moment avant d'afficher `Application startup complete`.
+   > **Note :** Lors du 1er lancement, s'il n'y a pas de modèle pré-entraîné dans `./trained_model`, le modèle de base `multilingual-e5-base` sera téléchargé depuis internet (environ 278 Mo). La console peut rester en attente de ce téléchargement.
+
+### Fine-Tuning Local (Entraînement)
+Vous pouvez ré-affiner les résultats du modèle localement avec le script d'entraînement inclus `train_model.py` :
+- **Entraîner avec les cas de base (synthétiques) :** `python train_model.py`
+- **Entraîner avec vos propres données (JSON) :** `python train_model.py --data ./hr_dataset.json`
+- **Uniquement tester l'évaluation :** `python train_model.py --eval`
+
+Le modèle affiné s'enregistrera automatiquement dans le dossier `./trained_model` et sera chargé en priorité par l'API FastAPI au prochain lancement de `main.py`.
 
 ---
 
