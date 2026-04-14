@@ -3,7 +3,6 @@ package esprit.PfeBackendProject.controller;
 import esprit.PfeBackendProject.dto.CreateUserRequest;
 import esprit.PfeBackendProject.dto.UserDTO;
 import esprit.PfeBackendProject.entity.User;
-import esprit.PfeBackendProject.repository.UserRepository;
 import esprit.PfeBackendProject.service.KeycloakAdminService;
 import esprit.PfeBackendProject.service.UserSyncService;
 import lombok.RequiredArgsConstructor;
