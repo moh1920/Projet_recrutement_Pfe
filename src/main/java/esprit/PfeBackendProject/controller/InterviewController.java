@@ -244,4 +244,5 @@ public class InterviewController {
         interviewService.batchDeleteInterviews(ids);
         return ResponseEntity.noContent().build();
     }
+
 }

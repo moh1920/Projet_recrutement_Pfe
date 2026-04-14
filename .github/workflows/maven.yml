@@ -188,3 +188,32 @@ jobs:
 
       - name: Image digest
         run: echo "Image pushed sayarimohamed/pfe-backend:${{ github.sha }}"
+
+  deploy-backend:
+    name: Deploy Backend Azure
+    runs-on: ubuntu-latest
+    needs: docker
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Install Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      - name: Azure Login
+        run: |
+          az login \
+            -u ${{ secrets.AZURE_CLIENT_USERNAME }} \
+            -p ${{ secrets.AZURE_CLIENT_PASSWORD }} \
+            --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Install Container Apps extension
+        run: az extension add --name containerapp --upgrade
+
+      - name: Deploy Backend
+        run: |
+          az containerapp update \
+            --name pfe-backend \
+            --resource-group pfe-rg \
+            --image sayarimohamed/pfe-backend:${{ github.sha }} \
+            --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
