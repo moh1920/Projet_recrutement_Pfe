@@ -2,16 +2,13 @@ package esprit.PfeBackendProject.service;
 
 import esprit.PfeBackendProject.configuration.CandidateMapper;
 import esprit.PfeBackendProject.dto.CandidateDTO;
-import esprit.PfeBackendProject.dto.ProfileResponseDTO;
 import esprit.PfeBackendProject.entity.*;
 import esprit.PfeBackendProject.repository.CandidateRepository;
-import esprit.PfeBackendProject.repository.CandidatureRepository;
 import esprit.PfeBackendProject.repository.OffreRepository;
 import esprit.PfeBackendProject.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

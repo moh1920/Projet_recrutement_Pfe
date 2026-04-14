@@ -1,5 +1,6 @@
 package esprit.PfeBackendProject.service;
 
+import ch.qos.logback.classic.Logger;
 import esprit.PfeBackendProject.dto.CreateUserRequest;
 import esprit.PfeBackendProject.dto.UserDTO;
 import esprit.PfeBackendProject.entity.User;
@@ -8,6 +9,7 @@ import esprit.PfeBackendProject.repository.UserDetaisRepository;
 import esprit.PfeBackendProject.repository.UserRepository;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class
 KeycloakAdminService {
 
@@ -51,8 +54,8 @@ KeycloakAdminService {
 
         Response response = keycloak.realm(realm).users().create(user);
         String responseBody = response.readEntity(String.class);
-        System.out.println("Keycloak status: " + response.getStatus());
-        System.out.println("Keycloak body: " + responseBody);
+        log.info("Keycloak status: " + response.getStatus());
+        log.info("Keycloak body: " + responseBody);
 
         if (response.getStatus() != 201 || response.getLocation() == null) {
             throw new RuntimeException("Erreur Keycloak " + response.getStatus() + " : " + responseBody);
@@ -69,7 +72,7 @@ KeycloakAdminService {
             credential.setTemporary(false);
             keycloak.realm(realm).users().get(keycloakId).resetPassword(credential);
         } catch (Exception e) {
-            System.err.println("Erreur mot de passe : " + e.getMessage());
+            log.info("Erreur mot de passe : " + e.getMessage());
         }
 
         // 3️⃣ Assigner rôle ✅ protégé
@@ -86,15 +89,10 @@ KeycloakAdminService {
                     .realmLevel()
                     .add(List.of(roleRep));
         } catch (Exception e) {
-            System.err.println("Rôle introuvable : " + request.getRole());
+            log.error("Rôle introuvable : " + request.getRole());
         }
 
-//        // 4️⃣ Envoyer mail vérification ✅ protégé
-//        try {
-//            keycloak.realm(realm).users().get(keycloakId).sendVerifyEmail();
-//        } catch (Exception e) {
-//            System.err.println("Email non envoyé : " + e.getMessage());
-//        }
+
 
         // 5️⃣ Créer UserDetais MongoDB
         UserDetais details = UserDetais.builder()
@@ -115,8 +113,7 @@ KeycloakAdminService {
                 .idDetaisUsers(details.getId())
                 .build();
         newUser = userRepository.save(newUser);
-
-        System.out.println("✅ User sauvegardé MongoDB id: " + newUser.getId());
+log.info("✅ User sauvegardé MongoDB id: " + newUser.getId());
 
         // 7️⃣ Retourner DTO
         return UserDTO.builder()
@@ -138,88 +135,104 @@ KeycloakAdminService {
         List<UserDTO> synced = new ArrayList<>();
 
         for (User user : allUsers) {
-
-            // Guard : email null → skip
-            if (user.getEmail() == null) continue;
-
-            // 1️⃣ Vérifier si déjà dans Keycloak
-            List<UserRepresentation> existing = keycloak.realm(realm)
-                    .users()
-                    .search(null, null, null, user.getEmail(), 0, 1);
-
-            if (!existing.isEmpty()) continue;
-
-            // 2️⃣ Recréer dans Keycloak
-            UserRepresentation kcUser = new UserRepresentation();
-            kcUser.setEmail(user.getEmail());
-            kcUser.setFirstName(user.getFirstName());
-            kcUser.setLastName(user.getLastName());
-            kcUser.setUsername(user.getEmail());
-            kcUser.setEnabled(true);
-            kcUser.setEmailVerified(false);
-
-            Response response = keycloak.realm(realm).users().create(kcUser);
-
-            if (response.getStatus() != 201 || response.getLocation() == null) continue;
-
-            String newKeycloakId = response.getLocation().getPath()
-                    .replaceAll(".*/([^/]+)$", "$1");
-
-            // 3️⃣ Mot de passe temporaire
-            CredentialRepresentation cred = new CredentialRepresentation();
-            cred.setType(CredentialRepresentation.PASSWORD);
-            cred.setValue("Temp1234!");
-            cred.setTemporary(true);
-            keycloak.realm(realm).users().get(newKeycloakId).resetPassword(cred);
-
-            // 4️⃣ Assigner le rôle
-            if (user.getRole() != null) {
-                try {
-                    RoleRepresentation roleRep = keycloak.realm(realm)
-                            .roles().get(user.getRole()).toRepresentation();
-                    keycloak.realm(realm).users().get(newKeycloakId)
-                            .roles().realmLevel().add(List.of(roleRep));
-                } catch (Exception e) {
-                    System.err.println("Rôle introuvable : " + user.getRole());
+            if (shouldSyncUser(user)) {
+                UserDTO dto = syncSingleUser(user);
+                if (dto != null) {
+                    synced.add(dto);
                 }
             }
-
-            // 5️⃣ Envoyer l'email de vérification
-            try {
-                keycloak.realm(realm)
-                        .users()
-                        .get(newKeycloakId)
-                        .sendVerifyEmail();
-            } catch (Exception e) {
-                System.err.println("Email de vérification non envoyé pour "
-                        + user.getEmail() + " : " + e.getMessage());
-            }
-
-            // 6️⃣ Mettre à jour le keycloakId dans MongoDB
-            user.setKeycloakId(newKeycloakId);
-            userRepository.save(user);
-
-            // 7️⃣ Récupérer les détails utilisateur
-            UserDetais details = null;
-            if (user.getIdDetaisUsers() != null) {
-                details = userDetaisRepository.findById(user.getIdDetaisUsers()).orElse(null);
-            }
-
-            // 8️⃣ Construire et ajouter le DTO
-            synced.add(UserDTO.builder()
-                    .id(user.getId())
-                    .email(user.getEmail())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .role(user.getRole())
-                    .department(details != null ? details.getDepartment() : null)
-                    .phone(details != null ? details.getPhone() : null)
-                    .statusUser(details != null ? details.getStatusUser() : null)
-                    .dateDeCreation(details != null ? details.getDateDeCreation() : null)
-                    .fullName(user.getFirstName() + " " + user.getLastName())
-                    .build());
         }
 
         return synced;
+    }
+
+    private boolean shouldSyncUser(User user) {
+        if (user.getEmail() == null) return false;
+
+        List<UserRepresentation> existing = keycloak.realm(realm)
+                .users()
+                .search(null, null, null, user.getEmail(), 0, 1);
+
+        return existing.isEmpty();
+    }
+
+    private UserDTO syncSingleUser(User user) {
+        UserRepresentation kcUser = buildKeycloakUser(user);
+        Response response = keycloak.realm(realm).users().create(kcUser);
+
+        if (response.getStatus() != 201 || response.getLocation() == null) {
+            return null;
+        }
+
+        String newKeycloakId = response.getLocation().getPath()
+                .replaceAll(".*/([^/]+)$", "$1");
+
+        assignTemporaryPassword(newKeycloakId);
+        assignRole(newKeycloakId, user.getRole());
+        sendVerificationEmail(newKeycloakId, user.getEmail());
+
+        user.setKeycloakId(newKeycloakId);
+        userRepository.save(user);
+
+        return buildUserDTO(user);
+    }
+
+    private UserRepresentation buildKeycloakUser(User user) {
+        UserRepresentation kcUser = new UserRepresentation();
+        kcUser.setEmail(user.getEmail());
+        kcUser.setFirstName(user.getFirstName());
+        kcUser.setLastName(user.getLastName());
+        kcUser.setUsername(user.getEmail());
+        kcUser.setEnabled(true);
+        kcUser.setEmailVerified(false);
+        return kcUser;
+    }
+
+    private void assignTemporaryPassword(String keycloakId) {
+        CredentialRepresentation cred = new CredentialRepresentation();
+        cred.setType(CredentialRepresentation.PASSWORD);
+        cred.setValue("Temp1234!");
+        cred.setTemporary(true);
+        keycloak.realm(realm).users().get(keycloakId).resetPassword(cred);
+    }
+
+    private void assignRole(String keycloakId, String role) {
+        if (role == null) return;
+        try {
+            RoleRepresentation roleRep = keycloak.realm(realm)
+                    .roles().get(role).toRepresentation();
+            keycloak.realm(realm).users().get(keycloakId)
+                    .roles().realmLevel().add(List.of(roleRep));
+        } catch (Exception e) {
+            log.error("Rôle introuvable : {}", role);
+        }
+    }
+
+    private void sendVerificationEmail(String keycloakId, String email) {
+        try {
+            keycloak.realm(realm).users().get(keycloakId).sendVerifyEmail();
+        } catch (Exception e) {
+            log.error("Email de vérification non envoyé pour {} : {}", email, e.getMessage());
+        }
+    }
+
+    private UserDTO buildUserDTO(User user) {
+        UserDetais details = null;
+        if (user.getIdDetaisUsers() != null) {
+            details = userDetaisRepository.findById(user.getIdDetaisUsers()).orElse(null);
+        }
+
+        return UserDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .role(user.getRole())
+                .department(details != null ? details.getDepartment() : null)
+                .phone(details != null ? details.getPhone() : null)
+                .statusUser(details != null ? details.getStatusUser() : null)
+                .dateDeCreation(details != null ? details.getDateDeCreation() : null)
+                .fullName(user.getFirstName() + " " + user.getLastName())
+                .build();
     }
 }

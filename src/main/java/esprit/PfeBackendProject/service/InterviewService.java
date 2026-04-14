@@ -455,7 +455,7 @@ public class InterviewService {
                 .collect(Collectors.toList()));
         interview.setJuryEmails(juryMembers.stream()
                 .map(JuryMember::getEmail)
-                .collect(Collectors.toList()));
+                .toList());
     }
 
 

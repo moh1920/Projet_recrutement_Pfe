@@ -3,8 +3,7 @@ package esprit.PfeBackendProject.service;
 import esprit.PfeBackendProject.dto.*;
 import esprit.PfeBackendProject.entity.Candidate;
 import esprit.PfeBackendProject.entity.Offre;
-import esprit.PfeBackendProject.entity.ProfileDetails;
-import esprit.PfeBackendProject.exceptions.ProfileNotFoundException;
+
 import esprit.PfeBackendProject.repository.OffreRepository;
 import esprit.PfeBackendProject.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Value;
