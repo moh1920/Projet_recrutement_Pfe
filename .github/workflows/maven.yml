@@ -196,12 +196,17 @@ jobs:
     needs: docker
     if: github.event_name == 'push'
 
-    steps:
-      - name: Azure Login
-        run: az login -u ${{ secrets.AZURE_CLIENT_USERNAME }} -p ${{ secrets.AZURE_CLIENT_PASSWORD }}
+    permissions:
+      id-token: write
+      contents: read
 
-      - name: Set subscription
-        run: az account set --subscription 57f3b357-ad26-4fb2-a0da-5e8b90f6d595
+    steps:
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Install containerapp extension
         run: az extension add --name containerapp --upgrade -y
