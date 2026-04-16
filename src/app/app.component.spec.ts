@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NotificationService } from './core/notifications/notification.service';
 import { UserService } from './core/services/user.service';
 
 describe('AppComponent', () => {
@@ -13,13 +12,11 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent, RouterTestingModule],
       providers: [
-        { provide: NotificationService, useValue: mockNotificationService },
         { provide: UserService, useValue: mockUserService }
       ]
     }).overrideComponent(AppComponent, {
       set: {
         providers: [
-          { provide: NotificationService, useValue: mockNotificationService },
           { provide: UserService, useValue: mockUserService }
         ]
       }
