@@ -198,7 +198,7 @@ jobs:
 
     steps:
       - name: Azure Login
-        run: az login -u ${{ secrets.AZURE_USERNAME }} -p ${{ secrets.AZURE_PASSWORD }}
+        run: az login -u ${{ secrets.AZURE_CLIENT_USERNAME }} -p ${{ secrets.AZURE_CLIENT_PASSWORD }}
 
       - name: Set subscription
         run: az account set --subscription 57f3b357-ad26-4fb2-a0da-5e8b90f6d595
