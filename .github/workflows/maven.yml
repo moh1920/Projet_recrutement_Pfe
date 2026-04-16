@@ -197,19 +197,15 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - name: Deploy via Azure REST API
+      - name: Install Azure CLI
+        run: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      - name: Deploy to Azure Container Apps
         run: |
-          curl -s -X PATCH \
-            -H "Authorization: Bearer ${{ secrets.AZURE_ACCESS_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "properties": {
-                "template": {
-                  "containers": [{
-                    "name": "pfe-backend",
-                    "image": "sayarimohamed/pfe-backend:${{ github.sha }}"
-                  }]
-                }
-              }
-            }' \
-            "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/pfe-rg/providers/Microsoft.App/containerApps/pfe-backend?api-version=2024-03-01"
+          az containerapp update \
+            --name pfe-backend \
+            --resource-group pfe-rg \
+            --image sayarimohamed/pfe-backend:${{ github.sha }} \
+            --subscription 57f3b357-ad26-4fb2-a0da-5e8b90f6d595
+        env:
+          AZURE_ACCESS_TOKEN: ${{ secrets.AZURE_ACCESS_TOKEN }}
