@@ -7,9 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { AppKeycloakService } from '../../core/services/keycloak.service';
-import { NotificationBellComponent } from '../../core/notifications/notification-bell.component';
-import { NotificationToastComponent } from '../../core/notifications/notification-toast.component';
-import { NotificationService } from '../../core/notifications/notification.service';
 
 @Component({
   selector: 'app-user-layout',
@@ -22,8 +19,8 @@ import { NotificationService } from '../../core/notifications/notification.servi
     MatButtonModule,
     MatIconModule,
     MatTooltip,
-    NotificationBellComponent,   // ← cloche
-    NotificationToastComponent,  // ← toasts
+   // NotificationBellComponent,   // ← cloche
+    // NotificationToastComponent,  // ← toasts
   ],
   templateUrl: './user-layout.component.html',
   styleUrl: './user-layout.component.scss'
@@ -40,16 +37,16 @@ export class UserLayoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private notifService: NotificationService
+    //private notifService: NotificationService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.isLoggedIn = await this.appKeycloakService.isLoggedIn();
 
-    // Connecter le WebSocket seulement si l'utilisateur est connecté
-    if (this.isLoggedIn) {
-      await this.notifService.connect();
-    }
+    // // Connecter le WebSocket seulement si l'utilisateur est connecté
+    // if (this.isLoggedIn) {
+    //   await this.notifService.connect();
+    // }
   }
 
   @HostListener('window:scroll', [])
@@ -71,7 +68,7 @@ export class UserLayoutComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.isLoggedIn = false;
-    this.notifService.disconnect(); // ← couper proprement le WebSocket
+  //  this.notifService.disconnect(); // ← couper proprement le WebSocket
     this.appKeycloakService.logout();
   }
 

@@ -49,8 +49,8 @@ export class UserDialogComponent {
     this.createUserForm = this.fb.group({
       firstName:  ['', Validators.required],
       lastName:   ['', Validators.required],
+      userName:   ['', Validators.required],
       email:      ['', [Validators.required, Validators.email]],
-      // password not required in edit mode
       password:   [
         '',
         this.isEditMode ? [] : [Validators.required, Validators.minLength(6)]
@@ -58,9 +58,8 @@ export class UserDialogComponent {
       role:       ['', Validators.required],
       department: ['', Validators.required],
       phone:      ['', [Validators.required, Validators.pattern(/^[0-9]{8,15}$/)]],
-      statusUser: ['ACTIF', Validators.required]
+      statusUser: ['Actif', Validators.required]
     });
-
     // Patch form with existing user data in edit mode
     if (this.isEditMode && this.data) {
       this.createUserForm.patchValue({

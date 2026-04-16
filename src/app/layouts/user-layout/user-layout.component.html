@@ -54,7 +54,6 @@
         Espace RH
       </a>
 
-      <app-notification-bell *ngIf="isLoggedIn"></app-notification-bell>
 
       <button mat-icon-button class="logout-btn"
               (click)="logout()" *ngIf="isLoggedIn"
@@ -66,7 +65,6 @@
 </mat-toolbar>
 
 <!-- Toasts globaux — en dehors de la toolbar, dans le layout -->
-<app-notification-toast></app-notification-toast>
 
 <!-- Main Content -->
 <main class="main-content">
