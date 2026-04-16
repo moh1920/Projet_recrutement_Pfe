@@ -25,7 +25,7 @@ spring:
 
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://sayari:sayari@mongodb:27017/pfe_db?authSource=admin}
+      uri: ${MONGODB_URI:mongodb.internal.graymoss-d46652df.francecentral.azurecontainerapps.io://sayari:sayari@mongodb:27017/pfe_db?authSource=admin}
 
   security:
     oauth2:
