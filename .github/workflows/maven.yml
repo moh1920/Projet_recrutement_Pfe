@@ -197,15 +197,18 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - name: Install Azure CLI
-        run: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - name: Azure Login
+        run: az login -u ${{ secrets.AZURE_USERNAME }} -p ${{ secrets.AZURE_PASSWORD }}
+
+      - name: Set subscription
+        run: az account set --subscription 57f3b357-ad26-4fb2-a0da-5e8b90f6d595
+
+      - name: Install containerapp extension
+        run: az extension add --name containerapp --upgrade -y
 
       - name: Deploy to Azure Container Apps
         run: |
           az containerapp update \
             --name pfe-backend \
             --resource-group pfe-rg \
-            --image sayarimohamed/pfe-backend:${{ github.sha }} \
-            --subscription 57f3b357-ad26-4fb2-a0da-5e8b90f6d595
-        env:
-          AZURE_ACCESS_TOKEN: ${{ secrets.AZURE_ACCESS_TOKEN }}
+            --image sayarimohamed/pfe-backend:${{ github.sha }}
