@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
 import {KeycloakService} from "keycloak-angular";
+import { environment } from "../../../environments/environment";
+
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +42,7 @@ export class AppKeycloakService {
     if (refreshToken) {
       try {
         const response = await fetch(
-          'http://localhost:9090/realms/espritRecrutement/protocol/openid-connect/logout',
+          `${environment.keycloakUrl}/realms/${environment.keycloakRealm}/protocol/openid-connect/logout`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
