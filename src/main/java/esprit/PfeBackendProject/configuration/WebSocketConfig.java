@@ -38,7 +38,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 // Adaptez à votre URL Angular (port 4200 en dev)
                 .setAllowedOriginPatterns(
                         "http://localhost:4200",
-                        "https://votre-domaine-production.com"
+                        "https://pfe-frontend.graymoss-d46652df.francecentral.azurecontainerapps.io"
                 )
                 .withSockJS(); // Fallback pour anciens navigateurs
     }
