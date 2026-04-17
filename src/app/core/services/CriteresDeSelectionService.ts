@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface CriteresDeSelection {
   id?: string;
@@ -14,7 +15,7 @@ export interface CriteresDeSelection {
 })
 export class CriteresDeSelectionService {
 
-  private apiUrl = 'http://localhost:8020/criteres';
+  private apiUrl = `${environment.apiUrl}/criteres`;
 
   constructor(private http: HttpClient) {}
 

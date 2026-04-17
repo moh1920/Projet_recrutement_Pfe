@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 // ══════════════════════════════════════════════════
 // INTERFACES
@@ -122,7 +123,7 @@ export interface ProfileResponseDTO {
 })
 export class ProfileService {
 
-  private readonly BASE_URL = 'http://localhost:8020/profiles_users';
+  private readonly BASE_URL = `${environment.apiUrl}/profiles_users`;
 
   constructor(private http: HttpClient) {}
 

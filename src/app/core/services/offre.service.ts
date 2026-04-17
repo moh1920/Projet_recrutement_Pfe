@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Offre } from '../models/offre.model';
+import { environment } from '../../../environments/environment';
 
 // ─── Mapping Backend ↔ Frontend ──────────────────────────────────────────────
 const STATUS_TO_BACKEND: Record<string, string> = {
@@ -63,7 +64,7 @@ function toBackend(o: Offre): any {
 })
 export class OffreService {
 
-  private readonly baseUrl = 'http://localhost:8020/offre';
+  private readonly baseUrl = `${environment.apiUrl}/offre`;
 
   constructor(private http: HttpClient) {}
 

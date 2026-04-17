@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { map, tap, catchError, shareReplay, retry } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 // Types & Enums
 export type InterviewStatus = 'Planifié' | 'En cours' | 'Terminé' | 'Annulé';
@@ -93,7 +94,7 @@ export class InterviewService {
   private http = inject(HttpClient);
 
   // API Base URL
-  private readonly API_URL = `http://localhost:8020/interviews`;
+  private readonly API_URL = `${environment.apiUrl}/interviews`;
 
   // Cache
   private interviewsCache$ = new BehaviorSubject<Interview[]>([]);

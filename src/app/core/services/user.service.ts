@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {CreateUserRequest, StatusUser} from "../models/create-user-request.model";
+import { environment } from '../../../environments/environment';
 
 export interface User {
   id: string;
@@ -44,7 +45,7 @@ export interface UserDTO {
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8020/api/v1';
+  private apiUrl = `${environment.apiUrl}/api/v1`;
 
 
 

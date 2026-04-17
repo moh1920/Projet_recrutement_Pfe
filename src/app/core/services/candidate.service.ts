@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
+import { environment } from '../../../environments/environment';
 
 // ─── Interfaces ─────────────────────────────────────────────────────────────
 
@@ -71,7 +72,7 @@ export enum StepStatus {
 })
 export class CandidateService {
 
-  private apiUrl = 'http://localhost:8020/candidature';
+  private apiUrl = `${environment.apiUrl}/candidature`;
 
   constructor(private http: HttpClient) {}
 

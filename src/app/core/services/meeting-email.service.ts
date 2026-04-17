@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 // ============ INTERFACES ============
 
@@ -37,7 +38,7 @@ export interface EmailSendRequest {
 })
 export class MeetingEmailService {
 
-  private readonly API_URL = 'http://localhost:8020/meeting-email';
+  private readonly API_URL = `${environment.apiUrl}/meeting-email`;
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

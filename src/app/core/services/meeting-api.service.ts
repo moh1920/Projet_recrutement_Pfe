@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Meeting } from '../models/meeting.models';
+import { environment } from '../../../environments/environment';
 
 /**
  * Service HTTP pour les opérations REST sur les meetings.
@@ -11,7 +12,7 @@ import { Meeting } from '../models/meeting.models';
 @Injectable({ providedIn: 'root' })
 export class MeetingApiService {
 
-  private readonly apiUrl = 'http://localhost:8020/meetings';
+  private readonly apiUrl = `${environment.apiUrl}/meetings`;
 
   constructor(private http: HttpClient) {}
 
