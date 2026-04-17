@@ -1,15 +1,13 @@
 import { KeycloakService } from 'keycloak-angular';
-import Keycloak from "keycloak-js";
-
-
+import { environment } from '../../../environments/environment';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'http://localhost:9090',
-        realm: 'espritRecrutement',
-        clientId: 'espritRecrutement'
+        url: environment.keycloakUrl,
+        realm: environment.keycloakRealm,
+        clientId: environment.keycloakClientId
       },
       initOptions: {
         onLoad: 'check-sso',
@@ -25,5 +23,4 @@ export function initializeKeycloak(keycloak: KeycloakService) {
         return !isExcluded;
       }
     });
-
 }
