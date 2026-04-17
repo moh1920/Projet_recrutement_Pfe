@@ -9,10 +9,15 @@ export function initializeKeycloak(keycloak: KeycloakService) {
         realm: environment.keycloakRealm,
         clientId: environment.keycloakClientId
       },
+      // initOptions: {
+      //   onLoad: 'check-sso',
+      //   silentCheckSsoRedirectUri:
+      //     window.location.origin + '/assets/silent-check-sso.html',
+      //   checkLoginIframe: false,
+      //   pkceMethod: 'S256'
+      // },
       initOptions: {
         onLoad: 'check-sso',
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html',
         checkLoginIframe: false,
         pkceMethod: 'S256'
       },
