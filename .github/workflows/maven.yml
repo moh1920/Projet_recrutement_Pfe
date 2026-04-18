@@ -96,6 +96,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
 
+    permissions:
+      security-events: write   # ← requis pour upload-sarif
+      contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -114,8 +118,6 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # Cache la base de données NVD pour éviter de la retélécharger à chaque run
-      # (la DB fait ~300 MB, le cache réduit le temps de ~4 min à ~30 sec)
       - name: Cache NVD database
         uses: actions/cache@v4
         with:
@@ -125,9 +127,6 @@ jobs:
 
       - name: Run OWASP Dependency-Check
         env:
-          # Clé API NVD optionnelle mais recommandée : sans elle le rate-limit
-          # de l'API NVD ralentit fortement la mise à jour de la base CVE.
-          # Crée une clé gratuite sur : https://nvd.nist.gov/developers/request-an-api-key
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: |
           mvn -B org.owasp:dependency-check-maven:check \
@@ -135,10 +134,18 @@ jobs:
             -DsuppressionFile=.github/owasp-suppressions.xml \
             -DnvdApiKey=${NVD_API_KEY} \
             -Dformats=HTML,JSON,SARIF \
+            -Dformat=ALL \
             --file pom.xml
 
-      # Publie le rapport HTML dans les artefacts GitHub (visible dans l'onglet Summary)
-      - name: Upload OWASP report
+      - name: Verify SARIF file exists
+        if: always()
+        run: |
+          echo "=== Contenu de target/ ==="
+          ls -la target/ | grep -i "dependency\|sarif" || echo "Aucun fichier SARIF trouvé"
+          # Cherche le fichier SARIF peu importe son nom exact
+          find target/ -name "*.sarif" 2>/dev/null || echo "Aucun .sarif dans target/"
+
+      - name: Upload OWASP HTML report
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -146,18 +153,11 @@ jobs:
           path: target/dependency-check-report.*
           retention-days: 14
 
-      # Publie les résultats SARIF dans l'onglet Security → Code scanning de GitHub
-      # (nécessite un repo public ou GitHub Advanced Security)
       - name: Upload SARIF to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4   # ← v3 → v4
         if: always()
         with:
           sarif_file: target/dependency-check-report.sarif
-
-
-
-
-
   # ══════════════════════════════════════════════
   # JOB 3 — SonarCloud Analysis
   # ══════════════════════════════════════════════
