@@ -122,8 +122,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.dependency-check/data
-          key: ${{ runner.os }}-nvd-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-nvd-
+          key: ${{ runner.os }}-nvd-v12-${{ hashFiles('**/pom.xml') }}
+          # ↑ "v12" force la création d'un nouveau cache propre
+          restore-keys: ${{ runner.os }}-nvd-v12-
 
       - name: Run OWASP Dependency-Check
         env:

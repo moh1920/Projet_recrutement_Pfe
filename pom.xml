@@ -183,7 +183,7 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>10.0.3</version>
+				<version>12.1.0</version>
 				<configuration>
 					<!-- Seuil CVSS : le build échoue si un CVE >= 7.0 est trouvé
                          (7 = High, 9 = Critical uniquement, 0 = tous les CVE) -->
