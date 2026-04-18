@@ -97,7 +97,7 @@ jobs:
     needs: test
 
     permissions:
-      security-events: write   # ← requis pour upload-sarif
+      security-events: write
       contents: read
 
     steps:
@@ -128,36 +128,49 @@ jobs:
       - name: Run OWASP Dependency-Check
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        # continue-on-error permet à Maven de finir d'écrire les rapports
+        # même si des CVE >= 7 sont trouvées — on gère l'échec manuellement après
+        continue-on-error: true
+        id: owasp_scan
         run: |
           mvn -B org.owasp:dependency-check-maven:check \
             -DfailBuildOnCVSS=7 \
             -DsuppressionFile=.github/owasp-suppressions.xml \
             -DnvdApiKey=${NVD_API_KEY} \
             -Dformats=HTML,JSON,SARIF \
-            -Dformat=ALL \
             --file pom.xml
 
-      - name: Verify SARIF file exists
+      - name: Debug — contenu de target/
         if: always()
         run: |
-          echo "=== Contenu de target/ ==="
-          ls -la target/ | grep -i "dependency\|sarif" || echo "Aucun fichier SARIF trouvé"
-          # Cherche le fichier SARIF peu importe son nom exact
-          find target/ -name "*.sarif" 2>/dev/null || echo "Aucun .sarif dans target/"
+          echo "=== Fichiers dependency-check générés ==="
+          find target/ -name "*dependency*" -o -name "*.sarif" 2>/dev/null || echo "Rien trouvé"
 
-      - name: Upload OWASP HTML report
+      - name: Upload OWASP reports
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: owasp-report
-          path: target/dependency-check-report.*
+          path: |
+            target/dependency-check-report.html
+            target/dependency-check-report.json
+            target/dependency-check-report.sarif
+          if-no-files-found: warn
           retention-days: 14
 
       - name: Upload SARIF to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v4   # ← v3 → v4
-        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && hashFiles('target/dependency-check-report.sarif') != ''
         with:
           sarif_file: target/dependency-check-report.sarif
+
+      # Fait échouer le job APRÈS que les rapports ont été uploadés
+      - name: Fail si CVE critique détectée
+        if: steps.owasp_scan.outcome == 'failure'
+        run: |
+          echo "Des CVE de score CVSS >= 7 ont été détectées."
+          echo "Consulte l'artefact owasp-report pour le détail."
+          exit 1
   # ══════════════════════════════════════════════
   # JOB 3 — SonarCloud Analysis
   # ══════════════════════════════════════════════
