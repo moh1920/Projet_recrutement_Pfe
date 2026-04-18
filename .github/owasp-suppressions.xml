@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+
+    <!--
+      Fichier de suppressions OWASP Dependency-Check
+      ================================================
+      Utilise ce fichier pour ignorer les faux positifs connus.
+
+      COMMENT TROUVER L'ID D'UNE CVE À SUPPRIMER :
+      1. Lance le pipeline une première fois
+      2. Ouvre le rapport HTML dans les artefacts GitHub
+      3. Chaque CVE affiche son identifiant (ex: CVE-2023-XXXXX)
+      4. Ajoute un bloc <suppress> ci-dessous avec une justification
+
+      EXEMPLE DE SUPPRESSION :
+      <suppress>
+        <notes>
+          Faux positif : cette CVE concerne spring-web 5.x,
+          nous utilisons spring-web 6.x qui n'est pas affecté.
+          Référence : https://spring.io/security/cve-2023-xxxxx
+        </notes>
+        <gav regex="true">^org\.springframework:spring-web:.*$</gav>
+        <cve>CVE-2023-XXXXX</cve>
+      </suppress>
+
+      EXEMPLE PAR FICHIER JAR :
+      <suppress>
+        <notes>Faux positif confirmé par l'équipe sécurité le 2025-01-15</notes>
+        <filePath regex="true">.*snakeyaml-.*\.jar</filePath>
+        <cve>CVE-2022-1471</cve>
+      </suppress>
+    -->
+
+</suppressions>

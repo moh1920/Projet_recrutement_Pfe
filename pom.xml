@@ -175,6 +175,40 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- ════════════════════════════════════════════════════════════
+     Ajouter ce bloc dans la section <plugins> de ton pom.xml
+     (dans <build> → <plugins>)
+     ════════════════════════════════════════════════════════════ -->
+
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>10.0.3</version>
+				<configuration>
+					<!-- Seuil CVSS : le build échoue si un CVE >= 7.0 est trouvé
+                         (7 = High, 9 = Critical uniquement, 0 = tous les CVE) -->
+					<failBuildOnCVSS>7</failBuildOnCVSS>
+
+					<!-- Fichier des faux positifs à ignorer -->
+					<suppressionFile>.github/owasp-suppressions.xml</suppressionFile>
+
+					<!-- Formats de rapport générés -->
+					<formats>
+						<format>HTML</format>
+						<format>JSON</format>
+						<format>SARIF</format>
+					</formats>
+
+					<!-- Clé API NVD (optionnelle mais recommandée pour éviter le rate-limit)
+                         Crée une clé gratuite sur : https://nvd.nist.gov/developers/request-an-api-key
+                         Puis ajoute NVD_API_KEY dans tes GitHub Secrets -->
+					<!--suppress UnresolvedMavenProperty -->
+					<nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
+
+					<!-- Ne pas scanner les dépendances de scope test -->
+					<skipTestScope>true</skipTestScope>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
