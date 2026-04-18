@@ -50,6 +50,38 @@
         </ng-template>
 
       </ng-container>
+
+      <!-- Keycloak section — remplace l'ancien bloc -->
+      <div class="keycloak-section">
+        <mat-divider class="section-divider"></mat-divider>
+        <div class="section-label">Administration</div>
+
+        <a [href]="keycloakAdminUrl" target="_blank" rel="noopener noreferrer"
+           class="keycloak-card" matTooltip="Gestion IAM, rôles et tokens">
+
+          <div class="keycloak-card-main">
+            <div class="keycloak-icon-stack">
+              <div class="kc-shield-wrap">
+                <mat-icon class="kc-shield-icon">verified_user</mat-icon>
+              </div>
+              <span class="kc-status-dot" [class.online]="keycloakOnline"></span>
+            </div>
+
+            <div class="keycloak-text">
+              <span class="kc-title">Keycloak Admin</span>
+              <span class="kc-subtitle">IAM &amp; Sécurité</span>
+            </div>
+
+            <mat-icon class="kc-external-icon">open_in_new</mat-icon>
+          </div>
+
+          <div class="keycloak-tags">
+            <span class="kc-tag users">Utilisateurs</span>
+            <span class="kc-tag roles">Rôles</span>
+            <span class="kc-tag tokens">Tokens</span>
+          </div>
+        </a>
+      </div>
     </mat-nav-list>
 
     <!-- Footer -->

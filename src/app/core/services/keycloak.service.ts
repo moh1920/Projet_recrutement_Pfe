@@ -38,7 +38,6 @@ export class AppKeycloakService {
     const idToken = keycloakInstance.idToken;
     const refreshToken = keycloakInstance.refreshToken;
 
-    // ✅ Révoquer la session via POST
     if (refreshToken) {
       try {
         const response = await fetch(
@@ -61,7 +60,6 @@ export class AppKeycloakService {
     localStorage.clear();
     sessionStorage.clear();
 
-    // ✅ Logout via keycloak-angular
     await this.keycloak.logout(window.location.origin + '/home');
   }
 }

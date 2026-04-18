@@ -14,6 +14,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, map, shareReplay } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { AppKeycloakService } from '../../core/services/keycloak.service';
+import {environment} from "../../../environments/environment";
 
 interface Notification {
   icon: string;
@@ -96,6 +97,9 @@ export class AdminLayoutComponent {
     { icon: 'event', message: 'Entretien confirmé à 14h00', time: '30 min', color: 'accent', read: false },
     { icon: 'check_circle', message: 'Offre publiée avec succès', time: '2h', color: 'primary', read: true },
   ];
+  keycloakAdminUrl: string = environment.keycloakUrl ;
+  keycloakOnline: any;
+
 
   toggleSubmenu(item: MenuItem): void {
     item.isExpanded = !item.isExpanded;

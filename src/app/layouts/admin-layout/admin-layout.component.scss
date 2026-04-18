@@ -310,6 +310,119 @@ mat-nav-list {
   }
 }
 
+
+// Section label
+.section-label {
+  padding: 0 12px 6px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+// Keycloak card
+.keycloak-card {
+  display: block;
+  margin: 4px 8px;
+  padding: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  text-decoration: none;
+  overflow: hidden;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.26);
+  }
+
+  .keycloak-card-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px 8px;
+  }
+
+  .keycloak-icon-stack {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+
+    .kc-shield-wrap {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .kc-shield-icon {
+        color: #ffd700;
+        font-size: 18px;
+      }
+    }
+
+    .kc-status-dot {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid $esprit-red;
+      background: #9ca3af; // offline par défaut
+
+      &.online { background: #4ade80; }
+    }
+  }
+
+  .keycloak-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .kc-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .kc-subtitle {
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.45);
+    }
+  }
+
+  .kc-external-icon {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .keycloak-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 0 12px 10px;
+
+    .kc-tag {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.2px;
+
+      &.users  { background: rgba(255,215,0,0.14);   color: #ffd86f; border: 1px solid rgba(255,215,0,0.22); }
+      &.roles  { background: rgba(100,200,255,0.12); color: #7ed4ff; border: 1px solid rgba(100,200,255,0.2); }
+      &.tokens { background: rgba(120,255,150,0.1);  color: #7dff9a; border: 1px solid rgba(120,255,150,0.18); }
+    }
+  }
+}
 // Content
 .content {
   padding: 24px;
