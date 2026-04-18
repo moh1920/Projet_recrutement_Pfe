@@ -128,8 +128,6 @@ jobs:
       - name: Run OWASP Dependency-Check
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        # continue-on-error permet à Maven de finir d'écrire les rapports
-        # même si des CVE >= 7 sont trouvées — on gère l'échec manuellement après
         continue-on-error: true
         id: owasp_scan
         run: |
@@ -138,23 +136,40 @@ jobs:
             -DsuppressionFile=.github/owasp-suppressions.xml \
             -DnvdApiKey=${NVD_API_KEY} \
             -Dformats=HTML,JSON,SARIF \
-            --file pom.xml
+            --file pom.xml 2>&1 | tee /tmp/owasp.log
+          echo "OWASP_EXIT=${PIPESTATUS[0]}" >> $GITHUB_ENV
 
-      - name: Debug — contenu de target/
+      - name: Debug — logs Maven OWASP
         if: always()
         run: |
-          echo "=== Fichiers dependency-check générés ==="
-          find target/ -name "*dependency*" -o -name "*.sarif" 2>/dev/null || echo "Rien trouvé"
+          echo "=== Exit code ==="
+          echo "${OWASP_EXIT}"
+          echo ""
+          echo "=== Lignes ERROR / WARNING ==="
+          grep -E "\[ERROR\]|\[WARNING\]|Exception|FAIL|suppressionFile|NVD|OutOfMemory" \
+            /tmp/owasp.log || echo "Aucune ligne trouvée"
+          echo ""
+          echo "=== 50 dernières lignes ==="
+          tail -50 /tmp/owasp.log
+          echo ""
+          echo "=== Fichiers générés dans target/ ==="
+          find target/ -name "*dependency*" -o -name "*.sarif" 2>/dev/null \
+            || echo "Aucun fichier dependency-check trouvé"
+
+      - name: Upload log Maven OWASP
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: owasp-maven-log
+          path: /tmp/owasp.log
+          retention-days: 3
 
       - name: Upload OWASP reports
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: owasp-report
-          path: |
-            target/dependency-check-report.html
-            target/dependency-check-report.json
-            target/dependency-check-report.sarif
+          path: target/
           if-no-files-found: warn
           retention-days: 14
 
@@ -164,12 +179,12 @@ jobs:
         with:
           sarif_file: target/dependency-check-report.sarif
 
-      # Fait échouer le job APRÈS que les rapports ont été uploadés
-      - name: Fail si CVE critique détectée
-        if: steps.owasp_scan.outcome == 'failure'
+      # Fait echouer le job APRES que les rapports ont ete uploades
+      - name: Fail si CVE critique detectee
+        if: env.OWASP_EXIT != '0'
         run: |
-          echo "Des CVE de score CVSS >= 7 ont été détectées."
-          echo "Consulte l'artefact owasp-report pour le détail."
+          echo "Des CVE de score CVSS >= 7 ont ete detectees."
+          echo "Consulte l artefact owasp-report pour le detail."
           exit 1
   # ══════════════════════════════════════════════
   # JOB 3 — SonarCloud Analysis
