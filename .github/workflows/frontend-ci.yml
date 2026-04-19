@@ -2,11 +2,14 @@ name: Frontend CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - pfe-dev
+    branches: [pfe-dev]
   pull_request:
-    branches:
-      - pfe-dev
+    branches: [pfe-dev]
+
+# Étape partagée réutilisable
+defaults:
+  run:
+    shell: bash
 
 jobs:
 
@@ -18,32 +21,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
 
+      - name: Cache node_modules
+        id: cache-nm
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: nm-${{ runner.os }}-
+
       - name: Install Dependencies
+        if: steps.cache-nm.outputs.cache-hit != 'true'
         run: npm ci --legacy-peer-deps
 
       - name: Build Application
         run: npm run build -- --configuration production
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: frontend-build
           path: dist/
           retention-days: 7
 
   # ══════════════════════════════════════════════
-  # JOB 2 — Tests Unitaires
+  # JOB 2 — Tests + Couverture (1 seule exécution)
   # ══════════════════════════════════════════════
   test:
     name: Tests Unitaires
@@ -51,25 +60,31 @@ jobs:
     needs: build
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
 
-      - name: Install Dependencies
+      - name: Restore node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: nm-${{ runner.os }}-
+
+      - name: Install if cache miss
+        if: steps.cache-nm.outputs.cache-hit != 'true'
         run: npm ci --legacy-peer-deps
 
-      - name: Run Unit Tests with Coverage
+      - name: Run Tests with Coverage
         run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
 
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4
+      # Upload lcov.info pour Sonar (évite le double test)
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: coverage-report
@@ -77,75 +92,50 @@ jobs:
           retention-days: 7
 
   # ══════════════════════════════════════════════
-  # JOB 3 — OWASP Dependency-Check
+  # JOB 3 — SonarCloud (réutilise lcov.info)
   # ══════════════════════════════════════════════
-  owasp:
-    name: OWASP Dependency-Check
+  sonar:
+    name: SonarCloud Analysis
     runs-on: ubuntu-latest
     needs: test
 
-    permissions:
-      security-events: write   # ← requis pour upload-sarif
-      contents: read
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
+          fetch-depth: 0
 
-      - name: Cache Maven packages
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules cache
         uses: actions/cache@v4
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          path: node_modules
+          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-      - name: Cache NVD database
-        uses: actions/cache@v4
+      # Télécharge le rapport déjà généré — pas de re-test
+      - uses: actions/download-artifact@v4
         with:
-          path: ~/.dependency-check/data
-          key: ${{ runner.os }}-nvd-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-nvd-
+          name: coverage-report
+          path: coverage/
 
-      - name: Run OWASP Dependency-Check
+      - name: SonarCloud Analysis
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.organization=moh1920
+            -Dsonar.projectKey=moh1920_Projet_recrutement_Pfe_Frontend
+            -Dsonar.sources=src
+            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/dist/**,**/coverage/**
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=**/*.spec.ts
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.typescript.tsconfigPath=tsconfig.json
         env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: |
-          mvn -B org.owasp:dependency-check-maven:check \
-            -DfailBuildOnCVSS=7 \
-            -DsuppressionFile=.github/owasp-suppressions.xml \
-            -DnvdApiKey=${NVD_API_KEY} \
-            -Dformats=HTML,JSON,SARIF \
-            -Dformat=ALL \
-            --file pom.xml
-
-      - name: Verify SARIF file exists
-        if: always()
-        run: |
-          echo "=== Contenu de target/ ==="
-          ls -la target/ | grep -i "dependency\|sarif" || echo "Aucun fichier SARIF trouvé"
-          # Cherche le fichier SARIF peu importe son nom exact
-          find target/ -name "*.sarif" 2>/dev/null || echo "Aucun .sarif dans target/"
-
-      - name: Upload OWASP HTML report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: owasp-report
-          path: target/dependency-check-report.*
-          retention-days: 14
-
-      - name: Upload SARIF to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v4   # ← v3 → v4
-        if: always()
-        with:
-          sarif_file: target/dependency-check-report.sarif
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
 
   # ══════════════════════════════════════════════
   # JOB 4 — Docker Build & Push
@@ -157,20 +147,16 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v3
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v5
         with:
           context: .
           file: ./docker/frontend/Dockerfile
@@ -181,11 +167,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Image digest
-        run: echo "Image pushed sayarimohamed/pfe-frontend:${{ github.sha }}"
-
   # ══════════════════════════════════════════════
-  # JOB 5 — Deploy Frontend Azure  ← même niveau que docker !
+  # JOB 5 — Deploy Azure + Rollback
   # ══════════════════════════════════════════════
   deploy-frontend:
     name: Deploy Frontend Azure
@@ -198,20 +181,65 @@ jobs:
       contents: read
 
     steps:
-      - name: Azure Login (OIDC)
-        uses: azure/login@v2
+      - uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-
       - name: Install containerapp extension
         run: az extension add --name containerapp --upgrade -y
 
-      - name: Deploy to Azure Container Apps
+      - name: Deploy with auto-rollback
         run: |
-          az containerapp update \
+          # Sauvegarde la révision active avant déploiement
+          PREV_REVISION=$(az containerapp revision list \
             --name pfe-frontend \
             --resource-group pfe-rg \
-            --image sayarimohamed/pfe-frontend:${{ github.sha }}
+            --query "[?properties.active].name | [0]" \
+            -o tsv)
+
+          echo "Révision précédente : $PREV_REVISION"
+
+          # Tente le déploiement
+          if ! az containerapp update \
+            --name pfe-frontend \
+            --resource-group pfe-rg \
+            --image sayarimohamed/pfe-frontend:${{ github.sha }}; then
+
+            echo "Déploiement échoué — rollback vers $PREV_REVISION"
+            az containerapp revision activate \
+              --name pfe-frontend \
+              --resource-group pfe-rg \
+              --revision "$PREV_REVISION"
+            exit 1
+          fi
+
+  # ══════════════════════════════════════════════
+  # JOB 6 — Notification échec
+  # ══════════════════════════════════════════════
+  notify-failure:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [build, test, sonar, docker, deploy-frontend]
+    if: failure()
+
+    steps:
+      - name: Slack Notification
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": "❌ Pipeline échoué sur *${{ github.ref_name }}*",
+              "attachments": [{
+                "color": "danger",
+                "fields": [
+                  { "title": "Commit", "value": "${{ github.sha }}", "short": true },
+                  { "title": "Auteur", "value": "${{ github.actor }}", "short": true },
+                  { "title": "Lien", "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                ]
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
