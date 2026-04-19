@@ -87,9 +87,9 @@ jobs:
           retention-days: 7
 
   # ══════════════════════════════════════════════
-  # JOB 3 — OWASP Dependency-Check  ← NOUVEAU
-  # Scan les CVE dans toutes les dépendances Maven
-  # Le job échoue si un CVE de score CVSS ≥ 7 est trouvé
+  # JOB 3 — OWASP Dependency-Check
+  # Scanne les CVE dans les dépendances Maven (pom.xml)
+  # Bloque si CVE CVSS >= 7
   # ══════════════════════════════════════════════
   owasp:
     name: OWASP Dependency-Check
@@ -173,18 +173,17 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
-      # Fix : tronque les rule IDs > 255 caractères générés par le plugin OWASP
       - name: Fix SARIF — tronquer les rule IDs trop longs
         if: always() && hashFiles('target/dependency-check-report.sarif') != ''
         run: |
           python3 - <<'EOF'
           import json
-          
+
           sarif_path = "target/dependency-check-report.sarif"
-          
+
           with open(sarif_path, "r", encoding="utf-8") as f:
               sarif = json.load(f)
-          
+
           for run in sarif.get("runs", []):
               driver = run.get("tool", {}).get("driver", {})
               for rule in driver.get("rules", []):
@@ -193,10 +192,10 @@ jobs:
               for result in run.get("results", []):
                   if len(result.get("ruleId", "")) > 255:
                       result["ruleId"] = result["ruleId"][:255]
-          
+
           with open(sarif_path, "w", encoding="utf-8") as f:
               json.dump(sarif, f)
-          
+
           print("SARIF corrigé avec succès.")
           EOF
 
@@ -205,21 +204,22 @@ jobs:
         if: always() && hashFiles('target/dependency-check-report.sarif') != ''
         with:
           sarif_file: target/dependency-check-report.sarif
+          category: owasp-dependency-check
 
-      # Fait echouer le job APRES que les rapports ont ete uploades
       - name: Fail si CVE critique detectee
         if: env.OWASP_EXIT != '0'
         run: |
           echo "Des CVE de score CVSS >= 7 ont ete detectees."
           echo "Consulte l artefact owasp-report pour le detail."
           exit 1
+
   # ══════════════════════════════════════════════
-  # JOB 3 — SonarCloud Analysis
+  # JOB 4 — SonarCloud Analysis
   # ══════════════════════════════════════════════
   sonar:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
-    needs: test
+    needs: owasp
 
     steps:
       - name: Checkout code
@@ -278,7 +278,7 @@ jobs:
           scanMetadataReportFile: target/sonar/report-task.txt
 
   # ══════════════════════════════════════════════
-  # JOB 4 — Docker Build & Push
+  # JOB 5 — Docker Build & Push
   # (uniquement sur push, pas sur PR)
   # ══════════════════════════════════════════════
   docker:
@@ -317,10 +317,134 @@ jobs:
       - name: Image digest
         run: echo "Image pushed sayarimohamed/pfe-backend:${{ github.sha }}"
 
+  # ══════════════════════════════════════════════
+  # JOB 6 — Trivy Security Scan  ← NOUVEAU
+  # Scanne l'image Docker pour détecter :
+  #   • CVE dans l'OS de base (ubuntu/alpine/etc.)
+  #   • CVE dans les dépendances embarquées dans le JAR
+  #   • Secrets exposés accidentellement dans l'image
+  #   • Mauvaises configurations Docker (misconfigs)
+  # ══════════════════════════════════════════════
+  trivy:
+    name: Trivy Security Scan
+    runs-on: ubuntu-latest
+    needs: docker
+    if: github.event_name == 'push'
+
+    permissions:
+      security-events: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Cache la base de données Trivy pour éviter de la retélécharger
+      # (~200 MB, mise à jour quotidienne par Aqua Security)
+      - name: Cache Trivy database
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/trivy
+          key: ${{ runner.os }}-trivy-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-trivy-
+
+      # ── Scan 1 : Vulnérabilités dans l'image Docker ──
+      # Scanne l'OS de base + toutes les libs embarquées dans le JAR
+      # Sévérités ciblées : HIGH et CRITICAL uniquement
+      - name: Trivy — scan vulnérabilités image Docker
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: sayarimohamed/pfe-backend:${{ github.sha }}
+          scan-type: image
+          scanners: vuln
+          severity: HIGH,CRITICAL
+          format: sarif
+          output: trivy-vuln.sarif
+          exit-code: '1'
+          ignore-unfixed: true
+          # ignore-unfixed: ne bloque que sur les CVE qui ont un correctif disponible
+          # Les CVE sans correctif sont signalées mais ne bloquent pas le pipeline
+
+      - name: Upload vulnérabilités SARIF → GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-vuln.sarif
+          category: trivy-image-vuln
+
+      # ── Scan 2 : Secrets exposés dans l'image ──
+      # Détecte les tokens, clés API, mots de passe commités par erreur
+      - name: Trivy — scan secrets dans l'image
+        uses: aquasecurity/trivy-action@master
+        if: always()
+        with:
+          image-ref: sayarimohamed/pfe-backend:${{ github.sha }}
+          scan-type: image
+          scanners: secret
+          format: sarif
+          output: trivy-secret.sarif
+          exit-code: '1'
+
+      - name: Upload secrets SARIF → GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-secret.sarif
+          category: trivy-image-secrets
+
+      # ── Scan 3 : Mauvaises configurations Dockerfile ──
+      # Vérifie les best practices Docker : USER non-root, HEALTHCHECK, etc.
+      - name: Trivy — scan misconfigurations Dockerfile
+        uses: aquasecurity/trivy-action@master
+        if: always()
+        with:
+          scan-type: config
+          scan-ref: .
+          scanners: misconfig
+          severity: HIGH,CRITICAL
+          format: sarif
+          output: trivy-misconfig.sarif
+          exit-code: '0'
+          # exit-code: 0 = signaler sans bloquer (les misconfigs sont souvent intentionnelles)
+
+      - name: Upload misconfigs SARIF → GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-misconfig.sarif
+          category: trivy-misconfig
+
+      # ── Rapport texte complet (lisible dans les logs) ──
+      - name: Trivy — rapport table lisible
+        uses: aquasecurity/trivy-action@master
+        if: always()
+        with:
+          image-ref: sayarimohamed/pfe-backend:${{ github.sha }}
+          scan-type: image
+          scanners: vuln,secret
+          severity: CRITICAL,HIGH,MEDIUM
+          format: table
+          exit-code: '0'
+
+      # ── Upload des rapports SARIF comme artefacts ──
+      - name: Upload rapports Trivy
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-reports
+          path: |
+            trivy-vuln.sarif
+            trivy-secret.sarif
+            trivy-misconfig.sarif
+          retention-days: 14
+
+  # ══════════════════════════════════════════════
+  # JOB 7 — Deploy Backend Azure
+  # ══════════════════════════════════════════════
   deploy-backend:
     name: Deploy Backend Azure
     runs-on: ubuntu-latest
-    needs: docker
+    needs: trivy        # ← attend que Trivy passe avant de déployer
     if: github.event_name == 'push'
 
     permissions:
