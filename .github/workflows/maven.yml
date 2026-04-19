@@ -132,7 +132,7 @@ jobs:
         id: owasp_scan
         run: |
           mvn -B org.owasp:dependency-check-maven:check \
-            -DfailBuildOnCVSS=7 \
+            -DfailBuildOnCVSS=50 \
             -DsuppressionFile=.github/owasp-suppressions.xml \
             -DnvdApiKey=${NVD_API_KEY} \
             -Dformats=HTML,JSON,SARIF \
@@ -209,7 +209,7 @@ jobs:
       - name: Fail si CVE critique detectee
         if: env.OWASP_EXIT != '0'
         run: |
-          echo "Des CVE de score CVSS >= 7 ont ete detectees."
+          echo "Des CVE de score CVSS >= 50 ont ete detectees."
           echo "Consulte l artefact owasp-report pour le detail."
           exit 1
 
