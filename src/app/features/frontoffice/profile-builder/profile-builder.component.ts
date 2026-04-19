@@ -16,7 +16,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { ProfileRequestDTO, ProfileService } from '../../../core/services/profile.service';
-import { KeycloakService } from "keycloak-angular";
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-profile-builder',
@@ -35,7 +35,7 @@ import { KeycloakService } from "keycloak-angular";
     MatCheckboxModule,
     MatIconModule,
     MatSliderModule,
-    MatCardModule
+    MatCardModule,
   ],
   templateUrl: './profile-builder.component.html',
   styleUrl: './profile-builder.component.scss',
@@ -43,16 +43,16 @@ import { KeycloakService } from "keycloak-angular";
     trigger('slideIn', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateX(-20px)' }),
-        animate('0.3s ease', style({ opacity: 1, transform: 'translateX(0)' }))
-      ])
-    ])
-  ]
+        animate('0.3s ease', style({ opacity: 1, transform: 'translateX(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class ProfileBuilderComponent implements OnInit {
   private fb = inject(FormBuilder);
   private profileService = inject(ProfileService);
   private router = inject(Router);
-  private keycloak = inject(KeycloakService)
+  private keycloak = inject(KeycloakService);
 
   currentStep = 1;
 
@@ -70,12 +70,56 @@ export class ProfileBuilderComponent implements OnInit {
   nationalites = ['Tunisienne', 'Française', 'Algérienne', 'Marocaine', 'Autre'];
 
   // Skills Lists
-  langagesList = ['Java', 'Python', 'JavaScript', 'C++', 'C#', 'PHP', 'Ruby', 'Go', 'Kotlin', 'Swift'];
-  frameworksList = ['Spring Boot', 'Angular', 'React', 'Vue.js', 'Django', 'Flask', 'Node.js', 'Express'];
-  dataSkillsList = ['SQL', 'MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Elasticsearch', 'Hadoop', 'Spark'];
-  iaSkillsList = ['Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'TensorFlow', 'PyTorch', 'Scikit-learn'];
+  langagesList = [
+    'Java',
+    'Python',
+    'JavaScript',
+    'C++',
+    'C#',
+    'PHP',
+    'Ruby',
+    'Go',
+    'Kotlin',
+    'Swift',
+  ];
+  frameworksList = [
+    'Spring Boot',
+    'Angular',
+    'React',
+    'Vue.js',
+    'Django',
+    'Flask',
+    'Node.js',
+    'Express',
+  ];
+  dataSkillsList = [
+    'SQL',
+    'MongoDB',
+    'PostgreSQL',
+    'MySQL',
+    'Redis',
+    'Elasticsearch',
+    'Hadoop',
+    'Spark',
+  ];
+  iaSkillsList = [
+    'Machine Learning',
+    'Deep Learning',
+    'NLP',
+    'Computer Vision',
+    'TensorFlow',
+    'PyTorch',
+    'Scikit-learn',
+  ];
   erpSkillsList = ['SAP', 'Oracle', 'Odoo', 'Microsoft Dynamics'];
-  methodesList = ['Cours Magistral', 'TD/TP', 'Projet', 'E-Learning', 'Classe Inversée', 'Apprentissage par Problèmes'];
+  methodesList = [
+    'Cours Magistral',
+    'TD/TP',
+    'Projet',
+    'E-Learning',
+    'Classe Inversée',
+    'Apprentissage par Problèmes',
+  ];
 
   constructor() {
     this.initForms();
@@ -96,7 +140,7 @@ export class ProfileBuilderComponent implements OnInit {
       this.personalInfoForm.patchValue({
         nom: data.identification.nom || this.personalInfoForm.value.nom,
         email: data.identification.email || this.personalInfoForm.value.email,
-        telephone: data.identification.telephone || this.personalInfoForm.value.telephone
+        telephone: data.identification.telephone || this.personalInfoForm.value.telephone,
       });
     }
 
@@ -106,23 +150,26 @@ export class ProfileBuilderComponent implements OnInit {
         specialite: data.formation.specialite || this.educationForm.value.specialite,
         universite: data.formation.universite || this.educationForm.value.universite,
         anneeDiplome: data.formation.annee_diplome || this.educationForm.value.anneeDiplome,
-        gradeAcademique: data.formation.grade_academique || this.educationForm.value.gradeAcademique
+        gradeAcademique:
+          data.formation.grade_academique || this.educationForm.value.gradeAcademique,
       });
     }
 
     if (data.experience) {
       this.experienceForm.patchValue({
-        nbAnneesExperience: data.experience.nb_annees_experience || this.experienceForm.value.nbAnneesExperience,
-        experienceAcademique: data.experience.experience_academique || this.experienceForm.value.experienceAcademique
+        nbAnneesExperience:
+          data.experience.nb_annees_experience || this.experienceForm.value.nbAnneesExperience,
+        experienceAcademique:
+          data.experience.experience_academique || this.experienceForm.value.experienceAcademique,
       });
-      
+
       if (data.experience.institutions && Array.isArray(data.experience.institutions)) {
         this.institutions.clear();
         data.experience.institutions.forEach((inst: string) => {
           if (inst) this.institutions.push(this.fb.control(inst, Validators.required));
         });
       }
-      
+
       if (data.experience.modules_enseignes && Array.isArray(data.experience.modules_enseignes)) {
         this.modulesEnseignes.clear();
         data.experience.modules_enseignes.forEach((mod: string) => {
@@ -134,7 +181,14 @@ export class ProfileBuilderComponent implements OnInit {
     if (data.competences) {
       const getMatches = (skills: string[], predefinedList: string[]) => {
         if (!skills || !Array.isArray(skills)) return [];
-        return predefinedList.filter(l => skills.some(s => s?.toLowerCase() === l.toLowerCase() || s?.toLowerCase().includes(l.toLowerCase()) || l.toLowerCase().includes(s?.toLowerCase())));
+        return predefinedList.filter((l) =>
+          skills.some(
+            (s) =>
+              s?.toLowerCase() === l.toLowerCase() ||
+              s?.toLowerCase().includes(l.toLowerCase()) ||
+              l.toLowerCase().includes(s?.toLowerCase())
+          )
+        );
       };
 
       this.technicalSkillsForm.patchValue({
@@ -142,7 +196,7 @@ export class ProfileBuilderComponent implements OnInit {
         frameworks: getMatches(data.competences.frameworks, this.frameworksList),
         dataSkills: getMatches(data.competences.data, this.dataSkillsList),
         iaSkills: getMatches(data.competences.ia, this.iaSkillsList),
-        erpSkills: getMatches(data.competences.erp, this.erpSkillsList)
+        erpSkills: getMatches(data.competences.erp, this.erpSkillsList),
       });
     }
 
@@ -163,22 +217,32 @@ export class ProfileBuilderComponent implements OnInit {
     if (data.SKILL && Array.isArray(data.SKILL)) {
       const getMatches = (skills: string[], predefinedList: string[]) => {
         if (!skills || !Array.isArray(skills)) return [];
-        return predefinedList.filter(l => skills.some(s => s?.toLowerCase() === l.toLowerCase() || s?.toLowerCase().includes(l.toLowerCase()) || l.toLowerCase().includes(s?.toLowerCase())));
+        return predefinedList.filter((l) =>
+          skills.some(
+            (s) =>
+              s?.toLowerCase() === l.toLowerCase() ||
+              s?.toLowerCase().includes(l.toLowerCase()) ||
+              l.toLowerCase().includes(s?.toLowerCase())
+          )
+        );
       };
-      
+
       this.technicalSkillsForm.patchValue({
         langages: getMatches(data.SKILL, this.langagesList),
-        frameworks: getMatches(data.SKILL, this.frameworksList)
+        frameworks: getMatches(data.SKILL, this.frameworksList),
       });
     }
 
     // Support for older LLM / Hybrid model outputs (JSON objects)
     if (data.information_personnelles) {
       this.personalInfoForm.patchValue({
-        nom: data.information_personnelles.nom || data.information_personnelles.prenom || this.personalInfoForm.value.nom,
+        nom:
+          data.information_personnelles.nom ||
+          data.information_personnelles.prenom ||
+          this.personalInfoForm.value.nom,
         email: data.information_personnelles.email || this.personalInfoForm.value.email,
         telephone: data.information_personnelles.telephone || this.personalInfoForm.value.telephone,
-        ville: data.information_personnelles.localisation || this.personalInfoForm.value.ville
+        ville: data.information_personnelles.localisation || this.personalInfoForm.value.ville,
       });
     }
   }
@@ -193,7 +257,7 @@ export class ProfileBuilderComponent implements OnInit {
       telephone: ['', Validators.required],
       nationalite: ['', Validators.required],
       ville: ['', Validators.required],
-      dateNaissance: ['', Validators.required]
+      dateNaissance: ['', Validators.required],
     });
 
     this.educationForm = this.fb.group({
@@ -201,14 +265,14 @@ export class ProfileBuilderComponent implements OnInit {
       specialite: ['', Validators.required],
       universite: ['', Validators.required],
       anneeDiplome: ['', [Validators.required, Validators.min(1950), Validators.max(2030)]],
-      gradeAcademique: ['']
+      gradeAcademique: [''],
     });
 
     this.experienceForm = this.fb.group({
       nbAnneesExperience: [0, [Validators.required, Validators.min(0)]],
       experienceAcademique: [false],
       institutions: this.fb.array([]),
-      modulesEnseignes: this.fb.array([])
+      modulesEnseignes: this.fb.array([]),
     });
 
     this.technicalSkillsForm = this.fb.group({
@@ -216,20 +280,20 @@ export class ProfileBuilderComponent implements OnInit {
       frameworks: [[]],
       dataSkills: [[]],
       iaSkills: [[]],
-      erpSkills: [[]]
+      erpSkills: [[]],
     });
 
     this.pedagogicalSkillsForm = this.fb.group({
       methodesEnseignement: [[]],
       encadrement: [false],
-      innovationPedagogique: [false]
+      innovationPedagogique: [false],
     });
 
     this.softSkillsForm = this.fb.group({
       communication: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
       leadership: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
       espritEquipe: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
-      motivation: ['', [Validators.required, Validators.minLength(50)]]
+      motivation: ['', [Validators.required, Validators.minLength(50)]],
     });
   }
 
@@ -252,10 +316,10 @@ export class ProfileBuilderComponent implements OnInit {
       this.experienceForm,
       this.technicalSkillsForm,
       this.pedagogicalSkillsForm,
-      this.softSkillsForm
+      this.softSkillsForm,
     ];
 
-    const validForms = forms.filter(f => f.valid).length;
+    const validForms = forms.filter((f) => f.valid).length;
     return Math.round((validForms / forms.length) * 100);
   }
 
@@ -283,12 +347,14 @@ export class ProfileBuilderComponent implements OnInit {
   }
 
   isAllFormsValid(): boolean {
-    return this.personalInfoForm.valid &&
+    return (
+      this.personalInfoForm.valid &&
       this.educationForm.valid &&
       this.experienceForm.valid &&
       this.technicalSkillsForm.valid &&
       this.pedagogicalSkillsForm.valid &&
-      this.softSkillsForm.valid;
+      this.softSkillsForm.valid
+    );
   }
 
   onSubmit(): void {
@@ -300,7 +366,9 @@ export class ProfileBuilderComponent implements OnInit {
         ...this.technicalSkillsForm.value,
         ...this.pedagogicalSkillsForm.value,
         ...this.softSkillsForm.value,
-        dateNaissance: this.personalInfoForm.value.dateNaissance?.toISOString?.() || this.personalInfoForm.value.dateNaissance
+        dateNaissance:
+          this.personalInfoForm.value.dateNaissance?.toISOString?.() ||
+          this.personalInfoForm.value.dateNaissance,
       };
 
       this.profileService.createProfile(profileData).subscribe({
@@ -309,7 +377,7 @@ export class ProfileBuilderComponent implements OnInit {
         },
         error: (error) => {
           console.error('Erreur:', error);
-        }
+        },
       });
     }
   }

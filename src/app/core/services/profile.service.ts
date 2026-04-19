@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 // ══════════════════════════════════════════════════
 // INTERFACES
 // ══════════════════════════════════════════════════
-
 
 export interface DocumentResponse {
   name: string;
@@ -119,10 +118,9 @@ export interface ProfileResponseDTO {
 // ══════════════════════════════════════════════════
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfileService {
-
   private readonly BASE_URL = `${environment.apiUrl}/profiles_users`;
 
   constructor(private http: HttpClient) {}
@@ -158,10 +156,7 @@ export class ProfileService {
   }
 
   updateCvPath(id: string, cvPath: string): Observable<ProfileResponseDTO> {
-    return this.http.patch<ProfileResponseDTO>(
-      `${this.BASE_URL}/updateCvPath/${id}`,
-      { cvPath }
-    );
+    return this.http.patch<ProfileResponseDTO>(`${this.BASE_URL}/updateCvPath/${id}`, { cvPath });
   }
 
   // ── DELETE ──────────────────────────────────────
@@ -218,19 +213,12 @@ export class ProfileService {
     return this.http.get<ProfileResponseDTO[]>(`${this.BASE_URL}/getProfilesWithCV`);
   }
 
-
-
   uploadCV(idProfile: string, file: File): Observable<DocumentResponse> {
     const formData = new FormData();
 
     // ⚠️ MUST match @RequestParam("file")
     formData.append('file', file);
 
-    return this.http.post<DocumentResponse>(
-      `${this.BASE_URL}/${idProfile}/upload-cv`,
-      formData
-    );
+    return this.http.post<DocumentResponse>(`${this.BASE_URL}/${idProfile}/upload-cv`, formData);
   }
-
-
 }

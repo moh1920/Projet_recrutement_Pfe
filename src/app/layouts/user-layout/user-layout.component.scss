@@ -1,5 +1,5 @@
 // Variables
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #b71c1c;
 $esprit-red-dark: #5c0000;
 $text-dark: #1a1a1a;
@@ -665,7 +665,7 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
   }
 
   &.active-link {
-    background: linear-gradient(135deg, rgba(139,0,0,0.08), rgba(183,28,28,0.05));
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.08), rgba(183, 28, 28, 0.05));
 
     mat-icon {
       color: $esprit-red;
@@ -680,7 +680,8 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 }
 
 @keyframes pulse-badge {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 2px 8px rgba(255, 68, 68, 0.5);
   }
   50% {

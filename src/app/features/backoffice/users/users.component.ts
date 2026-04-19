@@ -14,7 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import {UserService, User, UserKey, UserDTO} from '../../../core/services/user.service';
+import { UserService, User, UserKey, UserDTO } from '../../../core/services/user.service';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 
 @Component({
@@ -33,20 +33,29 @@ import { UserDialogComponent } from './user-dialog/user-dialog.component';
     MatChipsModule,
     MatDividerModule,
     MatCheckboxModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+  styleUrl: './users.component.scss',
 })
 export class UsersComponent implements AfterViewInit {
-  displayedColumns: string[] = ['select', 'name', 'email', 'role', 'department', 'status', 'lastActive', 'actions'];
+  displayedColumns: string[] = [
+    'select',
+    'name',
+    'email',
+    'role',
+    'department',
+    'status',
+    'lastActive',
+    'actions',
+  ];
   availableColumns = ['Nom', 'Email', 'Rôle', 'Département', 'Statut', 'Dernière connexion'];
   dataSource: MatTableDataSource<User>;
   listUsers: UserDTO[] = [];
   selection = new SelectionModel<User>(true, []);
 
   availableRoles = ['Tous', 'Admin', 'Chef de Département', 'CUP', 'Enseignant'];
-  selectedRole: string = 'Tous';
+  selectedRole = 'Tous';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -64,12 +73,12 @@ export class UsersComponent implements AfterViewInit {
     'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
     'linear-gradient(135deg, #065f46 0%, #10b981 100%)',
     'linear-gradient(135deg, #92400e 0%, #f59e0b 100%)',
-    'linear-gradient(135deg, #701a75 0%, #c026d3 100%)'
+    'linear-gradient(135deg, #701a75 0%, #c026d3 100%)',
   ];
 
   constructor() {
     this.dataSource = new MatTableDataSource();
-  //  this.loadUsers();
+    //  this.loadUsers();
     this.loadAllUsers();
   }
 
@@ -83,23 +92,22 @@ export class UsersComponent implements AfterViewInit {
   loadAllUsers() {
     this.userService.getAllUsers().subscribe({
       next: (data) => {
-        this.listUsers = data.filter(u => u.role.toLowerCase() != "candidate" );
-
+        this.listUsers = data.filter((u) => u.role.toLowerCase() != 'candidate');
 
         // Transform data to match template expectations
-        const transformedUsers = this.listUsers.map(user => this.transformUserData(user));
+        const transformedUsers = this.listUsers.map((user) => this.transformUserData(user));
         this.dataSource.data = transformedUsers;
 
         // Update stats
         this.totalUsers = transformedUsers.length;
-        this.activeUsers = transformedUsers.filter(u => u.status === 'Actif').length;
+        this.activeUsers = transformedUsers.filter((u) => u.status === 'Actif').length;
 
         console.log('Loaded users:', transformedUsers);
       },
       error: (error) => {
         console.error('Error loading users:', error);
         // Add error handling (snackbar notification, etc.)
-      }
+      },
     });
   }
 
@@ -113,7 +121,7 @@ export class UsersComponent implements AfterViewInit {
       role: userDto.role,
       department: userDto.department, // Will be empty until API provides it
       status: userDto.statusUser, // Default to active
-      lastActive: userDto.dateDeCreation // Current date as placeholder
+      lastActive: userDto.dateDeCreation, // Current date as placeholder
     };
   }
 
@@ -163,7 +171,12 @@ export class UsersComponent implements AfterViewInit {
 
   // Avatar helpers
   getInitials(name: string): string {
-    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .substring(0, 2)
+      .toUpperCase();
   }
 
   getAvatarColor(name: string): string {
@@ -175,9 +188,9 @@ export class UsersComponent implements AfterViewInit {
   getRoleClass(role: string): string {
     const map: { [key: string]: string } = {
       'Chef de Département': 'chef-dept',
-      'CUP': 'cup',
-      'Enseignant': 'enseignant',
-      'Admin': 'admin'
+      CUP: 'cup',
+      Enseignant: 'enseignant',
+      Admin: 'admin',
     };
     return map[role] || 'default';
   }
@@ -185,9 +198,9 @@ export class UsersComponent implements AfterViewInit {
   getRoleIcon(role: string): string {
     const map: { [key: string]: string } = {
       'Chef de Département': 'supervisor_account',
-      'CUP': 'school',
-      'Enseignant': 'person',
-      'Admin': 'admin_panel_settings'
+      CUP: 'school',
+      Enseignant: 'person',
+      Admin: 'admin_panel_settings',
     };
     return map[role] || 'person';
   }
@@ -204,9 +217,9 @@ export class UsersComponent implements AfterViewInit {
   // Column visibility
   toggleColumn(column: string) {
     const colMap: { [key: string]: string } = {
-      'Nom': 'name',
-      'Email': 'email',
-      'Rôle': 'role',
+      Nom: 'name',
+      Email: 'email',
+      Rôle: 'role',
     };
 
     const colKey = colMap[column];
@@ -216,7 +229,16 @@ export class UsersComponent implements AfterViewInit {
       this.displayedColumns.splice(index, 1);
     } else {
       // Réinsérer à la bonne position
-      const order = ['select', 'name', 'email', 'role', 'department', 'status', 'lastActive', 'actions'];
+      const order = [
+        'select',
+        'name',
+        'email',
+        'role',
+        'department',
+        'status',
+        'lastActive',
+        'actions',
+      ];
       const newIndex = order.indexOf(colKey);
       this.displayedColumns.splice(newIndex, 0, colKey);
     }
@@ -224,8 +246,12 @@ export class UsersComponent implements AfterViewInit {
 
   isColumnVisible(column: string): boolean {
     const colMap: { [key: string]: string } = {
-      'Nom': 'name', 'Email': 'email', 'Rôle': 'role',
-      'Département': 'department', 'Statut': 'status', 'Dernière connexion': 'lastActive'
+      Nom: 'name',
+      Email: 'email',
+      Rôle: 'role',
+      Département: 'department',
+      Statut: 'status',
+      'Dernière connexion': 'lastActive',
     };
     return this.displayedColumns.includes(colMap[column]);
   }
@@ -235,10 +261,10 @@ export class UsersComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(UserDialogComponent, {
       width: '600px',
       panelClass: 'modern-dialog',
-      data: null
+      data: null,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.userService.createUser(result).subscribe(() => this.loadAllUsers());
       }
@@ -249,10 +275,10 @@ export class UsersComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(UserDialogComponent, {
       width: '600px',
       panelClass: 'modern-dialog',
-      data: user
+      data: user,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.loadAllUsers();
       }
@@ -261,13 +287,13 @@ export class UsersComponent implements AfterViewInit {
 
   deleteUser(id: string) {
     if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
-    //  this.userService.deleteUser(id).subscribe(() => this.loadAllUsers());
+      //  this.userService.deleteUser(id).subscribe(() => this.loadAllUsers());
     }
   }
 
   deleteSelected() {
     if (confirm(`Supprimer ${this.selection.selected.length} utilisateurs ?`)) {
-      const ids = this.selection.selected.map(u => u.id);
+      const ids = this.selection.selected.map((u) => u.id);
       // Appel API batch delete
       this.selection.clear();
       this.loadAllUsers();

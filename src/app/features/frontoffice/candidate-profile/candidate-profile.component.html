@@ -1,12 +1,10 @@
 <div class="profile-page" *ngIf="!isLoading; else loadingTpl">
-
   <!-- Header Hero -->
   <section class="profile-hero">
     <div class="hero-bg-pattern"></div>
     <div class="container">
       <div class="hero-content">
         <div class="profile-avatar-section">
-
           <!-- Avatar -->
           <div class="avatar-container">
             <div class="avatar">
@@ -17,12 +15,16 @@
             </div>
             <div class="completion-badge" *ngIf="!isEditing">
               <svg viewBox="0 0 36 36" class="circular-chart">
-                <path class="circle-bg"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                <path class="circle"
-                      [attr.stroke-dasharray]="stats.profileCompletion + ', 100'"
-                      [style.stroke]="getCompletionColor()"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path
+                  class="circle-bg"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  class="circle"
+                  [attr.stroke-dasharray]="stats.profileCompletion + ', 100'"
+                  [style.stroke]="getCompletionColor()"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
               </svg>
               <span class="completion-text">{{ stats.profileCompletion }}%</span>
             </div>
@@ -95,14 +97,11 @@
   <!-- Main Content -->
   <section class="profile-content">
     <div class="container">
-
       <!-- ══════════════ OVERVIEW TAB ══════════════ -->
       <div *ngIf="activeTab === 'overview'" class="tab-content overview-tab">
         <div class="content-grid">
-
           <!-- Left Column -->
           <div class="main-column">
-
             <!-- À propos -->
             <div class="profile-card">
               <div class="card-header">
@@ -180,7 +179,11 @@
                 <h3>Modules enseignés</h3>
               </div>
               <div class="skills-cloud">
-                <span *ngFor="let mod of profileCurrent.modulesEnseignes" class="skill-tag level-3">{{ mod }}</span>
+                <span
+                  *ngFor="let mod of profileCurrent.modulesEnseignes"
+                  class="skill-tag level-3"
+                  >{{ mod }}</span
+                >
               </div>
             </div>
 
@@ -190,9 +193,13 @@
                 <h3>Méthodes d'enseignement</h3>
               </div>
               <div class="skills-cloud">
-                <span *ngFor="let m of profileCurrent.methodesEnseignement" class="skill-tag level-2">{{ m }}</span>
+                <span
+                  *ngFor="let m of profileCurrent.methodesEnseignement"
+                  class="skill-tag level-2"
+                  >{{ m }}</span
+                >
               </div>
-              <div class="info-grid" style="margin-top:12px">
+              <div class="info-grid" style="margin-top: 12px">
                 <div class="info-item">
                   <span class="material-icons">supervised_user_circle</span>
                   <div>
@@ -213,20 +220,23 @@
 
           <!-- Right Column -->
           <div class="side-column">
-
             <!-- Compétences techniques -->
             <div class="profile-card skills-card">
               <div class="card-header">
                 <h3>Compétences techniques</h3>
               </div>
 
-              <ng-container *ngFor="let cat of [
-                {label:'Langages',   items: profileCurrent.langages},
-                {label:'Frameworks', items: profileCurrent.frameworks},
-                {label:'Data',       items: profileCurrent.dataSkills},
-                {label:'IA',         items: profileCurrent.iaSkills},
-                {label:'ERP',        items: profileCurrent.erpSkills}
-              ]">
+              <ng-container
+                *ngFor="
+                  let cat of [
+                    { label: 'Langages', items: profileCurrent.langages },
+                    { label: 'Frameworks', items: profileCurrent.frameworks },
+                    { label: 'Data', items: profileCurrent.dataSkills },
+                    { label: 'IA', items: profileCurrent.iaSkills },
+                    { label: 'ERP', items: profileCurrent.erpSkills },
+                  ]
+                "
+              >
                 <div class="skill-category" *ngIf="cat.items?.length">
                   <h5>{{ cat.label }}</h5>
                   <div class="skills-cloud">
@@ -248,7 +258,10 @@
                     <span>{{ getSkillLevelText(profileCurrent.communication) }}</span>
                   </div>
                   <div class="progress-track">
-                    <div class="progress-fill" [style.width.%]="profileCurrent.communication * 20"></div>
+                    <div
+                      class="progress-fill"
+                      [style.width.%]="profileCurrent.communication * 20"
+                    ></div>
                   </div>
                 </div>
                 <div class="skill-bar">
@@ -257,7 +270,10 @@
                     <span>{{ getSkillLevelText(profileCurrent.leadership) }}</span>
                   </div>
                   <div class="progress-track">
-                    <div class="progress-fill" [style.width.%]="profileCurrent.leadership * 20"></div>
+                    <div
+                      class="progress-fill"
+                      [style.width.%]="profileCurrent.leadership * 20"
+                    ></div>
                   </div>
                 </div>
                 <div class="skill-bar">
@@ -266,7 +282,10 @@
                     <span>{{ getSkillLevelText(profileCurrent.espritEquipe) }}</span>
                   </div>
                   <div class="progress-track">
-                    <div class="progress-fill" [style.width.%]="profileCurrent.espritEquipe * 20"></div>
+                    <div
+                      class="progress-fill"
+                      [style.width.%]="profileCurrent.espritEquipe * 20"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -282,19 +301,18 @@
                   <span class="material-icons">calendar_today</span>
                   <div>
                     <label>Créé le</label>
-                    <span>{{ profileCurrent.dateCreationProfil | date:'dd/MM/yyyy' }}</span>
+                    <span>{{ profileCurrent.dateCreationProfil | date: 'dd/MM/yyyy' }}</span>
                   </div>
                 </div>
                 <div class="pref-item" *ngIf="profileCurrent.dateDerniereMiseAJour">
                   <span class="material-icons">update</span>
                   <div>
                     <label>Mis à jour le</label>
-                    <span>{{ profileCurrent.dateDerniereMiseAJour | date:'dd/MM/yyyy' }}</span>
+                    <span>{{ profileCurrent.dateDerniereMiseAJour | date: 'dd/MM/yyyy' }}</span>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -303,38 +321,37 @@
       <div *ngIf="activeTab === 'edit'" class="tab-content edit-tab">
         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="edit-form">
           <div class="form-sections">
-
             <!-- Informations personnelles -->
             <div class="form-section">
               <h3>Informations personnelles</h3>
               <div class="form-row">
                 <div class="form-group">
                   <label>Nom complet</label>
-                  <input type="text" formControlName="nom" placeholder="Nom complet">
+                  <input type="text" formControlName="nom" placeholder="Nom complet" />
                 </div>
                 <div class="form-group">
                   <label>Nationalité</label>
-                  <input type="text" formControlName="nationalite" placeholder="Nationalité">
+                  <input type="text" formControlName="nationalite" placeholder="Nationalité" />
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label>Email</label>
-                  <input type="email" formControlName="email" placeholder="votre@email.com">
+                  <input type="email" formControlName="email" placeholder="votre@email.com" />
                 </div>
                 <div class="form-group">
                   <label>Téléphone</label>
-                  <input type="tel" formControlName="telephone" placeholder="+216 XX XXX XXX">
+                  <input type="tel" formControlName="telephone" placeholder="+216 XX XXX XXX" />
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label>Ville</label>
-                  <input type="text" formControlName="ville" placeholder="Ville">
+                  <input type="text" formControlName="ville" placeholder="Ville" />
                 </div>
                 <div class="form-group">
                   <label>Date de naissance</label>
-                  <input type="date" formControlName="dateNaissance">
+                  <input type="date" formControlName="dateNaissance" />
                 </div>
               </div>
             </div>
@@ -345,26 +362,30 @@
               <div class="form-row">
                 <div class="form-group">
                   <label>Niveau de diplôme</label>
-                  <input type="text" formControlName="niveauDiplome" placeholder="Ex: Master, Ingénieur">
+                  <input
+                    type="text"
+                    formControlName="niveauDiplome"
+                    placeholder="Ex: Master, Ingénieur"
+                  />
                 </div>
                 <div class="form-group">
                   <label>Spécialité</label>
-                  <input type="text" formControlName="specialite" placeholder="Spécialité">
+                  <input type="text" formControlName="specialite" placeholder="Spécialité" />
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label>Université</label>
-                  <input type="text" formControlName="universite" placeholder="Université">
+                  <input type="text" formControlName="universite" placeholder="Université" />
                 </div>
                 <div class="form-group">
                   <label>Année du diplôme</label>
-                  <input type="number" formControlName="anneeDiplome" placeholder="2020">
+                  <input type="number" formControlName="anneeDiplome" placeholder="2020" />
                 </div>
               </div>
               <div class="form-group">
                 <label>Grade académique</label>
-                <input type="text" formControlName="gradeAcademique" placeholder="Ex: Très bien">
+                <input type="text" formControlName="gradeAcademique" placeholder="Ex: Très bien" />
               </div>
             </div>
 
@@ -374,11 +395,11 @@
               <div class="form-row">
                 <div class="form-group">
                   <label>Nombre d'années d'expérience</label>
-                  <input type="number" formControlName="nbAnneesExperience" min="0">
+                  <input type="number" formControlName="nbAnneesExperience" min="0" />
                 </div>
-                <div class="form-group" style="align-self:center">
+                <div class="form-group" style="align-self: center">
                   <label class="checkbox">
-                    <input type="checkbox" formControlName="experienceAcademique">
+                    <input type="checkbox" formControlName="experienceAcademique" />
                     Expérience académique
                   </label>
                 </div>
@@ -391,15 +412,15 @@
               <div class="form-row">
                 <div class="form-group">
                   <label>Communication ({{ profileForm.get('communication')?.value }})</label>
-                  <input type="range" formControlName="communication" min="1" max="5" step="1">
+                  <input type="range" formControlName="communication" min="1" max="5" step="1" />
                 </div>
                 <div class="form-group">
                   <label>Leadership ({{ profileForm.get('leadership')?.value }})</label>
-                  <input type="range" formControlName="leadership" min="1" max="5" step="1">
+                  <input type="range" formControlName="leadership" min="1" max="5" step="1" />
                 </div>
                 <div class="form-group">
                   <label>Esprit d'équipe ({{ profileForm.get('espritEquipe')?.value }})</label>
-                  <input type="range" formControlName="espritEquipe" min="1" max="5" step="1">
+                  <input type="range" formControlName="espritEquipe" min="1" max="5" step="1" />
                 </div>
               </div>
             </div>
@@ -410,13 +431,13 @@
               <div class="form-row">
                 <div class="form-group">
                   <label class="checkbox">
-                    <input type="checkbox" formControlName="encadrement">
+                    <input type="checkbox" formControlName="encadrement" />
                     Encadrement
                   </label>
                 </div>
                 <div class="form-group">
                   <label class="checkbox">
-                    <input type="checkbox" formControlName="innovationPedagogique">
+                    <input type="checkbox" formControlName="innovationPedagogique" />
                     Innovation pédagogique
                   </label>
                 </div>
@@ -427,11 +448,13 @@
             <div class="form-section">
               <h3>Motivation / Bio</h3>
               <div class="form-group">
-                <textarea formControlName="motivation" rows="4"
-                          placeholder="Décrivez votre parcours et vos motivations..."></textarea>
+                <textarea
+                  formControlName="motivation"
+                  rows="4"
+                  placeholder="Décrivez votre parcours et vos motivations..."
+                ></textarea>
               </div>
             </div>
-
           </div>
 
           <div class="form-actions">
@@ -451,7 +474,7 @@
             <div class="upload-zone">
               <span class="material-icons">cloud_upload</span>
               <p>Déposez vos fichiers ici ou cliquez pour parcourir</p>
-              <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+              <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" />
             </div>
             <div class="upload-formats">
               <span>Formats acceptés : PDF, DOC, DOCX (max 10 MB)</span>
@@ -474,7 +497,6 @@
 
             <!-- Documents locaux ajoutés -->
             <div *ngFor="let doc of profileCurrent.certificatsPath | keyvalue" class="doc-item">
-
               <div class="doc-icon cv">
                 <span class="material-icons">description</span>
               </div>
@@ -488,9 +510,8 @@
 
                 <span>Les Certificates</span>
               </div>
-
             </div>
-            <p *ngIf="!profileCurrent.cvPath && !documents.length" style="color:#888">
+            <p *ngIf="!profileCurrent.cvPath && !documents.length" style="color: #888">
               Aucun document enregistré.
             </p>
           </div>
@@ -498,7 +519,7 @@
       </div>
 
       <!-- ══════════════ STATS TAB ══════════════ -->
-        <div *ngIf="activeTab === 'stats'" class="tab-content stats-tab">
+      <div *ngIf="activeTab === 'stats'" class="tab-content stats-tab">
         <div class="stats-grid">
           <div class="stat-card large">
             <div class="stat-icon blue">
@@ -542,25 +563,28 @@
         <div class="stats-charts">
           <div class="chart-card">
             <h4>Complétion du profil</h4>
-            <div class="progress-track" style="height:20px">
-              <div class="progress-fill"
-                   [style.width.%]="stats.profileCompletion"
-                   [style.background]="getCompletionColor()">
-              </div>
+            <div class="progress-track" style="height: 20px">
+              <div
+                class="progress-fill"
+                [style.width.%]="stats.profileCompletion"
+                [style.background]="getCompletionColor()"
+              ></div>
             </div>
-            <p style="margin-top:8px;font-weight:600">{{ stats.profileCompletion }}%</p>
+            <p style="margin-top: 8px; font-weight: 600">{{ stats.profileCompletion }}%</p>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 </div>
 
 <!-- Loading state -->
 <ng-template #loadingTpl>
-  <div style="display:flex;justify-content:center;align-items:center;height:200px">
-    <span class="material-icons" style="animation:spin 1s linear infinite;font-size:48px;color:#6366f1">
+  <div style="display: flex; justify-content: center; align-items: center; height: 200px">
+    <span
+      class="material-icons"
+      style="animation: spin 1s linear infinite; font-size: 48px; color: #6366f1"
+    >
       autorenew
     </span>
   </div>

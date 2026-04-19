@@ -1,6 +1,5 @@
 <!-- add-categorie-dialog.component.html -->
 <div class="esprit-dialog-container">
-
   <!-- ══════════ HEADER ══════════ -->
   <div class="dlg-header">
     <div class="dlg-header-bg"></div>
@@ -10,7 +9,13 @@
       </div>
       <div class="dlg-header-text">
         <h2>{{ isEditMode ? 'Modifier la Catégorie' : 'Nouvelle Catégorie' }}</h2>
-        <p>{{ isEditMode ? 'Mettez à jour les informations' : 'Créez une nouvelle catégorie de sélection' }}</p>
+        <p>
+          {{
+            isEditMode
+              ? 'Mettez à jour les informations'
+              : 'Créez une nouvelle catégorie de sélection'
+          }}
+        </p>
       </div>
     </div>
     <button mat-icon-button class="dlg-close-btn" (click)="onCancel()">
@@ -20,7 +25,6 @@
 
   <!-- ══════════ FORM ══════════ -->
   <form [formGroup]="categorieForm" class="dlg-form">
-
     <!-- Nom -->
     <div class="field-wrapper">
       <mat-icon class="field-ico">label</mat-icon>
@@ -28,7 +32,9 @@
         <mat-label>Nom de la catégorie</mat-label>
         <input matInput formControlName="nom" placeholder="Ex: Compétences Techniques" />
         <mat-error *ngIf="categorieForm.get('nom')?.hasError('required')">Champ requis</mat-error>
-        <mat-error *ngIf="categorieForm.get('nom')?.hasError('minlength')">Minimum 3 caractères</mat-error>
+        <mat-error *ngIf="categorieForm.get('nom')?.hasError('minlength')"
+          >Minimum 3 caractères</mat-error
+        >
       </mat-form-field>
     </div>
 
@@ -37,9 +43,15 @@
       <mat-icon class="field-ico">description</mat-icon>
       <mat-form-field appearance="outline" class="dlg-field">
         <mat-label>Description</mat-label>
-        <textarea matInput formControlName="description" rows="3"
-                  placeholder="Décrivez le rôle de cette catégorie..."></textarea>
-        <mat-hint align="end">{{ categorieForm.get('description')?.value?.length || 0 }} / 200</mat-hint>
+        <textarea
+          matInput
+          formControlName="description"
+          rows="3"
+          placeholder="Décrivez le rôle de cette catégorie..."
+        ></textarea>
+        <mat-hint align="end"
+          >{{ categorieForm.get('description')?.value?.length || 0 }} / 200</mat-hint
+        >
       </mat-form-field>
     </div>
 
@@ -62,9 +74,10 @@
       </div>
 
       <div class="poids-preview-bar">
-        <div class="poids-preview-fill"
-             [style.width.%]="categorieForm.get('poids')?.value || 0">
-        </div>
+        <div
+          class="poids-preview-fill"
+          [style.width.%]="categorieForm.get('poids')?.value || 0"
+        ></div>
       </div>
     </div>
 
@@ -73,15 +86,17 @@
       <button mat-stroked-button class="btn-cancel" type="button" (click)="onCancel()">
         Annuler
       </button>
-      <button mat-raised-button class="btn-save" type="button"
-              [disabled]="categorieForm.invalid || isSaving"
-              (click)="onSave()">
+      <button
+        mat-raised-button
+        class="btn-save"
+        type="button"
+        [disabled]="categorieForm.invalid || isSaving"
+        (click)="onSave()"
+      >
         <mat-spinner *ngIf="isSaving" diameter="16" class="save-spinner"></mat-spinner>
         <mat-icon *ngIf="!isSaving">{{ isEditMode ? 'save' : 'add_circle' }}</mat-icon>
-        {{ isSaving ? 'Enregistrement...' : (isEditMode ? 'Mettre à jour' : 'Créer') }}
+        {{ isSaving ? 'Enregistrement...' : isEditMode ? 'Mettre à jour' : 'Créer' }}
       </button>
     </div>
-
   </form>
-
 </div>

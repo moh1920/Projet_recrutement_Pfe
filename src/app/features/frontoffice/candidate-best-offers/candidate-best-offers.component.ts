@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
-import {Subject, forkJoin, of} from 'rxjs';
-import {takeUntil, finalize, catchError} from 'rxjs/operators';
+import { Subject, forkJoin, of } from 'rxjs';
+import { takeUntil, finalize, catchError } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 
 import { MatchResult } from '../../../core/models/matching.model';
@@ -24,13 +24,13 @@ import { OffreService } from '../../../core/services/offre.service';
     MatButtonModule,
     MatTooltipModule,
     MatChipsModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './candidate-best-offers.component.html',
-  styleUrls: ['./candidate-best-offers.component.scss']
+  styleUrls: ['./candidate-best-offers.component.scss'],
 })
 export class CandidateBestOffersComponent implements OnInit, OnDestroy {
-  candidateId: string = '';
+  candidateId = '';
   results: MatchResult[] = [];
   loading = false;
   error: string | null = null;
@@ -39,8 +39,14 @@ export class CandidateBestOffersComponent implements OnInit, OnDestroy {
   private keycloakService = inject(KeycloakService);
 
   private readonly AVATAR_COLORS = [
-    '#8B0000', '#1a3a5c', '#0f6e56', '#7c3aed',
-    '#b45309', '#1e40af', '#065f46', '#9f1239',
+    '#8B0000',
+    '#1a3a5c',
+    '#0f6e56',
+    '#7c3aed',
+    '#b45309',
+    '#1e40af',
+    '#065f46',
+    '#9f1239',
   ];
 
   private destroy$ = new Subject<void>();
@@ -49,7 +55,7 @@ export class CandidateBestOffersComponent implements OnInit, OnDestroy {
     private matchingService: MatchingService,
     private offreService: OffreService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -73,7 +79,8 @@ export class CandidateBestOffersComponent implements OnInit, OnDestroy {
     this.results = [];
 
     // Étape 1 : charger le matching UNIQUEMENT → affichage immédiat
-    this.matchingService.rankOffersForProfile(this.candidateId)
+    this.matchingService
+      .rankOffersForProfile(this.candidateId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (matches: MatchResult[]) => {
@@ -81,7 +88,7 @@ export class CandidateBestOffersComponent implements OnInit, OnDestroy {
           this.loading = false; // ← UI visible immédiatement
 
           // Étape 2 : charger les noms en arrière-plan (sans bloquer l'affichage)
-          const ids = this.results.map(r => r.offerId);
+          const ids = this.results.map((r) => r.offerId);
           if (ids.length > 0) {
             this.loadOfferNames(ids);
           }
@@ -90,25 +97,24 @@ export class CandidateBestOffersComponent implements OnInit, OnDestroy {
           this.error = 'Erreur lors du chargement de vos meilleures offres.';
           this.loading = false;
           console.error(err);
-        }
+        },
       });
   }
 
   private loadOfferNames(ids: string[]): void {
-    const requests = ids.map(id =>
+    const requests = ids.map((id) =>
       this.offreService.getOffreById(id).pipe(
         takeUntil(this.destroy$),
         catchError(() => of(null))
       )
     );
 
-    forkJoin(requests).subscribe(offres => {
+    forkJoin(requests).subscribe((offres) => {
       offres.forEach((o: any) => {
         if (o?.id) this.offerNames.set(o.id, o.title);
       });
     });
   }
-
 
   getScoreColor(score: number): string {
     if (score >= 75) return 'success';
@@ -129,11 +135,15 @@ export class CandidateBestOffersComponent implements OnInit, OnDestroy {
   getAvatarLabel(offerId: string): string {
     const title = this.getOfferName(offerId);
     if (!title || title === offerId) {
-       const numeric = offerId.match(/\d+$/);
-       if (numeric) return numeric[0].slice(-3);
-       return offerId.slice(0, 2).toUpperCase();
+      const numeric = offerId.match(/\d+$/);
+      if (numeric) return numeric[0].slice(-3);
+      return offerId.slice(0, 2).toUpperCase();
     }
-    return title.split(' ').slice(0, 2).map(w => w[0] ? w[0].toUpperCase() : '').join('');
+    return title
+      .split(' ')
+      .slice(0, 2)
+      .map((w) => (w[0] ? w[0].toUpperCase() : ''))
+      .join('');
   }
 
   getOfferName(offerId: string): string {

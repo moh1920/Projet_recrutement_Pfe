@@ -1,5 +1,5 @@
 // ==================== Variables ====================
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #a50000;
 $esprit-red-dark: #5c0000;
 $esprit-cream: #fef3f3;
@@ -13,8 +13,14 @@ $warning: #f59e0b;
 $info: #3b82f6;
 $border: #e2e8f0;
 
-@mixin shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-@mixin shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04); }
+@mixin shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+@mixin shadow-md {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+}
 
 // ==================== Wrapper ====================
 .dialog-wrapper {
@@ -127,7 +133,9 @@ $border: #e2e8f0;
   background: $bg-light;
   border-radius: 10px;
   border: 1px solid $border;
-  transition: border 0.2s, background 0.2s;
+  transition:
+    border 0.2s,
+    background 0.2s;
 
   &:focus-within {
     border-color: $esprit-red;
@@ -163,9 +171,13 @@ $border: #e2e8f0;
     color: $text-muted;
     flex-shrink: 0;
 
-    mat-icon { font-size: 16px; }
+    mat-icon {
+      font-size: 16px;
+    }
 
-    &:hover { color: $esprit-red; }
+    &:hover {
+      color: $esprit-red;
+    }
   }
 }
 
@@ -175,7 +187,9 @@ $border: #e2e8f0;
   max-height: 420px;
   overflow-y: auto;
 
-  &::-webkit-scrollbar { width: 5px; }
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
   &::-webkit-scrollbar-thumb {
     background: $border;
     border-radius: 4px;

@@ -16,7 +16,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { ProfileResponseDTO, ProfileService } from '../../../core/services/profile.service';
 import { CandidateService } from '../../../core/services/candidate.service';
 import { CvAnalysisService, EvaluationResult } from '../../../core/services/cv-analysis.service';
-import {OffreService} from "../../../core/services/offre.service";
+import { OffreService } from '../../../core/services/offre.service';
 
 interface Skill {
   name: string;
@@ -44,13 +44,12 @@ interface Experience {
     MatCardModule,
     MatProgressBarModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   templateUrl: './apply.component.html',
-  styleUrl: './apply.component.scss'
+  styleUrl: './apply.component.scss',
 })
 export class ApplyComponent implements OnInit {
-
   offerId!: string;
   offerData: any = null; // Will hold the full offer object from the backend
 
@@ -91,16 +90,17 @@ export class ApplyComponent implements OnInit {
       { name: 'Spring Boot', level: 'expert' as const },
       { name: 'Deep Learning', level: 'intermediate' as const },
       { name: 'Pédagogie', level: 'expert' as const },
-      { name: 'Python', level: 'intermediate' as const }
+      { name: 'Python', level: 'intermediate' as const },
     ] as Skill[],
     experience: [
       { title: 'Développeur Full Stack', company: 'TechCorp', duration: '3 ans' },
-      { title: 'Enseignant Vacataire', company: 'Université XYZ', duration: '2 ans' }
+      { title: 'Enseignant Vacataire', company: 'Université XYZ', duration: '2 ans' },
     ] as Experience[],
-    feedback: 'Excellent profil ! Votre expérience en développement web et votre sens pédagogique correspondent parfaitement à nos attentes.',
+    feedback:
+      'Excellent profil ! Votre expérience en développement web et votre sens pédagogique correspondent parfaitement à nos attentes.',
     feedbackType: 'success' as const,
     feedbackIcon: 'check_circle',
-    feedbackTitle: 'Profil recommandé'
+    feedbackTitle: 'Profil recommandé',
   };
 
   constructor(private route: ActivatedRoute) {
@@ -108,7 +108,7 @@ export class ApplyComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
-      position: ['', Validators.required]
+      position: ['', Validators.required],
     });
   }
 
@@ -123,18 +123,18 @@ export class ApplyComponent implements OnInit {
     const matched = this.analysisResult.breakdown.skillsMatch.matchedSkills ?? [];
     const missing = this.analysisResult.breakdown.skillsMatch.missingSkills ?? [];
     return [
-      ...matched.map(s => ({ name: s, level: 'expert' as const })),
-      ...missing.map(s => ({ name: s, level: 'beginner' as const }))
+      ...matched.map((s) => ({ name: s, level: 'expert' as const })),
+      ...missing.map((s) => ({ name: s, level: 'beginner' as const })),
     ];
   }
 
   get displayExperience(): Experience[] {
     if (!this.analysisResult) return this.mockAnalysis.experience;
     // Build experience entries from strengths (best-effort mapping)
-    return this.analysisResult.strengths.map(s => ({
+    return this.analysisResult.strengths.map((s) => ({
       title: s,
       company: '',
-      duration: ''
+      duration: '',
     }));
   }
 
@@ -201,8 +201,8 @@ export class ApplyComponent implements OnInit {
     const animSteps = [
       { progress: 20, text: 'Extraction du texte...' },
       { progress: 45, text: 'Identification des compétences...' },
-      { progress: 65, text: 'Analyse de l\'expérience...' },
-      { progress: 85, text: 'Matching avec le poste...' }
+      { progress: 65, text: "Analyse de l'expérience..." },
+      { progress: 85, text: 'Matching avec le poste...' },
     ];
     let stepIndex = 0;
     const interval = setInterval(() => {
@@ -232,15 +232,13 @@ export class ApplyComponent implements OnInit {
       error: (err) => {
         clearInterval(interval);
         console.error('Erreur analyse CV :', err);
-        this._snackBar.open(
-          'Erreur lors de l\'analyse du CV. Veuillez réessayer.',
-          'Fermer',
-          { duration: 4000 }
-        );
+        this._snackBar.open("Erreur lors de l'analyse du CV. Veuillez réessayer.", 'Fermer', {
+          duration: 4000,
+        });
         this.isAnalyzing = false;
         // Optionally fall back to mock data so the user can still proceed:
         // this.analysisComplete = true;
-      }
+      },
     });
   }
 
@@ -262,13 +260,13 @@ export class ApplyComponent implements OnInit {
             name: data.nom || '',
             email: data.email || '',
             phone: data.telephone || '',
-            position: data.specialite || ''
+            position: data.specialite || '',
           });
         },
         error: (error) => {
           console.error('Error loading profile:', error);
           this._snackBar.open('Erreur lors du chargement du profil', 'Fermer', { duration: 3000 });
-        }
+        },
       });
     }
   }
@@ -281,14 +279,18 @@ export class ApplyComponent implements OnInit {
     if (!this.offerId) return;
     //Uncomment and adapt once you have an OfferService:
     this.offerService.getOffreById(this.offerId).subscribe({
-      next: (offer) => { this.offerData = offer; },
-      error: (err) => console.error('Could not load offer data:', err)
+      next: (offer) => {
+        this.offerData = offer;
+      },
+      error: (err) => console.error('Could not load offer data:', err),
     });
   }
 
   postulerOffre(): void {
-    this.candidateService.postulerCandidature(this.profileCurrent.id, this.offerId).subscribe(data => {
-      console.log(data);
-    });
+    this.candidateService
+      .postulerCandidature(this.profileCurrent.id, this.offerId)
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }

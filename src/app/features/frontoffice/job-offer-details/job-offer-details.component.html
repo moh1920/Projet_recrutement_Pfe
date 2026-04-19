@@ -1,5 +1,4 @@
 <div class="details-container" *ngIf="offer$ | async as offer; else loading">
-
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-pattern"></div>
@@ -13,12 +12,16 @@
         <!-- Department + Status badges -->
         <div class="badges-row">
           <div class="department-badge" [style.background]="getDepartmentColor(offer.department)">
-            <mat-icon>{{getDepartmentIcon(offer.department)}}</mat-icon>
-            <span>{{offer.department}}</span>
+            <mat-icon>{{ getDepartmentIcon(offer.department) }}</mat-icon>
+            <span>{{ offer.department }}</span>
           </div>
-          <span class="status-badge" [class]="'status-' + offer.status?.toLowerCase()" *ngIf="offer.status">
+          <span
+            class="status-badge"
+            [class]="'status-' + offer.status?.toLowerCase()"
+            *ngIf="offer.status"
+          >
             <span class="status-dot"></span>
-            {{offer.status}}
+            {{ offer.status }}
           </span>
           <span class="featured-badge" *ngIf="offer.featured">
             <mat-icon>star</mat-icon>
@@ -26,27 +29,27 @@
           </span>
         </div>
 
-        <h1 class="job-title">{{offer.title}}</h1>
+        <h1 class="job-title">{{ offer.title }}</h1>
 
         <!-- Speciality -->
         <div class="speciality-tag" *ngIf="offer.speciality">
           <mat-icon>school</mat-icon>
-          <span>{{offer.speciality}}</span>
+          <span>{{ offer.speciality }}</span>
         </div>
 
         <div class="job-meta">
           <div class="meta-item location" *ngIf="offer.location">
             <mat-icon>location_on</mat-icon>
-            <span>{{offer.location}}</span>
+            <span>{{ offer.location }}</span>
           </div>
           <div class="meta-divider" *ngIf="offer.location"></div>
           <div class="meta-item type">
-            <span class="type-badge" [class]="offer.type?.toLowerCase()">{{offer.type}}</span>
+            <span class="type-badge" [class]="offer.type?.toLowerCase()">{{ offer.type }}</span>
           </div>
           <div class="meta-divider"></div>
           <div class="meta-item date" *ngIf="offer.postedDate">
             <mat-icon>calendar_today</mat-icon>
-            <span>Publié le {{offer.postedDate | date:'dd MMMM yyyy'}}</span>
+            <span>Publié le {{ offer.postedDate | date: 'dd MMMM yyyy' }}</span>
           </div>
         </div>
 
@@ -56,7 +59,7 @@
             <mat-icon>payments</mat-icon>
             <div class="info-content">
               <span class="info-label">Rémunération</span>
-              <span class="info-value">{{offer.salary}}</span>
+              <span class="info-value">{{ offer.salary }}</span>
             </div>
           </div>
 
@@ -65,7 +68,7 @@
             <div class="info-content">
               <span class="info-label">Expérience</span>
               <span class="info-value">
-                {{offer.experience || offer.minYearsExperience + ' an(s) minimum'}}
+                {{ offer.experience || offer.minYearsExperience + ' an(s) minimum' }}
               </span>
             </div>
           </div>
@@ -74,7 +77,7 @@
             <mat-icon>school</mat-icon>
             <div class="info-content">
               <span class="info-label">Niveau requis</span>
-              <span class="info-value">{{offer.requiredLevel}}</span>
+              <span class="info-value">{{ offer.requiredLevel }}</span>
             </div>
           </div>
 
@@ -82,7 +85,7 @@
             <mat-icon>schedule</mat-icon>
             <div class="info-content">
               <span class="info-label">Charge horaire</span>
-              <span class="info-value">{{offer.workload}} h/semaine</span>
+              <span class="info-value">{{ offer.workload }} h/semaine</span>
             </div>
           </div>
 
@@ -90,7 +93,7 @@
             <mat-icon>event</mat-icon>
             <div class="info-content">
               <span class="info-label">Date limite</span>
-              <span class="info-value">{{offer.deadline | date:'dd MMM yyyy'}}</span>
+              <span class="info-value">{{ offer.deadline | date: 'dd MMM yyyy' }}</span>
             </div>
           </div>
 
@@ -98,7 +101,7 @@
             <mat-icon>group</mat-icon>
             <div class="info-content">
               <span class="info-label">Candidatures</span>
-              <span class="info-value">{{offer.candidateCount}} candidat(s)</span>
+              <span class="info-value">{{ offer.candidateCount }} candidat(s)</span>
             </div>
           </div>
 
@@ -106,14 +109,21 @@
             <mat-icon>menu_book</mat-icon>
             <div class="info-content">
               <span class="info-label">Expérience académique</span>
-              <span class="info-value">{{offer.academicExperience ? 'Requise' : 'Non requise'}}</span>
+              <span class="info-value">{{
+                offer.academicExperience ? 'Requise' : 'Non requise'
+              }}</span>
             </div>
           </div>
         </div>
       </div>
 
       <div class="hero-actions">
-        <button mat-raised-button class="apply-btn" routerLink="/apply" [queryParams]="{offer: offer.id}">
+        <button
+          mat-raised-button
+          class="apply-btn"
+          routerLink="/apply"
+          [queryParams]="{ offer: offer.id }"
+        >
           <mat-icon>send</mat-icon>
           Postuler Maintenant
         </button>
@@ -128,10 +138,8 @@
   <!-- Content Section -->
   <section class="content-section container">
     <div class="content-grid">
-
       <!-- Main Content -->
       <div class="main-content">
-
         <!-- Description Card -->
         <mat-card class="content-card">
           <div class="card-header">
@@ -139,7 +147,7 @@
             <h2>Description du Poste</h2>
           </div>
           <div class="card-body">
-            <p class="description-text">{{offer.description}}</p>
+            <p class="description-text">{{ offer.description }}</p>
           </div>
         </mat-card>
 
@@ -153,7 +161,7 @@
             <div class="modules-grid">
               <span class="module-chip" *ngFor="let module of offer.modules">
                 <mat-icon>book</mat-icon>
-                {{module}}
+                {{ module }}
               </span>
             </div>
           </div>
@@ -171,7 +179,7 @@
                 <div class="check-icon">
                   <mat-icon>check_circle</mat-icon>
                 </div>
-                <span>{{req}}</span>
+                <span>{{ req }}</span>
               </li>
             </ul>
           </div>
@@ -190,7 +198,7 @@
               </div>
               <div class="profile-info">
                 <span class="profile-label">Niveau d'études requis</span>
-                <span class="profile-value level-badge">{{offer.requiredLevel}}</span>
+                <span class="profile-value level-badge">{{ offer.requiredLevel }}</span>
               </div>
             </div>
 
@@ -200,7 +208,7 @@
               </div>
               <div class="profile-info">
                 <span class="profile-label">Années d'expérience minimum</span>
-                <span class="profile-value">{{offer.minYearsExperience}} an(s)</span>
+                <span class="profile-value">{{ offer.minYearsExperience }} an(s)</span>
               </div>
             </div>
 
@@ -210,7 +218,9 @@
               </div>
               <div class="profile-info">
                 <span class="profile-label">Expérience académique</span>
-                <span class="profile-value">{{offer.academicExperience ? 'Requise' : 'Non requise'}}</span>
+                <span class="profile-value">{{
+                  offer.academicExperience ? 'Requise' : 'Non requise'
+                }}</span>
               </div>
             </div>
 
@@ -220,7 +230,7 @@
               </div>
               <div class="profile-info">
                 <span class="profile-label">Spécialité</span>
-                <span class="profile-value">{{offer.speciality}}</span>
+                <span class="profile-value">{{ offer.speciality }}</span>
               </div>
             </div>
           </div>
@@ -235,21 +245,24 @@
           <div class="card-body">
             <div class="salary-highlight">
               <mat-icon>payments</mat-icon>
-              <span>{{offer.salary}}</span>
+              <span>{{ offer.salary }}</span>
             </div>
           </div>
         </mat-card>
-
       </div>
 
       <!-- Sidebar -->
       <aside class="sidebar">
-
         <!-- Apply Card -->
         <mat-card class="sidebar-card apply-card">
           <h3>Intéressé par ce poste ?</h3>
           <p>Postulez dès maintenant et rejoignez l'équipe ESPRIT.</p>
-          <button mat-raised-button class="apply-btn-large" routerLink="/apply" [queryParams]="{offer: offer.id}">
+          <button
+            mat-raised-button
+            class="apply-btn-large"
+            routerLink="/apply"
+            [queryParams]="{ offer: offer.id }"
+          >
             <mat-icon>send</mat-icon>
             Postuler
           </button>
@@ -267,57 +280,57 @@
               <mat-icon>badge</mat-icon>
               <span class="s-label">Type</span>
               <span class="s-value">
-                <span class="type-badge" [class]="offer.type?.toLowerCase()">{{offer.type}}</span>
+                <span class="type-badge" [class]="offer.type?.toLowerCase()">{{ offer.type }}</span>
               </span>
             </li>
             <li *ngIf="offer.department">
               <mat-icon>business</mat-icon>
               <span class="s-label">Département</span>
-              <span class="s-value">{{offer.department}}</span>
+              <span class="s-value">{{ offer.department }}</span>
             </li>
             <li *ngIf="offer.speciality">
               <mat-icon>category</mat-icon>
               <span class="s-label">Spécialité</span>
-              <span class="s-value">{{offer.speciality}}</span>
+              <span class="s-value">{{ offer.speciality }}</span>
             </li>
             <li *ngIf="offer.requiredLevel">
               <mat-icon>school</mat-icon>
               <span class="s-label">Niveau</span>
-              <span class="s-value">{{offer.requiredLevel}}</span>
+              <span class="s-value">{{ offer.requiredLevel }}</span>
             </li>
             <li *ngIf="offer.workload">
               <mat-icon>schedule</mat-icon>
               <span class="s-label">Charge</span>
-              <span class="s-value">{{offer.workload}} h/sem.</span>
+              <span class="s-value">{{ offer.workload }} h/sem.</span>
             </li>
             <li *ngIf="offer.location">
               <mat-icon>location_on</mat-icon>
               <span class="s-label">Lieu</span>
-              <span class="s-value">{{offer.location}}</span>
+              <span class="s-value">{{ offer.location }}</span>
             </li>
             <li *ngIf="offer.deadline">
               <mat-icon>event</mat-icon>
               <span class="s-label">Date limite</span>
-              <span class="s-value">{{offer.deadline | date:'dd MMM yyyy'}}</span>
+              <span class="s-value">{{ offer.deadline | date: 'dd MMM yyyy' }}</span>
             </li>
             <li *ngIf="offer.status">
               <mat-icon>info</mat-icon>
               <span class="s-label">Statut</span>
               <span class="s-value">
                 <span class="status-badge inline" [class]="'status-' + offer.status?.toLowerCase()">
-                  {{offer.status}}
+                  {{ offer.status }}
                 </span>
               </span>
             </li>
             <li *ngIf="offer.candidateCount != null">
               <mat-icon>group</mat-icon>
               <span class="s-label">Candidatures</span>
-              <span class="s-value">{{offer.candidateCount}}</span>
+              <span class="s-value">{{ offer.candidateCount }}</span>
             </li>
             <li *ngIf="offer.postedDate">
               <mat-icon>calendar_today</mat-icon>
               <span class="s-label">Publiée le</span>
-              <span class="s-value">{{offer.postedDate | date:'dd MMM yyyy'}}</span>
+              <span class="s-value">{{ offer.postedDate | date: 'dd MMM yyyy' }}</span>
             </li>
           </ul>
         </mat-card>
@@ -345,13 +358,16 @@
         <mat-card class="sidebar-card similar-card" *ngIf="similarOffers?.length">
           <h3>Offres similaires</h3>
           <div class="similar-list">
-            <div class="similar-item" *ngFor="let similar of similarOffers" [routerLink]="['/offers', similar.id]">
-              <div class="similar-title">{{similar.title}}</div>
-              <div class="similar-meta">{{similar.department}} • {{similar.type}}</div>
+            <div
+              class="similar-item"
+              *ngFor="let similar of similarOffers"
+              [routerLink]="['/offers', similar.id]"
+            >
+              <div class="similar-title">{{ similar.title }}</div>
+              <div class="similar-meta">{{ similar.department }} • {{ similar.type }}</div>
             </div>
           </div>
         </mat-card>
-
       </aside>
     </div>
   </section>

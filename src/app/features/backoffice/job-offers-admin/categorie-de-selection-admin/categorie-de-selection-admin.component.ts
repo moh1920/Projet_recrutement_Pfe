@@ -21,22 +21,34 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AddCategorieDialogComponent } from '../add-categorie-dialog/add-categorie-dialog.component';
-import {CategorieDeSelection, CategorieDeSelectionService} from "../../../../core/services/CategorieDeSelectionService";
+import {
+  CategorieDeSelection,
+  CategorieDeSelectionService,
+} from '../../../../core/services/CategorieDeSelectionService';
 
 @Component({
   selector: 'app-categorie-de-selection-admin',
   standalone: true,
   imports: [
-    CommonModule, FormsModule,
-    MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule,
-    MatChipsModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatMenuModule, MatTooltipModule, MatTableModule, MatPaginatorModule, MatSortModule,
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   templateUrl: './categorie-de-selection-admin.component.html',
-  styleUrls: ['./categorie-de-selection-admin.component.scss']
+  styleUrls: ['./categorie-de-selection-admin.component.scss'],
 })
 export class CategorieDeSelectionAdminComponent implements OnInit {
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -56,9 +68,16 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
 
   // Palette de couleurs pour les catégories
   private readonly COLORS = [
-    '#8B0000', '#1d4ed8', '#15803d', '#c2410c',
-    '#6d28d9', '#0e7490', '#b45309', '#be185d',
-    '#374151', '#065f46'
+    '#8B0000',
+    '#1d4ed8',
+    '#15803d',
+    '#c2410c',
+    '#6d28d9',
+    '#0e7490',
+    '#b45309',
+    '#be185d',
+    '#374151',
+    '#065f46',
   ];
 
   constructor(
@@ -88,7 +107,7 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
       error: () => {
         this.isLoading = false;
         this.showSnack('Erreur de chargement', 'error');
-      }
+      },
     });
   }
 
@@ -97,16 +116,15 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
 
     if (this.searchText.trim()) {
       const t = this.searchText.toLowerCase();
-      result = result.filter(c =>
-        c.nom?.toLowerCase().includes(t) ||
-        c.description?.toLowerCase().includes(t)
+      result = result.filter(
+        (c) => c.nom?.toLowerCase().includes(t) || c.description?.toLowerCase().includes(t)
       );
     }
 
     if (this.selectedFilter === 'Poids élevé (≥50%)') {
-      result = result.filter(c => (c.poids ?? 0) >= 50);
+      result = result.filter((c) => (c.poids ?? 0) >= 50);
     } else if (this.selectedFilter === 'Poids faible (<50%)') {
-      result = result.filter(c => (c.poids ?? 0) < 50);
+      result = result.filter((c) => (c.poids ?? 0) < 50);
     }
 
     this.filteredCategories = result;
@@ -131,9 +149,9 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
       width: '640px',
       disableClose: true,
       panelClass: 'esprit-dialog',
-      data: {}
+      data: {},
     });
-    ref.afterClosed().subscribe(r => {
+    ref.afterClosed().subscribe((r) => {
       if (r?.success) {
         this.showSnack('Catégorie créée avec succès !', 'success');
         this.loadCategories();
@@ -146,9 +164,9 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
       width: '640px',
       disableClose: true,
       panelClass: 'esprit-dialog',
-      data: { categorie: cat }
+      data: { categorie: cat },
     });
-    ref.afterClosed().subscribe(r => {
+    ref.afterClosed().subscribe((r) => {
       if (r?.success) {
         this.showSnack('Catégorie mise à jour !', 'success');
         this.loadCategories();
@@ -159,27 +177,32 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
   deleteCategorie(cat: CategorieDeSelection): void {
     if (!confirm(`Supprimer "${cat.nom}" ?`)) return;
     this.categorieService.deleteCategorie(cat.id!).subscribe({
-      next: () => { this.showSnack('Catégorie supprimée', 'warn'); this.loadCategories(); },
-      error: () => this.showSnack('Erreur lors de la suppression', 'error')
+      next: () => {
+        this.showSnack('Catégorie supprimée', 'warn');
+        this.loadCategories();
+      },
+      error: () => this.showSnack('Erreur lors de la suppression', 'error'),
     });
   }
 
   deleteSelected(): void {
     if (!confirm(`Supprimer ${this.selection.selected.length} catégorie(s) ?`)) return;
-    const ids = this.selection.selected.map(c => c.id!);
-    Promise.all(ids.map(id => this.categorieService.deleteCategorie(id).toPromise()))
-      .then(() => {
-        this.selection.clear();
-        this.showSnack('Catégories supprimées', 'warn');
-        this.loadCategories();
-      });
+    const ids = this.selection.selected.map((c) => c.id!);
+    Promise.all(ids.map((id) => this.categorieService.deleteCategorie(id).toPromise())).then(() => {
+      this.selection.clear();
+      this.showSnack('Catégories supprimées', 'warn');
+      this.loadCategories();
+    });
   }
 
   duplicateCategorie(cat: CategorieDeSelection): void {
     const copy = { nom: `${cat.nom} (copie)`, description: cat.description, poids: cat.poids };
     this.categorieService.addCategorie(copy).subscribe({
-      next: () => { this.showSnack('Catégorie dupliquée !', 'success'); this.loadCategories(); },
-      error: () => this.showSnack('Erreur lors de la duplication', 'error')
+      next: () => {
+        this.showSnack('Catégorie dupliquée !', 'success');
+        this.loadCategories();
+      },
+      error: () => this.showSnack('Erreur lors de la duplication', 'error'),
     });
   }
 
@@ -191,7 +214,7 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
   // ─── Helpers ─────────────────────────────────────────────────────────────────
 
   getCatColor(nom?: string): string {
-    const idx = this.categories.findIndex(c => c.nom === nom) % this.COLORS.length;
+    const idx = this.categories.findIndex((c) => c.nom === nom) % this.COLORS.length;
     return this.COLORS[Math.max(0, idx)];
   }
 
@@ -222,7 +245,7 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
     if (this.isAllSelected()) {
       this.selection.clear();
     } else {
-      this.dataSource.data.forEach(r => this.selection.select(r));
+      this.dataSource.data.forEach((r) => this.selection.select(r));
     }
   }
 
@@ -231,7 +254,12 @@ export class CategorieDeSelectionAdminComponent implements OnInit {
   private showSnack(msg: string, type: 'success' | 'error' | 'warn'): void {
     this.snackBar.open(msg, 'OK', {
       duration: 3500,
-      panelClass: type === 'success' ? 'success-snackbar' : type === 'error' ? 'error-snackbar' : 'warning-snackbar'
+      panelClass:
+        type === 'success'
+          ? 'success-snackbar'
+          : type === 'error'
+            ? 'error-snackbar'
+            : 'warning-snackbar',
     });
   }
 }

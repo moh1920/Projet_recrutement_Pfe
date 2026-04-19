@@ -15,8 +15,8 @@ describe('JobOfferService', () => {
 
   it('should return mock offers', fakeAsync(() => {
     let offers: JobOffer[] | undefined;
-    service.getOffers().subscribe(o => offers = o);
-    
+    service.getOffers().subscribe((o) => (offers = o));
+
     tick(500);
 
     expect(offers).toBeDefined();
@@ -26,8 +26,8 @@ describe('JobOfferService', () => {
 
   it('should return a specific offer by id', fakeAsync(() => {
     let offer: JobOffer | undefined;
-    service.getOfferById('2').subscribe(o => offer = o);
-    
+    service.getOfferById('2').subscribe((o) => (offer = o));
+
     tick(300);
 
     expect(offer).toBeDefined();

@@ -1,10 +1,8 @@
 <div class="interviews-container">
-
   <!-- ===================== HEADER ===================== -->
   <header class="page-header">
     <div class="header-bg-pattern"></div>
     <div class="header-content">
-
       <div class="title-section">
         <div class="icon-wrapper">
           <mat-icon>event_available</mat-icon>
@@ -60,7 +58,6 @@
           <mat-icon>video_camera_front</mat-icon>
           Nouvelle réunion
         </button>
-
       </div>
     </div>
 
@@ -71,15 +68,20 @@
         <div class="filter-group">
           <label>Statut</label>
           <div class="filter-chips">
-            <mat-chip-option *ngFor="let status of ['Planifié', 'En cours', 'Terminé', 'Annulé']"
-                             (click)="updateFilter('status', status)">{{ status }}</mat-chip-option>
+            <mat-chip-option
+              *ngFor="let status of ['Planifié', 'En cours', 'Terminé', 'Annulé']"
+              (click)="updateFilter('status', status)"
+              >{{ status }}</mat-chip-option
+            >
           </div>
         </div>
         <div class="filter-group">
           <label>Type</label>
           <div class="filter-chips">
-            <mat-chip-option *ngFor="let type of ['interview', 'evaluation']"
-                             (click)="updateFilter('type', type)">
+            <mat-chip-option
+              *ngFor="let type of ['interview', 'evaluation']"
+              (click)="updateFilter('type', type)"
+            >
               {{ type === 'interview' ? 'Entretien' : 'Évaluation' }}
             </mat-chip-option>
           </div>
@@ -95,12 +97,8 @@
       <button mat-menu-item (click)="exportToExcel()">
         <mat-icon>table_chart</mat-icon> Excel
       </button>
-      <button mat-menu-item (click)="exportToPDF()">
-        <mat-icon>picture_as_pdf</mat-icon> PDF
-      </button>
-      <button mat-menu-item (click)="printCalendar()">
-        <mat-icon>print</mat-icon> Imprimer
-      </button>
+      <button mat-menu-item (click)="exportToPDF()"><mat-icon>picture_as_pdf</mat-icon> PDF</button>
+      <button mat-menu-item (click)="printCalendar()"><mat-icon>print</mat-icon> Imprimer</button>
     </mat-menu>
   </header>
 
@@ -112,7 +110,12 @@
 
   <!-- ===================== NAVIGATION SEMAINE ===================== -->
   <div class="week-navigator">
-    <button mat-icon-button class="nav-btn" (click)="previousWeek()" matTooltip="Semaine précédente">
+    <button
+      mat-icon-button
+      class="nav-btn"
+      (click)="previousWeek()"
+      matTooltip="Semaine précédente"
+    >
       <mat-icon>chevron_left</mat-icon>
     </button>
 
@@ -129,7 +132,6 @@
 
   <!-- ===================== LAYOUT PRINCIPAL ===================== -->
   <div class="content-layout">
-
     <!-- ===== SIDEBAR : liste des entretiens ===== -->
     <aside class="upcoming-sidebar">
       <div class="sidebar-header">
@@ -144,8 +146,13 @@
           type="text"
           placeholder="Rechercher un candidat..."
           [(ngModel)]="filterOptions.searchTerm"
-          (ngModelChange)="updateFilter('searchTerm', $event)">
-        <button mat-icon-button *ngIf="filterOptions.searchTerm" (click)="updateFilter('searchTerm', '')">
+          (ngModelChange)="updateFilter('searchTerm', $event)"
+        />
+        <button
+          mat-icon-button
+          *ngIf="filterOptions.searchTerm"
+          (click)="updateFilter('searchTerm', '')"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -153,7 +160,6 @@
       <!-- Liste des entretiens -->
       <div class="interview-list">
         <ng-container *ngIf="filteredInterviews$ | async as interviews">
-
           <!-- Empty state -->
           <div class="empty-state" *ngIf="interviews.length === 0">
             <div class="empty-icon">
@@ -172,8 +178,8 @@
             *ngFor="let interview of interviews; trackBy: trackByInterviewId"
             [class.highlight]="interview.status === 'En cours'"
             [class.past]="isInterviewPast(interview)"
-            [class.cancelled]="interview.status === 'Annulé'">
-
+            [class.cancelled]="interview.status === 'Annulé'"
+          >
             <div class="time-indicator">
               <div class="time-block">
                 <span class="time-val">{{ interview.time }}</span>
@@ -186,7 +192,7 @@
               <div class="card-header-row">
                 <div class="date-chip">
                   <mat-icon>event</mat-icon>
-                  {{ interview.date | date:'dd MMM' }}
+                  {{ interview.date | date: 'dd MMM' }}
                 </div>
                 <div class="status-pill" [ngClass]="getStatusClass(interview.status)">
                   <span class="dot"></span>
@@ -197,7 +203,9 @@
               <h3 class="candidate-name">{{ interview.candidateName }}</h3>
 
               <p class="position">
-                <mat-icon class="position-icon">{{ getInterviewTypeIcon(interview.type) }}</mat-icon>
+                <mat-icon class="position-icon">{{
+                  getInterviewTypeIcon(interview.type)
+                }}</mat-icon>
                 {{ interview.position }}
               </p>
 
@@ -215,30 +223,45 @@
               <div class="jury-section" *ngIf="interview.jury && interview.jury.length > 0">
                 <span class="jury-label">Jury</span>
                 <div class="jury-avatars">
-                  <div class="avatar"
-                       *ngFor="let j of interview.jury.slice(0, 3); let i = index"
-                       [matTooltip]="j"
-                       [style.z-index]="10 - i">
+                  <div
+                    class="avatar"
+                    *ngFor="let j of interview.jury.slice(0, 3); let i = index"
+                    [matTooltip]="j"
+                    [style.z-index]="10 - i"
+                  >
                     {{ j.charAt(0).toUpperCase() }}
                   </div>
-                  <div class="avatar more" *ngIf="interview.jury.length > 3"
-                       [matTooltip]="interview.jury.slice(3).join(', ')">
+                  <div
+                    class="avatar more"
+                    *ngIf="interview.jury.length > 3"
+                    [matTooltip]="interview.jury.slice(3).join(', ')"
+                  >
                     +{{ interview.jury.length - 3 }}
                   </div>
                 </div>
               </div>
 
               <div class="card-actions">
-                <button mat-stroked-button class="btn-join"
-                        *ngIf="interview.meetLink && interview.status !== 'Annulé' && interview.status !== 'Terminé'"
-                        (click)="joinMeeting(interview, $event)">
+                <button
+                  mat-stroked-button
+                  class="btn-join"
+                  *ngIf="
+                    interview.meetLink &&
+                    interview.status !== 'Annulé' &&
+                    interview.status !== 'Terminé'
+                  "
+                  (click)="joinMeeting(interview, $event)"
+                >
                   <mat-icon>videocam</mat-icon>
                   Rejoindre
                 </button>
 
-                <button mat-stroked-button class="btn-complete"
-                        *ngIf="interview.status === 'En cours'"
-                        (click)="markAsCompleted(interview)">
+                <button
+                  mat-stroked-button
+                  class="btn-complete"
+                  *ngIf="interview.status === 'En cours'"
+                  (click)="markAsCompleted(interview)"
+                >
                   <mat-icon>check_circle</mat-icon>
                   Terminer
                 </button>
@@ -255,8 +278,11 @@
                     <mat-icon>content_copy</mat-icon> Dupliquer
                   </button>
                   <mat-divider></mat-divider>
-                  <button mat-menu-item (click)="cancelInterview(interview)"
-                          [disabled]="interview.status === 'Annulé'">
+                  <button
+                    mat-menu-item
+                    (click)="cancelInterview(interview)"
+                    [disabled]="interview.status === 'Annulé'"
+                  >
                     <mat-icon>cancel</mat-icon> Annuler
                   </button>
                   <button mat-menu-item (click)="deleteInterview(interview)" class="danger">
@@ -266,14 +292,12 @@
               </div>
             </div>
           </mat-card>
-
         </ng-container>
       </div>
     </aside>
 
     <!-- ===== CALENDRIER ===== -->
     <main class="calendar-view">
-
       <!-- En-tête des jours -->
       <div class="calendar-header">
         <div class="time-gutter-header">
@@ -284,11 +308,11 @@
           *ngFor="let day of weekDays"
           [class.today]="day.isToday"
           [class.past]="day.isPast"
-          (click)="selectDate(day.date)">
-
+          (click)="selectDate(day.date)"
+        >
           <span class="day-name">{{ day.name }}</span>
           <div class="day-number-wrapper">
-            <span class="day-number">{{ day.date | date:'dd' }}</span>
+            <span class="day-number">{{ day.date | date: 'dd' }}</span>
             <span class="event-dot-indicator" *ngIf="day.eventCount && day.eventCount > 0">
               {{ day.eventCount }}
             </span>
@@ -299,11 +323,8 @@
 
       <!-- Corps du calendrier -->
       <div class="calendar-body" cdkDropListGroup>
-
         <ng-container *ngIf="calendarDaySlots$ | async as daySlots">
-
           <div class="time-row" *ngFor="let hour of hours; trackBy: trackByHour">
-
             <!-- Colonne heure -->
             <div class="time-gutter">
               <span class="hour-label">{{ hour }}</span>
@@ -313,7 +334,6 @@
             <ng-container *ngFor="let daySlot of daySlots; trackBy: trackByDayIndex">
               <ng-container *ngFor="let slot of daySlot.slots">
                 <ng-container *ngIf="slot.hour === hour">
-
                   <div
                     class="slot-cell"
                     [class.today]="daySlot.day.isToday"
@@ -324,8 +344,12 @@
                     [cdkDropListData]="slot.events"
                     [cdkDropListConnectedTo]="connectedDropLists"
                     (cdkDropListDropped)="onDrop($event, daySlot.day, hour)"
-                    (click)="slot.isAvailable && slot.events.length === 0 && openAddDialog(daySlot.day, hour)">
-
+                    (click)="
+                      slot.isAvailable &&
+                        slot.events.length === 0 &&
+                        openAddDialog(daySlot.day, hour)
+                    "
+                  >
                     <!-- Hint ajout -->
                     <div class="slot-add-hint" *ngIf="slot.events.length === 0 && slot.isAvailable">
                       <mat-icon>add</mat-icon>
@@ -344,8 +368,8 @@
                       [class.status-completed]="evt.status === 'Terminé'"
                       [class.status-planned]="evt.status === 'Planifié'"
                       [style.border-left-color]="evt.color"
-                      (click)="quickView(evt); $event.stopPropagation()">
-
+                      (click)="quickView(evt); $event.stopPropagation()"
+                    >
                       <!-- Preview lors du drag -->
                       <div *cdkDragPlaceholder class="drag-placeholder"></div>
 
@@ -369,7 +393,11 @@
                           </span>
 
                           <div class="event-jury-mini" *ngIf="evt.jury.length > 0">
-                            <span class="mini-av" *ngFor="let j of evt.jury.slice(0, 2)" [matTooltip]="j">
+                            <span
+                              class="mini-av"
+                              *ngFor="let j of evt.jury.slice(0, 2)"
+                              [matTooltip]="j"
+                            >
                               {{ j.charAt(0).toUpperCase() }}
                             </span>
                             <span class="mini-av more" *ngIf="evt.jury.length > 2">
@@ -400,16 +428,24 @@
                           </span>
 
                           <div class="event-actions-mini">
-                            <button mat-icon-button class="mini-btn"
-                                    *ngIf="evt.meetLink"
-                                    (click)="window.open(evt.meetLink, '_blank'); $event.stopPropagation()"
-                                    matTooltip="Rejoindre la réunion">
+                            <button
+                              mat-icon-button
+                              class="mini-btn"
+                              *ngIf="evt.meetLink"
+                              (click)="
+                                window.open(evt.meetLink, '_blank'); $event.stopPropagation()
+                              "
+                              matTooltip="Rejoindre la réunion"
+                            >
                               <mat-icon>video_call</mat-icon>
                             </button>
-                            <button mat-icon-button class="mini-btn"
-                                    [matMenuTriggerFor]="evtMenu"
-                                    (click)="$event.stopPropagation()"
-                                    matTooltip="Plus d'options">
+                            <button
+                              mat-icon-button
+                              class="mini-btn"
+                              [matMenuTriggerFor]="evtMenu"
+                              (click)="$event.stopPropagation()"
+                              matTooltip="Plus d'options"
+                            >
                               <mat-icon>more_vert</mat-icon>
                             </button>
                           </div>
@@ -424,30 +460,32 @@
                           <mat-icon>edit</mat-icon> Modifier
                         </button>
                         <mat-divider></mat-divider>
-                        <button mat-menu-item (click)="markEventAsCompleted(evt)"
-                                [disabled]="evt.status === 'Terminé' || evt.status === 'Annulé'">
+                        <button
+                          mat-menu-item
+                          (click)="markEventAsCompleted(evt)"
+                          [disabled]="evt.status === 'Terminé' || evt.status === 'Annulé'"
+                        >
                           <mat-icon>check_circle</mat-icon> Marquer terminé
                         </button>
                       </mat-menu>
-
                     </div>
                   </div>
-
                 </ng-container>
               </ng-container>
             </ng-container>
           </div>
-
         </ng-container>
       </div>
 
       <!-- Indicateur heure courante -->
-      <div class="current-time-line" *ngIf="showCurrentTimeIndicator"
-           [style.top.%]="currentTimeTop">
+      <div
+        class="current-time-line"
+        *ngIf="showCurrentTimeIndicator"
+        [style.top.%]="currentTimeTop"
+      >
         <span class="time-line-dot"></span>
         <div class="time-line-bar"></div>
       </div>
-
     </main>
   </div>
 
@@ -456,5 +494,4 @@
     <mat-icon>add</mat-icon>
   </button>
   <app-lobby-dialog #lobbyDialog></app-lobby-dialog>
-
 </div>

@@ -40,21 +40,31 @@
     <div class="filter-group">
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Rechercher un candidat...</mat-label>
-        <input matInput
-               (keyup)="applyFilter($event)"
-               placeholder="Nom, email, spécialité..."
-               #input>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Nom, email, spécialité..."
+          #input
+        />
         <mat-icon matPrefix>search</mat-icon>
-        <button mat-icon-button matSuffix *ngIf="input.value" (click)="clearFilter(input)" aria-label="Effacer la recherche">
+        <button
+          mat-icon-button
+          matSuffix
+          *ngIf="input.value"
+          (click)="clearFilter(input)"
+          aria-label="Effacer la recherche"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
 
       <div class="filter-chips">
         <mat-chip-listbox aria-label="Filtres par statut">
-          <mat-chip-option *ngFor="let status of availableStatuses"
-                           [selected]="selectedStatus === status"
-                           (selectionChange)="filterByStatus(status)">
+          <mat-chip-option
+            *ngFor="let status of availableStatuses"
+            [selected]="selectedStatus === status"
+            (selectionChange)="filterByStatus(status)"
+          >
             {{ status }}
           </mat-chip-option>
         </mat-chip-listbox>
@@ -62,12 +72,13 @@
 
       <!-- ✅ Chips Offre — nouveau -->
       <div class="filter-chips offre-chips">
-    <span class="filter-label">
-    </span>
+        <span class="filter-label"> </span>
         <mat-chip-listbox aria-label="Filtres par offre">
-          <mat-chip-option *ngFor="let offre of availableOffres"
-                           [selected]="selectedOffre === offre.id"
-                           (selectionChange)="filterByOffre(offre.id)">
+          <mat-chip-option
+            *ngFor="let offre of availableOffres"
+            [selected]="selectedOffre === offre.id"
+            (selectionChange)="filterByOffre(offre.id)"
+          >
             {{ offre.title }}
           </mat-chip-option>
         </mat-chip-listbox>
@@ -75,10 +86,12 @@
     </div>
 
     <div class="view-actions">
-      <button mat-icon-button
-              [matMenuTriggerFor]="viewMenu"
-              matTooltip="Options de vue"
-              aria-label="Options de vue">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="viewMenu"
+        matTooltip="Options de vue"
+        aria-label="Options de vue"
+      >
         <mat-icon>view_column</mat-icon>
       </button>
       <mat-menu #viewMenu="matMenu">
@@ -88,10 +101,12 @@
         </button>
       </mat-menu>
 
-      <button mat-icon-button
-              (click)="exportData()"
-              matTooltip="Exporter les données"
-              aria-label="Exporter">
+      <button
+        mat-icon-button
+        (click)="exportData()"
+        matTooltip="Exporter les données"
+        aria-label="Exporter"
+      >
         <mat-icon>download</mat-icon>
       </button>
     </div>
@@ -114,21 +129,24 @@
     </div>
 
     <table mat-table [dataSource]="dataSource" matSort class="modern-table">
-
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()"
-                        aria-label="Sélectionner tout">
+          <mat-checkbox
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            aria-label="Sélectionner tout"
+          >
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)"
-                        [aria-label]="'Sélectionner ' + row.fullName">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="'Sélectionner ' + row.fullName"
+          >
           </mat-checkbox>
         </td>
       </ng-container>
@@ -138,9 +156,11 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Candidat</th>
         <td mat-cell *matCellDef="let candidate">
           <div class="user-cell">
-            <div class="avatar"
-                 [style.background]="getAvatarColor(candidate.fullName)"
-                 [attr.aria-label]="'Avatar de ' + candidate.fullName">
+            <div
+              class="avatar"
+              [style.background]="getAvatarColor(candidate.fullName)"
+              [attr.aria-label]="'Avatar de ' + candidate.fullName"
+            >
               {{ getInitials(candidate.fullName) }}
             </div>
             <div class="user-info">
@@ -192,8 +212,12 @@
         <th mat-header-cell *matHeaderCellDef>Compétences</th>
         <td mat-cell *matCellDef="let candidate">
           <div class="skills-cell">
-            <span class="skill-tag" *ngFor="let skill of candidate.skills | slice:0:2">{{ skill }}</span>
-            <span class="skill-more" *ngIf="candidate.skills?.length > 2">+{{ candidate.skills.length - 2 }}</span>
+            <span class="skill-tag" *ngFor="let skill of candidate.skills | slice: 0 : 2">{{
+              skill
+            }}</span>
+            <span class="skill-more" *ngIf="candidate.skills?.length > 2"
+              >+{{ candidate.skills.length - 2 }}</span
+            >
           </div>
         </td>
       </ng-container>
@@ -215,7 +239,7 @@
         <td mat-cell *matCellDef="let candidate">
           <div class="last-active">
             <mat-icon aria-hidden="true">calendar_today</mat-icon>
-            <span>{{ candidate.appliedDate | date:'dd MMM yyyy' }}</span>
+            <span>{{ candidate.appliedDate | date: 'dd MMM yyyy' }}</span>
           </div>
         </td>
       </ng-container>
@@ -231,21 +255,18 @@
         </td>
       </ng-container>
 
-
-
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let candidate">
           <div class="action-buttons">
-
-
-
-            <button mat-icon-button
-                    [matMenuTriggerFor]="menu"
-                    (click)="$event.stopPropagation()"
-                    class="btn-more"
-                    aria-label="Plus d'actions">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              (click)="$event.stopPropagation()"
+              class="btn-more"
+              aria-label="Plus d'actions"
+            >
               <mat-icon>more_vert</mat-icon>
             </button>
 
@@ -286,11 +307,14 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-          [class.selected]="selection.isSelected(row)"
-          (click)="selection.toggle(row)"
-          role="row"
-          [attr.aria-selected]="selection.isSelected(row)"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [class.selected]="selection.isSelected(row)"
+        (click)="selection.toggle(row)"
+        role="row"
+        [attr.aria-selected]="selection.isSelected(row)"
+      ></tr>
 
       <!-- No Data Row -->
       <tr class="mat-row" *matNoDataRow>
@@ -302,10 +326,12 @@
             <h3>Aucun candidat trouvé</h3>
             <p *ngIf="input.value">Aucun résultat pour "{{ input.value }}"</p>
             <p *ngIf="!input.value">Aucun candidat disponible pour le moment</p>
-            <button mat-stroked-button
-                    color="primary"
-                    (click)="clearFilter(input)"
-                    *ngIf="input.value">
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="clearFilter(input)"
+              *ngIf="input.value"
+            >
               Réinitialiser la recherche
             </button>
           </div>
@@ -313,11 +339,13 @@
       </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]"
-                   [pageSize]="10"
-                   showFirstLastButtons
-                   aria-label="Sélectionner la page"
-                   class="modern-paginator">
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      [pageSize]="10"
+      showFirstLastButtons
+      aria-label="Sélectionner la page"
+      class="modern-paginator"
+    >
     </mat-paginator>
   </div>
 </div>

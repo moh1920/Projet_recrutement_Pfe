@@ -136,7 +136,12 @@ export interface CriterionScore {
   comment?: string;
 }
 
-export type Recommendation = 'Fortement recommandé' | 'Recommandé' | 'Neutre' | 'Non recommandé' | 'Fortement non recommandé';
+export type Recommendation =
+  | 'Fortement recommandé'
+  | 'Recommandé'
+  | 'Neutre'
+  | 'Non recommandé'
+  | 'Fortement non recommandé';
 
 // ==================== Request/Response Models ====================
 
@@ -266,7 +271,11 @@ export interface ConflictCheckResponse {
   }[];
 }
 
-export type ConflictType = 'jury_unavailable' | 'room_occupied' | 'time_overlap' | 'max_interviews_exceeded';
+export type ConflictType =
+  | 'jury_unavailable'
+  | 'room_occupied'
+  | 'time_overlap'
+  | 'max_interviews_exceeded';
 
 export interface SuggestTimeSlotsRequest {
   juryIds: string[];

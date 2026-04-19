@@ -1,6 +1,5 @@
 <!-- profile-candidats.component.html -->
 <div class="candidats-container">
-
   <!-- ── Header ── -->
   <div class="page-header">
     <div class="header-bg-pattern"></div>
@@ -45,9 +44,18 @@
       <!-- Search -->
       <mat-form-field appearance="outline" class="search-field">
         <mat-icon matPrefix>search</mat-icon>
-        <input matInput [(ngModel)]="searchQuery" (ngModelChange)="applyFilters()"
-               placeholder="Rechercher par nom, email, spécialité…">
-        <button *ngIf="searchQuery" matSuffix mat-icon-button (click)="searchQuery=''; applyFilters()">
+        <input
+          matInput
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="applyFilters()"
+          placeholder="Rechercher par nom, email, spécialité…"
+        />
+        <button
+          *ngIf="searchQuery"
+          matSuffix
+          mat-icon-button
+          (click)="searchQuery = ''; applyFilters()"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
@@ -64,7 +72,11 @@
       <!-- Diplôme filter -->
       <mat-form-field appearance="outline" class="filter-field">
         <mat-icon matPrefix>school</mat-icon>
-        <mat-select [(ngModel)]="filterDiplome" (ngModelChange)="applyFilters()" placeholder="Diplôme">
+        <mat-select
+          [(ngModel)]="filterDiplome"
+          (ngModelChange)="applyFilters()"
+          placeholder="Diplôme"
+        >
           <mat-option value="">Tous les diplômes</mat-option>
           <mat-option *ngFor="let d of getUniqueDiplomes()" [value]="d">{{ d }}</mat-option>
         </mat-select>
@@ -73,10 +85,20 @@
 
     <div class="view-actions">
       <span class="results-count">{{ filteredList.length }} résultat(s)</span>
-      <button mat-icon-button [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'" matTooltip="Vue grille">
+      <button
+        mat-icon-button
+        [class.active]="viewMode === 'grid'"
+        (click)="viewMode = 'grid'"
+        matTooltip="Vue grille"
+      >
         <mat-icon>grid_view</mat-icon>
       </button>
-      <button mat-icon-button [class.active]="viewMode === 'list'" (click)="viewMode = 'list'" matTooltip="Vue liste">
+      <button
+        mat-icon-button
+        [class.active]="viewMode === 'list'"
+        (click)="viewMode = 'list'"
+        matTooltip="Vue liste"
+      >
         <mat-icon>view_list</mat-icon>
       </button>
     </div>
@@ -84,7 +106,6 @@
 
   <!-- ── Content ── -->
   <div class="main-content">
-
     <!-- Loading -->
     <div *ngIf="loading" class="loading-state">
       <div class="spinner"></div>
@@ -105,10 +126,12 @@
 
     <!-- ── GRID VIEW ── -->
     <div *ngIf="!loading && filteredList.length > 0 && viewMode === 'grid'" class="cards-grid">
-      <div class="candidate-card" *ngFor="let profile of filteredList; let i = index"
-           [style.animation-delay]="(i * 60) + 'ms'"
-           (click)="openDetail(profile)">
-
+      <div
+        class="candidate-card"
+        *ngFor="let profile of filteredList; let i = index"
+        [style.animation-delay]="i * 60 + 'ms'"
+        (click)="openDetail(profile)"
+      >
         <!-- Card Header -->
         <div class="card-header">
           <div class="avatar" [style.background]="getAvatarGradient(profile.nom)">
@@ -125,18 +148,14 @@
           <p class="candidate-specialty">{{ profile.specialite }}</p>
 
           <div class="meta-row">
-            <span class="meta-item">
-              <mat-icon>location_on</mat-icon>{{ profile.ville }}
-            </span>
+            <span class="meta-item"> <mat-icon>location_on</mat-icon>{{ profile.ville }} </span>
             <span class="meta-item">
               <mat-icon>work_history</mat-icon>{{ profile.nbAnneesExperience }} ans
             </span>
           </div>
 
           <div class="meta-row">
-            <span class="meta-item">
-              <mat-icon>school</mat-icon>{{ profile.niveauDiplome }}
-            </span>
+            <span class="meta-item"> <mat-icon>school</mat-icon>{{ profile.niveauDiplome }} </span>
             <span class="meta-item" *ngIf="profile.experienceAcademique">
               <mat-icon>verified</mat-icon>Exp. Académique
             </span>
@@ -144,8 +163,12 @@
 
           <!-- Skills Chips -->
           <div class="skills-row" *ngIf="profile.langages?.length">
-            <span class="skill-chip" *ngFor="let lang of profile.langages | slice:0:3">{{ lang }}</span>
-            <span class="skill-chip more" *ngIf="profile.langages.length > 3">+{{ profile.langages.length - 3 }}</span>
+            <span class="skill-chip" *ngFor="let lang of profile.langages | slice: 0 : 3">{{
+              lang
+            }}</span>
+            <span class="skill-chip more" *ngIf="profile.langages.length > 3"
+              >+{{ profile.langages.length - 3 }}</span
+            >
           </div>
 
           <!-- Soft Skills Bars -->
@@ -153,14 +176,20 @@
             <div class="skill-bar-row">
               <span class="skill-bar-label">Communication</span>
               <div class="skill-bar-track">
-                <div class="skill-bar-fill" [style.width]="(profile.communication / 5 * 100) + '%'"></div>
+                <div
+                  class="skill-bar-fill"
+                  [style.width]="(profile.communication / 5) * 100 + '%'"
+                ></div>
               </div>
               <span class="skill-bar-val">{{ profile.communication }}/5</span>
             </div>
             <div class="skill-bar-row">
               <span class="skill-bar-label">Leadership</span>
               <div class="skill-bar-track">
-                <div class="skill-bar-fill leadership" [style.width]="(profile.leadership / 5 * 100) + '%'"></div>
+                <div
+                  class="skill-bar-fill leadership"
+                  [style.width]="(profile.leadership / 5) * 100 + '%'"
+                ></div>
               </div>
               <span class="skill-bar-val">{{ profile.leadership }}/5</span>
             </div>
@@ -169,11 +198,19 @@
 
         <!-- Card Footer -->
         <div class="card-footer">
-          <button mat-button class="btn-view" (click)="$event.stopPropagation(); openDetail(profile)">
+          <button
+            mat-button
+            class="btn-view"
+            (click)="$event.stopPropagation(); openDetail(profile)"
+          >
             <mat-icon>visibility</mat-icon> Voir profil
           </button>
-          <button mat-icon-button class="btn-mail" (click)="$event.stopPropagation(); contact(profile)"
-                  matTooltip="Contacter">
+          <button
+            mat-icon-button
+            class="btn-mail"
+            (click)="$event.stopPropagation(); contact(profile)"
+            matTooltip="Contacter"
+          >
             <mat-icon>mail</mat-icon>
           </button>
         </div>
@@ -183,7 +220,6 @@
     <!-- ── LIST VIEW ── -->
     <div *ngIf="!loading && filteredList.length > 0 && viewMode === 'list'" class="table-container">
       <table mat-table [dataSource]="filteredList" class="modern-table" matSort>
-
         <!-- Candidat Column -->
         <ng-container matColumnDef="candidat">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Candidat</th>
@@ -235,9 +271,7 @@
         <ng-container matColumnDef="ville">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Ville</th>
           <td mat-cell *matCellDef="let p">
-            <div class="ville-cell">
-              <mat-icon>location_on</mat-icon>{{ p.ville }}
-            </div>
+            <div class="ville-cell"><mat-icon>location_on</mat-icon>{{ p.ville }}</div>
           </td>
         </ng-container>
 
@@ -246,8 +280,10 @@
           <th mat-header-cell *matHeaderCellDef>Langages</th>
           <td mat-cell *matCellDef="let p">
             <div class="skills-row compact">
-              <span class="skill-chip" *ngFor="let l of p.langages | slice:0:2">{{ l }}</span>
-              <span class="skill-chip more" *ngIf="p.langages?.length > 2">+{{ p.langages.length - 2 }}</span>
+              <span class="skill-chip" *ngFor="let l of p.langages | slice: 0 : 2">{{ l }}</span>
+              <span class="skill-chip more" *ngIf="p.langages?.length > 2"
+                >+{{ p.langages.length - 2 }}</span
+              >
             </div>
           </td>
         </ng-container>
@@ -267,7 +303,12 @@
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let p">
             <div class="action-buttons">
-              <button mat-icon-button class="btn-edit" (click)="openDetail(p)" matTooltip="Voir le profil">
+              <button
+                mat-icon-button
+                class="btn-edit"
+                (click)="openDetail(p)"
+                matTooltip="Voir le profil"
+              >
                 <mat-icon>visibility</mat-icon>
               </button>
               <button mat-icon-button class="btn-mail" (click)="contact(p)" matTooltip="Contacter">
@@ -278,17 +319,16 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-
-  </div><!-- /main-content -->
+  </div>
+  <!-- /main-content -->
 
   <!-- ── Detail Drawer ── -->
   <div class="detail-overlay" *ngIf="selectedProfile" (click)="closeDetail()"></div>
   <div class="detail-drawer" [class.open]="selectedProfile">
     <ng-container *ngIf="selectedProfile">
-
       <div class="drawer-header">
         <div class="drawer-avatar" [style.background]="getAvatarGradient(selectedProfile.nom)">
           {{ getInitials(selectedProfile.nom) }}
@@ -303,16 +343,26 @@
       </div>
 
       <div class="drawer-body">
-
         <!-- Infos Perso -->
         <div class="drawer-section">
           <h4><mat-icon>person</mat-icon> Informations Personnelles</h4>
           <div class="info-grid">
-            <div class="info-item"><span class="lbl">Email</span><span>{{ selectedProfile.email }}</span></div>
-            <div class="info-item"><span class="lbl">Téléphone</span><span>{{ selectedProfile.telephone }}</span></div>
-            <div class="info-item"><span class="lbl">Ville</span><span>{{ selectedProfile.ville }}</span></div>
-            <div class="info-item"><span class="lbl">Nationalité</span><span>{{ selectedProfile.nationalite }}</span></div>
-            <div class="info-item"><span class="lbl">Date de naissance</span><span>{{ selectedProfile.dateNaissance }}</span></div>
+            <div class="info-item">
+              <span class="lbl">Email</span><span>{{ selectedProfile.email }}</span>
+            </div>
+            <div class="info-item">
+              <span class="lbl">Téléphone</span><span>{{ selectedProfile.telephone }}</span>
+            </div>
+            <div class="info-item">
+              <span class="lbl">Ville</span><span>{{ selectedProfile.ville }}</span>
+            </div>
+            <div class="info-item">
+              <span class="lbl">Nationalité</span><span>{{ selectedProfile.nationalite }}</span>
+            </div>
+            <div class="info-item">
+              <span class="lbl">Date de naissance</span
+              ><span>{{ selectedProfile.dateNaissance }}</span>
+            </div>
           </div>
         </div>
 
@@ -320,10 +370,18 @@
         <div class="drawer-section">
           <h4><mat-icon>school</mat-icon> Formation Académique</h4>
           <div class="info-grid">
-            <div class="info-item"><span class="lbl">Diplôme</span><span>{{ selectedProfile.niveauDiplome }}</span></div>
-            <div class="info-item"><span class="lbl">Université</span><span>{{ selectedProfile.universite }}</span></div>
-            <div class="info-item"><span class="lbl">Année</span><span>{{ selectedProfile.anneeDiplome }}</span></div>
-            <div class="info-item" *ngIf="selectedProfile.gradeAcademique"><span class="lbl">Grade</span><span>{{ selectedProfile.gradeAcademique }}</span></div>
+            <div class="info-item">
+              <span class="lbl">Diplôme</span><span>{{ selectedProfile.niveauDiplome }}</span>
+            </div>
+            <div class="info-item">
+              <span class="lbl">Université</span><span>{{ selectedProfile.universite }}</span>
+            </div>
+            <div class="info-item">
+              <span class="lbl">Année</span><span>{{ selectedProfile.anneeDiplome }}</span>
+            </div>
+            <div class="info-item" *ngIf="selectedProfile.gradeAcademique">
+              <span class="lbl">Grade</span><span>{{ selectedProfile.gradeAcademique }}</span>
+            </div>
           </div>
         </div>
 
@@ -331,8 +389,12 @@
         <div class="drawer-section">
           <h4><mat-icon>work</mat-icon> Expérience Professionnelle</h4>
           <div class="info-grid">
-            <div class="info-item"><span class="lbl">Années d'expérience</span><span>{{ selectedProfile.nbAnneesExperience }} ans</span></div>
-            <div class="info-item"><span class="lbl">Exp. Académique</span>
+            <div class="info-item">
+              <span class="lbl">Années d'expérience</span
+              ><span>{{ selectedProfile.nbAnneesExperience }} ans</span>
+            </div>
+            <div class="info-item">
+              <span class="lbl">Exp. Académique</span>
               <span [style.color]="selectedProfile.experienceAcademique ? '#10b981' : '#64748b'">
                 {{ selectedProfile.experienceAcademique ? 'Oui' : 'Non' }}
               </span>
@@ -342,7 +404,9 @@
             <span class="tag" *ngFor="let inst of selectedProfile.institutions">{{ inst }}</span>
           </div>
           <div class="tags-list mt-8" *ngIf="selectedProfile.modulesEnseignes?.length">
-            <span class="tag alt" *ngFor="let mod of selectedProfile.modulesEnseignes">{{ mod }}</span>
+            <span class="tag alt" *ngFor="let mod of selectedProfile.modulesEnseignes">{{
+              mod
+            }}</span>
           </div>
         </div>
 
@@ -351,19 +415,33 @@
           <h4><mat-icon>code</mat-icon> Compétences Techniques</h4>
           <div class="skills-group" *ngIf="selectedProfile.langages?.length">
             <span class="skills-group-label">Langages</span>
-            <div class="tags-list"><span class="skill-chip" *ngFor="let l of selectedProfile.langages">{{ l }}</span></div>
+            <div class="tags-list">
+              <span class="skill-chip" *ngFor="let l of selectedProfile.langages">{{ l }}</span>
+            </div>
           </div>
           <div class="skills-group" *ngIf="selectedProfile.frameworks?.length">
             <span class="skills-group-label">Frameworks</span>
-            <div class="tags-list"><span class="skill-chip alt" *ngFor="let f of selectedProfile.frameworks">{{ f }}</span></div>
+            <div class="tags-list">
+              <span class="skill-chip alt" *ngFor="let f of selectedProfile.frameworks">{{
+                f
+              }}</span>
+            </div>
           </div>
           <div class="skills-group" *ngIf="selectedProfile.dataSkills?.length">
             <span class="skills-group-label">Data</span>
-            <div class="tags-list"><span class="skill-chip data" *ngFor="let d of selectedProfile.dataSkills">{{ d }}</span></div>
+            <div class="tags-list">
+              <span class="skill-chip data" *ngFor="let d of selectedProfile.dataSkills">{{
+                d
+              }}</span>
+            </div>
           </div>
           <div class="skills-group" *ngIf="selectedProfile.iaSkills?.length">
             <span class="skills-group-label">IA</span>
-            <div class="tags-list"><span class="skill-chip ia" *ngFor="let ia of selectedProfile.iaSkills">{{ ia }}</span></div>
+            <div class="tags-list">
+              <span class="skill-chip ia" *ngFor="let ia of selectedProfile.iaSkills">{{
+                ia
+              }}</span>
+            </div>
           </div>
         </div>
 
@@ -374,21 +452,30 @@
             <div class="skill-bar-row">
               <span class="skill-bar-label">Communication</span>
               <div class="skill-bar-track">
-                <div class="skill-bar-fill" [style.width]="(selectedProfile.communication / 5 * 100) + '%'"></div>
+                <div
+                  class="skill-bar-fill"
+                  [style.width]="(selectedProfile.communication / 5) * 100 + '%'"
+                ></div>
               </div>
               <span class="skill-bar-val">{{ selectedProfile.communication }}/5</span>
             </div>
             <div class="skill-bar-row">
               <span class="skill-bar-label">Leadership</span>
               <div class="skill-bar-track">
-                <div class="skill-bar-fill leadership" [style.width]="(selectedProfile.leadership / 5 * 100) + '%'"></div>
+                <div
+                  class="skill-bar-fill leadership"
+                  [style.width]="(selectedProfile.leadership / 5) * 100 + '%'"
+                ></div>
               </div>
               <span class="skill-bar-val">{{ selectedProfile.leadership }}/5</span>
             </div>
             <div class="skill-bar-row">
               <span class="skill-bar-label">Esprit d'équipe</span>
               <div class="skill-bar-track">
-                <div class="skill-bar-fill equipe" [style.width]="(selectedProfile.espritEquipe / 5 * 100) + '%'"></div>
+                <div
+                  class="skill-bar-fill equipe"
+                  [style.width]="(selectedProfile.espritEquipe / 5) * 100 + '%'"
+                ></div>
               </div>
               <span class="skill-bar-val">{{ selectedProfile.espritEquipe }}/5</span>
             </div>
@@ -406,8 +493,8 @@
             <mat-icon>picture_as_pdf</mat-icon> Télécharger le CV
           </a>
         </div>
-
-      </div><!-- /drawer-body -->
+      </div>
+      <!-- /drawer-body -->
 
       <div class="drawer-footer">
         <button mat-button class="btn-secondary" (click)="closeDetail()">Fermer</button>
@@ -415,8 +502,6 @@
           <mat-icon>mail</mat-icon> Contacter
         </button>
       </div>
-
     </ng-container>
   </div>
-
 </div>

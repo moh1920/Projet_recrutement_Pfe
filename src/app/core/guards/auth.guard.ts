@@ -12,14 +12,14 @@ export const authGuard: CanActivateFn = async (route, state) => {
     if (!isLoggedIn) {
       // Rediriger vers la page de connexion Keycloak
       await keycloak.login({
-        redirectUri: window.location.origin + state.url
+        redirectUri: window.location.origin + state.url,
       });
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error('Erreur lors de la vérification de l\'authentification:', error);
+    console.error("Erreur lors de la vérification de l'authentification:", error);
     router.navigate(['/']);
     return false;
   }

@@ -7,7 +7,6 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class WebSocketService {
-
   private client!: Client;
   private subscriptions = new Map<string, { stomp: StompSubscription; subject: Subject<any> }>();
   private connected = false;
@@ -77,7 +76,7 @@ export class WebSocketService {
    */
   send(destination: string, body: any): void {
     if (!this.connected) {
-      console.warn('[WS] Non connecté, impossible d\'envoyer :', destination);
+      console.warn("[WS] Non connecté, impossible d'envoyer :", destination);
       return;
     }
 

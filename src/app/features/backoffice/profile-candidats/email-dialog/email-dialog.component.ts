@@ -1,4 +1,4 @@
-import {Component, inject, Inject} from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,7 +6,10 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import {EmailSendRequest, MeetingEmailService} from "../../../../core/services/meeting-email.service";
+import {
+  EmailSendRequest,
+  MeetingEmailService,
+} from '../../../../core/services/meeting-email.service';
 
 export interface EmailDialogData {
   email: string;
@@ -23,15 +26,15 @@ export interface EmailDialogData {
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './email-dialog.component.html',
-  styleUrl: './email-dialog.component.scss'
+  styleUrl: './email-dialog.component.scss',
 })
 export class EmailDialogComponent {
   toEmail: string;
-  subject: string = '';
-  message: string = '';
+  subject = '';
+  message = '';
   serviceSendEmail = inject(MeetingEmailService);
 
   constructor(
@@ -47,19 +50,19 @@ export class EmailDialogComponent {
 
   onSend(): void {
     if (this.subject && this.message) {
-      const emailRequest : EmailSendRequest ={
+      const emailRequest: EmailSendRequest = {
         recipientEmail: this.toEmail,
         recipientName: this.data.nom,
         confirmedSubject: this.subject,
-        confirmedBody: this.message
-      }
+        confirmedBody: this.message,
+      };
       this.serviceSendEmail.sendEmailContact(emailRequest).subscribe(() => {
-        console.log("message envoi");
+        console.log('message envoi');
       });
       this.dialogRef.close({
         to: this.toEmail,
         subject: this.subject,
-        message: this.message
+        message: this.message,
       });
     }
   }

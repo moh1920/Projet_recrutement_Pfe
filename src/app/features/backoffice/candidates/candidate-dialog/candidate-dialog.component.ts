@@ -17,10 +17,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './candidate-dialog.component.html',
-  styleUrl: './candidate-dialog.component.scss'
+  styleUrl: './candidate-dialog.component.scss',
 })
 export class CandidateDialogComponent {
   private fb = inject(FormBuilder);
@@ -32,7 +32,7 @@ export class CandidateDialogComponent {
     phone: ['', Validators.required],
     position: ['', Validators.required],
     experience: ['', Validators.required],
-    status: ['En Attente', Validators.required]
+    status: ['En Attente', Validators.required],
   });
 
   onSubmit(): void {

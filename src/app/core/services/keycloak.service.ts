@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
-import {KeycloakService} from "keycloak-angular";
-import { environment } from "../../../environments/environment";
-
+import { KeycloakService } from 'keycloak-angular';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppKeycloakService {
   constructor(private keycloak: KeycloakService) {}
@@ -47,8 +46,8 @@ export class AppKeycloakService {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
               client_id: 'espritRecrutement',
-              refresh_token: refreshToken
-            })
+              refresh_token: refreshToken,
+            }),
           }
         );
         console.log('Logout status:', response.status); // 204 = succès

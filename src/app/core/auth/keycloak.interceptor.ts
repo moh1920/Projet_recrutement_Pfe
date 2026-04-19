@@ -5,7 +5,6 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { KeycloakService } from 'keycloak-angular';
 
 export const keycloakInterceptor: HttpInterceptorFn = (req, next) => {
-
   const keycloakService = inject(KeycloakService);
 
   if (!keycloakService.isLoggedIn()) {
@@ -13,13 +12,12 @@ export const keycloakInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   return from(keycloakService.getToken()).pipe(
-    switchMap(token => {
-
+    switchMap((token) => {
       if (token) {
         req = req.clone({
           setHeaders: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
       }
 

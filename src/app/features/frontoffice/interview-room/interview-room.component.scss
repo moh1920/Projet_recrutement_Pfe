@@ -5,7 +5,7 @@
 
 // ─── Variables ─────────────────────────────────────────────────────────────
 
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #d32f2f;
 $esprit-red-dark: #5c0000;
 $text-dark: #0f172a;
@@ -39,11 +39,17 @@ $cancelled-color: #9ca3af;
 }
 
 @mixin card-shadow {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.07),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 
   &:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(0, 0, 0, 0.04);
     transform: translateY(-3px);
   }
 }
@@ -93,8 +99,13 @@ $cancelled-color: #9ca3af;
   font-weight: 500;
   letter-spacing: 0.03em;
 
-  .sep { opacity: 0.5; }
-  .current { opacity: 1; font-weight: 600; }
+  .sep {
+    opacity: 0.5;
+  }
+  .current {
+    opacity: 1;
+    font-weight: 600;
+  }
 }
 
 .header-top {
@@ -183,7 +194,9 @@ $cancelled-color: #9ca3af;
   display: flex;
   align-items: center;
   gap: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07), 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.07),
+    0 4px 16px rgba(0, 0, 0, 0.04);
   border-left: 4px solid transparent;
   transition: all 0.25s ease;
 
@@ -192,10 +205,18 @@ $cancelled-color: #9ca3af;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   }
 
-  &.total { border-color: $esprit-red; }
-  &.planned { border-color: $planned-color; }
-  &.ongoing { border-color: $ongoing-color; }
-  &.done { border-color: $done-color; }
+  &.total {
+    border-color: $esprit-red;
+  }
+  &.planned {
+    border-color: $planned-color;
+  }
+  &.ongoing {
+    border-color: $ongoing-color;
+  }
+  &.done {
+    border-color: $done-color;
+  }
 
   .stat-icon {
     width: 46px;
@@ -270,7 +291,9 @@ $cancelled-color: #9ca3af;
     background: rgba($esprit-red, 0.04);
   }
 
-  svg { stroke: currentColor; }
+  svg {
+    stroke: currentColor;
+  }
 }
 
 .month-title {
@@ -401,10 +424,18 @@ $cancelled-color: #9ca3af;
     transform: scale(1.02);
   }
 
-  &.status-planned { background: $planned-color; }
-  &.status-ongoing { background: $ongoing-color; }
-  &.status-done { background: $done-color; }
-  &.status-cancelled { background: $cancelled-color; }
+  &.status-planned {
+    background: $planned-color;
+  }
+  &.status-ongoing {
+    background: $ongoing-color;
+  }
+  &.status-done {
+    background: $done-color;
+  }
+  &.status-cancelled {
+    background: $cancelled-color;
+  }
 
   .event-label {
     font-size: 0.68rem;
@@ -448,10 +479,18 @@ $cancelled-color: #9ca3af;
   border-radius: 4px;
   display: inline-block;
 
-  &.planned { background: $planned-color; }
-  &.ongoing { background: $ongoing-color; }
-  &.done { background: $done-color; }
-  &.cancelled { background: $cancelled-color; }
+  &.planned {
+    background: $planned-color;
+  }
+  &.ongoing {
+    background: $ongoing-color;
+  }
+  &.done {
+    background: $done-color;
+  }
+  &.cancelled {
+    background: $cancelled-color;
+  }
 }
 
 // ─── Side Panel ─────────────────────────────────────────────────────────────
@@ -480,8 +519,14 @@ $cancelled-color: #9ca3af;
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .side-panel-header {
@@ -529,8 +574,12 @@ $cancelled-color: #9ca3af;
   border-bottom: 1px solid $border-color;
   transition: background 0.2s;
 
-  &:last-child { border-bottom: none; }
-  &:hover { background: $bg-light; }
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover {
+    background: $bg-light;
+  }
 }
 
 .side-time {
@@ -573,7 +622,9 @@ $cancelled-color: #9ca3af;
     background: rgba($planned-color, 0.1);
   }
 
-  svg { stroke: currentColor; }
+  svg {
+    stroke: currentColor;
+  }
 }
 
 // ─── List View ──────────────────────────────────────────────────────────────
@@ -628,9 +679,18 @@ $cancelled-color: #9ca3af;
   min-width: 20px;
   text-align: center;
 
-  &.planned { background: rgba($planned-color, 0.12); color: $planned-color; }
-  &.ongoing { background: rgba($ongoing-color, 0.12); color: $ongoing-color; }
-  &.done { background: rgba($done-color, 0.12); color: $done-color; }
+  &.planned {
+    background: rgba($planned-color, 0.12);
+    color: $planned-color;
+  }
+  &.ongoing {
+    background: rgba($ongoing-color, 0.12);
+    color: $ongoing-color;
+  }
+  &.done {
+    background: rgba($done-color, 0.12);
+    color: $done-color;
+  }
 }
 
 // ─── Interview List ─────────────────────────────────────────────────────────
@@ -644,14 +704,18 @@ $cancelled-color: #9ca3af;
 .interview-card {
   background: $white;
   border-radius: 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.07),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
   display: flex;
   overflow: hidden;
   transition: all 0.25s ease;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(0, 0, 0, 0.04);
   }
 }
 
@@ -720,7 +784,9 @@ $cancelled-color: #9ca3af;
   color: $text-muted;
   font-weight: 500;
 
-  svg { stroke: currentColor; }
+  svg {
+    stroke: currentColor;
+  }
 }
 
 .card-jury {
@@ -774,7 +840,9 @@ $cancelled-color: #9ca3af;
     box-shadow: 0 4px 12px rgba($planned-color, 0.35);
   }
 
-  svg { stroke: currentColor; }
+  svg {
+    stroke: currentColor;
+  }
 }
 
 .type-tag {
@@ -833,7 +901,9 @@ $cancelled-color: #9ca3af;
   border-radius: 18px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 
-  svg { stroke: $border-color; }
+  svg {
+    stroke: $border-color;
+  }
 
   p {
     font-size: 1rem;
@@ -848,10 +918,14 @@ $cancelled-color: #9ca3af;
   .page-header {
     padding: 40px 0 80px;
 
-    .header-content { padding: 0 16px; }
+    .header-content {
+      padding: 0 16px;
+    }
   }
 
-  .page-title { font-size: 2rem; }
+  .page-title {
+    font-size: 2rem;
+  }
 
   .header-top {
     flex-direction: column;
@@ -865,7 +939,9 @@ $cancelled-color: #9ca3af;
   }
 
   .calendar-container,
-  .list-container { padding: 0 16px 40px; }
+  .list-container {
+    padding: 0 16px 40px;
+  }
 
   .calendar-grid {
     padding: 12px;
@@ -902,11 +978,17 @@ $cancelled-color: #9ca3af;
     align-items: baseline;
     gap: 8px;
 
-    .card-month { margin-bottom: 0; }
-    .card-day-num { font-size: 1.5rem; }
+    .card-month {
+      margin-bottom: 0;
+    }
+    .card-day-num {
+      font-size: 1.5rem;
+    }
   }
 
-  .card-body { padding: 16px; }
+  .card-body {
+    padding: 16px;
+  }
 
   .side-panel {
     right: 16px;
@@ -917,7 +999,9 @@ $cancelled-color: #9ca3af;
 }
 
 @media (max-width: 480px) {
-  .stats-row { grid-template-columns: 1fr; }
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
 
   .calendar-grid {
     display: none; // Switch to list view on very small screens
@@ -927,6 +1011,8 @@ $cancelled-color: #9ca3af;
     overflow-x: auto;
     padding-bottom: 8px;
 
-    .tab-btn { white-space: nowrap; }
+    .tab-btn {
+      white-space: nowrap;
+    }
   }
 }

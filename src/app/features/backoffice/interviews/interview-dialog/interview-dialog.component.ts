@@ -1,12 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import {MatDatepickerInputEvent, MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -17,7 +23,7 @@ import {
   Interview,
   InterviewStatus,
   InterviewType,
-  EvaluationCriteria
+  EvaluationCriteria,
 } from '../../../../core/services/interview.service';
 
 // ==================== Interface locale pour le jury ====================
@@ -49,10 +55,9 @@ interface JuryMember {
     MatDividerModule,
   ],
   templateUrl: './interview-dialog.component.html',
-  styleUrl: './interview-dialog.component.scss'
+  styleUrl: './interview-dialog.component.scss',
 })
 export class InterviewDialogComponent implements OnInit {
-
   // ==================== Injection ====================
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<InterviewDialogComponent>);
@@ -83,13 +88,12 @@ export class InterviewDialogComponent implements OnInit {
   durationPresets = [
     { label: '30 min', value: 30 },
     { label: '45 min', value: 45 },
-    { label: '1h',     value: 60 },
-    { label: '1h30',   value: 90 },
-    { label: '2h',     value: 120 },
+    { label: '1h', value: 60 },
+    { label: '1h30', value: 90 },
+    { label: '2h', value: 120 },
   ];
 
   // ==================== Lifecycle ====================
-
 
   isCandidatePreFilled = false;
 
@@ -104,32 +108,32 @@ export class InterviewDialogComponent implements OnInit {
   private buildForm(): void {
     this.interviewForm = this.fb.group({
       // --- Candidat ---
-      candidateName:  ['', [Validators.required, Validators.minLength(2)]],
-      candidateId:    [''],
+      candidateName: ['', [Validators.required, Validators.minLength(2)]],
+      candidateId: [''],
       candidateEmail: ['', [Validators.email]],
       candidatePhone: [''],
 
       // --- Poste ---
-      position:   ['', Validators.required],
+      position: ['', Validators.required],
       department: [''],
 
       // --- Classification ---
-      type:   ['interview' as InterviewType, Validators.required],
+      type: ['interview' as InterviewType, Validators.required],
       status: ['Planifié' as InterviewStatus, Validators.required],
 
       // --- Planning ---
-      date:     [null, Validators.required],
-      time:     ['', Validators.required],
+      date: [null, Validators.required],
+      time: ['', Validators.required],
       duration: [45, [Validators.required, Validators.min(15), Validators.max(480)]],
 
       // --- Lieu ---
-      room:     [''],
+      room: [''],
       location: [''],
       meetLink: ['', [Validators.pattern(/^(https?:\/\/.+)?$/)]],
 
       // --- Détails ---
-      notes:    [''],
-      createdBy:[''],
+      notes: [''],
+      createdBy: [''],
     });
   }
 
@@ -140,23 +144,22 @@ export class InterviewDialogComponent implements OnInit {
 
     // Patch les champs du formulaire
     this.interviewForm.patchValue({
-      candidateName:  this.data.candidateName  ?? '',
-      candidateId:    this.data.candidateId    ?? '',
+      candidateName: this.data.candidateName ?? '',
+      candidateId: this.data.candidateId ?? '',
       candidateEmail: this.data.candidateEmail ?? '',
       candidatePhone: this.data.candidatePhone ?? '',
-      position:       this.data.position       ?? '',
-      department:     this.data.department     ?? '',
-      type:           this.data.type           ?? 'interview',
-      status:         this.data.status         ?? 'Planifié',
+      position: this.data.position ?? '',
+      department: this.data.department ?? '',
+      type: this.data.type ?? 'interview',
+      status: this.data.status ?? 'Planifié',
       date: this.data.date ? new Date(this.data.date) : null,
-      time:           this.data.time           ?? '',
-      duration:       this.data.duration       ?? 45,
-      room:           this.data.room           ?? '',
-      location:       this.data.location       ?? '',
-      meetLink:       this.data.meetLink       ?? '',
-      notes:          this.data.notes          ?? '',
+      time: this.data.time ?? '',
+      duration: this.data.duration ?? 45,
+      room: this.data.room ?? '',
+      location: this.data.location ?? '',
+      meetLink: this.data.meetLink ?? '',
+      notes: this.data.notes ?? '',
     });
-
 
     // Détecter si le candidat vient d'une source externe (tableau candidats)
     this.isCandidatePreFilled = !!(this.data.candidateName && !this.isEditMode);
@@ -171,7 +174,7 @@ export class InterviewDialogComponent implements OnInit {
     if (this.data.jury && this.data.jury.length > 0) {
       this.juryMembers = this.data.jury.map((name, i) => ({
         name,
-        id:    this.data.juryIds?.[i]    ?? '',
+        id: this.data.juryIds?.[i] ?? '',
         email: this.data.juryEmails?.[i] ?? '',
       }));
     }
@@ -183,7 +186,7 @@ export class InterviewDialogComponent implements OnInit {
 
     // Critères d'évaluation
     if (this.data.evaluationCriteria) {
-      this.evaluationCriteria = this.data.evaluationCriteria.map(c => ({ ...c }));
+      this.evaluationCriteria = this.data.evaluationCriteria.map((c) => ({ ...c }));
     }
   }
 
@@ -200,18 +203,18 @@ export class InterviewDialogComponent implements OnInit {
     if (!name) return;
 
     // Éviter les doublons
-    if (this.juryMembers.some(m => m.name.toLowerCase() === name.toLowerCase())) {
+    if (this.juryMembers.some((m) => m.name.toLowerCase() === name.toLowerCase())) {
       return;
     }
 
     this.juryMembers.push({
       name,
-      id:    this.newJuryId.trim()    || undefined,
+      id: this.newJuryId.trim() || undefined,
       email: this.newJuryEmail.trim() || undefined,
     });
 
-    this.newJuryName  = '';
-    this.newJuryId    = '';
+    this.newJuryName = '';
+    this.newJuryId = '';
     this.newJuryEmail = '';
   }
 
@@ -239,9 +242,9 @@ export class InterviewDialogComponent implements OnInit {
     if (!criterion) return;
 
     this.evaluationCriteria.push({
-      id:          `crit-${Date.now()}`,
+      id: `crit-${Date.now()}`,
       criterion,
-      weight:      this.newCriteria.weight     ?? 10,
+      weight: this.newCriteria.weight ?? 10,
       description: this.newCriteria.description?.trim() || undefined,
     });
 
@@ -274,8 +277,6 @@ export class InterviewDialogComponent implements OnInit {
 
     const formValue = this.interviewForm.getRawValue();
 
-
-
     let dateStr = '';
     if (formValue.date instanceof Date) {
       const d = formValue.date;
@@ -292,37 +293,37 @@ export class InterviewDialogComponent implements OnInit {
       // Conserver l'ID si mode édition
       ...(this.isEditMode && this.data?.id ? { id: this.data.id } : {}),
       // Candidat
-      candidateName:  formValue.candidateName,
-      candidateId:    formValue.candidateId    || undefined,
+      candidateName: formValue.candidateName,
+      candidateId: formValue.candidateId || undefined,
       candidateEmail: formValue.candidateEmail || undefined,
       candidatePhone: formValue.candidatePhone || undefined,
 
       // Poste
-      position:   formValue.position,
+      position: formValue.position,
       department: formValue.department || undefined,
 
       // Classification
-      type:   formValue.type   as InterviewType,
+      type: formValue.type as InterviewType,
       status: formValue.status as InterviewStatus,
 
       // Planning
-      date:     dateStr,
-      time:     formValue.time,
+      date: dateStr,
+      time: formValue.time,
       duration: Number(formValue.duration),
 
       // Lieu
-      room:     formValue.room     || undefined,
+      room: formValue.room || undefined,
       location: formValue.location || undefined,
       meetLink: formValue.meetLink || undefined,
 
       // Jury (sérialisation en tableaux séparés)
-      jury:        this.juryMembers.map(m => m.name),
-      juryIds:     this.juryMembers.map(m => m.id ?? '').filter(Boolean),
-      juryEmails:  this.juryMembers.map(m => m.email ?? '').filter(Boolean),
+      jury: this.juryMembers.map((m) => m.name),
+      juryIds: this.juryMembers.map((m) => m.id ?? '').filter(Boolean),
+      juryEmails: this.juryMembers.map((m) => m.email ?? '').filter(Boolean),
 
       // Détails
-      notes:              formValue.notes     || undefined,
-      requirements:       this.requirements.length ? this.requirements : undefined,
+      notes: formValue.notes || undefined,
+      requirements: this.requirements.length ? this.requirements : undefined,
       evaluationCriteria: this.evaluationCriteria.length ? this.evaluationCriteria : undefined,
     };
 

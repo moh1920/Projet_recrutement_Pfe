@@ -23,28 +23,27 @@ import { MeetingApiService } from '../../../core/services/meeting-api.service';
     MatProgressSpinnerModule,
   ],
   templateUrl: './lobby.component.html',
-  styleUrls:   ['./lobby.component.scss']
+  styleUrls: ['./lobby.component.scss'],
 })
 export class LobbyComponent {
-
   @Output() closed = new EventEmitter<void>();
 
-  isOpen       = false;   // ← contrôle l'affichage
+  isOpen = false; // ← contrôle l'affichage
   meetingTitle = '';
-  roomCode     = '';
-  loading      = false;
-  error        = '';
+  roomCode = '';
+  loading = false;
+  error = '';
 
-  private router     = inject(Router);
+  private router = inject(Router);
   private meetingApi = inject(MeetingApiService);
 
   /** Appeler depuis le parent pour ouvrir */
   open(): void {
     this.meetingTitle = '';
-    this.roomCode     = '';
-    this.error        = '';
-    this.loading      = false;
-    this.isOpen       = true;
+    this.roomCode = '';
+    this.error = '';
+    this.loading = false;
+    this.isOpen = true;
   }
 
   close(): void {
@@ -60,32 +59,32 @@ export class LobbyComponent {
 
   createMeeting(): void {
     this.loading = true;
-    this.error   = '';
+    this.error = '';
     this.meetingApi.createMeeting(this.meetingTitle || 'Réunion Esprit').subscribe({
       next: (meeting) => {
         this.close();
         this.router.navigate(['/admin/meeting', meeting.roomCode]);
       },
       error: () => {
-        this.error   = 'Impossible de créer le salon. Veuillez réessayer.';
+        this.error = 'Impossible de créer le salon. Veuillez réessayer.';
         this.loading = false;
-      }
+      },
     });
   }
 
   joinMeeting(): void {
     if (!this.roomCode.trim()) return;
     this.loading = true;
-    this.error   = '';
+    this.error = '';
     this.meetingApi.checkRoom(this.roomCode.toUpperCase()).subscribe({
       next: () => {
         this.close();
         this.router.navigate(['/admin/meeting', this.roomCode.toUpperCase()]);
       },
       error: () => {
-        this.error   = 'Salon introuvable. Vérifiez le code et réessayez.';
+        this.error = 'Salon introuvable. Vérifiez le code et réessayez.';
         this.loading = false;
-      }
+      },
     });
   }
 }

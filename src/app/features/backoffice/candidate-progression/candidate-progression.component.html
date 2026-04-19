@@ -1,5 +1,4 @@
 <div class="progression-container">
-
   <!-- ═══════════════════════════════════════════════════════ HEADER -->
   <header class="page-header">
     <div class="header-bg-pattern"></div>
@@ -28,17 +27,20 @@
 
   <!-- ═══════════════════════════════════════════════════════ MAIN LAYOUT -->
   <div class="layout-grid" *ngIf="!loading && candidates.length > 0">
-
     <!-- ── SIDEBAR ── -->
     <aside class="candidate-sidebar mat-elevation-z2">
       <div class="sidebar-header">
-        <h3>Candidats <span class="count-badge">{{ candidates.length }}</span></h3>
+        <h3>
+          Candidats <span class="count-badge">{{ candidates.length }}</span>
+        </h3>
       </div>
       <div class="candidate-list">
-        <div class="candidate-item"
-             *ngFor="let cand of candidates"
-             [class.active]="selectedCandidate?.id === cand.id"
-             (click)="selectCandidate(cand)">
+        <div
+          class="candidate-item"
+          *ngFor="let cand of candidates"
+          [class.active]="selectedCandidate?.id === cand.id"
+          (click)="selectCandidate(cand)"
+        >
           <div class="avatar" [style.background]="getAvatarColor(cand.fullName)">
             {{ getInitials(cand.fullName) }}
           </div>
@@ -58,7 +60,6 @@
 
     <!-- ── MAIN CONTENT ── -->
     <main class="progression-main">
-
       <!-- Profile Card -->
       <div class="main-header mat-elevation-z1" *ngIf="selectedCandidate">
         <div class="profile-summary">
@@ -83,7 +84,7 @@
         <div class="overall-progress">
           <div class="progress-labels">
             <span class="progress-label-text">Avancement Global</span>
-            <span class="percent">{{ calculateProgress() | number:'1.0-0' }}%</span>
+            <span class="percent">{{ calculateProgress() | number: '1.0-0' }}%</span>
           </div>
           <mat-progress-bar mode="determinate" [value]="calculateProgress()"></mat-progress-bar>
           <div class="progress-steps-summary">
@@ -105,7 +106,6 @@
 
       <!-- ══ STEPS MANAGER SECTION ══ -->
       <div class="steps-manager" *ngIf="selectedCandidate">
-
         <!-- Section toolbar -->
         <div class="section-toolbar">
           <div class="toolbar-left">
@@ -115,7 +115,12 @@
             </h3>
           </div>
           <div class="toolbar-right">
-            <button mat-stroked-button class="btn-add-step" (click)="openAddStepPanel()" [disabled]="savingStep">
+            <button
+              mat-stroked-button
+              class="btn-add-step"
+              (click)="openAddStepPanel()"
+              [disabled]="savingStep"
+            >
               <mat-icon>add_circle_outline</mat-icon>
               Ajouter une étape
             </button>
@@ -137,13 +142,25 @@
             <div class="form-row">
               <div class="form-field">
                 <label>Nom de l'étape <span class="required">*</span></label>
-                <input type="text" [(ngModel)]="newStep.name" placeholder="ex: Entretien RH" class="field-input" />
+                <input
+                  type="text"
+                  [(ngModel)]="newStep.name"
+                  placeholder="ex: Entretien RH"
+                  class="field-input"
+                />
               </div>
               <div class="form-field">
                 <label>Icône Material</label>
                 <div class="icon-input-group">
-                  <mat-icon class="icon-preview">{{ newStep.icon || 'radio_button_unchecked' }}</mat-icon>
-                  <input type="text" [(ngModel)]="newStep.icon" placeholder="ex: person_search" class="field-input" />
+                  <mat-icon class="icon-preview">{{
+                    newStep.icon || 'radio_button_unchecked'
+                  }}</mat-icon>
+                  <input
+                    type="text"
+                    [(ngModel)]="newStep.icon"
+                    placeholder="ex: person_search"
+                    class="field-input"
+                  />
                 </div>
               </div>
             </div>
@@ -158,27 +175,45 @@
               </div>
               <div class="form-field">
                 <label>Date</label>
-                <input type="text" [(ngModel)]="newStep.date" placeholder="ex: 24 Mars 2026" class="field-input" />
+                <input
+                  type="text"
+                  [(ngModel)]="newStep.date"
+                  placeholder="ex: 24 Mars 2026"
+                  class="field-input"
+                />
               </div>
             </div>
             <div class="form-field full-width">
               <label>Description</label>
-              <textarea [(ngModel)]="newStep.description" placeholder="Décrivez cette étape..." class="field-textarea" rows="2"></textarea>
+              <textarea
+                [(ngModel)]="newStep.description"
+                placeholder="Décrivez cette étape..."
+                class="field-textarea"
+                rows="2"
+              ></textarea>
             </div>
           </div>
           <div class="panel-footer">
             <button mat-button class="btn-cancel" (click)="closeAddPanel()">Annuler</button>
-            <button mat-raised-button class="btn-save" (click)="addStep()" [disabled]="!newStep.name || savingStep">
+            <button
+              mat-raised-button
+              class="btn-save"
+              (click)="addStep()"
+              [disabled]="!newStep.name || savingStep"
+            >
               <mat-icon *ngIf="!savingStep">save</mat-icon>
               <mat-spinner *ngIf="savingStep" diameter="16"></mat-spinner>
-              {{ savingStep ? 'Enregistrement...' : 'Ajouter l\'étape' }}
+              {{ savingStep ? 'Enregistrement...' : "Ajouter l'étape" }}
             </button>
           </div>
         </div>
 
         <!-- ── TIMELINE STEPS ── -->
         <div class="timeline-container">
-          <div *ngIf="!selectedCandidate.steps || selectedCandidate.steps.length === 0" class="no-steps">
+          <div
+            *ngIf="!selectedCandidate.steps || selectedCandidate.steps.length === 0"
+            class="no-steps"
+          >
             <div class="no-steps-icon">
               <mat-icon>playlist_add</mat-icon>
             </div>
@@ -188,25 +223,27 @@
             </button>
           </div>
 
-          <div class="timeline-step"
-               *ngFor="let step of selectedCandidate.steps; let i = index; let last = last"
-               [class.completed]="step.status === 'completed'"
-               [class.current]="step.status === 'current'"
-               [class.pending]="step.status === 'pending'"
-               [class.editing]="editingStepIndex === i">
-
+          <div
+            class="timeline-step"
+            *ngFor="let step of selectedCandidate.steps; let i = index; let last = last"
+            [class.completed]="step.status === 'completed'"
+            [class.current]="step.status === 'current'"
+            [class.pending]="step.status === 'pending'"
+            [class.editing]="editingStepIndex === i"
+          >
             <!-- Indicator -->
             <div class="step-indicator">
               <div class="step-icon">
                 <mat-icon *ngIf="step.status === 'completed'">check</mat-icon>
-                <mat-icon *ngIf="step.status !== 'completed'">{{ step.icon || 'radio_button_unchecked' }}</mat-icon>
+                <mat-icon *ngIf="step.status !== 'completed'">{{
+                  step.icon || 'radio_button_unchecked'
+                }}</mat-icon>
               </div>
               <div class="step-line" *ngIf="!last"></div>
             </div>
 
             <!-- Content -->
             <div class="step-content">
-
               <!-- VIEW MODE -->
               <ng-container *ngIf="editingStepIndex !== i">
                 <div class="step-header">
@@ -223,34 +260,40 @@
                     </span>
                     <!-- Status quick-change buttons -->
                     <div class="quick-status">
-<!--                      <button mat-icon-button-->
-<!--                              class="qs-btn"-->
-<!--                              title="Marquer en attente"-->
-<!--                              *ngIf="step.status !== 'pending'"-->
-<!--                              (click)="quickUpdateStatus(step, 'pending')">-->
-<!--                        <mat-icon>schedule</mat-icon>-->
-<!--                      </button>-->
-<!--                      <button mat-icon-button-->
-<!--                              class="qs-btn current-btn"-->
-<!--                              title="Marquer en cours"-->
-<!--                              *ngIf="step.status !== 'current'"-->
-<!--                              (click)="quickUpdateStatus(step, 'current')">-->
-<!--                        <mat-icon>play_circle_outline</mat-icon>-->
-<!--                      </button>-->
-<!--                      <button mat-icon-button-->
-<!--                              class="qs-btn complete-btn"-->
-<!--                              title="Marquer complétée"-->
-<!--                              *ngIf="step.status !== 'completed'"-->
-<!--                              (click)="quickUpdateStatus(step, 'completed')">-->
-<!--                        <mat-icon>check_circle_outline</mat-icon>-->
-<!--                      </button>-->
+                      <!--                      <button mat-icon-button-->
+                      <!--                              class="qs-btn"-->
+                      <!--                              title="Marquer en attente"-->
+                      <!--                              *ngIf="step.status !== 'pending'"-->
+                      <!--                              (click)="quickUpdateStatus(step, 'pending')">-->
+                      <!--                        <mat-icon>schedule</mat-icon>-->
+                      <!--                      </button>-->
+                      <!--                      <button mat-icon-button-->
+                      <!--                              class="qs-btn current-btn"-->
+                      <!--                              title="Marquer en cours"-->
+                      <!--                              *ngIf="step.status !== 'current'"-->
+                      <!--                              (click)="quickUpdateStatus(step, 'current')">-->
+                      <!--                        <mat-icon>play_circle_outline</mat-icon>-->
+                      <!--                      </button>-->
+                      <!--                      <button mat-icon-button-->
+                      <!--                              class="qs-btn complete-btn"-->
+                      <!--                              title="Marquer complétée"-->
+                      <!--                              *ngIf="step.status !== 'completed'"-->
+                      <!--                              (click)="quickUpdateStatus(step, 'completed')">-->
+                      <!--                        <mat-icon>check_circle_outline</mat-icon>-->
+                      <!--                      </button>-->
                       <div class="action-divider"></div>
-                      <button mat-icon-button  title="Modifier l'étape"
-                              (click)="openEditStep(step, i)">
+                      <button
+                        mat-icon-button
+                        title="Modifier l'étape"
+                        (click)="openEditStep(step, i)"
+                      >
                         <mat-icon>edit_note</mat-icon>
                       </button>
-                      <button mat-icon-button  title="Supprimer l'étape"
-                              (click)="confirmDeleteStep(step, i)">
+                      <button
+                        mat-icon-button
+                        title="Supprimer l'étape"
+                        (click)="confirmDeleteStep(step, i)"
+                      >
                         <mat-icon>delete_outline</mat-icon>
                       </button>
                     </div>
@@ -268,19 +311,29 @@
 
               <!-- EDIT MODE -->
               <div class="inline-edit-panel" *ngIf="editingStepIndex === i">
-                <div class="edit-panel-title">
-                  <mat-icon>edit</mat-icon> Modifier l'étape
-                </div>
+                <div class="edit-panel-title"><mat-icon>edit</mat-icon> Modifier l'étape</div>
                 <div class="form-row">
                   <div class="form-field">
                     <label>Nom de l'étape <span class="required">*</span></label>
-                    <input type="text" [(ngModel)]="editStep.name" class="field-input" placeholder="Nom de l'étape" />
+                    <input
+                      type="text"
+                      [(ngModel)]="editStep.name"
+                      class="field-input"
+                      placeholder="Nom de l'étape"
+                    />
                   </div>
                   <div class="form-field">
                     <label>Icône Material</label>
                     <div class="icon-input-group">
-                      <mat-icon class="icon-preview">{{ editStep.icon || 'radio_button_unchecked' }}</mat-icon>
-                      <input type="text" [(ngModel)]="editStep.icon" class="field-input" placeholder="ex: person_search" />
+                      <mat-icon class="icon-preview">{{
+                        editStep.icon || 'radio_button_unchecked'
+                      }}</mat-icon>
+                      <input
+                        type="text"
+                        [(ngModel)]="editStep.icon"
+                        class="field-input"
+                        placeholder="ex: person_search"
+                      />
                     </div>
                   </div>
                 </div>
@@ -295,30 +348,45 @@
                   </div>
                   <div class="form-field">
                     <label>Date</label>
-                    <input type="text" [(ngModel)]="editStep.date" class="field-input" placeholder="ex: 24 Mars 2026" />
+                    <input
+                      type="text"
+                      [(ngModel)]="editStep.date"
+                      class="field-input"
+                      placeholder="ex: 24 Mars 2026"
+                    />
                   </div>
                 </div>
                 <div class="form-field full-width">
                   <label>Description</label>
-                  <textarea [(ngModel)]="editStep.description" class="field-textarea" rows="2" placeholder="Décrivez cette étape..."></textarea>
+                  <textarea
+                    [(ngModel)]="editStep.description"
+                    class="field-textarea"
+                    rows="2"
+                    placeholder="Décrivez cette étape..."
+                  ></textarea>
                 </div>
                 <div class="inline-edit-actions">
                   <button mat-button class="btn-cancel" (click)="cancelEdit()">Annuler</button>
-                  <button mat-raised-button class="btn-save" (click)="saveEditStep(i)" [disabled]="!editStep.name || savingStep">
+                  <button
+                    mat-raised-button
+                    class="btn-save"
+                    (click)="saveEditStep(i)"
+                    [disabled]="!editStep.name || savingStep"
+                  >
                     <mat-icon *ngIf="!savingStep">save</mat-icon>
                     <mat-spinner *ngIf="savingStep" diameter="14"></mat-spinner>
                     {{ savingStep ? 'Enregistrement...' : 'Sauvegarder' }}
                   </button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-      </div><!-- /steps-manager -->
-
+      </div>
+      <!-- /steps-manager -->
     </main>
-  </div><!-- /layout-grid -->
+  </div>
+  <!-- /layout-grid -->
 
   <!-- ═══════════════════════════════════════════════════════ CONFIRM DELETE MODAL -->
   <div class="modal-overlay" *ngIf="showDeleteConfirm" (click)="cancelDelete()">
@@ -328,12 +396,17 @@
       </div>
       <h3 class="modal-title">Supprimer l'étape ?</h3>
       <p class="modal-desc">
-        Voulez-vous vraiment supprimer l'étape <strong>« {{ stepToDelete?.name }} »</strong> ?
-        Cette action est irréversible.
+        Voulez-vous vraiment supprimer l'étape <strong>« {{ stepToDelete?.name }} »</strong> ? Cette
+        action est irréversible.
       </p>
       <div class="modal-actions">
         <button mat-stroked-button class="btn-cancel" (click)="cancelDelete()">Annuler</button>
-        <button mat-raised-button class="btn-danger" (click)="deleteStep()" [disabled]="deletingStep">
+        <button
+          mat-raised-button
+          class="btn-danger"
+          (click)="deleteStep()"
+          [disabled]="deletingStep"
+        >
           <mat-icon *ngIf="!deletingStep">delete</mat-icon>
           <mat-spinner *ngIf="deletingStep" diameter="16"></mat-spinner>
           {{ deletingStep ? 'Suppression...' : 'Supprimer' }}
@@ -345,7 +418,13 @@
   <!-- ═══════════════════════════════════════════════════════ TOAST NOTIFICATIONS -->
   <div class="toast-container">
     <div class="toast" [class]="'toast-' + toast.type" *ngFor="let toast of toasts">
-      <mat-icon>{{ toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error_outline' : 'info' }}</mat-icon>
+      <mat-icon>{{
+        toast.type === 'success'
+          ? 'check_circle'
+          : toast.type === 'error'
+            ? 'error_outline'
+            : 'info'
+      }}</mat-icon>
       <span>{{ toast.message }}</span>
     </div>
   </div>
@@ -362,5 +441,4 @@
     <mat-spinner diameter="44"></mat-spinner>
     <p>Chargement des progressions...</p>
   </div>
-
 </div>

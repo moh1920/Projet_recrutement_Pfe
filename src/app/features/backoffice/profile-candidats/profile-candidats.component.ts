@@ -33,30 +33,38 @@ import { EmailDialogComponent } from './email-dialog/email-dialog.component';
     MatSnackBarModule,
   ],
   templateUrl: './profile-candidats.component.html',
-  styleUrl: './profile-candidats.component.scss'
+  styleUrl: './profile-candidats.component.scss',
 })
 export class ProfileCandidatsComponent implements OnInit {
-
   private profileService = inject(ProfileService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
 
   // ── Data ─────────────────────────────────────────────────────────────────
   prfileCandiadatsList: ProfileResponseDTO[] = [];
-  filteredList:         ProfileResponseDTO[] = [];
+  filteredList: ProfileResponseDTO[] = [];
 
   // ── UI State ──────────────────────────────────────────────────────────────
-  loading         = true;
+  loading = true;
   viewMode: 'grid' | 'list' = 'list';
   selectedProfile: ProfileResponseDTO | null = null;
 
   // ── Filters ───────────────────────────────────────────────────────────────
-  searchQuery  = '';
-  filterVille  = '';
+  searchQuery = '';
+  filterVille = '';
   filterDiplome = '';
 
   // ── Table Columns ─────────────────────────────────────────────────────────
-  displayedColumns = ['candidat', 'specialite', 'diplome', 'experience', 'ville', 'langages', 'cv', 'actions'];
+  displayedColumns = [
+    'candidat',
+    'specialite',
+    'diplome',
+    'experience',
+    'ville',
+    'langages',
+    'cv',
+    'actions',
+  ];
 
   // ── Avatar Gradients ──────────────────────────────────────────────────────
   private readonly gradients = [
@@ -82,7 +90,7 @@ export class ProfileCandidatsComponent implements OnInit {
       error: (err) => {
         console.error('Erreur chargement profils :', err);
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -91,48 +99,52 @@ export class ProfileCandidatsComponent implements OnInit {
   applyFilters(): void {
     const q = this.searchQuery.toLowerCase().trim();
 
-    this.filteredList = this.prfileCandiadatsList.filter(p => {
-      const matchSearch = !q ||
+    this.filteredList = this.prfileCandiadatsList.filter((p) => {
+      const matchSearch =
+        !q ||
         p.nom?.toLowerCase().includes(q) ||
         p.email?.toLowerCase().includes(q) ||
         p.specialite?.toLowerCase().includes(q) ||
         p.universite?.toLowerCase().includes(q) ||
-        p.langages?.some(l => l.toLowerCase().includes(q));
+        p.langages?.some((l) => l.toLowerCase().includes(q));
 
-      const matchVille   = !this.filterVille   || p.ville   === this.filterVille;
-      const matchDiplome = !this.filterDiplome  || p.niveauDiplome === this.filterDiplome;
+      const matchVille = !this.filterVille || p.ville === this.filterVille;
+      const matchDiplome = !this.filterDiplome || p.niveauDiplome === this.filterDiplome;
 
       return matchSearch && matchVille && matchDiplome;
     });
   }
 
   resetFilters(): void {
-    this.searchQuery   = '';
-    this.filterVille   = '';
+    this.searchQuery = '';
+    this.filterVille = '';
     this.filterDiplome = '';
-    this.filteredList  = [...this.prfileCandiadatsList];
+    this.filteredList = [...this.prfileCandiadatsList];
   }
 
   // ── Unique values for filter dropdowns ───────────────────────────────────
 
   getUniqueVilles(): string[] {
-    return [...new Set(this.prfileCandiadatsList.map(p => p.ville).filter(Boolean))].sort();
+    return [...new Set(this.prfileCandiadatsList.map((p) => p.ville).filter(Boolean))].sort();
   }
 
   getUniqueDiplomes(): string[] {
-    return [...new Set(this.prfileCandiadatsList.map(p => p.niveauDiplome).filter(Boolean))].sort();
+    return [
+      ...new Set(this.prfileCandiadatsList.map((p) => p.niveauDiplome).filter(Boolean)),
+    ].sort();
   }
 
   // ── Stats ─────────────────────────────────────────────────────────────────
 
   getWithCV(): number {
-    return this.prfileCandiadatsList.filter(p => p.cvPath).length;
+    return this.prfileCandiadatsList.filter((p) => p.cvPath).length;
   }
 
   getAvgExp(): string {
     if (!this.prfileCandiadatsList.length) return '0';
-    const avg = this.prfileCandiadatsList.reduce((sum, p) => sum + (p.nbAnneesExperience || 0), 0)
-      / this.prfileCandiadatsList.length;
+    const avg =
+      this.prfileCandiadatsList.reduce((sum, p) => sum + (p.nbAnneesExperience || 0), 0) /
+      this.prfileCandiadatsList.length;
     return avg.toFixed(1);
   }
 
@@ -140,7 +152,12 @@ export class ProfileCandidatsComponent implements OnInit {
 
   getInitials(name: string): string {
     if (!name) return '?';
-    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .substring(0, 2)
+      .toUpperCase();
   }
 
   getAvatarGradient(name: string): string {
@@ -165,10 +182,10 @@ export class ProfileCandidatsComponent implements OnInit {
   contact(profile: ProfileResponseDTO): void {
     const dialogRef = this.dialog.open(EmailDialogComponent, {
       width: '600px',
-      data: { email: profile.email, nom: profile.nom }
+      data: { email: profile.email, nom: profile.nom },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // Mock email sending
         console.log('Sending email:', result);

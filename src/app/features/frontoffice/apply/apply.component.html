@@ -37,8 +37,12 @@
     <div class="container">
       <mat-card class="apply-card">
         <mat-card-content>
-          <mat-stepper orientation="horizontal" [linear]="true" #stepper (selectionChange)="onStepChange($event)">
-
+          <mat-stepper
+            orientation="horizontal"
+            [linear]="true"
+            #stepper
+            (selectionChange)="onStepChange($event)"
+          >
             <!-- Step 1: Personal Info -->
             <mat-step [stepControl]="firstFormGroup" [editable]="!analysisComplete">
               <form [formGroup]="firstFormGroup">
@@ -58,7 +62,7 @@
                   <div class="form-grid">
                     <mat-form-field appearance="outline" class="form-field">
                       <mat-label>Nom Complet</mat-label>
-                      <input matInput formControlName="name" placeholder="Dr. Mohamed Ali">
+                      <input matInput formControlName="name" placeholder="Dr. Mohamed Ali" />
                       <mat-icon matPrefix>badge</mat-icon>
                       <mat-error *ngIf="firstFormGroup.get('name')?.hasError('required')">
                         Le nom est obligatoire
@@ -67,7 +71,7 @@
 
                     <mat-form-field appearance="outline" class="form-field">
                       <mat-label>Email Professionnel</mat-label>
-                      <input matInput formControlName="email" placeholder="mohamed.ali@email.com">
+                      <input matInput formControlName="email" placeholder="mohamed.ali@email.com" />
                       <mat-icon matPrefix>email</mat-icon>
                       <mat-error *ngIf="firstFormGroup.get('email')?.hasError('required')">
                         L'email est obligatoire
@@ -79,19 +83,29 @@
 
                     <mat-form-field appearance="outline" class="form-field">
                       <mat-label>Téléphone</mat-label>
-                      <input matInput formControlName="phone" placeholder="+216 XX XXX XXX">
+                      <input matInput formControlName="phone" placeholder="+216 XX XXX XXX" />
                       <mat-icon matPrefix>phone</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="form-field">
                       <mat-label>Poste visé</mat-label>
-                      <input matInput formControlName="position" placeholder="Enseignant Chercheur">
+                      <input
+                        matInput
+                        formControlName="position"
+                        placeholder="Enseignant Chercheur"
+                      />
                       <mat-icon matPrefix>work</mat-icon>
                     </mat-form-field>
                   </div>
 
                   <div class="step-actions">
-                    <button mat-raised-button color="primary" matStepperNext class="next-btn" [disabled]="!firstFormGroup.valid">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      matStepperNext
+                      class="next-btn"
+                      [disabled]="!firstFormGroup.valid"
+                    >
                       Continuer
                       <mat-icon>arrow_forward</mat-icon>
                     </button>
@@ -118,7 +132,13 @@
                   </div>
 
                   <div class="upload-zone" (click)="fileInput.click()" [class.has-file]="fileName">
-                    <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".pdf,.doc,.docx">
+                    <input
+                      hidden
+                      (change)="onFileSelected($event)"
+                      #fileInput
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                    />
 
                     <div class="upload-icon" *ngIf="!fileName">
                       <mat-icon>cloud_upload</mat-icon>
@@ -130,12 +150,17 @@
                       </div>
                     </div>
 
-                    <h3>{{fileName || 'Glissez votre CV ou cliquez ici'}}</h3>
+                    <h3>{{ fileName || 'Glissez votre CV ou cliquez ici' }}</h3>
                     <p *ngIf="!fileName">Formats acceptés : PDF, DOCX (Max 5MB)</p>
 
                     <div class="file-info" *ngIf="fileName">
-                      <span class="file-name">{{fileName}}</span>
-                      <button mat-icon-button color="warn" (click)="removeFile($event)" class="remove-btn">
+                      <span class="file-name">{{ fileName }}</span>
+                      <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="removeFile($event)"
+                        class="remove-btn"
+                      >
                         <mat-icon>close</mat-icon>
                       </button>
                     </div>
@@ -158,7 +183,13 @@
 
                   <div class="step-actions">
                     <button mat-stroked-button matStepperPrevious>Retour</button>
-                    <button mat-raised-button color="primary" class="analyze-btn" [disabled]="!fileName" (click)="startAnalysis()">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      class="analyze-btn"
+                      [disabled]="!fileName"
+                      (click)="startAnalysis()"
+                    >
                       <mat-icon>auto_awesome</mat-icon>
                       Lancer l'analyse IA
                     </button>
@@ -172,7 +203,7 @@
                   </div>
                   <div class="loading-text">
                     <h3>Analyse en cours...</h3>
-                    <p class="loading-step">{{loadingStep}}</p>
+                    <p class="loading-step">{{ loadingStep }}</p>
                   </div>
                   <div class="progress-bar">
                     <div class="progress-fill" [style.width.%]="loadingProgress"></div>
@@ -189,13 +220,15 @@
                   <div class="results-header">
                     <div class="score-container">
                       <div class="score-ring" [style.--score]="displayScore">
-                        <div class="score-value">{{displayScore}}%</div>
+                        <div class="score-value">{{ displayScore }}%</div>
                       </div>
                       <div class="score-label">Adéquation</div>
                     </div>
                     <div class="results-title">
                       <h2>Analyse Complétée</h2>
-                      <p *ngIf="analysisResult">{{analysisResult.candidateName}} — {{analysisResult.offerTitle}}</p>
+                      <p *ngIf="analysisResult">
+                        {{ analysisResult.candidateName }} — {{ analysisResult.offerTitle }}
+                      </p>
                       <p *ngIf="!analysisResult">Votre profil a été analysé avec succès</p>
                     </div>
                   </div>
@@ -204,7 +237,6 @@
                   <div class="breakdown-section" *ngIf="analysisResult">
                     <h4><mat-icon>bar_chart</mat-icon> Détail du score</h4>
                     <div class="breakdown-grid">
-
                       <div class="breakdown-item">
                         <div class="breakdown-label">
                           <mat-icon>school</mat-icon>
@@ -212,16 +244,26 @@
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
-                            <div class="breakdown-fill"
-                                 [style.width.%]="(analysisResult.breakdown.educationLevel.score / analysisResult.breakdown.educationLevel.max) * 100">
-                            </div>
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="
+                                (analysisResult.breakdown.educationLevel.score /
+                                  analysisResult.breakdown.educationLevel.max) *
+                                100
+                              "
+                            ></div>
                           </div>
                           <span class="breakdown-score">
-                            {{analysisResult.breakdown.educationLevel.score}}/{{analysisResult.breakdown.educationLevel.max}}
+                            {{ analysisResult.breakdown.educationLevel.score }}/{{
+                              analysisResult.breakdown.educationLevel.max
+                            }}
                           </span>
                         </div>
-                        <small class="breakdown-comment" *ngIf="analysisResult.breakdown.educationLevel.comment">
-                          {{analysisResult.breakdown.educationLevel.comment}}
+                        <small
+                          class="breakdown-comment"
+                          *ngIf="analysisResult.breakdown.educationLevel.comment"
+                        >
+                          {{ analysisResult.breakdown.educationLevel.comment }}
                         </small>
                       </div>
 
@@ -232,12 +274,19 @@
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
-                            <div class="breakdown-fill"
-                                 [style.width.%]="(analysisResult.breakdown.skillsMatch.score / analysisResult.breakdown.skillsMatch.max) * 100">
-                            </div>
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="
+                                (analysisResult.breakdown.skillsMatch.score /
+                                  analysisResult.breakdown.skillsMatch.max) *
+                                100
+                              "
+                            ></div>
                           </div>
                           <span class="breakdown-score">
-                            {{analysisResult.breakdown.skillsMatch.score}}/{{analysisResult.breakdown.skillsMatch.max}}
+                            {{ analysisResult.breakdown.skillsMatch.score }}/{{
+                              analysisResult.breakdown.skillsMatch.max
+                            }}
                           </span>
                         </div>
                       </div>
@@ -249,16 +298,26 @@
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
-                            <div class="breakdown-fill"
-                                 [style.width.%]="(analysisResult.breakdown.experience.score / analysisResult.breakdown.experience.max) * 100">
-                            </div>
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="
+                                (analysisResult.breakdown.experience.score /
+                                  analysisResult.breakdown.experience.max) *
+                                100
+                              "
+                            ></div>
                           </div>
                           <span class="breakdown-score">
-                            {{analysisResult.breakdown.experience.score}}/{{analysisResult.breakdown.experience.max}}
+                            {{ analysisResult.breakdown.experience.score }}/{{
+                              analysisResult.breakdown.experience.max
+                            }}
                           </span>
                         </div>
-                        <small class="breakdown-comment" *ngIf="analysisResult.breakdown.experience.comment">
-                          {{analysisResult.breakdown.experience.comment}}
+                        <small
+                          class="breakdown-comment"
+                          *ngIf="analysisResult.breakdown.experience.comment"
+                        >
+                          {{ analysisResult.breakdown.experience.comment }}
                         </small>
                       </div>
 
@@ -269,12 +328,19 @@
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
-                            <div class="breakdown-fill"
-                                 [style.width.%]="(analysisResult.breakdown.academicExperience.score / analysisResult.breakdown.academicExperience.max) * 100">
-                            </div>
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="
+                                (analysisResult.breakdown.academicExperience.score /
+                                  analysisResult.breakdown.academicExperience.max) *
+                                100
+                              "
+                            ></div>
                           </div>
                           <span class="breakdown-score">
-                            {{analysisResult.breakdown.academicExperience.score}}/{{analysisResult.breakdown.academicExperience.max}}
+                            {{ analysisResult.breakdown.academicExperience.score }}/{{
+                              analysisResult.breakdown.academicExperience.max
+                            }}
                           </span>
                         </div>
                       </div>
@@ -286,12 +352,19 @@
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
-                            <div class="breakdown-fill"
-                                 [style.width.%]="(analysisResult.breakdown.modulesAlignment.score / analysisResult.breakdown.modulesAlignment.max) * 100">
-                            </div>
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="
+                                (analysisResult.breakdown.modulesAlignment.score /
+                                  analysisResult.breakdown.modulesAlignment.max) *
+                                100
+                              "
+                            ></div>
                           </div>
                           <span class="breakdown-score">
-                            {{analysisResult.breakdown.modulesAlignment.score}}/{{analysisResult.breakdown.modulesAlignment.max}}
+                            {{ analysisResult.breakdown.modulesAlignment.score }}/{{
+                              analysisResult.breakdown.modulesAlignment.max
+                            }}
                           </span>
                         </div>
                       </div>
@@ -303,38 +376,50 @@
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
-                            <div class="breakdown-fill"
-                                 [style.width.%]="(analysisResult.breakdown.specialityFit.score / analysisResult.breakdown.specialityFit.max) * 100">
-                            </div>
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="
+                                (analysisResult.breakdown.specialityFit.score /
+                                  analysisResult.breakdown.specialityFit.max) *
+                                100
+                              "
+                            ></div>
                           </div>
                           <span class="breakdown-score">
-                            {{analysisResult.breakdown.specialityFit.score}}/{{analysisResult.breakdown.specialityFit.max}}
+                            {{ analysisResult.breakdown.specialityFit.score }}/{{
+                              analysisResult.breakdown.specialityFit.max
+                            }}
                           </span>
                         </div>
                       </div>
-
                     </div>
                   </div>
 
                   <div class="skills-section">
                     <h4><mat-icon>verified</mat-icon> Compétences Détectées</h4>
                     <div class="skills-cloud">
-                      <span class="skill-tag" *ngFor="let skill of displaySkills" [class]="skill.level">
-                        {{skill.name}}
-                        <small>{{skill.level}}</small>
+                      <span
+                        class="skill-tag"
+                        *ngFor="let skill of displaySkills"
+                        [class]="skill.level"
+                      >
+                        {{ skill.name }}
+                        <small>{{ skill.level }}</small>
                       </span>
                     </div>
 
                     <!-- Missing skills (only when real data) -->
                     <div *ngIf="analysisResult?.breakdown?.skillsMatch?.missingSkills?.length">
-                      <h5 style="margin-top: 12px; color: #e57373;">
-                        <mat-icon style="vertical-align:middle; font-size:16px;">warning</mat-icon>
+                      <h5 style="margin-top: 12px; color: #e57373">
+                        <mat-icon style="vertical-align: middle; font-size: 16px">warning</mat-icon>
                         Compétences manquantes
                       </h5>
                       <div class="skills-cloud">
-                        <span class="skill-tag beginner"
-                              *ngFor="let skill of analysisResult!.breakdown.skillsMatch.missingSkills">
-                          {{skill}}
+                        <span
+                          class="skill-tag beginner"
+                          *ngFor="let skill of analysisResult!.breakdown.skillsMatch.missingSkills"
+                        >
+                          {{ skill }}
                         </span>
                       </div>
                     </div>
@@ -345,13 +430,13 @@
                     <div class="sw-column strengths">
                       <h4><mat-icon>thumb_up</mat-icon> Points forts</h4>
                       <ul>
-                        <li *ngFor="let s of analysisResult.strengths">{{s}}</li>
+                        <li *ngFor="let s of analysisResult.strengths">{{ s }}</li>
                       </ul>
                     </div>
                     <div class="sw-column weaknesses">
                       <h4><mat-icon>thumb_down</mat-icon> Points à améliorer</h4>
                       <ul>
-                        <li *ngFor="let w of analysisResult.weaknesses">{{w}}</li>
+                        <li *ngFor="let w of analysisResult.weaknesses">{{ w }}</li>
                       </ul>
                     </div>
                   </div>
@@ -363,24 +448,30 @@
                       <div class="timeline-item" *ngFor="let exp of mockAnalysis.experience">
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
-                          <h5>{{exp.title}}</h5>
-                          <p>{{exp.company}} • {{exp.duration}}</p>
+                          <h5>{{ exp.title }}</h5>
+                          <p>{{ exp.company }} • {{ exp.duration }}</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="feedback-section" [class]="displayFeedbackType">
-                    <mat-icon>{{displayFeedbackIcon}}</mat-icon>
+                    <mat-icon>{{ displayFeedbackIcon }}</mat-icon>
                     <div>
-                      <h4>{{displayFeedbackTitle}}</h4>
-                      <p>{{displayFeedback}}</p>
+                      <h4>{{ displayFeedbackTitle }}</h4>
+                      <p>{{ displayFeedback }}</p>
                     </div>
                   </div>
 
                   <div class="step-actions">
                     <button mat-stroked-button (click)="resetAnalysis()">Reanalyser</button>
-                    <button mat-raised-button color="primary" (click)="postulerOffre()" matStepperNext class="next-btn">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="postulerOffre()"
+                      matStepperNext
+                      class="next-btn"
+                    >
                       Confirmer et soumettre
                       <mat-icon>check_circle</mat-icon>
                     </button>
@@ -402,14 +493,17 @@
                 </div>
 
                 <h2>Candidature Envoyée !</h2>
-                <p class="confirmation-text">Votre dossier a été transmis avec succès. Notre équipe RH vous contactera sous peu.</p>
+                <p class="confirmation-text">
+                  Votre dossier a été transmis avec succès. Notre équipe RH vous contactera sous
+                  peu.
+                </p>
 
                 <div class="confirmation-details">
                   <div class="detail-item">
                     <mat-icon>email</mat-icon>
                     <div>
                       <span>Confirmation envoyée à</span>
-                      <strong>{{firstFormGroup.get('email')?.value}}</strong>
+                      <strong>{{ firstFormGroup.get('email')?.value }}</strong>
                     </div>
                   </div>
                   <div class="detail-item">
@@ -424,7 +518,9 @@
                     <mat-icon>analytics</mat-icon>
                     <div>
                       <span>Score d'adéquation IA</span>
-                      <strong>{{analysisResult.globalScore}}% — {{analysisResult.grade}}</strong>
+                      <strong
+                        >{{ analysisResult.globalScore }}% — {{ analysisResult.grade }}</strong
+                      >
                     </div>
                   </div>
                 </div>
@@ -441,7 +537,12 @@
                     </div>
                     <span>Profil complété à 65%</span>
                   </div>
-                  <button mat-raised-button color="accent" class="complete-btn" routerLink="/profile-builder">
+                  <button
+                    mat-raised-button
+                    color="accent"
+                    class="complete-btn"
+                    routerLink="/profile-builder"
+                  >
                     <mat-icon>person_add</mat-icon>
                     Compléter mon profil
                   </button>
@@ -459,7 +560,6 @@
                 </div>
               </div>
             </mat-step>
-
           </mat-stepper>
         </mat-card-content>
       </mat-card>

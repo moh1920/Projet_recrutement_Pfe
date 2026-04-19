@@ -30,7 +30,7 @@ export interface EvaluationResult {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CvAnalysisService {
   private readonly apiUrl = 'http://127.0.0.1:8000/api/v2/evaluate-cv-file';

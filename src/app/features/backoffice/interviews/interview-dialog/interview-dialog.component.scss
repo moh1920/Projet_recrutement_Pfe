@@ -1,5 +1,5 @@
 // ==================== Variables ====================
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #a50000;
 $esprit-red-dark: #5c0000;
 $esprit-cream: #fef3f3;
@@ -13,8 +13,14 @@ $warning: #f59e0b;
 $info: #3b82f6;
 $border: #e2e8f0;
 
-@mixin shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-@mixin shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04); }
+@mixin shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+@mixin shadow-md {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+}
 
 // ==================== Dialog Title ====================
 .dialog-title {
@@ -38,7 +44,9 @@ $border: #e2e8f0;
     border: 1px solid rgba(#fff, 0.2);
     flex-shrink: 0;
 
-    mat-icon { font-size: 24px; }
+    mat-icon {
+      font-size: 24px;
+    }
   }
 
   .title-text {
@@ -78,8 +86,13 @@ $border: #e2e8f0;
   max-height: 70vh;
   overflow-y: auto;
 
-  &::-webkit-scrollbar { width: 5px; }
-  &::-webkit-scrollbar-thumb { background: $border; border-radius: 4px; }
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $border;
+    border-radius: 4px;
+  }
 }
 
 // ==================== Tabs ====================
@@ -158,11 +171,16 @@ $border: #e2e8f0;
   display: grid;
   gap: 14px;
 
-  &.two-cols   { grid-template-columns: repeat(2, 1fr); }
-  &.three-cols { grid-template-columns: repeat(3, 1fr); }
+  &.two-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &.three-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   @media (max-width: 600px) {
-    &.two-cols, &.three-cols {
+    &.two-cols,
+    &.three-cols {
       grid-template-columns: 1fr;
     }
   }
@@ -177,7 +195,9 @@ mat-form-field {
   width: 100%;
 
   ::ng-deep {
-    .mat-mdc-form-field-focus-overlay { background: transparent; }
+    .mat-mdc-form-field-focus-overlay {
+      background: transparent;
+    }
 
     .mdc-notched-outline__leading,
     .mdc-notched-outline__notch,
@@ -255,7 +275,9 @@ mat-form-field {
     grid-template-columns: 1fr auto;
 
     .jury-id-input,
-    .jury-email-input { display: none; }
+    .jury-email-input {
+      display: none;
+    }
   }
 
   .btn-add-jury {
@@ -274,7 +296,9 @@ mat-form-field {
       transform: scale(1.05);
     }
 
-    &:disabled { opacity: 0.45; }
+    &:disabled {
+      opacity: 0.45;
+    }
   }
 }
 
@@ -342,7 +366,9 @@ mat-form-field {
       transition: all 0.15s;
       flex-shrink: 0;
 
-      mat-icon { font-size: 16px; }
+      mat-icon {
+        font-size: 16px;
+      }
 
       &:hover {
         color: #ef4444;
@@ -363,7 +389,9 @@ mat-form-field {
   border-radius: 10px;
   border: 1px dashed $border;
 
-  mat-icon { font-size: 20px; }
+  mat-icon {
+    font-size: 20px;
+  }
 }
 
 .jury-hint {
@@ -374,7 +402,11 @@ mat-form-field {
   color: $text-muted;
   margin-top: 4px;
 
-  mat-icon { font-size: 14px; width: 14px; height: 14px; }
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
 }
 
 // ==================== Prérequis ====================
@@ -395,8 +427,12 @@ mat-form-field {
     margin-top: 4px;
     transition: all 0.2s;
 
-    &:hover:not(:disabled) { background: $esprit-red-dark; }
-    &:disabled { opacity: 0.45; }
+    &:hover:not(:disabled) {
+      background: $esprit-red-dark;
+    }
+    &:disabled {
+      opacity: 0.45;
+    }
   }
 }
 
@@ -422,7 +458,9 @@ mat-form-field {
       flex-shrink: 0;
     }
 
-    span { flex: 1; }
+    span {
+      flex: 1;
+    }
 
     button {
       width: 26px;
@@ -431,8 +469,12 @@ mat-form-field {
       color: $text-muted;
       flex-shrink: 0;
 
-      mat-icon { font-size: 14px; }
-      &:hover { color: #ef4444; }
+      mat-icon {
+        font-size: 14px;
+      }
+      &:hover {
+        color: #ef4444;
+      }
     }
   }
 }
@@ -448,7 +490,9 @@ mat-form-field {
     grid-template-columns: 1fr auto;
 
     .crit-weight-input,
-    .crit-desc-input { display: none; }
+    .crit-desc-input {
+      display: none;
+    }
   }
 
   .btn-add-crit {
@@ -462,8 +506,12 @@ mat-form-field {
     margin-top: 4px;
     transition: all 0.2s;
 
-    &:hover:not(:disabled) { background: $esprit-red-dark; }
-    &:disabled { opacity: 0.45; }
+    &:hover:not(:disabled) {
+      background: $esprit-red-dark;
+    }
+    &:disabled {
+      opacity: 0.45;
+    }
   }
 }
 
@@ -482,7 +530,9 @@ mat-form-field {
     border: 1px solid $border;
     transition: all 0.2s;
 
-    &:hover { border-color: rgba($esprit-red, 0.25); }
+    &:hover {
+      border-color: rgba($esprit-red, 0.25);
+    }
 
     .crit-info {
       flex: 1;
@@ -521,8 +571,12 @@ mat-form-field {
       color: $text-muted;
       flex-shrink: 0;
 
-      mat-icon { font-size: 14px; }
-      &:hover { color: #ef4444; }
+      mat-icon {
+        font-size: 14px;
+      }
+      &:hover {
+        color: #ef4444;
+      }
     }
   }
 
@@ -557,10 +611,18 @@ mat-form-field {
   margin-right: 6px;
   vertical-align: middle;
 
-  &.planifie  { background: $info; }
-  &.en-cours  { background: $warning; }
-  &.termine   { background: $success; }
-  &.annule    { background: $text-muted; }
+  &.planifie {
+    background: $info;
+  }
+  &.en-cours {
+    background: $warning;
+  }
+  &.termine {
+    background: $success;
+  }
+  &.annule {
+    background: $text-muted;
+  }
 }
 
 // ==================== Dialog Actions ====================
@@ -594,7 +656,9 @@ mat-form-field {
     font-weight: 600;
     transition: all 0.2s;
 
-    mat-icon { margin-right: 6px; }
+    mat-icon {
+      margin-right: 6px;
+    }
 
     &:hover {
       background: rgba($text-secondary, 0.08);
@@ -613,7 +677,9 @@ mat-form-field {
     align-items: center;
     gap: 8px;
 
-    mat-icon { font-size: 18px; }
+    mat-icon {
+      font-size: 18px;
+    }
 
     &:hover:not(:disabled) {
       background: linear-gradient(135deg, $esprit-red-dark 0%, $esprit-red 100%);

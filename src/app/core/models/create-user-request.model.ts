@@ -12,5 +12,5 @@ export interface CreateUserRequest {
 }
 export enum StatusUser {
   ACTIF = 'Actif',
-  INACTIF = 'Inactif'
+  INACTIF = 'Inactif',
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -34,10 +34,9 @@ export interface EmailSendRequest {
 // ============ SERVICE ============
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MeetingEmailService {
-
   private readonly API_URL = `${environment.apiUrl}/meeting-email`;
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -46,20 +45,17 @@ export class MeetingEmailService {
 
   // POST /meeting-email/generate
   generateEmail(request: EmailRequest): Observable<EmailGenerateResponse> {
-    return this.http.post<EmailGenerateResponse>(
-      `${this.API_URL}/generate`,
-      request,
-      { headers: this.headers }
-    );
+    return this.http.post<EmailGenerateResponse>(`${this.API_URL}/generate`, request, {
+      headers: this.headers,
+    });
   }
 
   // POST /meeting-email/send
   sendEmail(sendRequest: EmailSendRequest): Observable<string> {
-    return this.http.post(
-      `${this.API_URL}/send`,
-      sendRequest,
-      { headers: this.headers, responseType: 'text' }
-    );
+    return this.http.post(`${this.API_URL}/send`, sendRequest, {
+      headers: this.headers,
+      responseType: 'text',
+    });
   }
 
   sendEmailContact(sendRequest: EmailSendRequest): Observable<any> {

@@ -1,20 +1,26 @@
 // create-user-dialog.component.scss
 // ==================== Variables ====================
-$esprit-red:       #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #a50000;
-$esprit-red-dark:  #5c0000;
-$esprit-cream:     #fef3f3;
-$text-primary:     #1a1a2e;
-$text-secondary:   #64748b;
-$text-muted:       #94a3b8;
-$bg-light:         #f8fafc;
-$white:            #ffffff;
-$success:          #10b981;
-$danger:           #ef4444;
-$border:           #e2e8f0;
+$esprit-red-dark: #5c0000;
+$esprit-cream: #fef3f3;
+$text-primary: #1a1a2e;
+$text-secondary: #64748b;
+$text-muted: #94a3b8;
+$bg-light: #f8fafc;
+$white: #ffffff;
+$success: #10b981;
+$danger: #ef4444;
+$border: #e2e8f0;
 
-@mixin shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-@mixin shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04); }
+@mixin shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+@mixin shadow-md {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+}
 
 // ==================== Dialog Title ====================
 h2[mat-dialog-title] {
@@ -44,11 +50,18 @@ mat-dialog-content {
   overflow-y: auto;
   overflow-x: hidden;
 
-  &::-webkit-scrollbar { width: 5px; }
-  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
   &::-webkit-scrollbar-thumb {
-    background: $border; border-radius: 4px;
-    &:hover { background: darken($border, 8%); }
+    background: $border;
+    border-radius: 4px;
+    &:hover {
+      background: darken($border, 8%);
+    }
   }
 }
 
@@ -64,46 +77,67 @@ mat-form-field {
   width: 100%;
 
   &.mat-mdc-form-field {
-    --mdc-outlined-text-field-container-shape:        10px;
-    --mdc-outlined-text-field-outline-color:          #{$border};
-    --mdc-outlined-text-field-hover-outline-color:    #{darken($border, 10%)};
-    --mdc-outlined-text-field-focus-outline-color:    #{$esprit-red};
+    --mdc-outlined-text-field-container-shape: 10px;
+    --mdc-outlined-text-field-outline-color: #{$border};
+    --mdc-outlined-text-field-hover-outline-color: #{darken($border, 10%)};
+    --mdc-outlined-text-field-focus-outline-color: #{$esprit-red};
     --mdc-outlined-text-field-focus-label-text-color: #{$esprit-red};
-    --mdc-outlined-text-field-label-text-color:       #{$text-secondary};
-    --mdc-outlined-text-field-input-text-color:       #{$text-primary};
-    --mdc-outlined-text-field-caret-color:            #{$esprit-red};
+    --mdc-outlined-text-field-label-text-color: #{$text-secondary};
+    --mdc-outlined-text-field-input-text-color: #{$text-primary};
+    --mdc-outlined-text-field-caret-color: #{$esprit-red};
   }
 
   // Fond légèrement teinté
-  ::ng-deep .mat-mdc-text-field-wrapper { background: $bg-light; }
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background: $bg-light;
+  }
 
   // Label
-  .mat-mdc-floating-label { font-size: 0.9rem; font-weight: 500; }
+  .mat-mdc-floating-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
 
   // Input
   input.mat-mdc-input-element {
-    font-size: 0.9rem; color: $text-primary;
-    &::placeholder { color: $text-muted; }
+    font-size: 0.9rem;
+    color: $text-primary;
+    &::placeholder {
+      color: $text-muted;
+    }
   }
 
   // Select arrow
-  .mat-mdc-select-arrow { color: $text-muted; }
+  .mat-mdc-select-arrow {
+    color: $text-muted;
+  }
 
   // Bouton suffix (visibility)
   .mat-mdc-icon-button[matSuffix] {
-    color: $text-muted; transition: color 0.2s;
-    &:hover { color: $esprit-red; }
+    color: $text-muted;
+    transition: color 0.2s;
+    &:hover {
+      color: $esprit-red;
+    }
   }
 
   // Errors
   mat-error {
-    font-size: 0.78rem; font-weight: 500;
-    display: flex; align-items: center; gap: 4px;
-    &::before { content: '⚠'; font-size: 0.72rem; }
+    font-size: 0.78rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    &::before {
+      content: '⚠';
+      font-size: 0.72rem;
+    }
   }
 
   // Subscript spacing
-  ::ng-deep .mat-mdc-form-field-subscript-wrapper { margin-top: 2px; }
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    margin-top: 2px;
+  }
 }
 
 // ==================== Select Panel ====================
@@ -111,25 +145,42 @@ mat-form-field {
   .mat-mdc-select-panel {
     border-radius: 12px !important;
     @include shadow-md;
-    border: 1px solid $border; overflow: hidden;
+    border: 1px solid $border;
+    overflow: hidden;
 
     .mat-mdc-option {
-      font-size: 0.875rem; color: $text-primary; transition: background 0.15s;
-      &:hover, &.mat-mdc-option-active { background: $esprit-cream !important; color: $esprit-red; }
-      &.mdc-list-item--selected { background: rgba($esprit-red,.07) !important; color: $esprit-red; font-weight: 600; }
+      font-size: 0.875rem;
+      color: $text-primary;
+      transition: background 0.15s;
+      &:hover,
+      &.mat-mdc-option-active {
+        background: $esprit-cream !important;
+        color: $esprit-red;
+      }
+      &.mdc-list-item--selected {
+        background: rgba($esprit-red, 0.07) !important;
+        color: $esprit-red;
+        font-weight: 600;
+      }
     }
   }
 }
 
 // ==================== Alert Messages ====================
 .alert {
-  display: flex; align-items: flex-start; gap: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   padding: 10px 14px;
   border-radius: 10px;
-  font-size: 0.85rem; font-weight: 500; line-height: 1.5;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.5;
 
   &::before {
-    font-size: 16px; flex-shrink: 0; margin-top: 1px;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
   }
 
   &.success {
@@ -137,7 +188,11 @@ mat-form-field {
     border: 1px solid rgba($success, 0.25);
     border-left: 4px solid $success;
     color: darken($success, 8%);
-    &::before { content: '✓'; color: $success; font-weight: 700; }
+    &::before {
+      content: '✓';
+      color: $success;
+      font-weight: 700;
+    }
   }
 
   &.error {
@@ -145,7 +200,10 @@ mat-form-field {
     border: 1px solid rgba($danger, 0.25);
     border-left: 4px solid $danger;
     color: darken($danger, 8%);
-    &::before { content: '⚠'; color: $danger; }
+    &::before {
+      content: '⚠';
+      color: $danger;
+    }
   }
 }
 
@@ -162,28 +220,44 @@ mat-dialog-actions {
 
   // Annuler
   button[mat-button] {
-    border-radius: 8px; padding: 0 18px; height: 38px;
-    font-weight: 600; font-size: 0.875rem;
-    color: $text-secondary; transition: all 0.2s;
+    border-radius: 8px;
+    padding: 0 18px;
+    height: 38px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: $text-secondary;
+    transition: all 0.2s;
 
-    &:hover { color: $text-primary; background: darken($bg-light, 3%); }
+    &:hover {
+      color: $text-primary;
+      background: darken($bg-light, 3%);
+    }
   }
 
   // Créer
-  button[mat-raised-button][color="primary"] {
-    border-radius: 8px; padding: 0 22px; height: 38px;
-    font-weight: 700; font-size: 0.875rem;
-    background: $esprit-red !important; color: $white !important;
-    @include shadow-md; transition: all 0.2s;
-    display: flex; align-items: center; gap: 6px;
+  button[mat-raised-button][color='primary'] {
+    border-radius: 8px;
+    padding: 0 22px;
+    height: 38px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    background: $esprit-red !important;
+    color: $white !important;
+    @include shadow-md;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 
     &:hover:not(:disabled) {
-      background: $esprit-red-light !important; transform: translateY(-1px);
+      background: $esprit-red-light !important;
+      transform: translateY(-1px);
     }
     &:disabled {
       background: lighten($esprit-red, 28%) !important;
       color: rgba($white, 0.65) !important;
-      box-shadow: none; cursor: not-allowed;
+      box-shadow: none;
+      cursor: not-allowed;
     }
   }
 }
@@ -192,19 +266,27 @@ mat-dialog-actions {
 .spin {
   display: inline-block;
   animation: spin 0.9s linear infinite;
-  font-size: 18px; width: 18px; height: 18px;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
   vertical-align: middle;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // ==================== Global overrides ====================
 ::ng-deep {
   .esprit-dialog .mat-mdc-dialog-container {
-    border-radius: 16px !important; overflow: hidden; padding: 0 !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    padding: 0 !important;
   }
 
   .cdk-overlay-backdrop.cdk-overlay-dark-backdrop {
@@ -216,7 +298,14 @@ mat-dialog-actions {
 
 // ==================== Responsive ====================
 @media (max-width: 600px) {
-  h2[mat-dialog-title] { padding: 16px 18px 0; font-size: 1rem; }
-  mat-dialog-content   { padding: 16px 18px !important; }
-  mat-dialog-actions   { padding: 10px 18px 14px !important; }
+  h2[mat-dialog-title] {
+    padding: 16px 18px 0;
+    font-size: 1rem;
+  }
+  mat-dialog-content {
+    padding: 16px 18px !important;
+  }
+  mat-dialog-actions {
+    padding: 10px 18px 14px !important;
+  }
 }

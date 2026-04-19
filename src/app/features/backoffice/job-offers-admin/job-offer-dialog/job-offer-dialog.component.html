@@ -2,11 +2,14 @@
 
 <mat-dialog-content>
   <form [formGroup]="offreForm" class="offer-form">
-
     <!-- Ligne 1: Titre -->
     <mat-form-field appearance="outline">
       <mat-label>Titre du Poste</mat-label>
-      <input matInput formControlName="title" placeholder="Ex: Enseignant Permanent - Génie Logiciel">
+      <input
+        matInput
+        formControlName="title"
+        placeholder="Ex: Enseignant Permanent - Génie Logiciel"
+      />
       <mat-error *ngIf="offreForm.get('title')?.hasError('required')">
         Le titre est requis
       </mat-error>
@@ -19,7 +22,7 @@
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Département</mat-label>
-        <input matInput formControlName="department" placeholder="Ex: Informatique">
+        <input matInput formControlName="department" placeholder="Ex: Informatique" />
         <mat-error *ngIf="offreForm.get('department')?.hasError('required')">
           Le département est requis
         </mat-error>
@@ -27,7 +30,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Spécialité</mat-label>
-        <input matInput formControlName="speciality" placeholder="Ex: Intelligence Artificielle">
+        <input matInput formControlName="speciality" placeholder="Ex: Intelligence Artificielle" />
         <mat-error *ngIf="offreForm.get('speciality')?.hasError('required')">
           La spécialité est requise
         </mat-error>
@@ -49,13 +52,11 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Charge Horaire (h/semaine)</mat-label>
-        <input matInput type="number" formControlName="workload" placeholder="Ex: 20">
+        <input matInput type="number" formControlName="workload" placeholder="Ex: 20" />
         <mat-error *ngIf="offreForm.get('workload')?.hasError('required')">
           La charge horaire est requise
         </mat-error>
-        <mat-error *ngIf="offreForm.get('workload')?.hasError('min')">
-          Minimum 1 heure
-        </mat-error>
+        <mat-error *ngIf="offreForm.get('workload')?.hasError('min')"> Minimum 1 heure </mat-error>
         <mat-error *ngIf="offreForm.get('workload')?.hasError('max')">
           Maximum 40 heures
         </mat-error>
@@ -78,7 +79,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Années d'Expérience Min</mat-label>
-        <input matInput type="number" formControlName="minYearsExperience" placeholder="Ex: 2">
+        <input matInput type="number" formControlName="minYearsExperience" placeholder="Ex: 2" />
         <mat-error *ngIf="offreForm.get('minYearsExperience')?.hasError('required')">
           L'expérience est requise
         </mat-error>
@@ -88,8 +89,12 @@
     <!-- Ligne 5: Description -->
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" rows="4"
-                placeholder="Décrivez le poste, les missions et responsabilités..."></textarea>
+      <textarea
+        matInput
+        formControlName="description"
+        rows="4"
+        placeholder="Décrivez le poste, les missions et responsabilités..."
+      ></textarea>
       <mat-error *ngIf="offreForm.get('description')?.hasError('required')">
         La description est requise
       </mat-error>
@@ -101,7 +106,11 @@
     <!-- Ligne 6: Modules -->
     <mat-form-field appearance="outline">
       <mat-label>Modules (séparés par des virgules)</mat-label>
-      <input matInput formControlName="modules" placeholder="Ex: Machine Learning, Deep Learning, Python">
+      <input
+        matInput
+        formControlName="modules"
+        placeholder="Ex: Machine Learning, Deep Learning, Python"
+      />
       <mat-error *ngIf="offreForm.get('modules')?.hasError('required')">
         Au moins un module est requis
       </mat-error>
@@ -110,7 +119,7 @@
     <!-- Ligne 7: Compétences -->
     <mat-form-field appearance="outline">
       <mat-label>Compétences Requises (séparées par des virgules)</mat-label>
-      <input matInput formControlName="requiredSkills" placeholder="Ex: Python, TensorFlow, NLP">
+      <input matInput formControlName="requiredSkills" placeholder="Ex: Python, TensorFlow, NLP" />
       <mat-error *ngIf="offreForm.get('requiredSkills')?.hasError('required')">
         Au moins une compétence est requise
       </mat-error>
@@ -120,7 +129,7 @@
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Date Limite</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="deadline">
+        <input matInput [matDatepicker]="picker" formControlName="deadline" />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -144,14 +153,22 @@
         Expérience académique requise
       </mat-checkbox>
     </div>
-
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()" [disabled]="loading">Annuler</button>
-  <button mat-raised-button color="primary" (click)="submit()" [disabled]="!offreForm.valid || loading">
-    <mat-spinner *ngIf="loading" diameter="16" style="display: inline-block; margin-right: 8px;"></mat-spinner>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="submit()"
+    [disabled]="!offreForm.valid || loading"
+  >
+    <mat-spinner
+      *ngIf="loading"
+      diameter="16"
+      style="display: inline-block; margin-right: 8px"
+    ></mat-spinner>
     {{ loading ? loadingLabel : submitLabel }}
   </button>
 </mat-dialog-actions>

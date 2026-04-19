@@ -1,5 +1,4 @@
 <div class="details-page">
-
   <!-- Loading -->
   <div class="state-center" *ngIf="loading">
     <div class="spinner"></div>
@@ -10,14 +9,11 @@
   <div class="state-center" *ngIf="error && !loading">
     <mat-icon class="state-icon error-icon">error_outline</mat-icon>
     <p>Impossible de charger le candidat.</p>
-    <button mat-stroked-button (click)="goBack()">
-      <mat-icon>arrow_back</mat-icon> Retour
-    </button>
+    <button mat-stroked-button (click)="goBack()"><mat-icon>arrow_back</mat-icon> Retour</button>
   </div>
 
   <!-- Content -->
   <ng-container *ngIf="candidate && !loading">
-
     <!-- ── Top bar ── -->
     <div class="top-bar">
       <button mat-icon-button class="back-btn" (click)="goBack()">
@@ -26,7 +22,9 @@
       <div class="breadcrumb">
         <span (click)="goBack()">Candidats</span>
         <mat-icon>chevron_right</mat-icon>
-        <span class="current">{{ candidate.fullName ?? (candidate.firstName + ' ' + candidate.lastName) }}</span>
+        <span class="current">{{
+          candidate.fullName ?? candidate.firstName + ' ' + candidate.lastName
+        }}</span>
       </div>
     </div>
 
@@ -44,7 +42,7 @@
           ></span>
         </div>
         <div class="hero-info">
-          <h1>{{ candidate.fullName ?? (candidate.firstName + ' ' + candidate.lastName) }}</h1>
+          <h1>{{ candidate.fullName ?? candidate.firstName + ' ' + candidate.lastName }}</h1>
           <p class="hero-position" *ngIf="candidate.appliedPosition">
             <mat-icon>work_outline</mat-icon>
             {{ candidate.appliedPosition }}
@@ -53,9 +51,7 @@
             <span *ngIf="candidate.email">
               <mat-icon>mail_outline</mat-icon>{{ candidate.email }}
             </span>
-            <span *ngIf="candidate.phone">
-              <mat-icon>phone</mat-icon>{{ candidate.phone }}
-            </span>
+            <span *ngIf="candidate.phone"> <mat-icon>phone</mat-icon>{{ candidate.phone }} </span>
             <span *ngIf="candidate.appliedDate">
               <mat-icon>calendar_today</mat-icon>Postulé le {{ formatDate(candidate.appliedDate) }}
             </span>
@@ -79,7 +75,6 @@
 
     <!-- ── Grid ── -->
     <div class="details-grid">
-
       <!-- ── Links ── -->
       <div class="card" *ngIf="candidate.resume || candidate.portfolio || candidate.linkedin">
         <div class="card-header">
@@ -92,12 +87,22 @@
             <span>CV / Resume</span>
             <mat-icon class="ext">open_in_new</mat-icon>
           </a>
-          <a *ngIf="candidate.portfolio" [href]="candidate.portfolio" target="_blank" class="link-item">
+          <a
+            *ngIf="candidate.portfolio"
+            [href]="candidate.portfolio"
+            target="_blank"
+            class="link-item"
+          >
             <mat-icon>web</mat-icon>
             <span>Portfolio</span>
             <mat-icon class="ext">open_in_new</mat-icon>
           </a>
-          <a *ngIf="candidate.linkedin" [href]="candidate.linkedin" target="_blank" class="link-item linkedin">
+          <a
+            *ngIf="candidate.linkedin"
+            [href]="candidate.linkedin"
+            target="_blank"
+            class="link-item linkedin"
+          >
             <mat-icon>badge</mat-icon>
             <span>LinkedIn</span>
             <mat-icon class="ext">open_in_new</mat-icon>
@@ -138,7 +143,8 @@
           <div class="edu-item" *ngFor="let edu of candidate.education">
             <div class="edu-dot"></div>
             <div class="edu-content">
-              <span class="edu-degree">{{ edu.degree }}
+              <span class="edu-degree"
+                >{{ edu.degree }}
                 <span class="edu-field" *ngIf="edu.field"> — {{ edu.field }}</span>
               </span>
               <span class="edu-institution" *ngIf="edu.institution">
@@ -146,7 +152,9 @@
               </span>
               <span class="edu-dates">
                 {{ formatDate(edu.startDate) }}
-                <ng-container *ngIf="!edu.current && edu.endDate"> → {{ formatDate(edu.endDate) }}</ng-container>
+                <ng-container *ngIf="!edu.current && edu.endDate">
+                  → {{ formatDate(edu.endDate) }}</ng-container
+                >
                 <span class="current-tag" *ngIf="edu.current">En cours</span>
               </span>
             </div>
@@ -162,7 +170,6 @@
         </div>
         <p class="notes-text">{{ candidate.notes }}</p>
       </div>
-
     </div>
   </ng-container>
 </div>

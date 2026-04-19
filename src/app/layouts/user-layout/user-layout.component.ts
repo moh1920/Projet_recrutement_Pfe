@@ -19,24 +19,24 @@ import { AppKeycloakService } from '../../core/services/keycloak.service';
     MatButtonModule,
     MatIconModule,
     MatTooltip,
-   // NotificationBellComponent,   // ← cloche
+    // NotificationBellComponent,   // ← cloche
     // NotificationToastComponent,  // ← toasts
   ],
   templateUrl: './user-layout.component.html',
-  styleUrl: './user-layout.component.scss'
+  styleUrl: './user-layout.component.scss',
 })
 export class UserLayoutComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
   isScrolled = false;
   isLoggedIn = false;
-  upcomingCount: number = 1;
+  upcomingCount = 1;
 
   appKeycloakService = inject(AppKeycloakService);
 
   private subs = new Subscription();
 
   constructor(
-    private router: Router,
+    private router: Router
     //private notifService: NotificationService
   ) {}
 
@@ -68,7 +68,7 @@ export class UserLayoutComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.isLoggedIn = false;
-  //  this.notifService.disconnect(); // ← couper proprement le WebSocket
+    //  this.notifService.disconnect(); // ← couper proprement le WebSocket
     this.appKeycloakService.logout();
   }
 

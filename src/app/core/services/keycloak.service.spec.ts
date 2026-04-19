@@ -7,20 +7,24 @@ describe('AppKeycloakService', () => {
   let keycloakSpy: jasmine.SpyObj<KeycloakService>;
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('KeycloakService', ['login', 'isLoggedIn', 'getToken', 'getUserRoles', 'getKeycloakInstance', 'logout']);
+    const spy = jasmine.createSpyObj('KeycloakService', [
+      'login',
+      'isLoggedIn',
+      'getToken',
+      'getUserRoles',
+      'getKeycloakInstance',
+      'logout',
+    ]);
     spy.getKeycloakInstance.and.returnValue({
       authenticated: true,
       idToken: 'fake-id',
-      refreshToken: 'fake-refresh'
+      refreshToken: 'fake-refresh',
     } as any);
-    
+
     spy.login.and.resolveTo();
 
     TestBed.configureTestingModule({
-      providers: [
-        AppKeycloakService,
-        { provide: KeycloakService, useValue: spy }
-      ]
+      providers: [AppKeycloakService, { provide: KeycloakService, useValue: spy }],
     });
     service = TestBed.inject(AppKeycloakService);
     keycloakSpy = TestBed.inject(KeycloakService) as jasmine.SpyObj<KeycloakService>;
@@ -48,7 +52,7 @@ describe('AppKeycloakService', () => {
   it('should handle logout', async () => {
     spyOn(window, 'fetch').and.returnValue(Promise.resolve(new Response()));
     await service.logout();
-    
+
     expect(window.fetch).toHaveBeenCalled();
     expect(keycloakSpy.logout).toHaveBeenCalled();
   });

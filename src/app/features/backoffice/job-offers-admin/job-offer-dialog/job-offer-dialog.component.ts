@@ -27,10 +27,10 @@ import { Offre } from '../../../../core/models/offre.model';
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './job-offer-dialog.component.html',
-  styleUrl: './job-offer-dialog.component.scss'
+  styleUrl: './job-offer-dialog.component.scss',
 })
 export class JobOfferDialogComponent {
   private fb = inject(FormBuilder);
@@ -68,15 +68,21 @@ export class JobOfferDialogComponent {
       department: [existing?.department ?? '', Validators.required],
       speciality: [existing?.speciality ?? '', Validators.required],
       type: [existing?.type ?? 'Permanent', Validators.required],
-      workload: [existing?.workload ?? 1, [Validators.required, Validators.min(1), Validators.max(40)]],
+      workload: [
+        existing?.workload ?? 1,
+        [Validators.required, Validators.min(1), Validators.max(40)],
+      ],
       requiredLevel: [existing?.requiredLevel ?? 'Master', Validators.required],
-      minYearsExperience: [existing?.minYearsExperience ?? 0, [Validators.required, Validators.min(0)]],
+      minYearsExperience: [
+        existing?.minYearsExperience ?? 0,
+        [Validators.required, Validators.min(0)],
+      ],
       description: [existing?.description ?? '', [Validators.required, Validators.minLength(20)]],
       modules: [existing?.modules?.join(', ') ?? '', Validators.required],
       requiredSkills: [existing?.requiredSkills?.join(', ') ?? '', Validators.required],
       deadline: [existing?.deadline ? new Date(existing.deadline) : null],
       status: [existing?.status ?? 'Ouverte', Validators.required],
-      academicExperience: [existing?.academicExperience ?? false]
+      academicExperience: [existing?.academicExperience ?? false],
     });
   }
 
@@ -111,12 +117,8 @@ export class JobOfferDialogComponent {
       postedDate: this.isEditMode
         ? this.data!.offre!.postedDate
         : new Date().toISOString().split('T')[0],
-      deadline: formValue.deadline
-        ? formValue.deadline.toISOString().split('T')[0]
-        : undefined,
-      createdAt: this.isEditMode
-        ? this.data!.offre!.createdAt
-        : new Date().toISOString()
+      deadline: formValue.deadline ? formValue.deadline.toISOString().split('T')[0] : undefined,
+      createdAt: this.isEditMode ? this.data!.offre!.createdAt : new Date().toISOString(),
     };
 
     // 🔍 DIAGNOSTIC
@@ -136,7 +138,7 @@ export class JobOfferDialogComponent {
       error: (err) => {
         this.loading = false;
         console.error('❌ Erreur:', err);
-      }
+      },
     });
   }
   onCancel(): void {
@@ -147,7 +149,7 @@ export class JobOfferDialogComponent {
     if (!value) return [];
     return value
       .split(',')
-      .map(item => item.trim())
-      .filter(item => item.length > 0);
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
   }
 }

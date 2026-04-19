@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Interview, InterviewService } from "../../../core/services/interview.service";
-import { InterviewStatus } from "../../../core/models/Interview.models";
-import { KeycloakService } from "keycloak-angular";
+import { Interview, InterviewService } from '../../../core/services/interview.service';
+import { InterviewStatus } from '../../../core/models/Interview.models';
+import { KeycloakService } from 'keycloak-angular';
 
 interface CalendarCell {
   day: number;
@@ -17,7 +17,7 @@ interface CalendarCell {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './interview-room.component.html',
-  styleUrl: './interview-room.component.scss'
+  styleUrl: './interview-room.component.scss',
 })
 export class InterviewRoomComponent implements OnInit {
   private interviewService = inject(InterviewService);
@@ -25,7 +25,7 @@ export class InterviewRoomComponent implements OnInit {
 
   // View state
   currentView: 'calendar' | 'list' = 'calendar';
-  activeFilter: string = 'all';
+  activeFilter = 'all';
 
   // Data
   interviews: Interview[] = [];
@@ -39,10 +39,33 @@ export class InterviewRoomComponent implements OnInit {
   calendarCells: CalendarCell[] = [];
 
   monthNames = [
-    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+    'Janvier',
+    'Février',
+    'Mars',
+    'Avril',
+    'Mai',
+    'Juin',
+    'Juillet',
+    'Août',
+    'Septembre',
+    'Octobre',
+    'Novembre',
+    'Décembre',
   ];
-  shortMonths = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+  shortMonths = [
+    'Jan',
+    'Fév',
+    'Mar',
+    'Avr',
+    'Mai',
+    'Jun',
+    'Jul',
+    'Aoû',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Déc',
+  ];
 
   ngOnInit(): void {
     this.loadInterviews();
@@ -63,7 +86,7 @@ export class InterviewRoomComponent implements OnInit {
         this.interviews = this.getMockInterviews();
         this.buildCalendar();
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -92,14 +115,26 @@ export class InterviewRoomComponent implements OnInit {
     for (let i = startDow - 1; i >= 0; i--) {
       const d = new Date(year, month, -i);
       const dateStr = this.toDateStr(d);
-      cells.push({ day: d.getDate(), dateStr, currentMonth: false, isToday: dateStr === todayStr, interviews: this.getInterviewsForDate(dateStr) });
+      cells.push({
+        day: d.getDate(),
+        dateStr,
+        currentMonth: false,
+        isToday: dateStr === todayStr,
+        interviews: this.getInterviewsForDate(dateStr),
+      });
     }
 
     // ── Current month ──
     for (let d = 1; d <= lastDay.getDate(); d++) {
       const date = new Date(year, month, d);
       const dateStr = this.toDateStr(date);
-      cells.push({ day: d, dateStr, currentMonth: true, isToday: dateStr === todayStr, interviews: this.getInterviewsForDate(dateStr) });
+      cells.push({
+        day: d,
+        dateStr,
+        currentMonth: true,
+        isToday: dateStr === todayStr,
+        interviews: this.getInterviewsForDate(dateStr),
+      });
     }
 
     // ── Next month padding to complete rows ──
@@ -107,7 +142,13 @@ export class InterviewRoomComponent implements OnInit {
     for (let d = 1; d <= remaining; d++) {
       const date = new Date(year, month + 1, d);
       const dateStr = this.toDateStr(date);
-      cells.push({ day: d, dateStr, currentMonth: false, isToday: dateStr === todayStr, interviews: this.getInterviewsForDate(dateStr) });
+      cells.push({
+        day: d,
+        dateStr,
+        currentMonth: false,
+        isToday: dateStr === todayStr,
+        interviews: this.getInterviewsForDate(dateStr),
+      });
     }
 
     this.calendarCells = cells;
@@ -146,7 +187,7 @@ export class InterviewRoomComponent implements OnInit {
   get selectedDayInterviews(): Interview[] {
     if (!this.selectedDate) return [];
     return this.interviews
-      .filter(iv => iv.date === this.selectedDate)
+      .filter((iv) => iv.date === this.selectedDate)
       .sort((a, b) => a.time.localeCompare(b.time));
   }
 
@@ -160,13 +201,14 @@ export class InterviewRoomComponent implements OnInit {
 
   getCountByStatus(status: string): number {
     if (status === 'all') return this.interviews.length;
-    return this.interviews.filter(iv => iv.status === status).length;
+    return this.interviews.filter((iv) => iv.status === status).length;
   }
 
   get filteredInterviews(): Interview[] {
-    const list = this.activeFilter === 'all'
-      ? this.interviews
-      : this.interviews.filter(iv => iv.status === this.activeFilter);
+    const list =
+      this.activeFilter === 'all'
+        ? this.interviews
+        : this.interviews.filter((iv) => iv.status === this.activeFilter);
 
     return [...list].sort((a, b) => {
       const da = new Date(`${a.date}T${a.time}`);
@@ -178,16 +220,21 @@ export class InterviewRoomComponent implements OnInit {
   // ==================== Helpers ====================
 
   getInterviewsForDate(dateStr: string): Interview[] {
-    return this.interviews.filter(iv => iv.date === dateStr);
+    return this.interviews.filter((iv) => iv.date === dateStr);
   }
 
   getStatusClass(status: InterviewStatus | string): string {
     switch (status) {
-      case 'Planifié': return 'planned';
-      case 'En cours':  return 'ongoing';
-      case 'Terminé':   return 'done';
-      case 'Annulé':    return 'cancelled';
-      default: return 'planned';
+      case 'Planifié':
+        return 'planned';
+      case 'En cours':
+        return 'ongoing';
+      case 'Terminé':
+        return 'done';
+      case 'Annulé':
+        return 'cancelled';
+      default:
+        return 'planned';
     }
   }
 
@@ -222,35 +269,70 @@ export class InterviewRoomComponent implements OnInit {
 
     return [
       {
-        id: '1', candidateName: 'Maryem Sayari', position: 'Enseignant Informatique',
-        department: 'Génie Logiciel', date: fmt(next(2)), time: '09:00', duration: 60,
-        type: 'interview', status: 'Planifié', jury: ['Dr. Ben Ali', 'Prof. Chaabane'],
-        meetLink: 'https://meet.google.com/abc-defg-hij'
+        id: '1',
+        candidateName: 'Maryem Sayari',
+        position: 'Enseignant Informatique',
+        department: 'Génie Logiciel',
+        date: fmt(next(2)),
+        time: '09:00',
+        duration: 60,
+        type: 'interview',
+        status: 'Planifié',
+        jury: ['Dr. Ben Ali', 'Prof. Chaabane'],
+        meetLink: 'https://meet.google.com/abc-defg-hij',
       },
       {
-        id: '2', candidateName: 'Maryem Sayari', position: 'Chargé de cours IA',
-        department: 'Intelligence Artificielle', date: fmt(next(5)), time: '14:30', duration: 45,
-        type: 'evaluation', status: 'Planifié', jury: ['Prof. Haddad'],
-        room: 'Salle A104'
+        id: '2',
+        candidateName: 'Maryem Sayari',
+        position: 'Chargé de cours IA',
+        department: 'Intelligence Artificielle',
+        date: fmt(next(5)),
+        time: '14:30',
+        duration: 45,
+        type: 'evaluation',
+        status: 'Planifié',
+        jury: ['Prof. Haddad'],
+        room: 'Salle A104',
       },
       {
-        id: '3', candidateName: 'Maryem Sayari', position: 'Enseignant Réseaux',
-        department: 'Réseaux & Télécom', date: fmt(next(-3)), time: '10:00', duration: 60,
-        type: 'interview', status: 'Terminé', jury: ['Dr. Mansour', 'Dr. Karray'],
-        room: 'Salle B201'
+        id: '3',
+        candidateName: 'Maryem Sayari',
+        position: 'Enseignant Réseaux',
+        department: 'Réseaux & Télécom',
+        date: fmt(next(-3)),
+        time: '10:00',
+        duration: 60,
+        type: 'interview',
+        status: 'Terminé',
+        jury: ['Dr. Mansour', 'Dr. Karray'],
+        room: 'Salle B201',
       },
       {
-        id: '4', candidateName: 'Maryem Sayari', position: 'Maître assistant',
-        department: 'Génie Logiciel', date: fmt(today), time: '11:00', duration: 90,
-        type: 'interview', status: 'En cours', jury: ['Prof. Romdhane'],
-        meetLink: 'https://meet.google.com/xyz-uvwx-yz1'
+        id: '4',
+        candidateName: 'Maryem Sayari',
+        position: 'Maître assistant',
+        department: 'Génie Logiciel',
+        date: fmt(today),
+        time: '11:00',
+        duration: 90,
+        type: 'interview',
+        status: 'En cours',
+        jury: ['Prof. Romdhane'],
+        meetLink: 'https://meet.google.com/xyz-uvwx-yz1',
       },
       {
-        id: '5', candidateName: 'Maryem Sayari', position: 'Chargé de cours BD',
-        department: 'Systèmes d\'Information', date: fmt(next(2)), time: '15:00', duration: 60,
-        type: 'interview', status: 'Planifié', jury: ['Prof. Gharbi'],
-        room: 'Salle C305'
-      }
+        id: '5',
+        candidateName: 'Maryem Sayari',
+        position: 'Chargé de cours BD',
+        department: "Systèmes d'Information",
+        date: fmt(next(2)),
+        time: '15:00',
+        duration: 60,
+        type: 'interview',
+        status: 'Planifié',
+        jury: ['Prof. Gharbi'],
+        room: 'Salle C305',
+      },
     ] as Interview[];
   }
 }

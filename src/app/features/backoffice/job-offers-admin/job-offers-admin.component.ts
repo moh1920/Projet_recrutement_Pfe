@@ -1,6 +1,6 @@
 // job-offers-admin.component.ts
-import {Component, inject, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,15 +17,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
-import { OffreService } from "../../../core/services/offre.service";
-import { Offre } from "../../../core/models/offre.model";
+import { OffreService } from '../../../core/services/offre.service';
+import { Offre } from '../../../core/models/offre.model';
 import { JobOfferDialogComponent } from './job-offer-dialog/job-offer-dialog.component';
-import {CandidateService} from "../../../core/services/candidate.service";
-import {CandidatsDialogComponent} from "./candidats-dialog/candidats-dialog.component";
-import {AddCategorieDialogComponent} from "./add-categorie-dialog/add-categorie-dialog.component";
-import {
-  AffecterCritereDeSelectionAOffreDialogComponent
-} from "./affecter-critere-de-selection-aoffre-dialog/affecter-critere-de-selection-aoffre-dialog.component";
+import { CandidateService } from '../../../core/services/candidate.service';
+import { CandidatsDialogComponent } from './candidats-dialog/candidats-dialog.component';
+import { AddCategorieDialogComponent } from './add-categorie-dialog/add-categorie-dialog.component';
+import { AffecterCritereDeSelectionAOffreDialogComponent } from './affecter-critere-de-selection-aoffre-dialog/affecter-critere-de-selection-aoffre-dialog.component';
 
 @Component({
   selector: 'app-job-offers-admin',
@@ -44,10 +42,10 @@ import {
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatChipsModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './job-offers-admin.component.html',
-  styleUrl: './job-offers-admin.component.scss'
+  styleUrl: './job-offers-admin.component.scss',
 })
 export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -59,7 +57,19 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   router = inject(Router);
   activatedRouter = inject(ActivatedRoute);
 
-  displayedColumns: string[] = ['select', 'title', 'department', 'speciality', 'type', 'workload', 'candidates', 'deadline', 'status',"criteres", 'actions'];
+  displayedColumns: string[] = [
+    'select',
+    'title',
+    'department',
+    'speciality',
+    'type',
+    'workload',
+    'candidates',
+    'deadline',
+    'status',
+    'criteres',
+    'actions',
+  ];
   dataSource = new MatTableDataSource<Offre>([]);
   selection = new SelectionModel<Offre>(true, []);
 
@@ -71,7 +81,7 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
 
   stats = {
     total: 0,
-    ouvertes: 0
+    ouvertes: 0,
   };
 
   ngOnInit(): void {
@@ -96,13 +106,13 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
       error: (err) => {
         console.error('Erreur chargement offres:', err);
         this.isLoading = false;
-      }
+      },
     });
   }
 
   updateStats(): void {
     this.stats.total = this.dataSource.data.length;
-    this.stats.ouvertes = this.dataSource.data.filter(o => o.status === 'Ouverte').length;
+    this.stats.ouvertes = this.dataSource.data.filter((o) => o.status === 'Ouverte').length;
   }
 
   applyFilter(): void {
@@ -150,29 +160,41 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   }
 
   getStatusClass(status: string): string {
-    switch(status) {
-      case 'Ouverte': return 'status-ouverte';
-      case 'En cours': return 'status-encours';
-      case 'Fermée': return 'status-fermee';
-      default: return '';
+    switch (status) {
+      case 'Ouverte':
+        return 'status-ouverte';
+      case 'En cours':
+        return 'status-encours';
+      case 'Fermée':
+        return 'status-fermee';
+      default:
+        return '';
     }
   }
 
   getTypeClass(type: string): string {
-    switch(type) {
-      case 'Permanent': return 'type-permanent';
-      case 'Vacataire': return 'type-vacataire';
-      case 'Contractuel': return 'type-contractuel';
-      default: return '';
+    switch (type) {
+      case 'Permanent':
+        return 'type-permanent';
+      case 'Vacataire':
+        return 'type-vacataire';
+      case 'Contractuel':
+        return 'type-contractuel';
+      default:
+        return '';
     }
   }
 
   getTypeIcon(type: string): string {
-    switch(type) {
-      case 'Permanent': return 'work';
-      case 'Vacataire': return 'schedule';
-      case 'Contractuel': return 'assignment';
-      default: return 'work';
+    switch (type) {
+      case 'Permanent':
+        return 'work';
+      case 'Vacataire':
+        return 'schedule';
+      case 'Contractuel':
+        return 'assignment';
+      default:
+        return 'work';
     }
   }
 
@@ -180,11 +202,11 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   openAddDialog(): void {
     const dialogRef = this.dialog.open(JobOfferDialogComponent, {
       width: '800px',
-      maxHeight: '90vh'
+      maxHeight: '90vh',
       // No `data` → dialog detects add mode automatically
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) this.loadOffers();
     });
   }
@@ -193,10 +215,10 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(JobOfferDialogComponent, {
       width: '800px',
       maxHeight: '90vh',
-      data: { offre: offer }   // pass the existing offre → dialog pre-fills and calls updateOffre()
+      data: { offre: offer }, // pass the existing offre → dialog pre-fills and calls updateOffre()
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) this.loadOffers();
     });
   }
@@ -207,11 +229,11 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
 
   viewCandidates(offer: Offre): void {
     if (!offer.id) return;
-    this.candidatesService.getAllCandidatureByOffre(offer.id).subscribe(data => {
+    this.candidatesService.getAllCandidatureByOffre(offer.id).subscribe((data) => {
       this.dialog.open(CandidatsDialogComponent, {
         width: '680px',
         maxHeight: '90vh',
-        data: { offer, candidats: data }
+        data: { offer, candidats: data },
       });
     });
   }
@@ -219,7 +241,7 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   viewProgression(offer: Offre): void {
     if (!offer.id) return;
     this.router.navigate(['/admin/candidate-progression'], {
-      queryParams: { offerId: offer.id }
+      queryParams: { offerId: offer.id },
     });
   }
 
@@ -236,32 +258,30 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
     if (this.selection.selected.length === 0) return;
     console.log('Supprimer sélection:', this.selection.selected);
     // Implémenter suppression batch
-    this.selection.selected.forEach(offre => {
-        if (offre.id)
-        this.jobOfferService.deleteOffre(offre.id).subscribe(()=>{
+    this.selection.selected.forEach((offre) => {
+      if (offre.id)
+        this.jobOfferService.deleteOffre(offre.id).subscribe(() => {
           console.log('Supprimer sélection:', this.selection.selected);
           this.loadOffers();
-          });
-      });
+        });
+    });
   }
-
 
   openAffecteCritereDeSelectionDialog(offre: Offre): void {
     const dialogRef = this.dialog.open(AffecterCritereDeSelectionAOffreDialogComponent, {
       width: '640px',
       disableClose: true,
-      data: { offre }
+      data: { offre },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result?.success) {
         // refresh liste si besoin
       }
     });
   }
 
-
   openRanking(offerId: string, offerTitle: string): void {
-   this.router.navigate(['admin/rankingCandidats',offerId])
+    this.router.navigate(['admin/rankingCandidats', offerId]);
   }
 }

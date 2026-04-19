@@ -2,9 +2,7 @@
 
 <mat-dialog-content>
   <mat-selection-list [(ngModel)]="critereDeSelectionSelected">
-    <mat-list-option
-      *ngFor="let critere of critereDeSelections"
-      [value]="critere">
+    <mat-list-option *ngFor="let critere of critereDeSelections" [value]="critere">
       {{ critere.nom }}
       {{ critere.description }}
     </mat-list-option>
@@ -13,9 +11,12 @@
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Annuler</button>
-  <button mat-raised-button color="primary"
-          [disabled]="critereDeSelectionSelected.length === 0"
-          (click)="affecterCritereDeSelection()">
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="critereDeSelectionSelected.length === 0"
+    (click)="affecterCritereDeSelection()"
+  >
     Affecter
   </button>
 </mat-dialog-actions>

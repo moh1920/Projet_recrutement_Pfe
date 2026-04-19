@@ -18,23 +18,35 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { CriteresDeSelection, CriteresDeSelectionService } from '../../../../core/services/CriteresDeSelectionService';
-import {AddCritereDialogComponent} from "../add-critere-dialog/add-critere-dialog.component";
+import {
+  CriteresDeSelection,
+  CriteresDeSelectionService,
+} from '../../../../core/services/CriteresDeSelectionService';
+import { AddCritereDialogComponent } from '../add-critere-dialog/add-critere-dialog.component';
 
 @Component({
   selector: 'app-critere-de-selection-admin',
   standalone: true,
   imports: [
-    CommonModule, FormsModule,
-    MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule,
-    MatChipsModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatMenuModule, MatTooltipModule, MatTableModule, MatPaginatorModule, MatSortModule,
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   templateUrl: './critere-de-selection-admin.component.html',
-  styleUrls: ['./critere-de-selection-admin.component.scss']
+  styleUrls: ['./critere-de-selection-admin.component.scss'],
 })
 export class CritereDeSelectionAdminComponent implements OnInit {
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -75,7 +87,7 @@ export class CritereDeSelectionAdminComponent implements OnInit {
       error: () => {
         this.isLoading = false;
         this.showSnack('Erreur de chargement', 'error');
-      }
+      },
     });
   }
 
@@ -84,16 +96,15 @@ export class CritereDeSelectionAdminComponent implements OnInit {
 
     if (this.searchText.trim()) {
       const t = this.searchText.toLowerCase();
-      result = result.filter(c =>
-        c.nom?.toLowerCase().includes(t) ||
-        c.description?.toLowerCase().includes(t)
+      result = result.filter(
+        (c) => c.nom?.toLowerCase().includes(t) || c.description?.toLowerCase().includes(t)
       );
     }
 
     if (this.selectedFilter === 'Affectés') {
-      result = result.filter(c => this.getCategoriesCount(c) > 0);
+      result = result.filter((c) => this.getCategoriesCount(c) > 0);
     } else if (this.selectedFilter === 'Non affectés') {
-      result = result.filter(c => this.getCategoriesCount(c) === 0);
+      result = result.filter((c) => this.getCategoriesCount(c) === 0);
     }
 
     this.filteredCriteres = result;
@@ -110,7 +121,7 @@ export class CritereDeSelectionAdminComponent implements OnInit {
 
   updateStats(): void {
     this.stats.total = this.criteres.length;
-    this.stats.avecCategories = this.criteres.filter(c => this.getCategoriesCount(c) > 0).length;
+    this.stats.avecCategories = this.criteres.filter((c) => this.getCategoriesCount(c) > 0).length;
   }
 
   // ─── Dialog ───────────────────────────────────────────────────────────────────
@@ -120,9 +131,9 @@ export class CritereDeSelectionAdminComponent implements OnInit {
       width: '640px',
       disableClose: true,
       panelClass: 'esprit-dialog',
-      data: {}
+      data: {},
     });
-    ref.afterClosed().subscribe(r => {
+    ref.afterClosed().subscribe((r) => {
       if (r?.success) {
         this.showSnack('Critère créé avec succès !', 'success');
         this.loadCriteres();
@@ -135,9 +146,9 @@ export class CritereDeSelectionAdminComponent implements OnInit {
       width: '640px',
       disableClose: true,
       panelClass: 'esprit-dialog',
-      data: { critere }
+      data: { critere },
     });
-    ref.afterClosed().subscribe(r => {
+    ref.afterClosed().subscribe((r) => {
       if (r?.success) {
         this.showSnack('Critère mis à jour !', 'success');
         this.loadCriteres();
@@ -148,20 +159,22 @@ export class CritereDeSelectionAdminComponent implements OnInit {
   deleteCritere(critere: CriteresDeSelection): void {
     if (!confirm(`Supprimer "${critere.nom}" ?`)) return;
     this.critereService.deleteCritere(critere.id!).subscribe({
-      next: () => { this.showSnack('Critère supprimé', 'warn'); this.loadCriteres(); },
-      error: () => this.showSnack('Erreur lors de la suppression', 'error')
+      next: () => {
+        this.showSnack('Critère supprimé', 'warn');
+        this.loadCriteres();
+      },
+      error: () => this.showSnack('Erreur lors de la suppression', 'error'),
     });
   }
 
   deleteSelected(): void {
     if (!confirm(`Supprimer ${this.selection.selected.length} critère(s) ?`)) return;
-    const ids = this.selection.selected.map(c => c.id!);
-    Promise.all(ids.map(id => this.critereService.deleteCritere(id).toPromise()))
-      .then(() => {
-        this.selection.clear();
-        this.showSnack('Critères supprimés', 'warn');
-        this.loadCriteres();
-      });
+    const ids = this.selection.selected.map((c) => c.id!);
+    Promise.all(ids.map((id) => this.critereService.deleteCritere(id).toPromise())).then(() => {
+      this.selection.clear();
+      this.showSnack('Critères supprimés', 'warn');
+      this.loadCriteres();
+    });
   }
 
   // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -182,7 +195,7 @@ export class CritereDeSelectionAdminComponent implements OnInit {
     if (this.isAllSelected()) {
       this.selection.clear();
     } else {
-      this.dataSource.data.forEach(r => this.selection.select(r));
+      this.dataSource.data.forEach((r) => this.selection.select(r));
     }
   }
 
@@ -190,8 +203,11 @@ export class CritereDeSelectionAdminComponent implements OnInit {
     this.snackBar.open(msg, 'OK', {
       duration: 3500,
       panelClass:
-        type === 'success' ? 'success-snackbar' :
-          type === 'error'   ? 'error-snackbar'   : 'warning-snackbar'
+        type === 'success'
+          ? 'success-snackbar'
+          : type === 'error'
+            ? 'error-snackbar'
+            : 'warning-snackbar',
     });
   }
 }

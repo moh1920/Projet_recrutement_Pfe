@@ -3,7 +3,6 @@
      ========================================== -->
 
 <div class="applications-page">
-
   <!-- ── Header Hero ── -->
   <section class="page-header">
     <div class="header-pattern"></div>
@@ -18,7 +17,9 @@
             <span class="current">Mes Candidatures</span>
           </div>
           <h1>Mes Candidatures</h1>
-          <p class="subtitle">Suivez l'évolution de vos candidatures et gérez vos postulations chez ESPRIT</p>
+          <p class="subtitle">
+            Suivez l'évolution de vos candidatures et gérez vos postulations chez ESPRIT
+          </p>
         </div>
         <button class="btn-primary" routerLink="/offers">
           <span class="material-icons">search</span>
@@ -30,8 +31,10 @@
     <!-- Vague décorative -->
     <div class="header-wave">
       <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-              fill="#f8fafc"/>
+        <path
+          d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+          fill="#f8fafc"
+        />
       </svg>
     </div>
   </section>
@@ -39,7 +42,6 @@
   <!-- ── Contenu Principal ── -->
   <section class="applications-content">
     <div class="container">
-
       <!-- Loading State -->
       <div *ngIf="isLoading" class="loading-state">
         <div class="spinner-container">
@@ -57,20 +59,21 @@
         </div>
         <h3>Oups ! Une erreur est survenue</h3>
         <p>{{ errorMessage }}</p>
-<!--        <button class="btn-outline" (click)="loadCandidatures()">-->
-<!--          <span class="material-icons">refresh</span>-->
-<!--          Réessayer-->
-<!--        </button>-->
+        <!--        <button class="btn-outline" (click)="loadCandidatures()">-->
+        <!--          <span class="material-icons">refresh</span>-->
+        <!--          Réessayer-->
+        <!--        </button>-->
       </div>
 
       <!-- Contenu -->
       <ng-container *ngIf="!isLoading && !errorMessage">
-
         <!-- Statistiques Cards -->
         <div class="stats-grid">
-          <div class="stat-card"
-               [class.active]="activeFilter === 'all'"
-               (click)="filterCandidatures('all')">
+          <div
+            class="stat-card"
+            [class.active]="activeFilter === 'all'"
+            (click)="filterCandidatures('all')"
+          >
             <div class="stat-icon total">
               <span class="material-icons">folder_open</span>
             </div>
@@ -83,9 +86,11 @@
             </div>
           </div>
 
-          <div class="stat-card"
-               [class.active]="activeFilter === 'in-progress'"
-               (click)="filterCandidatures('in-progress')">
+          <div
+            class="stat-card"
+            [class.active]="activeFilter === 'in-progress'"
+            (click)="filterCandidatures('in-progress')"
+          >
             <div class="stat-icon progress">
               <span class="material-icons">pending_actions</span>
             </div>
@@ -96,9 +101,11 @@
             <div class="stat-badge" *ngIf="inProgressCount > 0">{{ inProgressCount }}</div>
           </div>
 
-          <div class="stat-card success"
-               [class.active]="activeFilter === 'accepted'"
-               (click)="filterCandidatures('accepted')">
+          <div
+            class="stat-card success"
+            [class.active]="activeFilter === 'accepted'"
+            (click)="filterCandidatures('accepted')"
+          >
             <div class="stat-icon success">
               <span class="material-icons">check_circle</span>
             </div>
@@ -109,9 +116,11 @@
             <div class="stat-badge success" *ngIf="acceptedCount > 0">{{ acceptedCount }}</div>
           </div>
 
-          <div class="stat-card danger"
-               [class.active]="activeFilter === 'closed'"
-               (click)="filterCandidatures('closed')">
+          <div
+            class="stat-card danger"
+            [class.active]="activeFilter === 'closed'"
+            (click)="filterCandidatures('closed')"
+          >
             <div class="stat-icon danger">
               <span class="material-icons">archive</span>
             </div>
@@ -130,15 +139,24 @@
               <span>Toutes</span>
               <span class="tab-badge" *ngIf="totalCandidatures > 0">{{ totalCandidatures }}</span>
             </button>
-            <button [class.active]="activeFilter === 'in-progress'" (click)="filterCandidatures('in-progress')">
+            <button
+              [class.active]="activeFilter === 'in-progress'"
+              (click)="filterCandidatures('in-progress')"
+            >
               <span class="material-icons">pending</span>
               <span>En cours</span>
             </button>
-            <button [class.active]="activeFilter === 'accepted'" (click)="filterCandidatures('accepted')">
+            <button
+              [class.active]="activeFilter === 'accepted'"
+              (click)="filterCandidatures('accepted')"
+            >
               <span class="material-icons">verified</span>
               <span>Acceptées</span>
             </button>
-            <button [class.active]="activeFilter === 'closed'" (click)="filterCandidatures('closed')">
+            <button
+              [class.active]="activeFilter === 'closed'"
+              (click)="filterCandidatures('closed')"
+            >
               <span class="material-icons">inventory_2</span>
               <span>Clôturées</span>
             </button>
@@ -156,11 +174,11 @@
 
         <!-- Liste des Candidatures -->
         <div class="applications-list" [@staggerAnimation]="filteredCandidatures.length">
-
-          <div *ngFor="let c of filteredCandidatures; let i = index"
-               class="application-card"
-               [class]="getStatusBadgeClass(c.status)">
-
+          <div
+            *ngFor="let c of filteredCandidatures; let i = index"
+            class="application-card"
+            [class]="getStatusBadgeClass(c.status)"
+          >
             <!-- Barre de statut animée -->
             <div class="card-status-bar"></div>
 
@@ -190,25 +208,24 @@
                 </div>
               </div>
 
-<!--              &lt;!&ndash; Score AI &ndash;&gt;-->
-<!--              <div class="ai-score" *ngIf="c.aiScore" [class]="getScoreClass(c.aiScore)">-->
-<!--                <div class="score-ring">-->
-<!--                  <svg viewBox="0 0 36 36">-->
-<!--                    <path class="circle-bg"-->
-<!--                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />-->
-<!--                    <path class="circle"-->
-<!--                          [attr.stroke-dasharray]="c.aiScore + ', 100'"-->
-<!--                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />-->
-<!--                  </svg>-->
-<!--                  <div class="score-value">{{ c.aiScore }}</div>-->
-<!--                </div>-->
-<!--                <span class="score-label">Score AI</span>-->
-<!--              </div>-->
+              <!--              &lt;!&ndash; Score AI &ndash;&gt;-->
+              <!--              <div class="ai-score" *ngIf="c.aiScore" [class]="getScoreClass(c.aiScore)">-->
+              <!--                <div class="score-ring">-->
+              <!--                  <svg viewBox="0 0 36 36">-->
+              <!--                    <path class="circle-bg"-->
+              <!--                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />-->
+              <!--                    <path class="circle"-->
+              <!--                          [attr.stroke-dasharray]="c.aiScore + ', 100'"-->
+              <!--                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />-->
+              <!--                  </svg>-->
+              <!--                  <div class="score-value">{{ c.aiScore }}</div>-->
+              <!--                </div>-->
+              <!--                <span class="score-label">Score AI</span>-->
+              <!--              </div>-->
             </div>
 
             <!-- Corps de la carte -->
             <div class="card-body">
-
               <!-- Compétences -->
               <div class="section skills-section" *ngIf="c.skills && c.skills.length > 0">
                 <div class="section-title">
@@ -236,7 +253,8 @@
                       <div class="edu-degree">{{ edu.degree }}</div>
                       <div class="edu-school">{{ edu.institution }}</div>
                       <div class="edu-dates" *ngIf="edu.startDate">
-                        {{ formatDate(edu.startDate) }} – {{ edu.current ? 'Présent' : formatDate(edu.endDate) }}
+                        {{ formatDate(edu.startDate) }} –
+                        {{ edu.current ? 'Présent' : formatDate(edu.endDate) }}
                       </div>
                     </div>
                   </div>
@@ -250,13 +268,25 @@
                   Liens professionnels
                 </div>
                 <div class="links-list">
-                  <a *ngIf="c.linkedin" [href]="c.linkedin" target="_blank" class="link-btn linkedin">
+                  <a
+                    *ngIf="c.linkedin"
+                    [href]="c.linkedin"
+                    target="_blank"
+                    class="link-btn linkedin"
+                  >
                     <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      <path
+                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                      />
                     </svg>
                     LinkedIn
                   </a>
-                  <a *ngIf="c.portfolio" [href]="c.portfolio" target="_blank" class="link-btn portfolio">
+                  <a
+                    *ngIf="c.portfolio"
+                    [href]="c.portfolio"
+                    target="_blank"
+                    class="link-btn portfolio"
+                  >
                     <span class="material-icons">language</span>
                     Portfolio
                   </a>
@@ -312,7 +342,6 @@
                 </button>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -325,13 +354,15 @@
             <div class="empty-orbit"></div>
           </div>
           <h3>Aucune candidature trouvée</h3>
-          <p>Vous n'avez pas encore de candidatures {{ activeFilter !== 'all' ? 'dans cette catégorie' : '' }}.</p>
+          <p>
+            Vous n'avez pas encore de candidatures
+            {{ activeFilter !== 'all' ? 'dans cette catégorie' : '' }}.
+          </p>
           <button class="btn-primary" routerLink="/offers">
             <span class="material-icons">search</span>
             Explorer les offres
           </button>
         </div>
-
       </ng-container>
     </div>
   </section>

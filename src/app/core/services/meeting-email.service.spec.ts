@@ -9,7 +9,7 @@ describe('MeetingEmailService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(MeetingEmailService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -30,7 +30,7 @@ describe('MeetingEmailService', () => {
       meetingDate: '2026-05-05',
       meetingTime: '10:00',
       meetingSubject: 'Interview',
-      interviewType: 'ONLINE'
+      interviewType: 'ONLINE',
     };
     service.generateEmail(request).subscribe();
     const req = httpMock.expectOne(`${API_URL}/generate`);
@@ -44,7 +44,7 @@ describe('MeetingEmailService', () => {
       recipientEmail: 'test@example.com',
       recipientName: 'Test',
       confirmedSubject: 'Subject',
-      confirmedBody: 'Body'
+      confirmedBody: 'Body',
     };
     service.sendEmail(request).subscribe();
     const req = httpMock.expectOne(`${API_URL}/send`);
@@ -58,7 +58,7 @@ describe('MeetingEmailService', () => {
       recipientEmail: 'test@example.com',
       recipientName: 'Test',
       confirmedSubject: 'Subject',
-      confirmedBody: 'Body'
+      confirmedBody: 'Body',
     };
     service.sendEmailContact(request).subscribe();
     const req = httpMock.expectOne(`${API_URL}/sendEmail`);

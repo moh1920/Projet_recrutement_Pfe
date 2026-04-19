@@ -3,10 +3,9 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApplicationService {
-
   getUserApplications(userId: string): Observable<any[]> {
     // Mock data - remplacer par appel API réel
     const applications = [
@@ -25,7 +24,7 @@ export class ApplicationService {
         nextStepDate: new Date('2024-02-20'),
         aiScore: 88,
         lastUpdate: new Date('2024-02-10'),
-        messages: 2
+        messages: 2,
       },
       {
         id: '2',
@@ -40,7 +39,7 @@ export class ApplicationService {
         totalSteps: 5,
         aiScore: 76,
         lastUpdate: new Date('2024-02-05'),
-        messages: 0
+        messages: 0,
       },
       {
         id: '3',
@@ -55,8 +54,8 @@ export class ApplicationService {
         totalSteps: 5,
         aiScore: 62,
         lastUpdate: new Date('2024-01-15'),
-        messages: 1
-      }
+        messages: 1,
+      },
     ];
 
     return of(applications).pipe(delay(500));

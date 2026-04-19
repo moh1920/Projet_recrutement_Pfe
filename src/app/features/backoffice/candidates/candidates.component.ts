@@ -19,14 +19,14 @@ import { DatePipe, SlicePipe } from '@angular/common';
 import {
   CandidateService,
   CandidateDTO,
-  CandidateStatus
+  CandidateStatus,
 } from '../../../core/services/candidate.service';
-import {CalendarDay, Interview, InterviewService} from "../../../core/services/interview.service";
-import {takeUntil} from "rxjs/operators";
-import {InterviewDialogComponent} from "../interviews/interview-dialog/interview-dialog.component";
-import {Subject} from "rxjs";
-import {Router} from "@angular/router";
-import {OffreService} from "../../../core/services/offre.service";
+import { CalendarDay, Interview, InterviewService } from '../../../core/services/interview.service';
+import { takeUntil } from 'rxjs/operators';
+import { InterviewDialogComponent } from '../interviews/interview-dialog/interview-dialog.component';
+import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import { OffreService } from '../../../core/services/offre.service';
 
 @Component({
   selector: 'app-candidates',
@@ -48,28 +48,27 @@ import {OffreService} from "../../../core/services/offre.service";
     MatSnackBarModule,
     MatDialogModule,
     DatePipe,
-    SlicePipe
+    SlicePipe,
   ],
   templateUrl: './candidates.component.html',
-  styleUrl: './candidates.component.scss'
+  styleUrl: './candidates.component.scss',
 })
 export class CandidatesComponent implements OnInit, AfterViewInit {
-
   // ─── Services ────────────────────────────────────────────────────────────────
   private candidateService = inject(CandidateService);
-  private snackBar         = inject(MatSnackBar);
-  private dialog           = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
   private interviewService = inject(InterviewService);
   private offreService = inject(OffreService);
   private router = inject(Router);
 
   // ─── ViewChild ───────────────────────────────────────────────────────────────
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort)      sort!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
   // ─── Table ───────────────────────────────────────────────────────────────────
   dataSource = new MatTableDataSource<CandidateDTO>([]);
-  selection  = new SelectionModel<CandidateDTO>(true, []);
+  selection = new SelectionModel<CandidateDTO>(true, []);
 
   displayedColumns: string[] = [
     'select',
@@ -81,7 +80,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     'status',
     'appliedDate',
     'offre',
-    'actions'
+    'actions',
   ];
 
   availableColumns: string[] = [
@@ -92,13 +91,13 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     'skills',
     'status',
     'appliedDate',
-    'offre'
+    'offre',
   ];
 
   // ─── Filters ─────────────────────────────────────────────────────────────────
   // On garde l'état en propriétés de classe.
   // Le filterPredicate les lit directement → pas besoin de sérialiser en JSON.
-  searchValue    = '';
+  searchValue = '';
   selectedStatus = 'Tous';
 
   // ─── Offre Filter ─────────────────────────────────────────────────────────────
@@ -111,7 +110,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     CandidateStatus.EN_COURS,
     CandidateStatus.ACCEPTE,
     CandidateStatus.REFUSE,
-    CandidateStatus.EN_ATTENTE
+    CandidateStatus.EN_ATTENTE,
   ];
 
   // ─── Stats ───────────────────────────────────────────────────────────────────
@@ -120,12 +119,12 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   }
 
   get admittedCandidates(): number {
-    return this.dataSource.data.filter(c => c.status === CandidateStatus.ACCEPTE).length;
+    return this.dataSource.data.filter((c) => c.status === CandidateStatus.ACCEPTE).length;
   }
 
   get pendingCandidates(): number {
     return this.dataSource.data.filter(
-      c => c.status === CandidateStatus.EN_ATTENTE || c.status === CandidateStatus.EN_COURS
+      (c) => c.status === CandidateStatus.EN_ATTENTE || c.status === CandidateStatus.EN_COURS
     ).length;
   }
 
@@ -140,18 +139,16 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     this.refreshFilter();
   }
 
-
   offreNameMap: { [id: string]: string } = {};
 
-
   loadOffreNames(candidates: any[]) {
-    const uniqueIds = [...new Set(candidates.map(c => c.idOffre).filter(Boolean))];
+    const uniqueIds = [...new Set(candidates.map((c) => c.idOffre).filter(Boolean))];
 
     // Reset
     this.availableOffres = [{ id: 'Tous', title: 'Toutes les offres' }];
 
-    uniqueIds.forEach(id => {
-      this.offreService.getOffreById(id).subscribe(offre => {
+    uniqueIds.forEach((id) => {
+      this.offreService.getOffreById(id).subscribe((offre) => {
         this.offreNameMap[id] = offre.title;
         // Ajouter à la liste des filtres
         this.availableOffres.push({ id, title: offre.title });
@@ -165,7 +162,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort      = this.sort;
+    this.dataSource.sort = this.sort;
   }
 
   // ─── Data Loading ────────────────────────────────────────────────────────────
@@ -174,12 +171,11 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
       next: (candidates) => {
         this.dataSource.data = candidates;
         this.loadOffreNames(candidates);
-
       },
       error: (err) => {
         console.error('Erreur chargement candidatures:', err);
         this.showSnackBar('Erreur lors du chargement des candidatures', 'error');
-      }
+      },
     });
   }
 
@@ -193,17 +189,15 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
 
       const matchesSearch =
         !search ||
-        (data.fullName?.toLowerCase().includes(search)        ?? false) ||
-        (data.email?.toLowerCase().includes(search)           ?? false) ||
+        (data.fullName?.toLowerCase().includes(search) ?? false) ||
+        (data.email?.toLowerCase().includes(search) ?? false) ||
         (data.appliedPosition?.toLowerCase().includes(search) ?? false) ||
-        (data.skills?.some(s => s.toLowerCase().includes(search)) ?? false);
+        (data.skills?.some((s) => s.toLowerCase().includes(search)) ?? false);
 
-      const matchesStatus =
-        this.selectedStatus === 'Tous' || data.status === this.selectedStatus;
+      const matchesStatus = this.selectedStatus === 'Tous' || data.status === this.selectedStatus;
 
       // ✅ Nouveau filtre offre
-      const matchesOffre =
-        this.selectedOffre === 'Tous' || data.idOffre === this.selectedOffre;
+      const matchesOffre = this.selectedOffre === 'Tous' || data.idOffre === this.selectedOffre;
 
       return matchesSearch && matchesStatus && matchesOffre;
     };
@@ -222,7 +216,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   }
 
   clearFilter(input: HTMLInputElement): void {
-    input.value      = '';
+    input.value = '';
     this.searchValue = '';
     this.refreshFilter();
   }
@@ -240,7 +234,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   toggleColumn(col: string): void {
     if (['select', 'name', 'actions'].includes(col)) return;
     if (this.isColumnVisible(col)) {
-      this.displayedColumns = this.displayedColumns.filter(c => c !== col);
+      this.displayedColumns = this.displayedColumns.filter((c) => c !== col);
     } else {
       const idx = this.displayedColumns.indexOf('actions');
       this.displayedColumns.splice(idx, 0, col);
@@ -249,15 +243,17 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
 
   // ─── Selection ───────────────────────────────────────────────────────────────
   isAllSelected(): boolean {
-    return this.selection.selected.length === this.dataSource.filteredData.length
-      && this.dataSource.filteredData.length > 0;
+    return (
+      this.selection.selected.length === this.dataSource.filteredData.length &&
+      this.dataSource.filteredData.length > 0
+    );
   }
 
   toggleAllRows(): void {
     if (this.isAllSelected()) {
       this.selection.clear();
     } else {
-      this.dataSource.filteredData.forEach(row => this.selection.select(row));
+      this.dataSource.filteredData.forEach((row) => this.selection.select(row));
     }
   }
 
@@ -281,7 +277,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
 
   viewProgression(candidate: CandidateDTO): void {
     this.router.navigate(['/admin/candidate-progression'], {
-      queryParams: { candidateId: candidate.id }
+      queryParams: { candidateId: candidate.id },
     });
   }
 
@@ -294,34 +290,28 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   }
 
   openAddDialogInterview(day?: CalendarDay, hour?: string): void {
-    const initialData = day && hour ? {
-      date: day.date.toISOString().split('T')[0],
-      time: hour
-    } : {};
+    const initialData =
+      day && hour
+        ? {
+            date: day.date.toISOString().split('T')[0],
+            time: hour,
+          }
+        : {};
 
     const dialogRef = this.dialog.open(InterviewDialogComponent, {
       width: '700px',
       maxWidth: '95vw',
       panelClass: 'modern-dialog',
       data: initialData,
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed()
-
-
+    dialogRef.afterClosed();
   }
-
-
-
-
-
-
-
 
   updateStatus(candidate: CandidateDTO, newStatus: string): void {
     // TODO: this.candidateService.updateStatus(candidate.id!, newStatus).subscribe(...)
-    candidate.status     = newStatus as CandidateStatus;
+    candidate.status = newStatus as CandidateStatus;
     this.dataSource.data = [...this.dataSource.data]; // force refresh
     this.showSnackBar(`Statut mis à jour : ${newStatus}`, 'success');
   }
@@ -329,25 +319,25 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   deleteCandidate(id?: string): void {
     if (!id) return;
     // TODO: this.candidateService.deleteCandidate(id).subscribe(...)
-    this.dataSource.data = this.dataSource.data.filter(c => c.id !== id);
+    this.dataSource.data = this.dataSource.data.filter((c) => c.id !== id);
     this.showSnackBar('Candidat supprimé avec succès', 'success');
   }
 
   deleteSelected(): void {
     if (!this.selection.selected.length) return;
     const toDelete = new Set(this.selection.selected);
-    const count    = toDelete.size;
-    this.dataSource.data = this.dataSource.data.filter(c => !toDelete.has(c));
+    const count = toDelete.size;
+    this.dataSource.data = this.dataSource.data.filter((c) => !toDelete.has(c));
     this.selection.clear();
     this.showSnackBar(`${count} candidat(s) supprimé(s)`, 'success');
   }
 
   exportData(): void {
-    const csv  = this.convertToCSV(this.dataSource.filteredData);
+    const csv = this.convertToCSV(this.dataSource.filteredData);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href     = url;
+    link.href = url;
     link.download = `candidats_${new Date().toISOString().slice(0, 10)}.csv`;
     link.click();
     URL.revokeObjectURL(url);
@@ -360,7 +350,7 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     return name
       .split(' ')
       .slice(0, 2)
-      .map(n => n[0])
+      .map((n) => n[0])
       .join('')
       .toUpperCase();
   }
@@ -382,10 +372,10 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
 
   getStatusClass(status?: string): string {
     const map: Record<string, string> = {
-      [CandidateStatus.NOUVEAU]:    'status-nouveau',
-      [CandidateStatus.EN_COURS]:   'status-en-cours',
-      [CandidateStatus.ACCEPTE]:    'status-accepte',
-      [CandidateStatus.REFUSE]:     'status-refuse',
+      [CandidateStatus.NOUVEAU]: 'status-nouveau',
+      [CandidateStatus.EN_COURS]: 'status-en-cours',
+      [CandidateStatus.ACCEPTE]: 'status-accepte',
+      [CandidateStatus.REFUSE]: 'status-refuse',
       [CandidateStatus.EN_ATTENTE]: 'status-en-attente',
     };
     return map[status ?? ''] ?? 'status-en-attente';
@@ -393,39 +383,43 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
 
   // ─── Utilities ───────────────────────────────────────────────────────────────
   private convertToCSV(data: CandidateDTO[]): string {
-    const headers = ['Nom', 'Email', 'Téléphone', 'Poste visé', 'Expérience', 'Statut', 'Date de candidature'];
-    const rows = data.map(c => [
-      c.fullName        ?? '',
-      c.email           ?? '',
-      c.phone           ?? '',
+    const headers = [
+      'Nom',
+      'Email',
+      'Téléphone',
+      'Poste visé',
+      'Expérience',
+      'Statut',
+      'Date de candidature',
+    ];
+    const rows = data.map((c) => [
+      c.fullName ?? '',
+      c.email ?? '',
+      c.phone ?? '',
       c.appliedPosition ?? '',
-      c.experience      ?? '',
-      c.status          ?? '',
-      c.appliedDate     ?? ''
+      c.experience ?? '',
+      c.status ?? '',
+      c.appliedDate ?? '',
     ]);
-    return [headers, ...rows]
-      .map(row => row.map(cell => `"${cell}"`).join(','))
-      .join('\n');
+    return [headers, ...rows].map((row) => row.map((cell) => `"${cell}"`).join(',')).join('\n');
   }
 
   private showSnackBar(message: string, type: 'success' | 'error' | 'warning' | 'info'): void {
     const panelClass: Record<string, string> = {
       success: 'snack-success',
-      error:   'snack-error',
+      error: 'snack-error',
       warning: 'snack-warning',
-      info:    'snack-info'
+      info: 'snack-info',
     };
     this.snackBar.open(message, 'Fermer', {
-      duration:           3500,
-      panelClass:         [panelClass[type]],
+      duration: 3500,
+      panelClass: [panelClass[type]],
       horizontalPosition: 'end',
-      verticalPosition:   'top'
+      verticalPosition: 'top',
     });
   }
 
   private destroy$ = new Subject<void>();
-
-
 
   scheduleInterview(candidate: CandidateDTO): void {
     const dialogRef = this.dialog.open(InterviewDialogComponent, {
@@ -433,16 +427,16 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
       maxWidth: '95vw',
       panelClass: 'modern-dialog',
       data: {
-        candidateName:  candidate.fullName,
-        candidateId:    candidate.id,
+        candidateName: candidate.fullName,
+        candidateId: candidate.id,
         candidateEmail: candidate.email,
         candidatePhone: candidate.phone,
-        position:       candidate.appliedPosition  // adapte selon ton DTO
+        position: candidate.appliedPosition, // adapte selon ton DTO
       },
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (result) this.createInterview(result);
       }
@@ -451,19 +445,17 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     this.showSnackBar(`Planification entretien pour ${candidate.fullName}`, 'info');
   }
 
-
   private createInterview(interviewData: Partial<Interview>): void {
-    this.interviewService.createInterview(interviewData)
+    this.interviewService
+      .createInterview(interviewData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (interview) => {
-          console.log(interviewData)
+          console.log(interviewData);
         },
         error: (error) => {
           console.error('Error creating interview:', error);
-        }
+        },
       });
   }
-
-
 }

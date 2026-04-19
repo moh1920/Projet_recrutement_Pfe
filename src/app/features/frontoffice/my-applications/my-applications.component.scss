@@ -3,7 +3,7 @@
 // ==========================================
 
 // ── Variables
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #d32f2f;
 $esprit-red-dark: #5c0000;
 $text-dark: #0f172a;
@@ -30,11 +30,17 @@ $border-color: #e2e8f0;
 }
 
 @mixin card-shadow {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.07),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 
   &:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(0, 0, 0, 0.04);
     transform: translateY(-3px);
   }
 }
@@ -127,9 +133,16 @@ $border-color: #e2e8f0;
   font-weight: 500;
   letter-spacing: 0.03em;
 
-  .material-icons { font-size: 14px; }
-  .separator { opacity: 0.5; }
-  .current { opacity: 1; font-weight: 600; }
+  .material-icons {
+    font-size: 14px;
+  }
+  .separator {
+    opacity: 0.5;
+  }
+  .current {
+    opacity: 1;
+    font-weight: 600;
+  }
 }
 
 // Wave
@@ -139,7 +152,10 @@ $border-color: #e2e8f0;
   left: 0;
   right: 0;
 
-  svg { display: block; width: 100%; }
+  svg {
+    display: block;
+    width: 100%;
+  }
 }
 
 // ==========================================
@@ -168,9 +184,13 @@ $border-color: #e2e8f0;
     background: #f8f9fa;
   }
 
-  &:active { transform: translateY(0); }
+  &:active {
+    transform: translateY(0);
+  }
 
-  .material-icons { font-size: 18px; }
+  .material-icons {
+    font-size: 18px;
+  }
 }
 
 .btn-outline {
@@ -212,7 +232,9 @@ $border-color: #e2e8f0;
     color: $text-dark;
   }
 
-  .material-icons { font-size: 20px; }
+  .material-icons {
+    font-size: 20px;
+  }
 }
 
 // ==========================================
@@ -250,7 +272,9 @@ $border-color: #e2e8f0;
   gap: 14px;
   cursor: pointer;
   border: 2px solid transparent;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.07),
+    0 4px 16px rgba(0, 0, 0, 0.04);
   transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
@@ -258,7 +282,9 @@ $border-color: #e2e8f0;
   &::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 3px;
     background: $border-color;
     transition: background 0.25s;
@@ -273,20 +299,26 @@ $border-color: #e2e8f0;
     border-color: $esprit-red;
     background: linear-gradient(135deg, $white, #fff5f5);
 
-    &::after { background: $esprit-red; }
+    &::after {
+      background: $esprit-red;
+    }
   }
 
   &.success {
     &.active {
       border-color: $success;
-      &::after { background: $success; }
+      &::after {
+        background: $success;
+      }
     }
   }
 
   &.danger {
     &.active {
       border-color: $danger;
-      &::after { background: $danger; }
+      &::after {
+        background: $danger;
+      }
     }
   }
 }
@@ -298,12 +330,26 @@ $border-color: #e2e8f0;
   @include flex-center;
   flex-shrink: 0;
 
-  .material-icons { font-size: 22px; }
+  .material-icons {
+    font-size: 22px;
+  }
 
-  &.total   { background: rgba($esprit-red, 0.1);  color: $esprit-red; }
-  &.progress{ background: rgba($warning, 0.12);    color: $warning;    }
-  &.success { background: rgba($success, 0.12);    color: $success;    }
-  &.danger  { background: rgba($danger, 0.12);     color: $danger;     }
+  &.total {
+    background: rgba($esprit-red, 0.1);
+    color: $esprit-red;
+  }
+  &.progress {
+    background: rgba($warning, 0.12);
+    color: $warning;
+  }
+  &.success {
+    background: rgba($success, 0.12);
+    color: $success;
+  }
+  &.danger {
+    background: rgba($danger, 0.12);
+    color: $danger;
+  }
 }
 
 .stat-content {
@@ -337,12 +383,16 @@ $border-color: #e2e8f0;
   @include flex-center;
   flex-shrink: 0;
 
-  &.success { background: $success; }
+  &.success {
+    background: $success;
+  }
 }
 
 .stat-trend {
   color: $success;
-  .material-icons { font-size: 18px; }
+  .material-icons {
+    font-size: 18px;
+  }
 }
 
 // ==========================================
@@ -379,7 +429,9 @@ $border-color: #e2e8f0;
     transition: all 0.2s ease;
     font-weight: 500;
 
-    .material-icons { font-size: 16px; }
+    .material-icons {
+      font-size: 16px;
+    }
 
     &:hover {
       border-color: $esprit-red-light;
@@ -524,13 +576,27 @@ $border-color: #e2e8f0;
   font-weight: 600;
   margin-bottom: 10px;
 
-  .material-icons { font-size: 14px; }
+  .material-icons {
+    font-size: 14px;
+  }
 
-  &.badge-pending  { background: rgba($warning, 0.12); color: #b45309; }
-  &.badge-accepted { background: rgba($success, 0.12); color: #16a34a; }
+  &.badge-pending {
+    background: rgba($warning, 0.12);
+    color: #b45309;
+  }
+  &.badge-accepted {
+    background: rgba($success, 0.12);
+    color: #16a34a;
+  }
   &.badge-refused,
-  &.badge-closed   { background: rgba($danger, 0.12);  color: #b91c1c; }
-  &.badge-review   { background: rgba($info, 0.12);    color: #1d4ed8; }
+  &.badge-closed {
+    background: rgba($danger, 0.12);
+    color: #b91c1c;
+  }
+  &.badge-review {
+    background: rgba($info, 0.12);
+    color: #1d4ed8;
+  }
 }
 
 // ── Card Body
@@ -622,9 +688,21 @@ $border-color: #e2e8f0;
 }
 
 .edu-content {
-  .edu-degree { font-weight: 600; font-size: 0.9rem; color: $text-dark; margin-bottom: 2px; }
-  .edu-school  { font-size: 0.83rem; color: $text-muted; margin-bottom: 2px; }
-  .edu-dates   { font-size: 0.78rem; color: $text-muted; }
+  .edu-degree {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: $text-dark;
+    margin-bottom: 2px;
+  }
+  .edu-school {
+    font-size: 0.83rem;
+    color: $text-muted;
+    margin-bottom: 2px;
+  }
+  .edu-dates {
+    font-size: 0.78rem;
+    color: $text-muted;
+  }
 }
 
 // Links
@@ -645,20 +723,31 @@ $border-color: #e2e8f0;
   text-decoration: none;
   transition: all 0.2s;
 
-  .icon-svg { width: 16px; height: 16px; }
-  .material-icons { font-size: 16px; }
+  .icon-svg {
+    width: 16px;
+    height: 16px;
+  }
+  .material-icons {
+    font-size: 16px;
+  }
 
   &.linkedin {
     background: #e8f0fe;
     color: #0a66c2;
-    &:hover { background: #0a66c2; color: $white; }
+    &:hover {
+      background: #0a66c2;
+      color: $white;
+    }
   }
 
   &.portfolio {
     background: $bg-light;
     color: $text-dark;
     border: 1px solid $border-color;
-    &:hover { border-color: $esprit-red; color: $esprit-red; }
+    &:hover {
+      border-color: $esprit-red;
+      color: $esprit-red;
+    }
   }
 }
 
@@ -717,12 +806,17 @@ $border-color: #e2e8f0;
   border: 1px solid $border-color;
   @include flex-center;
 
-  .material-icons { font-size: 15px; color: $text-muted; }
+  .material-icons {
+    font-size: 15px;
+    color: $text-muted;
+  }
 
   &.update {
     background: rgba($info, 0.08);
     border-color: rgba($info, 0.2);
-    .material-icons { color: $info; }
+    .material-icons {
+      color: $info;
+    }
   }
 }
 
@@ -730,8 +824,16 @@ $border-color: #e2e8f0;
   display: flex;
   flex-direction: column;
 
-  .label { font-size: 0.72rem; color: $text-muted; font-weight: 500; }
-  .date  { font-size: 0.83rem; font-weight: 600; color: $text-dark; }
+  .label {
+    font-size: 0.72rem;
+    color: $text-muted;
+    font-weight: 500;
+  }
+  .date {
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: $text-dark;
+  }
 }
 
 .timeline-connector {
@@ -769,7 +871,9 @@ $border-color: #e2e8f0;
   transition: all 0.2s;
   font-family: inherit;
 
-  .material-icons { font-size: 16px; }
+  .material-icons {
+    font-size: 16px;
+  }
 
   &.view {
     background: $bg-light;
@@ -834,11 +938,16 @@ $border-color: #e2e8f0;
     }
   }
 
-  p { color: $text-muted; font-size: 0.95rem; }
+  p {
+    color: $text-muted;
+    font-size: 0.95rem;
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // ==========================================
@@ -857,11 +966,21 @@ $border-color: #e2e8f0;
     @include flex-center;
     margin: 0 auto 16px;
 
-    .material-icons { font-size: 32px; color: $danger; }
+    .material-icons {
+      font-size: 32px;
+      color: $danger;
+    }
   }
 
-  h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
-  p  { color: $text-muted; font-size: 0.95rem; }
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  p {
+    color: $text-muted;
+    font-size: 0.95rem;
+  }
 }
 
 // ==========================================
@@ -887,12 +1006,18 @@ $border-color: #e2e8f0;
     @include flex-center;
     margin: 0 auto;
 
-    .material-icons { font-size: 36px; color: $border-color; }
+    .material-icons {
+      font-size: 36px;
+      color: $border-color;
+    }
   }
 
   .empty-orbit {
     position: absolute;
-    top: -10px; left: -10px; right: -10px; bottom: -10px;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
     border: 2px dashed rgba($esprit-red, 0.15);
     border-radius: 50%;
     animation: orbit 6s linear infinite;
@@ -913,8 +1038,12 @@ $border-color: #e2e8f0;
 }
 
 @keyframes orbit {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // ==========================================
@@ -929,24 +1058,35 @@ $border-color: #e2e8f0;
       flex-direction: column;
       align-items: flex-start;
 
-      h1 { font-size: 2rem; }
+      h1 {
+        font-size: 2rem;
+      }
     }
   }
 
-  .applications-content { margin-top: -36px; }
+  .applications-content {
+    margin-top: -36px;
+  }
 
-  .toolbar-section { flex-direction: column; align-items: flex-start; }
+  .toolbar-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 @media (max-width: 640px) {
-  .container { padding: 0 16px; }
+  .container {
+    padding: 0 16px;
+  }
 
   .card-header {
     flex-direction: column;
     padding: 16px 16px 0;
   }
 
-  .card-body  { padding: 14px 16px; }
+  .card-body {
+    padding: 14px 16px;
+  }
   .card-footer {
     flex-direction: column;
     align-items: flex-start;
@@ -958,11 +1098,19 @@ $border-color: #e2e8f0;
     }
   }
 
-  .offer-meta { gap: 8px; }
+  .offer-meta {
+    gap: 8px;
+  }
 
-  .stats-grid { gap: 12px; }
+  .stats-grid {
+    gap: 12px;
+  }
 
-  .stat-card { padding: 14px; }
+  .stat-card {
+    padding: 14px;
+  }
 
-  .stat-content .stat-value { font-size: 1.5rem; }
+  .stat-content .stat-value {
+    font-size: 1.5rem;
+  }
 }

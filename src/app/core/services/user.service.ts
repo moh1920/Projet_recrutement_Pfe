@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {HttpClient} from "@angular/common/http";
-import {CreateUserRequest, StatusUser} from "../models/create-user-request.model";
+import { HttpClient } from '@angular/common/http';
+import { CreateUserRequest, StatusUser } from '../models/create-user-request.model';
 import { environment } from '../../../environments/environment';
 
 export interface User {
@@ -33,35 +33,23 @@ export interface UserDTO {
 
   department: string;
   statusUser: StatusUser;
-  dateDeCreation: string;   // ⚠️ LocalDate devient string en JSON
+  dateDeCreation: string; // ⚠️ LocalDate devient string en JSON
   phone: string;
 
   fullName: string;
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   private apiUrl = `${environment.apiUrl}/api/v1`;
 
-
-
   constructor(private http: HttpClient) {}
-
-
-
-
-
-
-
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/syncUser`);
   }
-
 
   createUser(request: CreateUserRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/createUser`, request);
@@ -74,12 +62,6 @@ export class UserService {
     return this.http.get<UserDTO>(`${this.apiUrl}/userAdminController/getUserById/${keycloakId}`);
   }
   updateUser(keycloakId: string, userDTO: UserDTO): Observable<UserDTO> {
-    return this.http.put<UserDTO>(
-      `${this.apiUrl}/updateUser/${keycloakId}`,
-      userDTO
-    );
+    return this.http.put<UserDTO>(`${this.apiUrl}/updateUser/${keycloakId}`, userDTO);
   }
-
-
-
 }

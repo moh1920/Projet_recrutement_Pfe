@@ -6,7 +6,7 @@ describe('WebSocketService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [WebSocketService]
+      providers: [WebSocketService],
     });
     service = TestBed.inject(WebSocketService);
   });

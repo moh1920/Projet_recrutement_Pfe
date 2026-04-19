@@ -11,51 +11,37 @@ export interface CategorieDeSelection {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategorieDeSelectionService {
-
   private apiUrl = `${environment.apiUrl}/categorieDeSelection`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // ✅ Add categorie
   addCategorie(categorie: CategorieDeSelection): Observable<CategorieDeSelection> {
-    return this.http.post<CategorieDeSelection>(
-      `${this.apiUrl}/addCategorie/add`,
-      categorie
-    );
+    return this.http.post<CategorieDeSelection>(`${this.apiUrl}/addCategorie/add`, categorie);
   }
 
   // ✅ Get all categories with pagination
-  getAllCategories(page: number = 0, size: number = 5): Observable<any> {
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', size);
+  getAllCategories(page = 0, size = 5): Observable<any> {
+    let params = new HttpParams().set('page', page).set('size', size);
 
     return this.http.get(`${this.apiUrl}/getAllCategories/all`, { params });
   }
 
   // ✅ Get categorie by ID
   getCategorieById(id: string): Observable<CategorieDeSelection> {
-    return this.http.get<CategorieDeSelection>(
-      `${this.apiUrl}/getCategorieById/${id}`
-    );
+    return this.http.get<CategorieDeSelection>(`${this.apiUrl}/getCategorieById/${id}`);
   }
 
   // ✅ Update categorie
   updateCategorie(id: string, categorie: CategorieDeSelection): Observable<CategorieDeSelection> {
-    return this.http.put<CategorieDeSelection>(
-      `${this.apiUrl}/updateCategorie/${id}`,
-      categorie
-    );
+    return this.http.put<CategorieDeSelection>(`${this.apiUrl}/updateCategorie/${id}`, categorie);
   }
 
   // ✅ Delete categorie
   deleteCategorie(id: string): Observable<any> {
-    return this.http.delete(
-      `${this.apiUrl}/deleteCategorie/${id}`
-    );
+    return this.http.delete(`${this.apiUrl}/deleteCategorie/${id}`);
   }
-
 }

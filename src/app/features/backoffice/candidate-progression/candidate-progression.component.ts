@@ -11,7 +11,7 @@ import {
   CandidateService,
   CandidateDTO,
   StepDTO,
-  StepStatus
+  StepStatus,
 } from '../../../core/services/candidate.service';
 
 // ─── Toast model ─────────────────────────────────────────────────────────────
@@ -30,24 +30,23 @@ interface Toast {
     MatButtonModule,
     MatCardModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   templateUrl: './candidate-progression.component.html',
-  styleUrl: './candidate-progression.component.scss'
+  styleUrl: './candidate-progression.component.scss',
 })
 export class CandidateProgressionComponent implements OnInit {
-
-  private route           = inject(ActivatedRoute);
+  private route = inject(ActivatedRoute);
   private candidateService = inject(CandidateService);
 
   // ─── State ──────────────────────────────────────────────────────────────────
-  candidates:        CandidateDTO[] = [];
+  candidates: CandidateDTO[] = [];
   selectedCandidate: CandidateDTO | null = null;
   loading = true;
 
   // Add panel
   showAddPanel = false;
-  savingStep   = false;
+  savingStep = false;
   newStep: StepDTO = this.emptyStep();
 
   // Edit panel - utilise l'index pour une identification fiable
@@ -56,8 +55,8 @@ export class CandidateProgressionComponent implements OnInit {
 
   // Delete confirm
   showDeleteConfirm = false;
-  deletingStep      = false;
-  stepToDelete:     StepDTO | null = null;
+  deletingStep = false;
+  stepToDelete: StepDTO | null = null;
   stepToDeleteIndex: number | null = null;
 
   // Toasts
@@ -65,13 +64,13 @@ export class CandidateProgressionComponent implements OnInit {
 
   // ─── Init ────────────────────────────────────────────────────────────────────
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       const candidateId = params['candidateId'];
-      const offerId     = params['offerId'];
+      const offerId = params['offerId'];
 
-      if (candidateId)    this.loadCandidateById(candidateId);
-      else if (offerId)   this.loadCandidatesByOffer(offerId);
-      else                this.loadAllCandidates();
+      if (candidateId) this.loadCandidateById(candidateId);
+      else if (offerId) this.loadCandidatesByOffer(offerId);
+      else this.loadAllCandidates();
     });
   }
 
@@ -79,24 +78,24 @@ export class CandidateProgressionComponent implements OnInit {
   loadCandidateById(id: string): void {
     this.loading = true;
     this.candidateService.getAllCandidatureById(id).subscribe({
-      next:  data  => this.handleCandidatesLoaded(data),
-      error: err   => this.handleLoadError(err)
+      next: (data) => this.handleCandidatesLoaded(data),
+      error: (err) => this.handleLoadError(err),
     });
   }
 
   loadCandidatesByOffer(idOffre: string): void {
     this.loading = true;
     this.candidateService.getAllCandidatureByOffre(idOffre).subscribe({
-      next:  data => this.handleCandidatesLoaded(data),
-      error: err  => this.handleLoadError(err)
+      next: (data) => this.handleCandidatesLoaded(data),
+      error: (err) => this.handleLoadError(err),
     });
   }
 
   loadAllCandidates(): void {
     this.loading = true;
     this.candidateService.getAllCandidature().subscribe({
-      next:  data => this.handleCandidatesLoaded(data),
-      error: err  => this.handleLoadError(err)
+      next: (data) => this.handleCandidatesLoaded(data),
+      error: (err) => this.handleLoadError(err),
     });
   }
 
@@ -124,14 +123,14 @@ export class CandidateProgressionComponent implements OnInit {
   // ═══ AJOUTER UNE ÉTAPE ═══
   // ═══════════════════════════════════════════════════════════════════════════════
   openAddStepPanel(): void {
-    this.newStep     = this.emptyStep();
+    this.newStep = this.emptyStep();
     this.showAddPanel = true;
     this.cancelEdit();
   }
 
   closeAddPanel(): void {
     this.showAddPanel = false;
-    this.newStep      = this.emptyStep();
+    this.newStep = this.emptyStep();
   }
 
   addStep(): void {
@@ -148,8 +147,8 @@ export class CandidateProgressionComponent implements OnInit {
       error: (err) => {
         console.error('Erreur ajout step', err);
         this.savingStep = false;
-        this.showToast('Erreur lors de l\'ajout de l\'étape', 'error');
-      }
+        this.showToast("Erreur lors de l'ajout de l'étape", 'error');
+      },
     });
   }
 
@@ -165,7 +164,7 @@ export class CandidateProgressionComponent implements OnInit {
 
   cancelEdit(): void {
     this.editingStepIndex = null;
-    this.editStep        = this.emptyStep();
+    this.editStep = this.emptyStep();
   }
 
   /**
@@ -192,8 +191,8 @@ export class CandidateProgressionComponent implements OnInit {
       error: (err) => {
         console.error('Erreur modification step', err);
         this.savingStep = false;
-        this.showToast('Erreur lors de la modification de l\'étape', 'error');
-      }
+        this.showToast("Erreur lors de la modification de l'étape", 'error');
+      },
     });
   }
 
@@ -209,40 +208,38 @@ export class CandidateProgressionComponent implements OnInit {
     if (!this.selectedCandidate?.id || !step.name) return;
 
     // Si on marque comme complété, on ajoute la date automatiquement
-    const date = status === StepStatus.completed
-      ? new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-      : step.date;
+    const date =
+      status === StepStatus.completed
+        ? new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+        : step.date;
 
     // Mettre à jour localement d'abord pour une UI réactive
     step.status = status as StepStatus;
     if (date) step.date = date;
 
     // Appel API pour persister la modification
-    this.candidateService.updateStepStatus(
-      this.selectedCandidate.id,
-      step.name,
-      status as StepStatus,
-      date
-    ).subscribe({
-      next: (updated) => {
-        this.refreshSelectedCandidate(updated);
-        const statusLabel = this.getStatusLabel(status as StepStatus);
-        this.showToast(`Statut mis à jour : ${statusLabel}`, 'success');
-      },
-      error: (err) => {
-        console.error('Erreur statut step', err);
-        this.showToast('Erreur lors de la mise à jour du statut', 'error');
-        // Recharger pour annuler la modification locale en cas d'erreur
-        this.loadAllCandidates();
-      }
-    });
+    this.candidateService
+      .updateStepStatus(this.selectedCandidate.id, step.name, status as StepStatus, date)
+      .subscribe({
+        next: (updated) => {
+          this.refreshSelectedCandidate(updated);
+          const statusLabel = this.getStatusLabel(status as StepStatus);
+          this.showToast(`Statut mis à jour : ${statusLabel}`, 'success');
+        },
+        error: (err) => {
+          console.error('Erreur statut step', err);
+          this.showToast('Erreur lors de la mise à jour du statut', 'error');
+          // Recharger pour annuler la modification locale en cas d'erreur
+          this.loadAllCandidates();
+        },
+      });
   }
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // ═══ SUPPRIMER UNE ÉTAPE ═══
   // ═══════════════════════════════════════════════════════════════════════════════
   confirmDeleteStep(step: StepDTO, index: number): void {
-    this.stepToDelete     = step;
+    this.stepToDelete = step;
     this.stepToDeleteIndex = index;
     this.showDeleteConfirm = true;
     this.cancelEdit();
@@ -250,7 +247,7 @@ export class CandidateProgressionComponent implements OnInit {
   }
 
   cancelDelete(): void {
-    this.stepToDelete     = null;
+    this.stepToDelete = null;
     this.stepToDeleteIndex = null;
     this.showDeleteConfirm = false;
   }
@@ -270,8 +267,8 @@ export class CandidateProgressionComponent implements OnInit {
       error: (err) => {
         console.error('Erreur suppression step', err);
         this.deletingStep = false;
-        this.showToast('Erreur lors de la suppression de l\'étape', 'error');
-      }
+        this.showToast("Erreur lors de la suppression de l'étape", 'error');
+      },
     });
   }
 
@@ -280,7 +277,7 @@ export class CandidateProgressionComponent implements OnInit {
   /** Sync the selected candidate with updated data from the API */
   private refreshSelectedCandidate(updated: CandidateDTO): void {
     this.selectedCandidate = updated;
-    const idx = this.candidates.findIndex(c => c.id === updated.id);
+    const idx = this.candidates.findIndex((c) => c.id === updated.id);
     if (idx !== -1) this.candidates[idx] = updated;
   }
 
@@ -294,31 +291,36 @@ export class CandidateProgressionComponent implements OnInit {
     const w = 100 / this.selectedCandidate.steps.length;
     return this.selectedCandidate.steps.reduce((acc, s) => {
       if (s.status === 'completed') return acc + w;
-      if (s.status === 'current')  return acc + w / 2;
+      if (s.status === 'current') return acc + w / 2;
       return acc;
     }, 0);
   }
 
   getCompletedCount(): number {
-    return this.selectedCandidate?.steps?.filter(s => s.status === 'completed').length ?? 0;
+    return this.selectedCandidate?.steps?.filter((s) => s.status === 'completed').length ?? 0;
   }
 
   getCurrentCount(): number {
-    return this.selectedCandidate?.steps?.filter(s => s.status === 'current').length ?? 0;
+    return this.selectedCandidate?.steps?.filter((s) => s.status === 'current').length ?? 0;
   }
 
   getPendingCount(): number {
-    return this.selectedCandidate?.steps?.filter(s => s.status === 'pending').length ?? 0;
+    return this.selectedCandidate?.steps?.filter((s) => s.status === 'pending').length ?? 0;
   }
 
   getCompletedStepsCount(cand: CandidateDTO): number {
-    return cand.steps?.filter(s => s.status === 'completed').length ?? 0;
+    return cand.steps?.filter((s) => s.status === 'completed').length ?? 0;
   }
 
   // ─── Avatar helpers ──────────────────────────────────────────────────────────
   getInitials(name?: string): string {
     if (!name) return 'C';
-    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .substring(0, 2)
+      .toUpperCase();
   }
 
   getAvatarColor(name?: string): string {
@@ -330,10 +332,14 @@ export class CandidateProgressionComponent implements OnInit {
   // ─── Label helpers ───────────────────────────────────────────────────────────
   getStatusLabel(status?: StepStatus | string): string {
     switch (status) {
-      case 'completed': return 'Complétée';
-      case 'current':   return 'En cours';
-      case 'pending':   return 'En attente';
-      default:          return status || '';
+      case 'completed':
+        return 'Complétée';
+      case 'current':
+        return 'En cours';
+      case 'pending':
+        return 'En attente';
+      default:
+        return status || '';
     }
   }
 
@@ -342,7 +348,7 @@ export class CandidateProgressionComponent implements OnInit {
     const toast: Toast = { message, type };
     this.toasts.push(toast);
     setTimeout(() => {
-      this.toasts = this.toasts.filter(t => t !== toast);
+      this.toasts = this.toasts.filter((t) => t !== toast);
     }, 3500);
   }
 }

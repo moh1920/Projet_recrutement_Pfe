@@ -7,7 +7,7 @@ export function initializeKeycloak(keycloak: KeycloakService) {
       config: {
         url: environment.keycloakUrl,
         realm: environment.keycloakRealm,
-        clientId: environment.keycloakClientId
+        clientId: environment.keycloakClientId,
       },
       // initOptions: {
       //   onLoad: 'check-sso',
@@ -19,13 +19,13 @@ export function initializeKeycloak(keycloak: KeycloakService) {
       initOptions: {
         onLoad: 'check-sso',
         checkLoginIframe: false,
-        pkceMethod: 'S256'
+        pkceMethod: 'S256',
       },
       enableBearerInterceptor: false,
       shouldAddToken: (request) => {
         const { method, url } = request;
-        const isExcluded = ['/assets', '/api/public'].some(excluded => url.includes(excluded));
+        const isExcluded = ['/assets', '/api/public'].some((excluded) => url.includes(excluded));
         return !isExcluded;
-      }
+      },
     });
 }

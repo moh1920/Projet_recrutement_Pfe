@@ -11,7 +11,7 @@ export const roleGuard: CanActivateFn = async (route, state) => {
 
     if (!isLoggedIn) {
       await keycloak.login({
-        redirectUri: window.location.origin + state.url
+        redirectUri: window.location.origin + state.url,
       });
       return false;
     }
@@ -23,14 +23,14 @@ export const roleGuard: CanActivateFn = async (route, state) => {
     }
 
     // Récupérer les rôles de l'utilisateur et les convertir en minuscules
-    const userRoles = keycloak.getUserRoles().map(role => role.toLowerCase());
-    const normalizedRequiredRoles = requiredRoles.map(role => role.toLowerCase());
+    const userRoles = keycloak.getUserRoles().map((role) => role.toLowerCase());
+    const normalizedRequiredRoles = requiredRoles.map((role) => role.toLowerCase());
 
     console.log('Rôles requis (normalisés):', normalizedRequiredRoles);
     console.log('Rôles utilisateur (normalisés):', userRoles);
 
     // Vérifier si l'utilisateur a au moins un des rôles requis
-    const hasRole = normalizedRequiredRoles.some(role => userRoles.includes(role));
+    const hasRole = normalizedRequiredRoles.some((role) => userRoles.includes(role));
 
     if (!hasRole) {
       console.warn('Accès refusé: rôle insuffisant');

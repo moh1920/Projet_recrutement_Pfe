@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MeetingApiService } from '../../../core/services/meeting-api.service';
-import {MatIcon} from "@angular/material/icon";
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-meeting-lobby',
@@ -19,10 +19,10 @@ import {MatIcon} from "@angular/material/icon";
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatIcon
+    MatIcon,
   ],
   templateUrl: './meeting-lobby.component.html',
-  styleUrls: ['./meeting-lobby.component.scss']
+  styleUrls: ['./meeting-lobby.component.scss'],
 })
 export class MeetingLobbyComponent {
   roomCode = '';
@@ -44,15 +44,11 @@ export class MeetingLobbyComponent {
       error: () => {
         this.error = 'Salon introuvable. Vérifiez le code et réessayez.';
         this.loading = false;
-      }
+      },
     });
   }
 
-  openHelp() {
+  openHelp() {}
 
-  }
-
-  testAudio() {
-
-  }
+  testAudio() {}
 }

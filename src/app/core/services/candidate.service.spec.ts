@@ -9,7 +9,7 @@ describe('CandidateService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(CandidateService);
     httpMock = TestBed.inject(HttpTestingController);

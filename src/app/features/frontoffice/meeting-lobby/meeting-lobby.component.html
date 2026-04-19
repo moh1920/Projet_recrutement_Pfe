@@ -1,7 +1,6 @@
 <!-- ─── Header ──────────────────────────────────────────────────────────────── -->
 <div class="page-header">
   <div class="header-content">
-
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
       <span>Espace Réunion</span>
       <span class="sep">/</span>
@@ -14,12 +13,10 @@
         <p class="page-subtitle">Consultez et gérez vos entretiens planifiés chez ESPRIT</p>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="lobby-container">
-
   <div class="lobby-card">
     <!-- Icon -->
     <div class="icon-wrapper">
@@ -27,16 +24,21 @@
     </div>
 
     <h2>Rejoindre un entretien</h2>
-    <p>Saisissez le code de la réunion pour rejoindre l'appel vidéo sécurisé avec votre conseiller ESPRIT.</p>
+    <p>
+      Saisissez le code de la réunion pour rejoindre l'appel vidéo sécurisé avec votre conseiller
+      ESPRIT.
+    </p>
 
     <div class="form-container">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Code de la réunion</mat-label>
-        <input matInput
-               [(ngModel)]="roomCode"
-               (keyup.enter)="joinMeeting()"
-               placeholder="Ex: MEET-2024-ABC123"
-               maxlength="20" />
+        <input
+          matInput
+          [(ngModel)]="roomCode"
+          (keyup.enter)="joinMeeting()"
+          placeholder="Ex: MEET-2024-ABC123"
+          maxlength="20"
+        />
         <mat-icon matSuffix>meeting_room</mat-icon>
       </mat-form-field>
 
@@ -44,11 +46,13 @@
         {{ error }}
       </div>
 
-      <button mat-flat-button
-              color="primary"
-              class="w-100 join-btn"
-              [disabled]="loading || !roomCode.trim()"
-              (click)="joinMeeting()">
+      <button
+        mat-flat-button
+        color="primary"
+        class="w-100 join-btn"
+        [disabled]="loading || !roomCode.trim()"
+        (click)="joinMeeting()"
+      >
         <ng-container *ngIf="!loading">
           <mat-icon>login</mat-icon>
           Rejoindre l'appel

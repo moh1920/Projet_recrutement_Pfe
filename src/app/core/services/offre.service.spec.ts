@@ -10,7 +10,7 @@ describe('OffreService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(OffreService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -25,7 +25,13 @@ describe('OffreService', () => {
   });
 
   it('should createOffre', () => {
-    const mockOffre = { id: '1', title: 'Test Offre', status: 'Ouverte', type: 'Permanent', requiredLevel: 'Licence' } as Offre;
+    const mockOffre = {
+      id: '1',
+      title: 'Test Offre',
+      status: 'Ouverte',
+      type: 'Permanent',
+      requiredLevel: 'Licence',
+    } as Offre;
     service.createOffre(mockOffre).subscribe();
     const req = httpMock.expectOne(`${API_URL}/create`);
     expect(req.request.method).toBe('POST');
@@ -47,7 +53,7 @@ describe('OffreService', () => {
   });
 
   it('should updateOffre', () => {
-    const mockOffre = { id: '1'} as Offre;
+    const mockOffre = { id: '1' } as Offre;
     service.updateOffre('1', mockOffre).subscribe();
     const req = httpMock.expectOne(`${API_URL}/update/1`);
     expect(req.request.method).toBe('PUT');

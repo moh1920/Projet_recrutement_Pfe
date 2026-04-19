@@ -11,7 +11,14 @@ export interface SignalMessage {
 
 /** Événement de salon */
 export interface RoomMessage {
-  type: 'user-joined' | 'user-left' | 'user-list' | 'room-full' | 'host-ended'|'user-raised-hand'|'you-are-host';
+  type:
+    | 'user-joined'
+    | 'user-left'
+    | 'user-list'
+    | 'room-full'
+    | 'host-ended'
+    | 'user-raised-hand'
+    | 'you-are-host';
   roomId: string;
   userId: string;
   displayName?: string;

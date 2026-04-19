@@ -35,59 +35,95 @@ import { KeycloakService } from 'keycloak-angular';
     MatChipsModule,
     MatDividerModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {
-  private fb             = inject(FormBuilder);
-  private userService    = inject(UserService);
+  private fb = inject(FormBuilder);
+  private userService = inject(UserService);
   private keycloakService = inject(KeycloakService);
 
-  activeTab  = 0;
-  isEditing  = false;
-  isLoading  = true;
+  activeTab = 0;
+  isEditing = false;
+  isLoading = true;
 
   profileForm!: FormGroup;
   securityForm!: FormGroup;
 
   // ── Valeur par défaut pour éviter les erreurs avant le chargement ──────────
   user: UserDTO = {
-    id:             '',
-    keycloakId:     '',
-    email:          '',
-    firstName:      '',
-    lastName:       '',
-    role:           '',
-    department:     '',
-    statusUser:     '' as any,
+    id: '',
+    keycloakId: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    role: '',
+    department: '',
+    statusUser: '' as any,
     dateDeCreation: '',
-    phone:          '',
-    fullName:       ''
+    phone: '',
+    fullName: '',
   };
 
   stats = {
-    offersCreated:        12,
-    candidatesReviewed:   48,
-    interviewsConducted:  24,
-    lastActivity:         'Il y a 2 heures'
+    offersCreated: 12,
+    candidatesReviewed: 48,
+    interviewsConducted: 24,
+    lastActivity: 'Il y a 2 heures',
   };
 
   activities = [
-    { type: 'offer',     title: 'Nouvelle offre créée',  desc: 'Professeur en Intelligence Artificielle',   date: '2024-01-15 10:30', icon: 'work'     },
-    { type: 'candidate', title: 'Candidature évaluée',   desc: 'Mohamed Trabelsi - Score: 85/100',           date: '2024-01-14 16:45', icon: 'person'   },
-    { type: 'interview', title: 'Entretien réalisé',     desc: 'Fatma Gharbi - Poste: CUP',                  date: '2024-01-14 14:00', icon: 'event'    },
-    { type: 'settings',  title: 'Profil mis à jour',     desc: 'Modification des informations personnelles', date: '2024-01-13 09:15', icon: 'settings' },
-    { type: 'offer',     title: 'Offre modifiée',        desc: 'Mise à jour des prérequis - Génie Logiciel', date: '2024-01-12 11:20', icon: 'edit'     }
+    {
+      type: 'offer',
+      title: 'Nouvelle offre créée',
+      desc: 'Professeur en Intelligence Artificielle',
+      date: '2024-01-15 10:30',
+      icon: 'work',
+    },
+    {
+      type: 'candidate',
+      title: 'Candidature évaluée',
+      desc: 'Mohamed Trabelsi - Score: 85/100',
+      date: '2024-01-14 16:45',
+      icon: 'person',
+    },
+    {
+      type: 'interview',
+      title: 'Entretien réalisé',
+      desc: 'Fatma Gharbi - Poste: CUP',
+      date: '2024-01-14 14:00',
+      icon: 'event',
+    },
+    {
+      type: 'settings',
+      title: 'Profil mis à jour',
+      desc: 'Modification des informations personnelles',
+      date: '2024-01-13 09:15',
+      icon: 'settings',
+    },
+    {
+      type: 'offer',
+      title: 'Offre modifiée',
+      desc: 'Mise à jour des prérequis - Génie Logiciel',
+      date: '2024-01-12 11:20',
+      icon: 'edit',
+    },
   ];
 
-  roles       = ['CUP', 'Chef de Département', 'Enseignant', 'Admin'];
-  departments = ['Informatique', 'Génie Logiciel', 'Intelligence Artificielle', 'Réseaux & Sécurité', 'Data Science'];
+  roles = ['CUP', 'Chef de Département', 'Enseignant', 'Admin'];
+  departments = [
+    'Informatique',
+    'Génie Logiciel',
+    'Intelligence Artificielle',
+    'Réseaux & Sécurité',
+    'Data Science',
+  ];
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
   ngOnInit(): void {
-    this.initForms();       // initialise avec les valeurs vides par défaut
+    this.initForms(); // initialise avec les valeurs vides par défaut
     this.loadUserCurrent(); // charge ensuite les vraies données
   }
 
@@ -103,14 +139,14 @@ export class ProfileComponent implements OnInit {
 
     this.userService.getUserById(userId).subscribe({
       next: (data) => {
-        this.user      = data;
+        this.user = data;
         this.isLoading = false;
         this.initForms(); // réinitialise le formulaire avec les vraies valeurs
       },
       error: (err) => {
         console.error('Erreur lors du chargement du profil :', err);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -118,18 +154,21 @@ export class ProfileComponent implements OnInit {
   initForms(): void {
     this.profileForm = this.fb.group({
       // "name" est utilisé dans le HTML → on concatène prénom + nom
-      name:       [this.user.fullName || `${this.user.firstName} ${this.user.lastName}`.trim(), Validators.required],
-      email:      [this.user.email,      [Validators.required, Validators.email]],
-      phone:      [this.user.phone,      Validators.required],
+      name: [
+        this.user.fullName || `${this.user.firstName} ${this.user.lastName}`.trim(),
+        Validators.required,
+      ],
+      email: [this.user.email, [Validators.required, Validators.email]],
+      phone: [this.user.phone, Validators.required],
       department: [this.user.department, Validators.required],
-      address:    [''],
-      bio:        ['']
+      address: [''],
+      bio: [''],
     });
 
     this.securityForm = this.fb.group({
       currentPassword: ['', Validators.required],
-      newPassword:     ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required]
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required],
     });
   }
 
@@ -169,7 +208,7 @@ export class ProfileComponent implements OnInit {
     if (!name) return '';
     return name
       .split(' ')
-      .map(n => n[0])
+      .map((n) => n[0])
       .join('')
       .substring(0, 2)
       .toUpperCase();
@@ -177,10 +216,10 @@ export class ProfileComponent implements OnInit {
 
   getRoleColor(role: string): string {
     const colors: Record<string, string> = {
-      'Admin':               '#DC2626',
+      Admin: '#DC2626',
       'Chef de Département': '#8B0000',
-      'CUP':                 '#D97706',
-      'Enseignant':          '#059669'
+      CUP: '#D97706',
+      Enseignant: '#059669',
     };
     return colors[role] ?? '#6B7280';
   }

@@ -14,7 +14,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, map, shareReplay } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { AppKeycloakService } from '../../core/services/keycloak.service';
-import {environment} from "../../../environments/environment";
+import { environment } from '../../../environments/environment';
 
 interface Notification {
   icon: string;
@@ -52,10 +52,10 @@ interface MenuItem {
     MatMenuModule,
     MatBadgeModule,
     MatDividerModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './admin-layout.component.html',
-  styleUrl: './admin-layout.component.scss'
+  styleUrl: './admin-layout.component.scss',
 })
 export class AdminLayoutComponent {
   private breakpointObserver = inject(BreakpointObserver);
@@ -66,11 +66,10 @@ export class AdminLayoutComponent {
   isDarkMode = false;
   notificationCount = 3;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) => result.matches),
+    shareReplay()
+  );
 
   menuItems: MenuItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/admin/dashboard' },
@@ -82,7 +81,7 @@ export class AdminLayoutComponent {
         { icon: 'list', label: 'Liste des offres', route: '/admin/job-offers' },
         { icon: 'checklist', label: 'Critères de sélection', route: '/admin/critereDeSelection' },
         { icon: 'category', label: 'Catégories de sélection', route: '/admin/categorieSelection' },
-      ]
+      ],
     },
     { icon: 'people', label: 'Dossiers candidats', route: '/admin/candidates' },
     { icon: 'trending_up', label: 'Candidats-progression', route: '/admin/candidate-progression' },
@@ -93,13 +92,30 @@ export class AdminLayoutComponent {
   ];
 
   notifications: Notification[] = [
-    { icon: 'person', message: 'Nouveau candidat: Ahmed Ben Ali', time: '5 min', color: 'primary', read: false },
-    { icon: 'event', message: 'Entretien confirmé à 14h00', time: '30 min', color: 'accent', read: false },
-    { icon: 'check_circle', message: 'Offre publiée avec succès', time: '2h', color: 'primary', read: true },
+    {
+      icon: 'person',
+      message: 'Nouveau candidat: Ahmed Ben Ali',
+      time: '5 min',
+      color: 'primary',
+      read: false,
+    },
+    {
+      icon: 'event',
+      message: 'Entretien confirmé à 14h00',
+      time: '30 min',
+      color: 'accent',
+      read: false,
+    },
+    {
+      icon: 'check_circle',
+      message: 'Offre publiée avec succès',
+      time: '2h',
+      color: 'primary',
+      read: true,
+    },
   ];
-  keycloakAdminUrl: string = environment.keycloakUrl ;
+  keycloakAdminUrl: string = environment.keycloakUrl;
   keycloakOnline: any;
-
 
   toggleSubmenu(item: MenuItem): void {
     item.isExpanded = !item.isExpanded;
@@ -115,7 +131,7 @@ export class AdminLayoutComponent {
   }
 
   markAllRead(): void {
-    this.notifications.forEach(n => n.read = true);
+    this.notifications.forEach((n) => (n.read = true));
     this.notificationCount = 0;
   }
 

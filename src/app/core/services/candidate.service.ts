@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 // ─── Interfaces ─────────────────────────────────────────────────────────────
@@ -26,7 +26,7 @@ export interface CandidateDTO {
   appliedPosition?: string;
   appliedDate?: string;
   status?: CandidateStatus;
-  steps?: StepDTO[];       // ✅ Ajouté
+  steps?: StepDTO[]; // ✅ Ajouté
 
   notes?: string;
   createdAt?: string;
@@ -52,26 +52,25 @@ export interface StepDTO {
 }
 
 export enum CandidateStatus {
-  NOUVEAU    = 'NOUVEAU',
-  EN_COURS   = 'EN_COURS',
-  ACCEPTE    = 'ACCEPTE',
-  REFUSE     = 'REFUSE',
-  EN_ATTENTE = 'EN_ATTENTE'
+  NOUVEAU = 'NOUVEAU',
+  EN_COURS = 'EN_COURS',
+  ACCEPTE = 'ACCEPTE',
+  REFUSE = 'REFUSE',
+  EN_ATTENTE = 'EN_ATTENTE',
 }
 
 export enum StepStatus {
   completed = 'completed',
-  current   = 'current',
-  pending   = 'pending'
+  current = 'current',
+  pending = 'pending',
 }
 
 // ─── Service ─────────────────────────────────────────────────────────────────
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CandidateService {
-
   private apiUrl = `${environment.apiUrl}/candidature`;
 
   constructor(private http: HttpClient) {}
@@ -80,38 +79,29 @@ export class CandidateService {
 
   postulerCandidature(idProfile: string, idOffre: string): Observable<CandidateDTO> {
     return this.http.post<CandidateDTO>(
-      `${this.apiUrl}/postulerCandidature/${idProfile}/${idOffre}`, {}
+      `${this.apiUrl}/postulerCandidature/${idProfile}/${idOffre}`,
+      {}
     );
   }
 
   createCandidature(candidate: CandidateDTO): Observable<CandidateDTO> {
-    return this.http.post<CandidateDTO>(
-      `${this.apiUrl}/createCandidature`, candidate
-    );
+    return this.http.post<CandidateDTO>(`${this.apiUrl}/createCandidature`, candidate);
   }
 
   getAllCandidature(): Observable<CandidateDTO[]> {
-    return this.http.get<CandidateDTO[]>(
-      `${this.apiUrl}/getAllCandidature`
-    );
+    return this.http.get<CandidateDTO[]>(`${this.apiUrl}/getAllCandidature`);
   }
 
   getAllCandidatureByProfile(idProfile: string): Observable<CandidateDTO[]> {
-    return this.http.get<CandidateDTO[]>(
-      `${this.apiUrl}/getAllCandidatureByProfile/${idProfile}`
-    );
+    return this.http.get<CandidateDTO[]>(`${this.apiUrl}/getAllCandidatureByProfile/${idProfile}`);
   }
 
   getAllCandidatureByOffre(idOffre: string): Observable<CandidateDTO[]> {
-    return this.http.get<CandidateDTO[]>(
-      `${this.apiUrl}/getAllCandidatureByOffre/${idOffre}`
-    );
+    return this.http.get<CandidateDTO[]>(`${this.apiUrl}/getAllCandidatureByOffre/${idOffre}`);
   }
 
   getAllCandidatureById(id: string): Observable<CandidateDTO[]> {
-    return this.http.get<CandidateDTO[]>(
-      `${this.apiUrl}/getAllCandidatureById/${id}`
-    );
+    return this.http.get<CandidateDTO[]>(`${this.apiUrl}/getAllCandidatureById/${id}`);
   }
 
   // ─── Steps ────────────────────────────────────────────────────────────────
@@ -121,9 +111,7 @@ export class CandidateService {
    * Récupérer toutes les étapes d'un candidat
    */
   getSteps(id: string): Observable<StepDTO[]> {
-    return this.http.get<StepDTO[]>(
-      `${this.apiUrl}/${id}/steps`
-    );
+    return this.http.get<StepDTO[]>(`${this.apiUrl}/${id}/steps`);
   }
 
   /**
@@ -131,9 +119,7 @@ export class CandidateService {
    * Ajouter une seule étape
    */
   addStep(id: string, step: StepDTO): Observable<CandidateDTO> {
-    return this.http.post<CandidateDTO>(
-      `${this.apiUrl}/${id}/steps`, step
-    );
+    return this.http.post<CandidateDTO>(`${this.apiUrl}/${id}/steps`, step);
   }
 
   /**
@@ -141,9 +127,7 @@ export class CandidateService {
    * Remplacer toute la liste des étapes
    */
   updateSteps(id: string, steps: StepDTO[]): Observable<CandidateDTO> {
-    return this.http.put<CandidateDTO>(
-      `${this.apiUrl}/${id}/steps`, steps
-    );
+    return this.http.put<CandidateDTO>(`${this.apiUrl}/${id}/steps`, steps);
   }
 
   /**

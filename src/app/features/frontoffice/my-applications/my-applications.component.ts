@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil, switchMap } from 'rxjs/operators';
-import { CandidateDTO, CandidateService, CandidateStatus } from '../../../core/services/candidate.service';
+import {
+  CandidateDTO,
+  CandidateService,
+  CandidateStatus,
+} from '../../../core/services/candidate.service';
 import { KeycloakService } from 'keycloak-angular';
 import { Router } from '@angular/router';
 import { ProfileService } from '../../../core/services/profile.service';
@@ -13,25 +17,23 @@ import { ProfileService } from '../../../core/services/profile.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './my-applications.component.html',
-  styleUrls: ['./my-applications.component.scss']
+  styleUrls: ['./my-applications.component.scss'],
 })
 export class MyApplicationsComponent implements OnInit, OnDestroy {
-
-  candidatures: CandidateDTO[]         = [];
+  candidatures: CandidateDTO[] = [];
   filteredCandidatures: CandidateDTO[] = [];
-  activeFilter  = 'all';
-  isLoading     = false;
-  errorMessage  = '';
-
+  activeFilter = 'all';
+  isLoading = false;
+  errorMessage = '';
 
   // Expose enum to template
   readonly CandidateStatus = CandidateStatus;
 
   private readonly keycloakService = inject(KeycloakService);
-  private readonly profileService  = inject(ProfileService);
-  private readonly candidateSvc    = inject(CandidateService);
-  private readonly router          = inject(Router);
-  private readonly destroy$        = new Subject<void>();
+  private readonly profileService = inject(ProfileService);
+  private readonly candidateSvc = inject(CandidateService);
+  private readonly router = inject(Router);
+  private readonly destroy$ = new Subject<void>();
 
   // ─── Statistiques ──────────────────────────────────────────────────────────
 
@@ -40,19 +42,20 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
   }
 
   get inProgressCount(): number {
-    return this.candidatures.filter(c =>
-      c.status === CandidateStatus.NOUVEAU   ||
-      c.status === CandidateStatus.EN_COURS  ||
-      c.status === CandidateStatus.EN_ATTENTE
+    return this.candidatures.filter(
+      (c) =>
+        c.status === CandidateStatus.NOUVEAU ||
+        c.status === CandidateStatus.EN_COURS ||
+        c.status === CandidateStatus.EN_ATTENTE
     ).length;
   }
 
   get acceptedCount(): number {
-    return this.candidatures.filter(c => c.status === CandidateStatus.ACCEPTE).length;
+    return this.candidatures.filter((c) => c.status === CandidateStatus.ACCEPTE).length;
   }
 
   get refusedCount(): number {
-    return this.candidatures.filter(c => c.status === CandidateStatus.REFUSE).length;
+    return this.candidatures.filter((c) => c.status === CandidateStatus.REFUSE).length;
   }
 
   // ─── Lifecycle ─────────────────────────────────────────────────────────────
@@ -67,9 +70,10 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    this.profileService.getProfileByUserId(userId)
+    this.profileService
+      .getProfileByUserId(userId)
       .pipe(
-        switchMap(profile => {
+        switchMap((profile) => {
           if (!profile?.id) throw new Error('Profil introuvable');
           return this.candidateSvc.getAllCandidatureByProfile(profile.id);
         }),
@@ -87,7 +91,7 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
             ? 'Profil introuvable. Veuillez vous reconnecter.'
             : 'Impossible de charger vos candidatures. Veuillez réessayer.';
           this.isLoading = false;
-        }
+        },
       });
   }
 
@@ -103,21 +107,21 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
 
     switch (filter) {
       case 'in-progress':
-        this.filteredCandidatures = this.candidatures.filter(c =>
-          c.status === CandidateStatus.NOUVEAU   ||
-          c.status === CandidateStatus.EN_COURS  ||
-          c.status === CandidateStatus.EN_ATTENTE
+        this.filteredCandidatures = this.candidatures.filter(
+          (c) =>
+            c.status === CandidateStatus.NOUVEAU ||
+            c.status === CandidateStatus.EN_COURS ||
+            c.status === CandidateStatus.EN_ATTENTE
         );
         break;
       case 'accepted':
-        this.filteredCandidatures = this.candidatures.filter(c =>
-          c.status === CandidateStatus.ACCEPTE
+        this.filteredCandidatures = this.candidatures.filter(
+          (c) => c.status === CandidateStatus.ACCEPTE
         );
         break;
       case 'closed':
-        this.filteredCandidatures = this.candidatures.filter(c =>
-          c.status === CandidateStatus.REFUSE ||
-          c.status === CandidateStatus.ACCEPTE
+        this.filteredCandidatures = this.candidatures.filter(
+          (c) => c.status === CandidateStatus.REFUSE || c.status === CandidateStatus.ACCEPTE
         );
         break;
       default:
@@ -129,34 +133,52 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
 
   getStatusLabel(status?: CandidateStatus): string {
     switch (status) {
-      case CandidateStatus.NOUVEAU:    return 'Nouvelle candidature';
-      case CandidateStatus.EN_COURS:   return "En cours d'analyse";
-      case CandidateStatus.EN_ATTENTE: return 'En attente';
-      case CandidateStatus.ACCEPTE:    return 'Acceptée';
-      case CandidateStatus.REFUSE:     return 'Refusée';
-      default:                         return 'Inconnu';
+      case CandidateStatus.NOUVEAU:
+        return 'Nouvelle candidature';
+      case CandidateStatus.EN_COURS:
+        return "En cours d'analyse";
+      case CandidateStatus.EN_ATTENTE:
+        return 'En attente';
+      case CandidateStatus.ACCEPTE:
+        return 'Acceptée';
+      case CandidateStatus.REFUSE:
+        return 'Refusée';
+      default:
+        return 'Inconnu';
     }
   }
 
   getStatusIcon(status?: CandidateStatus): string {
     switch (status) {
-      case CandidateStatus.NOUVEAU:    return 'send';
-      case CandidateStatus.EN_COURS:   return 'visibility';
-      case CandidateStatus.EN_ATTENTE: return 'hourglass_empty';
-      case CandidateStatus.ACCEPTE:    return 'check_circle';
-      case CandidateStatus.REFUSE:     return 'cancel';
-      default:                         return 'help_outline';
+      case CandidateStatus.NOUVEAU:
+        return 'send';
+      case CandidateStatus.EN_COURS:
+        return 'visibility';
+      case CandidateStatus.EN_ATTENTE:
+        return 'hourglass_empty';
+      case CandidateStatus.ACCEPTE:
+        return 'check_circle';
+      case CandidateStatus.REFUSE:
+        return 'cancel';
+      default:
+        return 'help_outline';
     }
   }
 
   getStatusBadgeClass(status?: CandidateStatus): string {
     switch (status) {
-      case CandidateStatus.NOUVEAU:    return 'badge-nouveau';
-      case CandidateStatus.EN_COURS:   return 'badge-en-cours';
-      case CandidateStatus.EN_ATTENTE: return 'badge-en-attente';
-      case CandidateStatus.ACCEPTE:    return 'badge-accepte';
-      case CandidateStatus.REFUSE:     return 'badge-refuse';
-      default:                         return 'badge-default';
+      case CandidateStatus.NOUVEAU:
+        return 'badge-nouveau';
+      case CandidateStatus.EN_COURS:
+        return 'badge-en-cours';
+      case CandidateStatus.EN_ATTENTE:
+        return 'badge-en-attente';
+      case CandidateStatus.ACCEPTE:
+        return 'badge-accepte';
+      case CandidateStatus.REFUSE:
+        return 'badge-refuse';
+      default:
+        return 'badge-default';
     }
   }
 
@@ -167,7 +189,9 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
   formatDate(dateStr?: string): string {
     if (!dateStr) return 'N/A';
     return new Date(dateStr).toLocaleDateString('fr-FR', {
-      day: 'numeric', month: 'short', year: 'numeric'
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
     });
   }
 
@@ -181,7 +205,7 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
 
   deleteCandidature(candidature: CandidateDTO): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cette candidature ?')) {
-      this.candidatures = this.candidatures.filter(c => c.id !== candidature.id);
+      this.candidatures = this.candidatures.filter((c) => c.id !== candidature.id);
       this.filterCandidatures(this.activeFilter);
     }
   }

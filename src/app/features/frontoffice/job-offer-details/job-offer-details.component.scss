@@ -1,5 +1,5 @@
 // Variables
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #d32f2f;
 $esprit-red-dark: #5c0000;
 $text-dark: #0f172a;
@@ -151,16 +151,22 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     color: #86efac;
     border: 1px solid rgba(34, 197, 94, 0.3);
 
-    .status-dot { background: #4ade80; box-shadow: 0 0 6px #4ade80; }
+    .status-dot {
+      background: #4ade80;
+      box-shadow: 0 0 6px #4ade80;
+    }
   }
 
   &.status-en.cours,
-  &[class*="status-en"] {
+  &[class*='status-en'] {
     background: rgba(234, 179, 8, 0.2);
     color: #fde047;
     border: 1px solid rgba(234, 179, 8, 0.3);
 
-    .status-dot { background: #facc15; box-shadow: 0 0 6px #facc15; }
+    .status-dot {
+      background: #facc15;
+      box-shadow: 0 0 6px #facc15;
+    }
   }
 
   &.status-fermée {
@@ -168,7 +174,10 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     color: #fca5a5;
     border: 1px solid rgba(239, 68, 68, 0.3);
 
-    .status-dot { background: #f87171; box-shadow: 0 0 6px #f87171; }
+    .status-dot {
+      background: #f87171;
+      box-shadow: 0 0 6px #f87171;
+    }
   }
 
   // Inline variant used inside sidebar summary list (on white bg)
@@ -183,7 +192,7 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     }
 
     &.status-en.cours,
-    &[class*="status-en"] {
+    &[class*='status-en'] {
       background: rgba(234, 179, 8, 0.1);
       color: #b45309;
       border-color: rgba(234, 179, 8, 0.25);
@@ -391,7 +400,9 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
     }
 
-    mat-icon { margin-right: 8px; }
+    mat-icon {
+      margin-right: 8px;
+    }
   }
 
   .save-btn {
@@ -407,7 +418,9 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
       background: rgba(255, 255, 255, 0.2) !important;
     }
 
-    mat-icon { margin-right: 8px; }
+    mat-icon {
+      margin-right: 8px;
+    }
   }
 }
 
@@ -676,7 +689,10 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
   color: $white;
   text-align: center;
 
-  h3, p { color: $white; }
+  h3,
+  p {
+    color: $white;
+  }
 
   .apply-btn-large {
     width: 100%;
@@ -694,7 +710,9 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
     }
 
-    mat-icon { margin-right: 8px; }
+    mat-icon {
+      margin-right: 8px;
+    }
   }
 
   .contact-info {
@@ -908,8 +926,12 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 // ─── Animations ──────────────────────────────────────────────────────────────
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes fadeInUp {
@@ -952,8 +974,12 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
   }
 
   .job-meta {
-    .meta-divider { display: none; }
-    .meta-item { width: 100%; }
+    .meta-divider {
+      display: none;
+    }
+    .meta-item {
+      width: 100%;
+    }
   }
 
   .hero-actions {

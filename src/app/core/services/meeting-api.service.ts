@@ -11,7 +11,6 @@ import { environment } from '../../../environments/environment';
  */
 @Injectable({ providedIn: 'root' })
 export class MeetingApiService {
-
   private readonly apiUrl = `${environment.apiUrl}/meetings`;
 
   constructor(private http: HttpClient) {}

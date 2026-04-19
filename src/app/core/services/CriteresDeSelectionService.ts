@@ -11,10 +11,9 @@ export interface CriteresDeSelection {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CriteresDeSelectionService {
-
   private apiUrl = `${environment.apiUrl}/criteres`;
 
   constructor(private http: HttpClient) {}
@@ -25,10 +24,8 @@ export class CriteresDeSelectionService {
   }
 
   // GET ALL WITH PAGINATION
-  getAllCriteres(page: number = 0, size: number = 5): Observable<any> {
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', size);
+  getAllCriteres(page = 0, size = 5): Observable<any> {
+    let params = new HttpParams().set('page', page).set('size', size);
 
     return this.http.get(`${this.apiUrl}/getAll`, { params });
   }

@@ -1,5 +1,5 @@
 // ==================== Variables thème ESPRIT ====================
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #a50000;
 $esprit-red-mid: #b31212;
 $esprit-red-dark: #5c0000;
@@ -26,22 +26,36 @@ $border-light: #f1f5f9;
 }
 
 @mixin shadow-md {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 @mixin shadow-lg {
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
 // ==================== Animations ====================
 @keyframes slideInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 // ==================== Dialog Title ====================
@@ -76,11 +90,15 @@ mat-dialog-content {
   &::-webkit-scrollbar {
     width: 5px;
   }
-  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
   &::-webkit-scrollbar-thumb {
     background: $border;
     border-radius: 3px;
-    &:hover { background: darken($border, 10%); }
+    &:hover {
+      background: darken($border, 10%);
+    }
   }
 }
 
@@ -109,7 +127,9 @@ mat-dialog-content {
     background: $bg-light;
     border-radius: 10px;
     border: 1.5px solid $border;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
 
     &:hover {
       border-color: darken($border, 8%);
@@ -274,7 +294,7 @@ mat-dialog-actions {
   }
 
   // Bouton Soumettre
-  button[mat-raised-button][color="primary"] {
+  button[mat-raised-button][color='primary'] {
     border-radius: 8px;
     padding: 7px 22px;
     font-weight: 700;

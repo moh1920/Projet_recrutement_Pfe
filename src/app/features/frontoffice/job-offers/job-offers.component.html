@@ -1,8 +1,25 @@
 <div class="offers-container container">
   <!-- Header Section -->
-  <div class="header-section" style="position: relative;">
-    <div class="ia-btn-container" style="position: absolute; top: 30px; right: 30px;">
-      <button mat-raised-button style="background: linear-gradient(135deg, #8B0000 0%, #b31212 100%); color: white; border-radius: 24px; padding: 4px 24px; display: flex; align-items: center; gap: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3); transition: transform 0.2s;" routerLink="/candidateBestOffers" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+  <div class="header-section" style="position: relative">
+    <div class="ia-btn-container" style="position: absolute; top: 30px; right: 30px">
+      <button
+        mat-raised-button
+        style="
+          background: linear-gradient(135deg, #8b0000 0%, #b31212 100%);
+          color: white;
+          border-radius: 24px;
+          padding: 4px 24px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 600;
+          box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+          transition: transform 0.2s;
+        "
+        routerLink="/candidateBestOffers"
+        onmouseover="this.style.transform = 'translateY(-2px)'"
+        onmouseout="this.style.transform = 'translateY(0)'"
+      >
         <mat-icon>auto_awesome</mat-icon>
         Mes Meilleures Offres (IA)
       </button>
@@ -19,7 +36,7 @@
     <div class="search-bar">
       <mat-form-field appearance="outline" class="search-input">
         <mat-label>Rechercher un poste (ex: Enseignant IA)</mat-label>
-        <input matInput [(ngModel)]="searchTerm" (input)="applyFilters()">
+        <input matInput [(ngModel)]="searchTerm" (input)="applyFilters()" />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
@@ -52,7 +69,11 @@
     <!-- Results Count -->
     <div class="results-count" *ngIf="filteredOffers.length > 0">
       <mat-icon>check_circle</mat-icon>
-      <span>{{filteredOffers.length}} offre{{filteredOffers.length > 1 ? 's' : ''}} trouvée{{filteredOffers.length > 1 ? 's' : ''}}</span>
+      <span
+        >{{ filteredOffers.length }} offre{{ filteredOffers.length > 1 ? 's' : '' }} trouvée{{
+          filteredOffers.length > 1 ? 's' : ''
+        }}</span
+      >
     </div>
   </div>
 
@@ -71,7 +92,12 @@
 
   <!-- Offers Grid -->
   <div class="offers-grid" *ngIf="filteredOffers.length > 0">
-    <mat-card class="offer-card" *ngFor="let offer of filteredOffers; let i = index" [class.featured]="offer.featured" [style.animation-delay]="i * 0.1 + 's'">
+    <mat-card
+      class="offer-card"
+      *ngFor="let offer of filteredOffers; let i = index"
+      [class.featured]="offer.featured"
+      [style.animation-delay]="i * 0.1 + 's'"
+    >
       <!-- Featured Badge -->
       <div class="featured-ribbon" *ngIf="offer.featured">
         <mat-icon>star</mat-icon>
@@ -82,41 +108,41 @@
         <!-- Header -->
         <div class="card-header">
           <div class="department-icon" [style.background]="getDepartmentColor(offer.department)">
-            <mat-icon>{{getDepartmentIcon(offer.department)}}</mat-icon>
+            <mat-icon>{{ getDepartmentIcon(offer.department) }}</mat-icon>
           </div>
           <div class="header-info">
             <div class="title-row">
-              <h3 class="offer-title">{{offer.title}}</h3>
+              <h3 class="offer-title">{{ offer.title }}</h3>
               <span class="new-badge" *ngIf="isNewOffer(offer.postedDate)">Nouveau</span>
             </div>
             <div class="meta-row">
               <span class="meta-item department">
                 <mat-icon>business</mat-icon>
-                {{offer.department}}
+                {{ offer.department }}
               </span>
               <span class="meta-item location">
                 <mat-icon>location_on</mat-icon>
-                {{offer.location}}
+                {{ offer.location }}
               </span>
             </div>
           </div>
         </div>
 
         <!-- Description -->
-        <p class="offer-description">{{offer.description}}</p>
+        <p class="offer-description">{{ offer.description }}</p>
 
         <!-- Tags -->
         <div class="tags-container">
           <span class="tag type" [class]="offer.type?.toLowerCase()">
-            {{offer.type}}
+            {{ offer.type }}
           </span>
           <span class="tag" *ngIf="offer.experience">
             <mat-icon>schedule</mat-icon>
-            {{offer.experience}}
+            {{ offer.experience }}
           </span>
           <span class="tag" *ngIf="offer.salary">
             <mat-icon>payments</mat-icon>
-            {{offer.salary}}
+            {{ offer.salary }}
           </span>
         </div>
 
@@ -124,7 +150,7 @@
         <div class="card-footer">
           <div class="post-date">
             <mat-icon>calendar_today</mat-icon>
-            <span>Publié le {{offer.postedDate | date:'dd MMM yyyy'}}</span>
+            <span>Publié le {{ offer.postedDate | date: 'dd MMM yyyy' }}</span>
           </div>
 
           <div class="card-actions">
@@ -132,7 +158,13 @@
               <mat-icon>visibility</mat-icon>
               Détails
             </button>
-            <button mat-raised-button color="primary" class="apply-btn" routerLink="/apply" [queryParams]="{offer: offer.id}">
+            <button
+              mat-raised-button
+              color="primary"
+              class="apply-btn"
+              routerLink="/apply"
+              [queryParams]="{ offer: offer.id }"
+            >
               <mat-icon>send</mat-icon>
               Postuler
             </button>

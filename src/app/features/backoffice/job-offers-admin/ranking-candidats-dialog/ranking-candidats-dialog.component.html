@@ -1,6 +1,5 @@
 <!-- ranking-candidats.component.html -->
 <div class="ranking-page">
-
   <!-- ════ PAGE HEADER ════ -->
   <div class="page-header">
     <div class="header-bg"></div>
@@ -37,7 +36,6 @@
 
   <!-- ════ PAGE CONTENT ════ -->
   <div class="page-content">
-
     <!-- ── Loading ── -->
     <div *ngIf="loading" class="state-container">
       <mat-spinner diameter="52"></mat-spinner>
@@ -61,15 +59,17 @@
 
     <!-- ── Results ── -->
     <ng-container *ngIf="!loading && !error && results.length > 0">
-
       <p class="results-count">
         <mat-icon>people</mat-icon>
         {{ results.length }} candidat(s) classé(s) par score IA
       </p>
 
       <!-- ── Podium Top 3 ── -->
-      <div class="podium-section" *ngIf="results.length > 0" [ngClass]="{'has-2': results.length === 2, 'has-1': results.length === 1}">
-
+      <div
+        class="podium-section"
+        *ngIf="results.length > 0"
+        [ngClass]="{ 'has-2': results.length === 2, 'has-1': results.length === 1 }"
+      >
         <!-- Ordre olympique : 2e — 1er — 3e -->
         <div class="podium-card rank-2" *ngIf="results.length >= 2">
           <div class="medal-badge">🥈</div>
@@ -80,11 +80,14 @@
           <div class="candidate-id-tag">{{ getCandidateName(results[1].candidateId) }}</div>
           <div class="score-badge" [ngClass]="getScoreColor(results[1].globalScore)">
             <mat-icon>{{ getScoreIcon(results[1].globalScore) }}</mat-icon>
-            {{ results[1].globalScore | number:'1.1-1' }}%
+            {{ results[1].globalScore | number: '1.1-1' }}%
           </div>
           <div class="score-bar-wrap">
-            <div class="score-bar" [ngClass]="getScoreColor(results[1].globalScore)"
-                 [style.width.%]="results[1].globalScore"></div>
+            <div
+              class="score-bar"
+              [ngClass]="getScoreColor(results[1].globalScore)"
+              [style.width.%]="results[1].globalScore"
+            ></div>
           </div>
           <div class="details-chips" *ngIf="results[1].details">
             <div class="detail-chip" *ngFor="let key of getDetailKeys(results[1].details)">
@@ -103,11 +106,14 @@
           <div class="candidate-id-tag">{{ getCandidateName(results[0].candidateId) }}</div>
           <div class="score-badge" [ngClass]="getScoreColor(results[0].globalScore)">
             <mat-icon>{{ getScoreIcon(results[0].globalScore) }}</mat-icon>
-            {{ results[0].globalScore | number:'1.1-1' }}%
+            {{ results[0].globalScore | number: '1.1-1' }}%
           </div>
           <div class="score-bar-wrap">
-            <div class="score-bar" [ngClass]="getScoreColor(results[0].globalScore)"
-                 [style.width.%]="results[0].globalScore"></div>
+            <div
+              class="score-bar"
+              [ngClass]="getScoreColor(results[0].globalScore)"
+              [style.width.%]="results[0].globalScore"
+            ></div>
           </div>
           <div class="details-chips" *ngIf="results[0].details">
             <div class="detail-chip" *ngFor="let key of getDetailKeys(results[0].details)">
@@ -126,11 +132,14 @@
           <div class="candidate-id-tag">{{ getCandidateName(results[2].candidateId) }}</div>
           <div class="score-badge" [ngClass]="getScoreColor(results[2].globalScore)">
             <mat-icon>{{ getScoreIcon(results[2].globalScore) }}</mat-icon>
-            {{ results[2].globalScore | number:'1.1-1' }}%
+            {{ results[2].globalScore | number: '1.1-1' }}%
           </div>
           <div class="score-bar-wrap">
-            <div class="score-bar" [ngClass]="getScoreColor(results[2].globalScore)"
-                 [style.width.%]="results[2].globalScore"></div>
+            <div
+              class="score-bar"
+              [ngClass]="getScoreColor(results[2].globalScore)"
+              [style.width.%]="results[2].globalScore"
+            ></div>
           </div>
           <div class="details-chips" *ngIf="results[2].details">
             <div class="detail-chip" *ngFor="let key of getDetailKeys(results[2].details)">
@@ -139,16 +148,15 @@
             </div>
           </div>
         </div>
-
       </div>
       <!-- /podium -->
 
       <!-- ── Liste rang 4+ ── -->
       <div class="results-list">
         <div
-          *ngFor="let result of results | slice:3; let i = index"
+          *ngFor="let result of results | slice: 3; let i = index"
           class="list-card"
-          [style.animation-delay]="(i * 0.05) + 's'"
+          [style.animation-delay]="i * 0.05 + 's'"
         >
           <div class="list-rank">#{{ i + 4 }}</div>
 
@@ -168,16 +176,18 @@
 
           <div class="list-right">
             <div class="list-score" [ngClass]="getScoreColor(result.globalScore)">
-              {{ result.globalScore | number:'1.1-1' }}%
+              {{ result.globalScore | number: '1.1-1' }}%
             </div>
             <div class="list-bar-wrap">
-              <div class="list-bar" [ngClass]="getScoreColor(result.globalScore)"
-                   [style.width.%]="result.globalScore"></div>
+              <div
+                class="list-bar"
+                [ngClass]="getScoreColor(result.globalScore)"
+                [style.width.%]="result.globalScore"
+              ></div>
             </div>
           </div>
         </div>
       </div>
-
     </ng-container>
   </div>
 </div>

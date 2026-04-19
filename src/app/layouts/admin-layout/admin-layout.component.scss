@@ -1,5 +1,5 @@
 // Variables
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #a31616;
 $esprit-red-dark: #6b0000;
 $sidebar-width: 240px;
@@ -19,12 +19,20 @@ $dark-text: #f1f5f9;
       border-color: rgba(255, 255, 255, 0.1);
       color: $dark-text;
 
-      .page-title { color: $dark-text; }
-      .menu-btn, .theme-btn, .notification-btn { color: $dark-text; }
+      .page-title {
+        color: $dark-text;
+      }
+      .menu-btn,
+      .theme-btn,
+      .notification-btn {
+        color: $dark-text;
+      }
 
       .user-menu {
         color: $dark-text;
-        &:hover { background: rgba(255, 255, 255, 0.1); }
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
       }
     }
 
@@ -83,10 +91,14 @@ mat-nav-list {
       background: #fff;
       color: $esprit-red;
 
-      mat-icon { color: $esprit-red; }
+      mat-icon {
+        color: $esprit-red;
+      }
     }
 
-    mat-icon { color: rgba(255, 255, 255, 0.7); }
+    mat-icon {
+      color: rgba(255, 255, 255, 0.7);
+    }
 
     ::ng-deep .mat-list-item-content {
       padding: 0 16px;
@@ -102,7 +114,9 @@ mat-nav-list {
       background: rgba(255, 255, 255, 0.12);
       color: #fff;
 
-      mat-icon { color: rgba(255, 255, 255, 0.9); }
+      mat-icon {
+        color: rgba(255, 255, 255, 0.9);
+      }
     }
 
     .chevron-icon {
@@ -156,13 +170,17 @@ mat-nav-list {
       &:hover {
         background: rgba(255, 255, 255, 0.1);
         color: #fff;
-        mat-icon { color: rgba(255, 255, 255, 0.9); }
+        mat-icon {
+          color: rgba(255, 255, 255, 0.9);
+        }
       }
 
       &.active {
         background: rgba(255, 255, 255, 0.9);
         color: $esprit-red;
-        mat-icon { color: $esprit-red; }
+        mat-icon {
+          color: $esprit-red;
+        }
       }
     }
   }
@@ -189,7 +207,9 @@ mat-nav-list {
       color: rgba(255, 255, 255, 0.7);
     }
 
-    &:hover { background: rgba(255, 255, 255, 0.1); }
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
   }
 }
 
@@ -212,7 +232,9 @@ mat-nav-list {
     color: #111827;
   }
 
-  .spacer { flex: 1; }
+  .spacer {
+    flex: 1;
+  }
 
   .theme-btn {
     color: #6b7280;
@@ -229,7 +251,9 @@ mat-nav-list {
     margin-right: 8px;
     position: relative;
 
-    &:hover { color: $esprit-red; }
+    &:hover {
+      color: $esprit-red;
+    }
 
     ::ng-deep .mat-badge-content {
       background: $esprit-red;
@@ -246,7 +270,9 @@ mat-nav-list {
     color: #374151;
     transition: all 0.2s;
 
-    &:hover { background: #f3f4f6; }
+    &:hover {
+      background: #f3f4f6;
+    }
 
     mat-icon {
       color: $esprit-red;
@@ -286,11 +312,15 @@ mat-nav-list {
     cursor: pointer;
     transition: background 0.2s;
 
-    &:hover { background: #f3f4f6; }
+    &:hover {
+      background: #f3f4f6;
+    }
 
     &.unread {
       background: rgba(139, 0, 0, 0.05);
-      p { font-weight: 600; }
+      p {
+        font-weight: 600;
+      }
     }
 
     .notification-content {
@@ -309,7 +339,6 @@ mat-nav-list {
     }
   }
 }
-
 
 // Section label
 .section-label {
@@ -331,7 +360,9 @@ mat-nav-list {
   border: 1px solid rgba(255, 255, 255, 0.14);
   text-decoration: none;
   overflow: hidden;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
   cursor: pointer;
 
   &:hover {
@@ -377,7 +408,9 @@ mat-nav-list {
       border: 1.5px solid $esprit-red;
       background: #9ca3af; // offline par défaut
 
-      &.online { background: #4ade80; }
+      &.online {
+        background: #4ade80;
+      }
     }
   }
 
@@ -417,9 +450,21 @@ mat-nav-list {
       border-radius: 20px;
       letter-spacing: 0.2px;
 
-      &.users  { background: rgba(255,215,0,0.14);   color: #ffd86f; border: 1px solid rgba(255,215,0,0.22); }
-      &.roles  { background: rgba(100,200,255,0.12); color: #7ed4ff; border: 1px solid rgba(100,200,255,0.2); }
-      &.tokens { background: rgba(120,255,150,0.1);  color: #7dff9a; border: 1px solid rgba(120,255,150,0.18); }
+      &.users {
+        background: rgba(255, 215, 0, 0.14);
+        color: #ffd86f;
+        border: 1px solid rgba(255, 215, 0, 0.22);
+      }
+      &.roles {
+        background: rgba(100, 200, 255, 0.12);
+        color: #7ed4ff;
+        border: 1px solid rgba(100, 200, 255, 0.2);
+      }
+      &.tokens {
+        background: rgba(120, 255, 150, 0.1);
+        color: #7dff9a;
+        border: 1px solid rgba(120, 255, 150, 0.18);
+      }
     }
   }
 }
@@ -433,5 +478,7 @@ mat-nav-list {
 
 // Responsive
 @media (max-width: 768px) {
-  .sidenav { width: 260px; }
+  .sidenav {
+    width: 260px;
+  }
 }

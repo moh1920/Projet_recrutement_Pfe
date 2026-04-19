@@ -6,7 +6,6 @@ import { SignalMessage, RemoteStream } from '../models/meeting.models';
 
 @Injectable({ providedIn: 'root' })
 export class WebRtcService {
-
   // Émis quand un stream distant est disponible
   remoteStreamAdded$ = new Subject<RemoteStream>();
 
@@ -98,7 +97,9 @@ export class WebRtcService {
     this.peerNames.set(signal.senderId, displayName);
     const pc = this.createPeerConnection(signal.senderId);
 
-    await pc.setRemoteDescription(new RTCSessionDescription(signal.data as RTCSessionDescriptionInit));
+    await pc.setRemoteDescription(
+      new RTCSessionDescription(signal.data as RTCSessionDescriptionInit)
+    );
 
     const answer = await pc.createAnswer();
     await pc.setLocalDescription(answer);
@@ -119,7 +120,9 @@ export class WebRtcService {
   async handleAnswer(signal: SignalMessage): Promise<void> {
     const pc = this.peers.get(signal.senderId);
     if (pc) {
-      await pc.setRemoteDescription(new RTCSessionDescription(signal.data as RTCSessionDescriptionInit));
+      await pc.setRemoteDescription(
+        new RTCSessionDescription(signal.data as RTCSessionDescriptionInit)
+      );
     }
   }
 

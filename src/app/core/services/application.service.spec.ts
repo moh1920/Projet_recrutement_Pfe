@@ -15,8 +15,8 @@ describe('ApplicationService', () => {
 
   it('should return mock applications', fakeAsync(() => {
     let applications: any[] | undefined;
-    service.getUserApplications('user1').subscribe(apps => applications = apps);
-    
+    service.getUserApplications('user1').subscribe((apps) => (applications = apps));
+
     // Simulate delay
     tick(500);
 
@@ -27,8 +27,8 @@ describe('ApplicationService', () => {
 
   it('should withdraw application', fakeAsync(() => {
     let result: boolean = false;
-    service.withdrawApplication('app1').subscribe(() => result = true);
-    
+    service.withdrawApplication('app1').subscribe(() => (result = true));
+
     tick(300);
 
     expect(result).toBeTrue();

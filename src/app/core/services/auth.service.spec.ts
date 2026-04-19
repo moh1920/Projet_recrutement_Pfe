@@ -20,8 +20,8 @@ describe('AuthService', () => {
 
   it('should login and set current user', fakeAsync(() => {
     let loggedUser: User | undefined;
-    service.login('DIRECTOR').subscribe(user => loggedUser = user);
-    
+    service.login('DIRECTOR').subscribe((user) => (loggedUser = user));
+
     tick(500);
 
     expect(loggedUser).toBeDefined();
@@ -37,7 +37,7 @@ describe('AuthService', () => {
   it('should check if user has required roles', () => {
     expect(service.hasRole(['ADMIN', 'DIRECTOR'])).toBeTrue(); // Current is ADMIN
     expect(service.hasRole(['TEACHER'])).toBeFalse();
-    
+
     service.logout();
     expect(service.hasRole(['ADMIN'])).toBeFalse();
   });

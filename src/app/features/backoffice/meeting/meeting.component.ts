@@ -1,6 +1,11 @@
 import {
-  Component, OnInit, OnDestroy, AfterViewInit,
-  ViewChild, ElementRef, NgZone
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  NgZone,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -11,8 +16,10 @@ import { WebSocketService } from '../../../core/services/websocket.service';
 import { WebRtcService } from '../../../core/services/webrtc.service';
 import { MeetingApiService } from '../../../core/services/meeting-api.service';
 import {
-  ParticipantInfo, RemoteStream,
-  RoomMessage, SignalMessage
+  ParticipantInfo,
+  RemoteStream,
+  RoomMessage,
+  SignalMessage,
 } from '../../../core/models/meeting.models';
 import { SrcObjectDirective } from '../../../core/directives/src-object.directive';
 
@@ -32,7 +39,6 @@ interface ChatMessage {
   styleUrls: ['./meeting.component.scss'],
 })
 export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
-
   @ViewChild('chatContainer') chatContainer!: ElementRef;
 
   // ── Identité & salle ──────────────────────────────────
@@ -47,8 +53,8 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
   remoteStreams: RemoteStream[] = [];
 
   // ── Contrôles média ───────────────────────────────────
-  isAudioOn      = true;
-  isVideoOn      = true;
+  isAudioOn = true;
+  isVideoOn = true;
   isScreenSharing = false;
   private screenStream: MediaStream | null = null;
 
@@ -56,7 +62,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
   isConnecting = true;
   errorMessage = '';
   showParticipants = false;
-  showChat         = false;
+  showChat = false;
 
   // ── Main levée ────────────────────────────────────────
   handRaised = false;
@@ -94,7 +100,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     private webrtcService: WebRtcService,
     private meetingApi: MeetingApiService,
     private keycloakService: KeycloakService,
-    private ngZone: NgZone,
+    private ngZone: NgZone
   ) {}
 
   // ═════════════════════════════════════════════════════
@@ -107,7 +113,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       // Identité Keycloak
       const profile = await this.keycloakService.loadUserProfile();
-      this.myUserId      = profile.id ?? '';
+      this.myUserId = profile.id ?? '';
       this.myDisplayName = `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim();
 
       // Stream local
@@ -120,40 +126,45 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // Abonnements
       this.subs.push(
-        this.wsService.subscribe<RoomMessage>(`/topic/room/${this.roomCode}`)
-          .subscribe(msg => this.handleRoomEvent(msg)),
+        this.wsService
+          .subscribe<RoomMessage>(`/topic/room/${this.roomCode}`)
+          .subscribe((msg) => this.handleRoomEvent(msg)),
 
-        this.wsService.subscribe<SignalMessage>(`/user/queue/signal`)
-          .subscribe(msg => this.handleSignal(msg)),
+        this.wsService
+          .subscribe<SignalMessage>(`/user/queue/signal`)
+          .subscribe((msg) => this.handleSignal(msg)),
 
-        this.wsService.subscribe<RoomMessage>(`/user/queue/meeting`)
-          .subscribe(msg => this.handlePrivateRoomEvent(msg)),
+        this.wsService
+          .subscribe<RoomMessage>(`/user/queue/meeting`)
+          .subscribe((msg) => this.handlePrivateRoomEvent(msg)),
 
         // Chat via WebSocket
-        this.wsService.subscribe<any>(`/topic/chat/${this.roomCode}`)
-          .subscribe(msg => this.handleChatMessage(msg)),
+        this.wsService
+          .subscribe<any>(`/topic/chat/${this.roomCode}`)
+          .subscribe((msg) => this.handleChatMessage(msg)),
 
         // Main levée via WebSocket
-        this.wsService.subscribe<any>(`/topic/hand/${this.roomCode}`)
-          .subscribe(msg => this.handleHandEvent(msg)),
+        this.wsService
+          .subscribe<any>(`/topic/hand/${this.roomCode}`)
+          .subscribe((msg) => this.handleHandEvent(msg)),
 
-        this.webrtcService.remoteStreamAdded$.subscribe(remote => {
-          if (!this.remoteStreams.find(r => r.userId === remote.userId)) {
+        this.webrtcService.remoteStreamAdded$.subscribe((remote) => {
+          if (!this.remoteStreams.find((r) => r.userId === remote.userId)) {
             this.remoteStreams = [...this.remoteStreams, remote];
           }
         }),
 
-        this.webrtcService.remoteStreamRemoved$.subscribe(userId => {
-          this.remoteStreams = this.remoteStreams.filter(r => r.userId !== userId);
-          this.participants  = this.participants.filter(p => p.userId !== userId);
+        this.webrtcService.remoteStreamRemoved$.subscribe((userId) => {
+          this.remoteStreams = this.remoteStreams.filter((r) => r.userId !== userId);
+          this.participants = this.participants.filter((p) => p.userId !== userId);
           this.speakingUsers.delete(userId);
           this.raisedHands.delete(userId);
-        }),
+        })
       );
 
       // Rejoindre
       this.wsService.send('/meeting.join', {
-        roomId:   this.roomCode,
+        roomId: this.roomCode,
         senderId: this.myUserId,
         displayName: this.myDisplayName,
       });
@@ -163,7 +174,6 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.initSpeakingDetection();
 
       this.isConnecting = false;
-
     } catch (err: any) {
       this.errorMessage = err.message ?? 'Erreur de connexion au meeting';
       this.isConnecting = false;
@@ -179,7 +189,9 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
   private startTimer(): void {
     this.timerInterval = setInterval(() => {
       this.timerSeconds++;
-      const m = Math.floor(this.timerSeconds / 60).toString().padStart(2, '0');
+      const m = Math.floor(this.timerSeconds / 60)
+        .toString()
+        .padStart(2, '0');
       const s = (this.timerSeconds % 60).toString().padStart(2, '0');
       this.timerDisplay = `${m}:${s}`;
     }, 1000);
@@ -224,7 +236,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (msg.type === 'host-ended') {
-      alert('L\'hôte a mis fin à la réunion.');
+      alert("L'hôte a mis fin à la réunion.");
       this.exitMeeting();
     }
 
@@ -247,11 +259,18 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private async handleSignal(msg: SignalMessage): Promise<void> {
-    const senderName = this.participants.find(p => p.userId === msg.senderId)?.displayName ?? msg.senderId;
+    const senderName =
+      this.participants.find((p) => p.userId === msg.senderId)?.displayName ?? msg.senderId;
     switch (msg.type) {
-      case 'offer':         await this.webrtcService.handleOffer(msg, senderName); break;
-      case 'answer':        await this.webrtcService.handleAnswer(msg); break;
-      case 'ice-candidate': await this.webrtcService.handleIceCandidate(msg); break;
+      case 'offer':
+        await this.webrtcService.handleOffer(msg, senderName);
+        break;
+      case 'answer':
+        await this.webrtcService.handleAnswer(msg);
+        break;
+      case 'ice-candidate':
+        await this.webrtcService.handleIceCandidate(msg);
+        break;
     }
   }
 
@@ -260,10 +279,10 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
   // ═════════════════════════════════════════════════════
   private handleChatMessage(msg: any): void {
     const chatMsg: ChatMessage = {
-      senderId:   msg.senderId,
+      senderId: msg.senderId,
       senderName: msg.senderName,
-      text:       msg.text,
-      time:       new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+      text: msg.text,
+      time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
     };
     this.chatMessages.push(chatMsg);
 
@@ -279,8 +298,8 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!text) return;
 
     this.wsService.send(`/chat.send`, {
-      roomId:     this.roomCode,
-      senderId:   this.myUserId,
+      roomId: this.roomCode,
+      senderId: this.myUserId,
       senderName: this.myDisplayName,
       text,
     });
@@ -308,7 +327,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.handRaised = !this.handRaised;
     if (this.handRaised) {
       this.wsService.send('/meeting.raiseHand', {
-        roomId:   this.roomCode,
+        roomId: this.roomCode,
         senderId: this.myUserId,
       });
       // Baisser automatiquement après 10s
@@ -329,16 +348,16 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
 
     try {
       this.screenStream = await (navigator.mediaDevices as any).getDisplayMedia({
-        video: true, audio: false,
+        video: true,
+        audio: false,
       });
 
       // Remplacer la piste vidéo dans tous les peers
       const videoTrack = this.screenStream?.getVideoTracks()[0];
-     // this.webrtcService.replaceVideoTrack(videoTrack);
+      // this.webrtcService.replaceVideoTrack(videoTrack);
 
       // Arrêt auto si l'utilisateur clique "Arrêter le partage" dans le navigateur
-      if (videoTrack)
-      videoTrack.onended  = () => this.stopScreenShare();
+      if (videoTrack) videoTrack.onended = () => this.stopScreenShare();
 
       this.isScreenSharing = true;
     } catch (e) {
@@ -348,13 +367,13 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private stopScreenShare(): void {
     if (this.screenStream) {
-      this.screenStream.getTracks().forEach(t => t.stop());
+      this.screenStream.getTracks().forEach((t) => t.stop());
       this.screenStream = null;
     }
     // Restaurer la caméra
     const camTrack = this.localStream.getVideoTracks()[0];
     if (camTrack) {
-     // this.webrtcService.replaceVideoTrack(camTrack);
+      // this.webrtcService.replaceVideoTrack(camTrack);
     }
     this.isScreenSharing = false;
   }
@@ -394,7 +413,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
   // ═════════════════════════════════════════════════════
   leaveMeeting(): void {
     this.wsService.send('/meeting.leave', {
-      roomId:   this.roomCode,
+      roomId: this.roomCode,
       senderId: this.myUserId,
     });
     this.exitMeeting();
@@ -408,7 +427,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.webrtcService.closeAllPeers();
     this.webrtcService.stopLocalStream();
     this.wsService.disconnect();
-    
+
     // Dynamic fallback
     if (this.router.url.includes('/admin/')) {
       this.router.navigate(['/admin/interviews']);
@@ -418,7 +437,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach(s => s.unsubscribe());
+    this.subs.forEach((s) => s.unsubscribe());
     this.exitMeeting();
   }
 }

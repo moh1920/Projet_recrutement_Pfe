@@ -4,15 +4,18 @@ import {
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
+  MatDialogTitle,
 } from '@angular/material/dialog';
-import { CriteresDeSelection, CriteresDeSelectionService } from '../../../../core/services/CriteresDeSelectionService';
+import {
+  CriteresDeSelection,
+  CriteresDeSelectionService,
+} from '../../../../core/services/CriteresDeSelectionService';
 import { OffreService } from '../../../../core/services/offre.service';
 import { Offre } from '../../../../core/models/offre.model';
-import {MatListOption, MatSelectionList} from "@angular/material/list";
-import {FormsModule} from "@angular/forms";
-import {MatButton} from "@angular/material/button";
-import {NgForOf} from "@angular/common";
+import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-affecter-critere-de-selection-aoffre-dialog',
@@ -25,36 +28,35 @@ import {NgForOf} from "@angular/common";
     MatDialogActions,
     MatButton,
     MatDialogTitle,
-    NgForOf
+    NgForOf,
   ],
   templateUrl: './affecter-critere-de-selection-aoffre-dialog.component.html',
-  styleUrl: './affecter-critere-de-selection-aoffre-dialog.component.scss'
+  styleUrl: './affecter-critere-de-selection-aoffre-dialog.component.scss',
 })
 export class AffecterCritereDeSelectionAOffreDialogComponent implements OnInit {
-
   critereDeSelectionService = inject(CriteresDeSelectionService);
-  offreService              = inject(OffreService);
-  dialogRef                 = inject(MatDialogRef<AffecterCritereDeSelectionAOffreDialogComponent>);
-  data                      = inject(MAT_DIALOG_DATA) as { offre: Offre };
+  offreService = inject(OffreService);
+  dialogRef = inject(MatDialogRef<AffecterCritereDeSelectionAOffreDialogComponent>);
+  data = inject(MAT_DIALOG_DATA) as { offre: Offre };
 
-  critereDeSelectionSelected: CriteresDeSelection[] = [];  // multi-sélection
+  critereDeSelectionSelected: CriteresDeSelection[] = []; // multi-sélection
   critereDeSelections: CriteresDeSelection[] = [];
 
   ngOnInit(): void {
-    this.critereDeSelectionService.getAllCriteres().subscribe(data => {
-      this.critereDeSelections = data.content ;
+    this.critereDeSelectionService.getAllCriteres().subscribe((data) => {
+      this.critereDeSelections = data.content;
       console.log(this.critereDeSelections);
     });
   }
 
   affecterCritereDeSelection(): void {
-    const idOffre   = this.data.offre.id;
-    const idCriteres = this.critereDeSelectionSelected.map(c => c.id);
+    const idOffre = this.data.offre.id;
+    const idCriteres = this.critereDeSelectionSelected.map((c) => c.id);
     if (idOffre)
-    this.offreService.affecterCriteresDeSelection(idOffre, idCriteres).subscribe({
-      next: () => this.dialogRef.close({ success: true }),
-      error: (err) => console.error('Erreur affectation critères', err)
-    });
+      this.offreService.affecterCriteresDeSelection(idOffre, idCriteres).subscribe({
+        next: () => this.dialogRef.close({ success: true }),
+        error: (err) => console.error('Erreur affectation critères', err),
+      });
   }
 
   onCancel(): void {

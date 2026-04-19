@@ -36,21 +36,26 @@
     <div class="filter-group">
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Rechercher un utilisateur...</mat-label>
-        <input matInput
-               (keyup)="applyFilter($event)"
-               placeholder="Nom, email, rôle..."
-               #input>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Nom, email, rôle..." #input />
         <mat-icon matPrefix>search</mat-icon>
-        <button mat-icon-button matSuffix *ngIf="input.value" (click)="clearFilter(input)" aria-label="Effacer la recherche">
+        <button
+          mat-icon-button
+          matSuffix
+          *ngIf="input.value"
+          (click)="clearFilter(input)"
+          aria-label="Effacer la recherche"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
 
       <div class="filter-chips">
         <mat-chip-listbox aria-label="Filtres rapides">
-          <mat-chip-option *ngFor="let role of availableRoles"
-                           [selected]="selectedRole === role"
-                           (selectionChange)="filterByRole(role)">
+          <mat-chip-option
+            *ngFor="let role of availableRoles"
+            [selected]="selectedRole === role"
+            (selectionChange)="filterByRole(role)"
+          >
             {{ role }}
           </mat-chip-option>
         </mat-chip-listbox>
@@ -58,10 +63,12 @@
     </div>
 
     <div class="view-actions">
-      <button mat-icon-button
-              [matMenuTriggerFor]="viewMenu"
-              matTooltip="Options de vue"
-              aria-label="Options de vue">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="viewMenu"
+        matTooltip="Options de vue"
+        aria-label="Options de vue"
+      >
         <mat-icon>view_column</mat-icon>
       </button>
       <mat-menu #viewMenu="matMenu">
@@ -71,10 +78,12 @@
         </button>
       </mat-menu>
 
-      <button mat-icon-button
-              (click)="exportData()"
-              matTooltip="Exporter les données"
-              aria-label="Exporter">
+      <button
+        mat-icon-button
+        (click)="exportData()"
+        matTooltip="Exporter les données"
+        aria-label="Exporter"
+      >
         <mat-icon>download</mat-icon>
       </button>
     </div>
@@ -97,21 +106,24 @@
     </div>
 
     <table mat-table [dataSource]="dataSource" matSort class="modern-table">
-
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()"
-                        aria-label="Sélectionner tout">
+          <mat-checkbox
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            aria-label="Sélectionner tout"
+          >
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)"
-                        [aria-label]="'Sélectionner ' + row.name">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="'Sélectionner ' + row.name"
+          >
           </mat-checkbox>
         </td>
       </ng-container>
@@ -121,9 +133,11 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Utilisateur</th>
         <td mat-cell *matCellDef="let user">
           <div class="user-cell">
-            <div class="avatar"
-                 [style.background]="getAvatarColor(user.name)"
-                 [attr.aria-label]="'Avatar de ' + user.name">
+            <div
+              class="avatar"
+              [style.background]="getAvatarColor(user.name)"
+              [attr.aria-label]="'Avatar de ' + user.name"
+            >
               {{ getInitials(user.name) }}
             </div>
             <div class="user-info">
@@ -176,17 +190,21 @@
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Statut</th>
         <td mat-cell *matCellDef="let user">
-          <div class="status-toggle"
-               (click)="$event.stopPropagation(); toggleStatus(user)"
-               (keydown.enter)="toggleStatus(user)"
-               (keydown.space)="$event.preventDefault(); toggleStatus(user)"
-               tabindex="0"
-               role="switch"
-               [attr.aria-checked]="user.status === 'Actif'"
-               [attr.aria-label]="'Changer le statut de ' + user.name">
+          <div
+            class="status-toggle"
+            (click)="$event.stopPropagation(); toggleStatus(user)"
+            (keydown.enter)="toggleStatus(user)"
+            (keydown.space)="$event.preventDefault(); toggleStatus(user)"
+            tabindex="0"
+            role="switch"
+            [attr.aria-checked]="user.status === 'Actif'"
+            [attr.aria-label]="'Changer le statut de ' + user.name"
+          >
             <div class="toggle-track" [class.active]="user.status === 'Actif'">
               <div class="toggle-thumb">
-                <mat-icon aria-hidden="true">{{ user.status === 'Actif' ? 'check' : 'close' }}</mat-icon>
+                <mat-icon aria-hidden="true">{{
+                  user.status === 'Actif' ? 'check' : 'close'
+                }}</mat-icon>
               </div>
             </div>
             <span class="status-text" [class.active]="user.status === 'Actif'">
@@ -202,7 +220,7 @@
         <td mat-cell *matCellDef="let user">
           <div class="last-active">
             <mat-icon aria-hidden="true">schedule</mat-icon>
-            <span>{{ user.lastActive | date:'dd MMM yyyy, HH:mm' }}</span>
+            <span>{{ user.lastActive | date: 'dd MMM yyyy, HH:mm' }}</span>
           </div>
         </td>
       </ng-container>
@@ -212,19 +230,23 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let user">
           <div class="action-buttons">
-            <button mat-icon-button
-                    class="btn-edit"
-                    (click)="$event.stopPropagation(); openEditDialog(user)"
-                    matTooltip="Modifier"
-                    aria-label="Modifier l'utilisateur">
+            <button
+              mat-icon-button
+              class="btn-edit"
+              (click)="$event.stopPropagation(); openEditDialog(user)"
+              matTooltip="Modifier"
+              aria-label="Modifier l'utilisateur"
+            >
               <mat-icon>edit</mat-icon>
             </button>
 
-            <button mat-icon-button
-                    [matMenuTriggerFor]="menu"
-                    (click)="$event.stopPropagation()"
-                    class="btn-more"
-                    aria-label="Plus d'actions">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              (click)="$event.stopPropagation()"
+              class="btn-more"
+              aria-label="Plus d'actions"
+            >
               <mat-icon>more_vert</mat-icon>
             </button>
 
@@ -248,11 +270,14 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-          [class.selected]="selection.isSelected(row)"
-          (click)="selection.toggle(row)"
-          role="row"
-          [attr.aria-selected]="selection.isSelected(row)"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [class.selected]="selection.isSelected(row)"
+        (click)="selection.toggle(row)"
+        role="row"
+        [attr.aria-selected]="selection.isSelected(row)"
+      ></tr>
 
       <!-- No Data Row -->
       <tr class="mat-row" *matNoDataRow>
@@ -264,10 +289,12 @@
             <h3>Aucun utilisateur trouvé</h3>
             <p *ngIf="input.value">Aucun résultat pour "{{ input.value }}"</p>
             <p *ngIf="!input.value">Aucun utilisateur disponible pour le moment</p>
-            <button mat-stroked-button
-                    color="primary"
-                    (click)="clearFilter(input)"
-                    *ngIf="input.value">
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="clearFilter(input)"
+              *ngIf="input.value"
+            >
               Réinitialiser la recherche
             </button>
           </div>
@@ -275,11 +302,13 @@
       </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]"
-                   [pageSize]="10"
-                   showFirstLastButtons
-                   aria-label="Sélectionner la page"
-                   class="modern-paginator">
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      [pageSize]="10"
+      showFirstLastButtons
+      aria-label="Sélectionner la page"
+      class="modern-paginator"
+    >
     </mat-paginator>
   </div>
 </div>

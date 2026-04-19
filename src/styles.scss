@@ -14,13 +14,14 @@ $esprit-red-palette: (
   600: #e53935,
   700: #d32f2f,
   800: #c62828,
-  900: #8B0000,
+  900: #8b0000,
   // ESPRIT Red
   A100: #ff8a80,
   A200: #ff5252,
   A400: #ff1744,
   A700: #d50000,
-  contrast: (50: black,
+  contrast: (
+    50: black,
     100: black,
     200: black,
     300: black,
@@ -34,17 +35,22 @@ $esprit-red-palette: (
     A200: white,
     A400: white,
     A700: white,
-  )
+  ),
 );
 
 $esprit-primary: mat.define-palette($esprit-red-palette, 900);
 $esprit-accent: mat.define-palette(mat.$grey-palette, 800, 200, 900);
 $esprit-warn: mat.define-palette(mat.$red-palette);
 
-$esprit-theme: mat.define-light-theme((color: (primary: $esprit-primary,
-        accent: $esprit-accent,
-        warn: $esprit-warn,
-      )));
+$esprit-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $esprit-primary,
+      accent: $esprit-accent,
+      warn: $esprit-warn,
+    ),
+  )
+);
 
 @include mat.all-component-themes($esprit-theme);
 
@@ -57,7 +63,7 @@ body {
 
 body {
   margin: 0;
-  font-family: 'Inter', 'Roboto', "Helvetica Neue", sans-serif;
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
   background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -133,7 +139,7 @@ body {
 
 /* Gradient Text */
 .gradient-text {
-  background: linear-gradient(135deg, #8B0000 0%, #d32f2f 100%);
+  background: linear-gradient(135deg, #8b0000 0%, #d32f2f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -153,7 +159,6 @@ body {
 }
 
 @keyframes pulse {
-
   0%,
   100% {
     transform: scale(1);
@@ -178,12 +183,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #8B0000 0%, #d32f2f 100%);
+  background: linear-gradient(135deg, #8b0000 0%, #d32f2f 100%);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #8B0000;
+  background: #8b0000;
 }
 
 /* Form Field Enhancements */

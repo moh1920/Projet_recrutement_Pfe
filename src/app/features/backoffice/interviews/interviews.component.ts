@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -16,16 +16,25 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { InterviewService, Interview, InterviewStatus, InterviewType } from '../../../core/services/interview.service';
+import {
+  DragDropModule,
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import {
+  InterviewService,
+  Interview,
+  InterviewStatus,
+  InterviewType,
+} from '../../../core/services/interview.service';
 import { InterviewDialogComponent } from './interview-dialog/interview-dialog.component';
 import { Observable, Subject, of, BehaviorSubject } from 'rxjs';
 import { map, takeUntil, catchError, tap, shareReplay, switchMap } from 'rxjs/operators';
-import { MatChipsModule } from "@angular/material/chips";
-import { FormsModule } from "@angular/forms";
-import { MatDividerModule } from "@angular/material/divider";
-import {LobbyComponent} from "../lobby/lobby.component";
-
+import { MatChipsModule } from '@angular/material/chips';
+import { FormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { LobbyComponent } from '../lobby/lobby.component';
 
 // ==================== Interfaces ====================
 interface CalendarDay {
@@ -106,15 +115,13 @@ interface Stats {
     MatChipsModule,
     FormsModule,
     MatDividerModule,
-    LobbyComponent
+    LobbyComponent,
   ],
   templateUrl: './interviews.component.html',
-  styleUrl: './interviews.component.scss'
+  styleUrl: './interviews.component.scss',
 })
 export class InterviewsComponent implements OnInit, OnDestroy {
-
   @ViewChild('lobbyDialog') lobbyDialog!: LobbyComponent;
-
 
   // ==================== Services ====================
   private interviewService = inject(InterviewService);
@@ -130,7 +137,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
     status: [],
     type: [],
     searchTerm: '',
-    juryMember: ''
+    juryMember: '',
   });
 
   interviews$!: Observable<Interview[]>;
@@ -144,8 +151,17 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
   // Toutes les heures du jour de travail
   hours: string[] = [
-    '08:00', '09:00', '10:00', '11:00', '12:00',
-    '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'
+    '08:00',
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+    '18:00',
   ];
 
   // Connexion entre les dropLists du calendrier
@@ -190,7 +206,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
     // Stream principal des entretiens (depuis le service)
     this.interviews$ = this.interviewService.getInterviews().pipe(
       shareReplay(1),
-      catchError(error => {
+      catchError((error) => {
         this.showError('Erreur lors du chargement des entretiens');
         console.error('Error loading interviews:', error);
         return of([]);
@@ -199,23 +215,21 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
     // Stream filtré — se recalcule à chaque changement de filtre OU de données
     this.filteredInterviews$ = this.filterSubject$.pipe(
-      switchMap(filters =>
-        this.interviews$.pipe(
-          map(interviews => this.applyFilters(interviews, filters))
-        )
+      switchMap((filters) =>
+        this.interviews$.pipe(map((interviews) => this.applyFilters(interviews, filters)))
       ),
       shareReplay(1)
     );
 
     // Événements calendrier (dépend des entretiens filtrés ET de la semaine courante)
     this.calendarEvents$ = this.filteredInterviews$.pipe(
-      map(interviews => this.convertToCalendarEvents(interviews)),
+      map((interviews) => this.convertToCalendarEvents(interviews)),
       shareReplay(1)
     );
 
     // Grille calendrier structurée pour le template
     this.calendarDaySlots$ = this.calendarEvents$.pipe(
-      map(events => this.buildCalendarGrid(events)),
+      map((events) => this.buildCalendarGrid(events)),
       tap(() => {
         this.updateConnectedDropLists();
         this.cdr.markForCheck();
@@ -225,7 +239,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
     // Statistiques
     this.stats$ = this.interviews$.pipe(
-      map(interviews => this.computeStats(interviews)),
+      map((interviews) => this.computeStats(interviews)),
       shareReplay(1)
     );
   }
@@ -236,7 +250,8 @@ export class InterviewsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.cdr.markForCheck();
 
-    this.interviewService.refreshInterviews()
+    this.interviewService
+      .refreshInterviews()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -248,7 +263,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
           this.showError('Erreur lors du chargement des entretiens');
           console.error('Error refreshing interviews:', error);
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
@@ -262,24 +277,25 @@ export class InterviewsComponent implements OnInit, OnDestroy {
     let filtered = [...interviews];
 
     if (filters.status && filters.status.length > 0) {
-      filtered = filtered.filter(i => filters.status!.includes(i.status));
+      filtered = filtered.filter((i) => filters.status!.includes(i.status));
     }
 
     if (filters.type && filters.type.length > 0) {
-      filtered = filtered.filter(i => filters.type!.includes(i.type));
+      filtered = filtered.filter((i) => filters.type!.includes(i.type));
     }
 
     if (filters.searchTerm) {
       const term = filters.searchTerm.toLowerCase().trim();
-      filtered = filtered.filter(i =>
-        i.candidateName.toLowerCase().includes(term) ||
-        i.position.toLowerCase().includes(term) ||
-        i.jury?.some(j => j.toLowerCase().includes(term))
+      filtered = filtered.filter(
+        (i) =>
+          i.candidateName.toLowerCase().includes(term) ||
+          i.position.toLowerCase().includes(term) ||
+          i.jury?.some((j) => j.toLowerCase().includes(term))
       );
     }
 
     if (filters.juryMember) {
-      filtered = filtered.filter(i => i.jury?.includes(filters.juryMember!));
+      filtered = filtered.filter((i) => i.jury?.includes(filters.juryMember!));
     }
 
     filtered.sort((a, b) => {
@@ -342,7 +358,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
         isToday: date.getTime() === today.getTime(),
         isWeekend: false,
         isPast: date < today,
-        eventCount: 0
+        eventCount: 0,
       };
     });
 
@@ -385,9 +401,9 @@ export class InterviewsComponent implements OnInit, OnDestroy {
     if (!this.weekDays.length) return [];
 
     return interviews
-      .filter(interview => this.isInCurrentWeek(interview))
-      .map(interview => this.interviewToCalendarEvent(interview))
-      .filter(evt => evt.day >= 0); // Exclut les jours non trouvés
+      .filter((interview) => this.isInCurrentWeek(interview))
+      .map((interview) => this.interviewToCalendarEvent(interview))
+      .filter((evt) => evt.day >= 0); // Exclut les jours non trouvés
   }
 
   private isInCurrentWeek(interview: Interview): boolean {
@@ -403,9 +419,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
     const interviewDate = new Date(interview.date);
     interviewDate.setHours(0, 0, 0, 0);
 
-    const dayIndex = this.weekDays.findIndex(d =>
-      d.date.getTime() === interviewDate.getTime()
-    );
+    const dayIndex = this.weekDays.findIndex((d) => d.date.getTime() === interviewDate.getTime());
 
     const duration = interview.duration || 45;
     const [h, m] = interview.time.split(':').map(Number);
@@ -438,7 +452,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
       notes: interview.notes,
       color: this.getEventColor(interview.type, interview.status),
       heightPx,
-      topOffsetPx
+      topOffsetPx,
     };
   }
 
@@ -447,17 +461,17 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   private buildCalendarGrid(events: CalendarEvent[]): CalendarDaySlots[] {
     // Met à jour le compteur d'événements sur les jours
     this.weekDays.forEach((day, dayIndex) => {
-      day.eventCount = events.filter(e => e.day === dayIndex).length;
+      day.eventCount = events.filter((e) => e.day === dayIndex).length;
     });
 
     return this.weekDays.map((day, dayIndex) => {
-      const slots: TimeSlot[] = this.hours.map(hour => {
-        const slotEvents = events.filter(e => e.day === dayIndex && e.hour === hour);
+      const slots: TimeSlot[] = this.hours.map((hour) => {
+        const slotEvents = events.filter((e) => e.day === dayIndex && e.hour === hour);
         const hourNum = parseInt(hour.split(':')[0], 10);
         return {
           hour,
           events: slotEvents,
-          isAvailable: !day.isPast && hourNum >= 8 && hourNum <= 17
+          isAvailable: !day.isPast && hourNum >= 8 && hourNum <= 17,
         };
       });
 
@@ -468,7 +482,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   private updateConnectedDropLists(): void {
     const ids: string[] = [];
     this.weekDays.forEach((_, dayIndex) => {
-      this.hours.forEach(hour => {
+      this.hours.forEach((hour) => {
         ids.push(this.getDropListId(dayIndex, hour));
       });
     });
@@ -482,8 +496,8 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   // ==================== Drag & Drop ====================
 
   onDrop(event: CdkDragDrop<CalendarEvent[]>, targetDay: CalendarDay, targetHour: string): void {
-    const targetDayIndex = this.weekDays.findIndex(d =>
-      d.date.getTime() === targetDay.date.getTime()
+    const targetDayIndex = this.weekDays.findIndex(
+      (d) => d.date.getTime() === targetDay.date.getTime()
     );
 
     if (targetDay.isPast) {
@@ -516,10 +530,11 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   private updateInterviewDateTime(event: CalendarEvent, day: CalendarDay, hour: string): void {
     const updatedInterview: Partial<Interview> = {
       date: day.date.toISOString().split('T')[0],
-      time: hour
+      time: hour,
     };
 
-    this.interviewService.updateInterview(event.interviewId, updatedInterview)
+    this.interviewService
+      .updateInterview(event.interviewId, updatedInterview)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -527,37 +542,42 @@ export class InterviewsComponent implements OnInit, OnDestroy {
           this.loadInterviews();
         },
         error: (error) => {
-          this.showError('Erreur lors du déplacement de l\'entretien');
+          this.showError("Erreur lors du déplacement de l'entretien");
           console.error('Error moving interview:', error);
-        }
+        },
       });
   }
 
   // ==================== CRUD ====================
 
   openAddDialog(day?: CalendarDay, hour?: string): void {
-    const initialData = day && hour ? {
-      date: day.date.toISOString().split('T')[0],
-      time: hour
-    } : {};
+    const initialData =
+      day && hour
+        ? {
+            date: day.date.toISOString().split('T')[0],
+            time: hour,
+          }
+        : {};
 
     const dialogRef = this.dialog.open(InterviewDialogComponent, {
       width: '700px',
       maxWidth: '95vw',
       panelClass: 'modern-dialog',
       data: initialData,
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(result => {
+      .subscribe((result) => {
         if (result) this.createInterview(result);
       });
   }
 
   private createInterview(interviewData: Partial<Interview>): void {
-    this.interviewService.createInterview(interviewData)
+    this.interviewService
+      .createInterview(interviewData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (interview) => {
@@ -566,9 +586,9 @@ export class InterviewsComponent implements OnInit, OnDestroy {
           this.sendNotifications(interview, 'created');
         },
         error: (error) => {
-          this.showError('Erreur lors de la création de l\'entretien');
+          this.showError("Erreur lors de la création de l'entretien");
           console.error('Error creating interview:', error);
-        }
+        },
       });
   }
 
@@ -578,18 +598,20 @@ export class InterviewsComponent implements OnInit, OnDestroy {
       maxWidth: '95vw',
       panelClass: 'modern-dialog',
       data: { ...interview },
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(result => {
+      .subscribe((result) => {
         if (result) this.updateInterview(interview.id, result);
       });
   }
 
   protected updateInterview(id: string, updates: Partial<Interview>): void {
-    this.interviewService.updateInterview(id, updates)
+    this.interviewService
+      .updateInterview(id, updates)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (interview) => {
@@ -598,9 +620,9 @@ export class InterviewsComponent implements OnInit, OnDestroy {
           this.sendNotifications(interview, 'updated');
         },
         error: (error) => {
-          this.showError('Erreur lors de la mise à jour de l\'entretien');
+          this.showError("Erreur lors de la mise à jour de l'entretien");
           console.error('Error updating interview:', error);
-        }
+        },
       });
   }
 
@@ -611,8 +633,13 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   }
 
   deleteInterview(interview: Interview): void {
-    if (confirm(`Êtes-vous sûr de vouloir supprimer l'entretien avec ${interview.candidateName} ? Cette action est irréversible.`)) {
-      this.interviewService.deleteInterview(interview.id)
+    if (
+      confirm(
+        `Êtes-vous sûr de vouloir supprimer l'entretien avec ${interview.candidateName} ? Cette action est irréversible.`
+      )
+    ) {
+      this.interviewService
+        .deleteInterview(interview.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
@@ -620,9 +647,9 @@ export class InterviewsComponent implements OnInit, OnDestroy {
             this.loadInterviews();
           },
           error: (error) => {
-            this.showError('Erreur lors de la suppression de l\'entretien');
+            this.showError("Erreur lors de la suppression de l'entretien");
             console.error('Error deleting interview:', error);
-          }
+          },
         });
     }
   }
@@ -650,15 +677,19 @@ export class InterviewsComponent implements OnInit, OnDestroy {
     this.createInterview({
       ...interviewData,
       candidateName: `${interviewData.candidateName} (Copie)`,
-      status: 'Planifié' as InterviewStatus
+      status: 'Planifié' as InterviewStatus,
     });
   }
 
   quickView(evt: Partial<CalendarEvent> | { id?: string; interviewId?: string }): void {
     const interviewId = (evt as CalendarEvent).interviewId || (evt as any).id;
-    if (!interviewId) { this.showError('ID d\'entretien manquant'); return; }
+    if (!interviewId) {
+      this.showError("ID d'entretien manquant");
+      return;
+    }
 
-    this.interviewService.getInterviewById(interviewId)
+    this.interviewService
+      .getInterviewById(interviewId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (interview) => {
@@ -667,33 +698,35 @@ export class InterviewsComponent implements OnInit, OnDestroy {
             width: '700px',
             maxWidth: '95vw',
             panelClass: 'modern-dialog',
-            data: { ...interview, readOnly: true }
+            data: { ...interview, readOnly: true },
           });
         },
-        error: () => this.showError('Erreur lors du chargement des détails')
+        error: () => this.showError('Erreur lors du chargement des détails'),
       });
   }
 
   // ==================== Export ====================
 
   exportToExcel(): void {
-    this.interviews$.pipe(takeUntil(this.destroy$)).subscribe(interviews => {
-      this.interviewService.exportToExcel(interviews, this.weekDays)
+    this.interviews$.pipe(takeUntil(this.destroy$)).subscribe((interviews) => {
+      this.interviewService
+        .exportToExcel(interviews, this.weekDays)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => this.showSuccess('Export Excel réussi'),
-          error: () => this.showError('Erreur lors de l\'export')
+          error: () => this.showError("Erreur lors de l'export"),
         });
     });
   }
 
   exportToPDF(): void {
-    this.interviews$.pipe(takeUntil(this.destroy$)).subscribe(interviews => {
-      this.interviewService.exportToPDF(interviews, this.weekDays)
+    this.interviews$.pipe(takeUntil(this.destroy$)).subscribe((interviews) => {
+      this.interviewService
+        .exportToPDF(interviews, this.weekDays)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => this.showSuccess('Export PDF réussi'),
-          error: () => this.showError('Erreur lors de l\'export')
+          error: () => this.showError("Erreur lors de l'export"),
         });
     });
   }
@@ -712,19 +745,19 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
     return {
       total: interviews.length,
-      today: interviews.filter(i => {
+      today: interviews.filter((i) => {
         const d = new Date(i.date);
         d.setHours(0, 0, 0, 0);
         return d.getTime() === today.getTime();
       }).length,
-      thisWeek: interviews.filter(i => {
+      thisWeek: interviews.filter((i) => {
         const d = new Date(i.date);
         d.setHours(0, 0, 0, 0);
         return d >= weekStart && d <= weekEnd;
       }).length,
-      pending: interviews.filter(i => i.status === 'Planifié').length,
-      completed: interviews.filter(i => i.status === 'Terminé').length,
-      cancelled: interviews.filter(i => i.status === 'Annulé').length
+      pending: interviews.filter((i) => i.status === 'Planifié').length,
+      completed: interviews.filter((i) => i.status === 'Terminé').length,
+      cancelled: interviews.filter((i) => i.status === 'Annulé').length,
     };
   }
 
@@ -749,7 +782,9 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   private calculateEndTime(startTime: string, duration: number): string {
     const [hours, minutes] = startTime.split(':').map(Number);
     const total = hours * 60 + minutes + duration;
-    return `${Math.floor(total / 60).toString().padStart(2, '0')}:${(total % 60).toString().padStart(2, '0')}`;
+    return `${Math.floor(total / 60)
+      .toString()
+      .padStart(2, '0')}:${(total % 60).toString().padStart(2, '0')}`;
   }
 
   private getEventColor(type: InterviewType, status: InterviewStatus): string {
@@ -761,10 +796,10 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
   getInterviewStatusColor(status: InterviewStatus): string {
     const colors: Record<InterviewStatus, string> = {
-      'Planifié': '#3b82f6',
+      Planifié: '#3b82f6',
       'En cours': '#f59e0b',
-      'Terminé': '#10b981',
-      'Annulé': '#64748b'
+      Terminé: '#10b981',
+      Annulé: '#64748b',
     };
     return colors[status] || '#64748b';
   }
@@ -809,7 +844,8 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
   editEventFromCalendar(evt: CalendarEvent): void {
     // Récupère l'entretien complet depuis le service pour l'édition
-    this.interviewService.getInterviewById(evt.interviewId)
+    this.interviewService
+      .getInterviewById(evt.interviewId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (interview) => this.editInterview(interview),
@@ -824,9 +860,9 @@ export class InterviewsComponent implements OnInit, OnDestroy {
             time: evt.time,
             duration: evt.duration,
             jury: evt.jury,
-            date: this.weekDays[evt.day]?.date?.toISOString().split('T')[0] || ''
+            date: this.weekDays[evt.day]?.date?.toISOString().split('T')[0] || '',
           } as Interview);
-        }
+        },
       });
   }
 
@@ -834,9 +870,10 @@ export class InterviewsComponent implements OnInit, OnDestroy {
     this.updateInterview(evt.interviewId, { status: 'Terminé' as InterviewStatus });
   }
 
-
-
-  private sendNotifications(interview: Interview, action: 'created' | 'updated' | 'cancelled'): void {
+  private sendNotifications(
+    interview: Interview,
+    action: 'created' | 'updated' | 'cancelled'
+  ): void {
     console.log('Sending notifications:', { interview, action });
     // À implémenter via un service de notification
   }
@@ -848,7 +885,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
       duration: 3000,
       panelClass: ['success-snackbar'],
       horizontalPosition: 'end',
-      verticalPosition: 'top'
+      verticalPosition: 'top',
     });
   }
 
@@ -857,7 +894,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
       duration: 5000,
       panelClass: ['error-snackbar'],
       horizontalPosition: 'end',
-      verticalPosition: 'top'
+      verticalPosition: 'top',
     });
   }
 
@@ -866,11 +903,11 @@ export class InterviewsComponent implements OnInit, OnDestroy {
       duration: 4000,
       panelClass: ['warning-snackbar'],
       horizontalPosition: 'end',
-      verticalPosition: 'top'
+      verticalPosition: 'top',
     });
   }
 
   openLobby(): void {
-    this.lobbyDialog.open();   // ← la fonction d'ouverture
+    this.lobbyDialog.open(); // ← la fonction d'ouverture
   }
 }

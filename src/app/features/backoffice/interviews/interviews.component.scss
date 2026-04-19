@@ -1,5 +1,5 @@
 // ==================== Variables thème ESPRIT ====================
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #a50000;
 $esprit-red-mid: #b31212;
 $esprit-red-dark: #5c0000;
@@ -39,14 +39,20 @@ $calendar-header-height: 80px;
   background: $white;
   border-radius: 14px;
   border: 1px solid $border;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 @mixin hover-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.1),
+      0 4px 8px rgba(0, 0, 0, 0.06);
   }
 }
 
@@ -55,46 +61,84 @@ $calendar-header-height: 80px;
 }
 
 @mixin shadow-md {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 @mixin shadow-lg {
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
 @mixin shadow-xl {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 // ==================== Animations ====================
 @keyframes slideInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-20px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes ripple {
-  0%   { transform: scale(0.8); opacity: 0.6; }
-  100% { transform: scale(1.6); opacity: 0; }
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-3px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
 // ==================== Conteneur ====================
@@ -105,7 +149,11 @@ $calendar-header-height: 80px;
   background: $bg-light;
   overflow: hidden;
   position: relative;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 // ==================== HEADER ====================
@@ -122,8 +170,9 @@ $calendar-header-height: 80px;
   .header-bg-pattern {
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle at 20% 80%, rgba($esprit-red-mid, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(#3b82f6, 0.1) 0%, transparent 50%);
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba($esprit-red-mid, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(#3b82f6, 0.1) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -247,7 +296,9 @@ $calendar-header-height: 80px;
       }
     }
 
-    .btn-today, .btn-filter, .btn-export {
+    .btn-today,
+    .btn-filter,
+    .btn-export {
       background: rgba($white, 0.1);
       color: $white;
       border: 1px solid rgba($white, 0.25);
@@ -430,7 +481,9 @@ $calendar-header-height: 80px;
       font-size: 0.9rem;
       color: $text-primary;
 
-      &::placeholder { color: $text-muted; }
+      &::placeholder {
+        color: $text-muted;
+      }
     }
 
     button.mat-icon-button {
@@ -466,7 +519,9 @@ $calendar-header-height: 80px;
 
   &.highlight {
     border-color: $warning;
-    box-shadow: 0 0 0 3px rgba($warning, 0.15), 0 4px 12px rgba($warning, 0.1) !important;
+    box-shadow:
+      0 0 0 3px rgba($warning, 0.15),
+      0 4px 12px rgba($warning, 0.1) !important;
   }
 
   &.past {
@@ -570,10 +625,35 @@ $calendar-header-height: 80px;
           flex-shrink: 0;
         }
 
-        &.planifié   { background: $info-light;    color: $info;         .dot { background: $info; } }
-        &.en-cours   { background: $warning-light;  color: darken($warning, 10%); .dot { background: $warning; animation: pulse 1.5s infinite; } }
-        &.terminé    { background: $success-light;  color: darken($success, 5%);  .dot { background: $success; } }
-        &.annulé     { background: rgba($text-secondary, 0.1); color: $text-secondary; .dot { background: $text-secondary; } }
+        &.planifié {
+          background: $info-light;
+          color: $info;
+          .dot {
+            background: $info;
+          }
+        }
+        &.en-cours {
+          background: $warning-light;
+          color: darken($warning, 10%);
+          .dot {
+            background: $warning;
+            animation: pulse 1.5s infinite;
+          }
+        }
+        &.terminé {
+          background: $success-light;
+          color: darken($success, 5%);
+          .dot {
+            background: $success;
+          }
+        }
+        &.annulé {
+          background: rgba($text-secondary, 0.1);
+          color: $text-secondary;
+          .dot {
+            background: $text-secondary;
+          }
+        }
       }
     }
 
@@ -620,7 +700,11 @@ $calendar-header-height: 80px;
         font-size: 0.8rem;
         color: $text-secondary;
 
-        mat-icon { font-size: 14px; width: 14px; height: 14px; }
+        mat-icon {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+        }
       }
     }
 
@@ -658,8 +742,13 @@ $calendar-header-height: 80px;
           transition: transform 0.15s ease;
           cursor: default;
 
-          &:first-child { margin-left: 0; }
-          &:hover { transform: translateY(-2px); z-index: 5; }
+          &:first-child {
+            margin-left: 0;
+          }
+          &:hover {
+            transform: translateY(-2px);
+            z-index: 5;
+          }
 
           &.more {
             background: $text-secondary;
@@ -687,7 +776,12 @@ $calendar-header-height: 80px;
         height: 34px;
         line-height: 34px;
 
-        mat-icon { font-size: 16px; width: 16px; height: 16px; margin-right: 4px; }
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          margin-right: 4px;
+        }
 
         &:hover {
           background: $esprit-red;
@@ -705,7 +799,12 @@ $calendar-header-height: 80px;
         height: 34px;
         line-height: 34px;
 
-        mat-icon { font-size: 16px; width: 16px; height: 16px; margin-right: 4px; }
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          margin-right: 4px;
+        }
 
         &:hover {
           background: $success;
@@ -772,7 +871,9 @@ $calendar-header-height: 80px;
       position: relative;
       user-select: none;
 
-      &:hover { background: rgba($esprit-red, 0.02); }
+      &:hover {
+        background: rgba($esprit-red, 0.02);
+      }
 
       &.today {
         background: rgba($esprit-red, 0.04);
@@ -796,7 +897,9 @@ $calendar-header-height: 80px;
         }
       }
 
-      &.past { opacity: 0.65; }
+      &.past {
+        opacity: 0.65;
+      }
 
       .day-name {
         font-size: 0.75rem;
@@ -893,7 +996,9 @@ $calendar-header-height: 80px;
         background: $white;
         transition: background 0.15s;
 
-        &.today { background: rgba($esprit-red, 0.015); }
+        &.today {
+          background: rgba($esprit-red, 0.015);
+        }
 
         &.past {
           background: #fafafa;
@@ -906,11 +1011,15 @@ $calendar-header-height: 80px;
           &:hover {
             background: rgba($esprit-red, 0.03);
 
-            .slot-add-hint { opacity: 1; }
+            .slot-add-hint {
+              opacity: 1;
+            }
           }
         }
 
-        &.has-events { cursor: default; }
+        &.has-events {
+          cursor: default;
+        }
 
         // Hint ajout dans slot vide
         .slot-add-hint {
@@ -971,7 +1080,9 @@ $calendar-header-height: 80px;
   margin: 3px 2px;
   @include shadow-md;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
   position: relative;
   overflow: hidden;
   min-height: 72px;
@@ -979,21 +1090,34 @@ $calendar-header-height: 80px;
 
   &:hover {
     transform: translateY(-1px) scale(1.01);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.12),
+      0 4px 8px rgba(0, 0, 0, 0.06);
     z-index: 2;
   }
 
   // Couleurs selon type
-  &.type-interview  { border-left-color: $esprit-red; }
-  &.type-evaluation { border-left-color: $info; }
+  &.type-interview {
+    border-left-color: $esprit-red;
+  }
+  &.type-evaluation {
+    border-left-color: $info;
+  }
 
   // Couleurs selon statut (surcharge le type)
-  &.status-cancelled  { border-left-color: $text-secondary; opacity: 0.6; }
+  &.status-cancelled {
+    border-left-color: $text-secondary;
+    opacity: 0.6;
+  }
   &.status-in-progress {
     border-left-color: $warning;
-    box-shadow: 0 0 0 2px rgba($warning, 0.2), 0 4px 12px rgba($warning, 0.15);
+    box-shadow:
+      0 0 0 2px rgba($warning, 0.2),
+      0 4px 12px rgba($warning, 0.15);
   }
-  &.status-completed  { border-left-color: $success; }
+  &.status-completed {
+    border-left-color: $success;
+  }
 
   // Drag & drop
   &.cdk-drag-animating {
@@ -1022,7 +1146,9 @@ $calendar-header-height: 80px;
       height: 16px;
     }
 
-    &:active { cursor: grabbing; }
+    &:active {
+      cursor: grabbing;
+    }
   }
 
   &:hover .event-drag-handle {
@@ -1093,7 +1219,9 @@ $calendar-header-height: 80px;
           margin-left: -5px;
           @include shadow-sm;
 
-          &:first-child { margin-left: 0; }
+          &:first-child {
+            margin-left: 0;
+          }
 
           &.more {
             background: $text-secondary;
@@ -1124,8 +1252,16 @@ $calendar-header-height: 80px;
       overflow: hidden;
       text-overflow: ellipsis;
 
-      mat-icon { font-size: 12px; width: 12px; height: 12px; flex-shrink: 0; }
-      span { overflow: hidden; text-overflow: ellipsis; }
+      mat-icon {
+        font-size: 12px;
+        width: 12px;
+        height: 12px;
+        flex-shrink: 0;
+      }
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     .event-meta-row {
@@ -1145,7 +1281,11 @@ $calendar-header-height: 80px;
         font-weight: 500;
         border: 1px solid $border;
 
-        mat-icon { font-size: 11px; width: 11px; height: 11px; }
+        mat-icon {
+          font-size: 11px;
+          width: 11px;
+          height: 11px;
+        }
 
         &.online {
           background: rgba($info, 0.07);
@@ -1298,7 +1438,9 @@ $calendar-header-height: 80px;
     font-weight: 600;
     transition: all 0.2s;
 
-    mat-icon { margin-right: 6px; }
+    mat-icon {
+      margin-right: 6px;
+    }
 
     &:hover {
       background: $esprit-red-dark !important;
@@ -1319,7 +1461,9 @@ $calendar-header-height: 80px;
   @include shadow-xl;
   display: none;
 
-  mat-icon { animation: bounce 2s ease infinite; }
+  mat-icon {
+    animation: bounce 2s ease infinite;
+  }
 
   &:hover {
     background: $esprit-red-dark !important;
@@ -1363,7 +1507,9 @@ $calendar-header-height: 80px;
         font-weight: 500;
         transition: all 0.15s;
 
-        &:hover { transform: translateY(-1px); }
+        &:hover {
+          transform: translateY(-1px);
+        }
       }
     }
   }
@@ -1378,7 +1524,9 @@ $calendar-header-height: 80px;
       color: $esprit-red;
       font-weight: 600;
 
-      &:hover { background: rgba($esprit-red, 0.05); }
+      &:hover {
+        background: rgba($esprit-red, 0.05);
+      }
     }
   }
 }
@@ -1389,21 +1537,29 @@ $calendar-header-height: 80px;
   height: 6px;
 }
 
-::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 
 ::-webkit-scrollbar-thumb {
   background: $border;
   border-radius: 3px;
 
-  &:hover { background: darken($border, 12%); }
+  &:hover {
+    background: darken($border, 12%);
+  }
 }
 
 // ==================== MENU ITEMS ====================
 .mat-mdc-menu-item {
   &.danger {
     color: $danger;
-    mat-icon { color: $danger; }
-    &:hover { background: $danger-light; }
+    mat-icon {
+      color: $danger;
+    }
+    &:hover {
+      background: $danger-light;
+    }
   }
 }
 
@@ -1412,19 +1568,25 @@ $calendar-header-height: 80px;
   .success-snackbar {
     --mdc-snackbar-container-color: #{$success};
     --mdc-snackbar-supporting-text-color: #{$white};
-    .mat-mdc-button.mdc-button { color: $white !important; }
+    .mat-mdc-button.mdc-button {
+      color: $white !important;
+    }
   }
 
   .error-snackbar {
     --mdc-snackbar-container-color: #{$danger};
     --mdc-snackbar-supporting-text-color: #{$white};
-    .mat-mdc-button.mdc-button { color: $white !important; }
+    .mat-mdc-button.mdc-button {
+      color: $white !important;
+    }
   }
 
   .warning-snackbar {
     --mdc-snackbar-container-color: #{$warning};
     --mdc-snackbar-supporting-text-color: #{$white};
-    .mat-mdc-button.mdc-button { color: $white !important; }
+    .mat-mdc-button.mdc-button {
+      color: $white !important;
+    }
   }
 
   // Drag CDK améliorations globales
@@ -1441,13 +1603,22 @@ $calendar-header-height: 80px;
 
 // ==================== RESPONSIVE ====================
 @media (max-width: 1400px) {
-  .content-layout { grid-template-columns: 320px 1fr; }
-  .quick-stats .stat-card { min-width: 80px; padding: 8px 14px; }
+  .content-layout {
+    grid-template-columns: 320px 1fr;
+  }
+  .quick-stats .stat-card {
+    min-width: 80px;
+    padding: 8px 14px;
+  }
 }
 
 @media (max-width: 1200px) {
-  .content-layout { grid-template-columns: 300px 1fr; }
-  .page-header .quick-stats { display: none; }
+  .content-layout {
+    grid-template-columns: 300px 1fr;
+  }
+  .page-header .quick-stats {
+    display: none;
+  }
 }
 
 @media (max-width: 968px) {
@@ -1462,8 +1633,12 @@ $calendar-header-height: 80px;
     overflow-y: auto;
   }
 
-  .fab-mobile { display: flex; }
-  .page-header .actions .btn-add { display: none; }
+  .fab-mobile {
+    display: flex;
+  }
+  .page-header .actions .btn-add {
+    display: none;
+  }
 
   .calendar-view {
     .calendar-header,
@@ -1472,7 +1647,9 @@ $calendar-header-height: 80px;
       min-width: 680px;
     }
 
-    .calendar-body { overflow-x: auto; }
+    .calendar-body {
+      overflow-x: auto;
+    }
   }
 }
 
@@ -1486,12 +1663,21 @@ $calendar-header-height: 80px;
       gap: 14px;
     }
 
-    .title-section .page-title { font-size: 1.35rem; }
-    .actions { width: 100%; justify-content: flex-start; }
+    .title-section .page-title {
+      font-size: 1.35rem;
+    }
+    .actions {
+      width: 100%;
+      justify-content: flex-start;
+    }
   }
 
-  .week-navigator { padding: 10px 16px; }
-  .upcoming-sidebar { padding: 14px; }
+  .week-navigator {
+    padding: 10px 16px;
+  }
+  .upcoming-sidebar {
+    padding: 14px;
+  }
 }
 
 // ==================== PRINT ====================
@@ -1503,9 +1689,13 @@ $calendar-header-height: 80px;
   .btn-more,
   .card-actions,
   .event-drag-handle,
-  .event-actions-mini { display: none !important; }
+  .event-actions-mini {
+    display: none !important;
+  }
 
-  .content-layout { grid-template-columns: 1fr; }
+  .content-layout {
+    grid-template-columns: 1fr;
+  }
 
   .calendar-event-card {
     break-inside: avoid;

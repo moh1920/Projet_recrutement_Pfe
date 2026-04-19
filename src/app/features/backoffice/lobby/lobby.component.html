@@ -1,7 +1,6 @@
 <ng-container *ngIf="isOpen">
   <div class="dialog-overlay" (click)="onOverlayClick($event)">
     <div class="dialog-box" role="dialog" aria-modal="true">
-
       <button class="btn-close" (click)="close()" mat-icon-button>
         <mat-icon>close</mat-icon>
       </button>
@@ -29,13 +28,15 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nom de la réunion</mat-label>
           <mat-icon matPrefix>meeting_room</mat-icon>
-          <input matInput [(ngModel)]="meetingTitle"
-                 placeholder="Ex: Réunion équipe pédagogique"
-                 (keyup.enter)="createMeeting()" />
+          <input
+            matInput
+            [(ngModel)]="meetingTitle"
+            placeholder="Ex: Réunion équipe pédagogique"
+            (keyup.enter)="createMeeting()"
+          />
         </mat-form-field>
 
-        <button mat-raised-button class="btn-create"
-                (click)="createMeeting()" [disabled]="loading">
+        <button mat-raised-button class="btn-create" (click)="createMeeting()" [disabled]="loading">
           <mat-icon *ngIf="!loading">videocam</mat-icon>
           <mat-spinner *ngIf="loading" diameter="18"></mat-spinner>
           <span>{{ loading ? 'Création...' : 'Créer la réunion' }}</span>
@@ -57,15 +58,22 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Code du salon</mat-label>
           <mat-icon matPrefix>key</mat-icon>
-          <input matInput [(ngModel)]="roomCode"
-                 placeholder="ABC-XYZ"
-                 style="text-transform:uppercase; letter-spacing:2px"
-                 (keyup.enter)="joinMeeting()" />
+          <input
+            matInput
+            [(ngModel)]="roomCode"
+            placeholder="ABC-XYZ"
+            style="text-transform: uppercase; letter-spacing: 2px"
+            (keyup.enter)="joinMeeting()"
+          />
           <mat-hint>Format : XXX-XXX</mat-hint>
         </mat-form-field>
 
-        <button mat-stroked-button class="btn-join"
-                (click)="joinMeeting()" [disabled]="!roomCode || loading">
+        <button
+          mat-stroked-button
+          class="btn-join"
+          (click)="joinMeeting()"
+          [disabled]="!roomCode || loading"
+        >
           <mat-icon *ngIf="!loading">arrow_forward</mat-icon>
           <mat-spinner *ngIf="loading" diameter="18"></mat-spinner>
           <span>{{ loading ? 'Connexion...' : 'Rejoindre la réunion' }}</span>
@@ -80,7 +88,6 @@
       <div class="dialog-footer">
         <button mat-button class="btn-cancel" (click)="close()">Annuler</button>
       </div>
-
     </div>
   </div>
 </ng-container>

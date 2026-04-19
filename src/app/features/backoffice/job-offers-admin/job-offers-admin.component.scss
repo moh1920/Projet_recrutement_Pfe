@@ -1,6 +1,6 @@
 // job-offers-admin.component.scss
 // Variables thème ESPRIT
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #a50000;
 $esprit-red-dark: #5c0000;
 $esprit-cream: #fef3f3;
@@ -15,11 +15,15 @@ $border: #e2e8f0;
 
 // Mixins
 @mixin card-shadow {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -31,13 +35,23 @@ $border: #e2e8f0;
 
 // Animations
 @keyframes slideInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 // Container
@@ -129,7 +143,9 @@ $border: #e2e8f0;
         text-align: center;
         min-width: 80px;
 
-        &.active .stat-value { color: #86efac; }
+        &.active .stat-value {
+          color: #86efac;
+        }
 
         .stat-value {
           display: block;
@@ -156,7 +172,7 @@ $border: #e2e8f0;
       padding: 12px 24px;
       font-weight: 600;
       font-size: 0.95rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
       border: none;
       white-space: nowrap;
@@ -164,7 +180,7 @@ $border: #e2e8f0;
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         background: $white;
       }
 
@@ -204,7 +220,9 @@ $border: #e2e8f0;
       max-width: 500px;
 
       ::ng-deep {
-        .mat-mdc-form-field-subscript-wrapper { display: none; }
+        .mat-mdc-form-field-subscript-wrapper {
+          display: none;
+        }
 
         .mat-mdc-text-field-wrapper {
           background: $bg-light;
@@ -224,13 +242,17 @@ $border: #e2e8f0;
           padding-left: 12px;
         }
 
-        input { padding: 12px 16px; }
+        input {
+          padding: 12px 16px;
+        }
       }
     }
 
     .filter-chips {
       ::ng-deep {
-        .mat-mdc-chip-set { gap: 8px; }
+        .mat-mdc-chip-set {
+          gap: 8px;
+        }
 
         .mat-mdc-chip {
           background: $bg-light;
@@ -314,7 +336,9 @@ $border: #e2e8f0;
 
       button {
         transition: all 0.2s ease;
-        &:hover { transform: translateY(-1px); }
+        &:hover {
+          transform: translateY(-1px);
+        }
       }
     }
   }
@@ -339,8 +363,12 @@ $border: #e2e8f0;
     border-bottom: 2px solid $border;
     white-space: nowrap;
 
-    &:first-child { padding-left: 20px; }
-    &:last-child { padding-right: 20px; }
+    &:first-child {
+      padding-left: 20px;
+    }
+    &:last-child {
+      padding-right: 20px;
+    }
 
     .mat-sort-header-content {
       display: flex;
@@ -355,12 +383,16 @@ $border: #e2e8f0;
     color: $text-primary;
     font-size: 0.88rem;
     vertical-align: middle;
-    height: 68px;       // ✅ FIX: hauteur fixe
+    height: 68px; // ✅ FIX: hauteur fixe
     max-height: 68px;
     overflow: hidden;
 
-    &:first-child { padding-left: 20px; }
-    &:last-child { padding-right: 20px; }
+    &:first-child {
+      padding-left: 20px;
+    }
+    &:last-child {
+      padding-right: 20px;
+    }
   }
 
   tr.mat-row {
@@ -369,11 +401,17 @@ $border: #e2e8f0;
 
     &:hover {
       background: rgba($esprit-red, 0.03);
-      .action-buttons { opacity: 1; }
+      .action-buttons {
+        opacity: 1;
+      }
     }
 
-    &.selected { background: rgba($esprit-red, 0.08); }
-    &:last-child td { border-bottom: none; }
+    &.selected {
+      background: rgba($esprit-red, 0.08);
+    }
+    &:last-child td {
+      border-bottom: none;
+    }
   }
 
   // ── Offer Title Cell ───────────────────────
@@ -455,7 +493,7 @@ $border: #e2e8f0;
 
       &:hover {
         transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
 
       mat-icon {
@@ -557,7 +595,9 @@ $border: #e2e8f0;
       &.urgent {
         color: #dc2626;
         font-weight: 600;
-        mat-icon { color: #dc2626; }
+        mat-icon {
+          color: #dc2626;
+        }
       }
     }
   }
@@ -586,21 +626,30 @@ $border: #e2e8f0;
         background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
         color: #15803d;
         border: 1px solid rgba($success, 0.3);
-        .status-dot { background: $success; box-shadow: 0 0 0 2px rgba($success, 0.2); }
+        .status-dot {
+          background: $success;
+          box-shadow: 0 0 0 2px rgba($success, 0.2);
+        }
       }
 
       &.status-encours {
         background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
         color: #c2410c;
         border: 1px solid rgba($warning, 0.3);
-        .status-dot { background: $warning; box-shadow: 0 0 0 2px rgba($warning, 0.2); }
+        .status-dot {
+          background: $warning;
+          box-shadow: 0 0 0 2px rgba($warning, 0.2);
+        }
       }
 
       &.status-fermee {
         background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
         color: $text-secondary;
         border: 1px solid rgba($text-secondary, 0.3);
-        .status-dot { background: $text-secondary; box-shadow: 0 0 0 2px rgba($text-secondary, 0.2); }
+        .status-dot {
+          background: $text-secondary;
+          box-shadow: 0 0 0 2px rgba($text-secondary, 0.2);
+        }
       }
     }
   }
@@ -636,12 +685,16 @@ $border: #e2e8f0;
 
       &.btn-more {
         color: $text-secondary;
-        &:hover { background: rgba($text-secondary, 0.1); }
+        &:hover {
+          background: rgba($text-secondary, 0.1);
+        }
       }
     }
   }
 
-  tr.mat-row:hover .action-buttons { opacity: 1; }
+  tr.mat-row:hover .action-buttons {
+    opacity: 1;
+  }
 }
 
 // =============================================
@@ -657,7 +710,9 @@ $border: #e2e8f0;
       min-height: 64px;
     }
 
-    .mat-mdc-paginator-range-actions { gap: 8px; }
+    .mat-mdc-paginator-range-actions {
+      gap: 8px;
+    }
 
     .mat-mdc-icon-button {
       color: $text-secondary;
@@ -668,7 +723,9 @@ $border: #e2e8f0;
         background: rgba($esprit-red, 0.08);
       }
 
-      &:disabled { opacity: 0.4; }
+      &:disabled {
+        opacity: 0.4;
+      }
     }
   }
 }
@@ -717,7 +774,9 @@ $border: #e2e8f0;
 
   button {
     transition: all 0.2s ease;
-    &:hover { transform: translateY(-2px); }
+    &:hover {
+      transform: translateY(-2px);
+    }
   }
 }
 
@@ -725,15 +784,21 @@ $border: #e2e8f0;
 // ACTION MENU
 // =============================================
 ::ng-deep .action-menu {
-  .mat-mdc-menu-content { padding: 8px 0; }
+  .mat-mdc-menu-content {
+    padding: 8px 0;
+  }
 
   .mat-mdc-menu-item {
     min-height: 44px;
     font-size: 0.9rem;
-    mat-icon { margin-right: 12px; }
+    mat-icon {
+      margin-right: 12px;
+    }
   }
 
-  mat-divider { margin: 8px 0; }
+  mat-divider {
+    margin: 8px 0;
+  }
 }
 
 // =============================================
@@ -781,8 +846,12 @@ $border: #e2e8f0;
     }
   }
 
-  .toolbar-section { padding: 20px 24px; }
-  .table-container { margin: 24px 16px 0; }
+  .toolbar-section {
+    padding: 20px 24px;
+  }
+  .table-container {
+    margin: 24px 16px 0;
+  }
 }
 
 @media (max-width: 968px) {
@@ -800,12 +869,16 @@ $border: #e2e8f0;
       }
     }
 
-    .view-actions { justify-content: flex-end; }
+    .view-actions {
+      justify-content: flex-end;
+    }
   }
 
   .table-container {
     overflow-x: auto;
-    .modern-table { min-width: 1050px; }
+    .modern-table {
+      min-width: 1050px;
+    }
   }
 }
 
@@ -821,11 +894,19 @@ $border: #e2e8f0;
       .icon-wrapper {
         width: 56px;
         height: 56px;
-        mat-icon { font-size: 28px; width: 28px; height: 28px; }
+        mat-icon {
+          font-size: 28px;
+          width: 28px;
+          height: 28px;
+        }
       }
 
-      .page-title { font-size: 1.5rem; }
-      .subtitle { font-size: 0.9rem; }
+      .page-title {
+        font-size: 1.5rem;
+      }
+      .subtitle {
+        font-size: 0.9rem;
+      }
     }
 
     .header-actions {
@@ -848,20 +929,28 @@ $border: #e2e8f0;
     }
   }
 
-  .toolbar-section { padding: 16px; }
+  .toolbar-section {
+    padding: 16px;
+  }
 
   .table-container {
     margin: 16px 8px 0;
     border-radius: 12px;
-    .table-header { padding: 12px 16px; }
+    .table-header {
+      padding: 12px 16px;
+    }
   }
 
   .modern-table {
     th.mat-header-cell,
     td.mat-cell {
       padding: 12px 8px;
-      &:first-child { padding-left: 12px; }
-      &:last-child { padding-right: 12px; }
+      &:first-child {
+        padding-left: 12px;
+      }
+      &:last-child {
+        padding-right: 12px;
+      }
     }
   }
 }
@@ -872,10 +961,18 @@ $border: #e2e8f0;
       .icon-wrapper {
         width: 48px;
         height: 48px;
-        mat-icon { font-size: 24px; width: 24px; height: 24px; }
+        mat-icon {
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+        }
       }
-      .page-title { font-size: 1.25rem; }
-      .subtitle { font-size: 0.85rem; }
+      .page-title {
+        font-size: 1.25rem;
+      }
+      .subtitle {
+        font-size: 0.85rem;
+      }
     }
 
     .header-actions {
@@ -883,8 +980,12 @@ $border: #e2e8f0;
         gap: 16px;
         .stat-item {
           min-width: auto;
-          .stat-value { font-size: 1.5rem; }
-          .stat-label { font-size: 0.7rem; }
+          .stat-value {
+            font-size: 1.5rem;
+          }
+          .stat-label {
+            font-size: 0.7rem;
+          }
         }
       }
     }
@@ -896,7 +997,9 @@ $border: #e2e8f0;
   .page-header,
   .toolbar-section,
   .action-buttons,
-  .modern-paginator { display: none; }
+  .modern-paginator {
+    display: none;
+  }
 
   .table-container {
     box-shadow: none;

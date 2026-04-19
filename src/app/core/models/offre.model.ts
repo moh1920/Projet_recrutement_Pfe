@@ -18,7 +18,6 @@ export interface Offre {
   createdAt?: string; // ISO datetime string
   candidateCount?: number;
 
-
   // Optional fields for UI display
   location?: string; // Can be derived from campus or added separately
   salary?: string; // Optional salary information

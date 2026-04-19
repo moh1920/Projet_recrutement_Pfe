@@ -51,12 +51,56 @@ jobs:
           retention-days: 7
 
   # ══════════════════════════════════════════════
+  # JOB 2 — Lint & Format
+  # ══════════════════════════════════════════════
+  lint:
+    name: ESLint & Prettier
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore node_modules cache
+        id: cache-nm
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: nm-${{ runner.os }}-
+
+      - name: Install if cache miss
+        if: steps.cache-nm.outputs.cache-hit != 'true'
+        run: npm ci --legacy-peer-deps
+
+      - name: Run ESLint
+        run: npm run lint -- --max-warnings=999
+
+      - name: Run Prettier check
+        run: npm run format:check
+
+      - name: Upload ESLint report
+        uses: actions/upload-artifact@v4
+        if: failure()                    # upload seulement si erreurs
+        with:
+          name: eslint-report
+          path: eslint-report.txt
+          retention-days: 7
+
+  # ══════════════════════════════════════════════
   # JOB 2 — Tests + Couverture
   # ══════════════════════════════════════════════
   test:
     name: Tests Unitaires
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, lint]               # ← ajout de lint ici
 
     steps:
       - uses: actions/checkout@v4
@@ -252,7 +296,7 @@ jobs:
   notify-failure:
     name: Notify on Failure
     runs-on: ubuntu-latest
-    needs: [build, test, sonar, docker, trivy, deploy-frontend]  # ✓ trivy ajouté
+    needs: [build, lint, test, sonar, docker, trivy, deploy-frontend]
     if: failure()
 
     steps:

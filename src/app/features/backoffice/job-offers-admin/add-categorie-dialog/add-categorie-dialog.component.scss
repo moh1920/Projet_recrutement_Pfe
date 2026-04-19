@@ -1,18 +1,24 @@
 // add-categorie-dialog.component.scss
 // ==================== Variables ====================
-$esprit-red:       #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #a50000;
-$esprit-red-dark:  #5c0000;
-$esprit-cream:     #fef3f3;
-$text-primary:     #1a1a2e;
-$text-secondary:   #64748b;
-$text-muted:       #94a3b8;
-$bg-light:         #f8fafc;
-$white:            #ffffff;
-$border:           #e2e8f0;
+$esprit-red-dark: #5c0000;
+$esprit-cream: #fef3f3;
+$text-primary: #1a1a2e;
+$text-secondary: #64748b;
+$text-muted: #94a3b8;
+$bg-light: #f8fafc;
+$white: #ffffff;
+$border: #e2e8f0;
 
-@mixin shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-@mixin shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04); }
+@mixin shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+@mixin shadow-md {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+}
 
 // ==================== Wrapper ====================
 .esprit-dialog-container {
@@ -37,32 +43,66 @@ $border:           #e2e8f0;
   flex-shrink: 0;
 
   .dlg-header-bg {
-    position: absolute; inset: 0; pointer-events: none;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   .dlg-header-content {
-    position: relative; z-index: 1;
-    display: flex; align-items: center; gap: 14px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
 
   .dlg-icon-wrap {
-    width: 46px; height: 46px;
-    background: rgba($white, 0.12); border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba($white, 0.2); flex-shrink: 0;
-    mat-icon { font-size: 24px; width: 24px; height: 24px; color: $white; }
+    width: 46px;
+    height: 46px;
+    background: rgba($white, 0.12);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba($white, 0.2);
+    flex-shrink: 0;
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      color: $white;
+    }
   }
 
   .dlg-header-text {
-    h2 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.2px; color: $white; }
-    p  { margin: 2px 0 0; font-size: 0.8rem; opacity: 0.75; color: $white; font-weight: 400; }
+    h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: $white;
+    }
+    p {
+      margin: 2px 0 0;
+      font-size: 0.8rem;
+      opacity: 0.75;
+      color: $white;
+      font-weight: 400;
+    }
   }
 
   .dlg-close-btn {
-    position: relative; z-index: 1; margin-left: auto;
-    color: rgba($white, 0.8); transition: all 0.2s;
-    &:hover { color: $white; background: rgba($white, 0.15); border-radius: 50%; }
+    position: relative;
+    z-index: 1;
+    margin-left: auto;
+    color: rgba($white, 0.8);
+    transition: all 0.2s;
+    &:hover {
+      color: $white;
+      background: rgba($white, 0.15);
+      border-radius: 50%;
+    }
   }
 }
 
@@ -89,13 +129,18 @@ $border:           #e2e8f0;
   }
 
   .field-ico {
-    font-size: 20px; width: 20px; height: 20px;
-    color: $text-muted; flex-shrink: 0;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: $text-muted;
+    flex-shrink: 0;
     transition: color 0.2s;
   }
 
   // L'icône prend la couleur ESPRIT quand un enfant a le focus
-  &:focus-within .field-ico { color: $esprit-red; }
+  &:focus-within .field-ico {
+    color: $esprit-red;
+  }
 }
 
 // ==================== Mat Form Field ====================
@@ -104,10 +149,14 @@ $border:           #e2e8f0;
 
   ::ng-deep {
     // Subscript (hint + error) : moins d'espace mort
-    .mat-mdc-form-field-subscript-wrapper { margin-top: 2px; }
+    .mat-mdc-form-field-subscript-wrapper {
+      margin-top: 2px;
+    }
 
     // Fond légèrement coloré
-    .mat-mdc-text-field-wrapper { background: $bg-light; }
+    .mat-mdc-text-field-wrapper {
+      background: $bg-light;
+    }
 
     // Coins arrondis
     .mdc-text-field--outlined {
@@ -118,20 +167,33 @@ $border:           #e2e8f0;
     .mdc-text-field--focused {
       .mdc-notched-outline__leading,
       .mdc-notched-outline__notch,
-      .mdc-notched-outline__trailing { border-color: $esprit-red !important; }
+      .mdc-notched-outline__trailing {
+        border-color: $esprit-red !important;
+      }
 
       // Label flottant rouge
-      .mdc-floating-label { color: $esprit-red !important; }
+      .mdc-floating-label {
+        color: $esprit-red !important;
+      }
     }
 
     // Hint align end (compteur de caractères)
-    .mat-mdc-form-field-hint-end { font-size: 0.72rem; color: $text-muted; }
+    .mat-mdc-form-field-hint-end {
+      font-size: 0.72rem;
+      color: $text-muted;
+    }
 
     // Messages d'erreur
     mat-error {
-      font-size: 0.78rem; font-weight: 500;
-      display: flex; align-items: center; gap: 4px;
-      &::before { content: '⚠'; font-size: 0.72rem; }
+      font-size: 0.78rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      &::before {
+        content: '⚠';
+        font-size: 0.72rem;
+      }
     }
   }
 }
@@ -145,20 +207,35 @@ $border:           #e2e8f0;
 
   // ---- En-tête : label + badge valeur ----
   .poids-header {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 12px;
 
     .poids-label-group {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 0.875rem; font-weight: 700; color: $text-primary;
-      mat-icon { font-size: 18px; width: 18px; height: 18px; color: $esprit-red; }
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: $text-primary;
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: $esprit-red;
+      }
     }
 
     .poids-badge {
-      background: $esprit-red; color: $white;
-      font-size: 0.875rem; font-weight: 800;
-      padding: 3px 14px; border-radius: 20px;
-      min-width: 52px; text-align: center;
+      background: $esprit-red;
+      color: $white;
+      font-size: 0.875rem;
+      font-weight: 800;
+      padding: 3px 14px;
+      border-radius: 20px;
+      min-width: 52px;
+      text-align: center;
       @include shadow-sm;
     }
   }
@@ -170,7 +247,9 @@ $border:           #e2e8f0;
 
     ::ng-deep {
       // Track active (gauche du thumb)
-      .mdc-slider__track--active_fill { background: $esprit-red !important; }
+      .mdc-slider__track--active_fill {
+        background: $esprit-red !important;
+      }
 
       // Thumb
       .mdc-slider__thumb-knob {
@@ -184,18 +263,25 @@ $border:           #e2e8f0;
       }
 
       // Bulle de valeur discrete
-      .mdc-slider__value-indicator-container { bottom: 44px !important; }
+      .mdc-slider__value-indicator-container {
+        bottom: 44px !important;
+      }
       .mdc-slider__value-indicator {
         background: $esprit-red !important;
-        &::before { border-top-color: $esprit-red !important; }
+        &::before {
+          border-top-color: $esprit-red !important;
+        }
       }
     }
   }
 
   // ---- Graduation ----
   .poids-scale {
-    display: flex; justify-content: space-between;
-    font-size: 0.7rem; color: $text-muted; font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: $text-muted;
+    font-weight: 500;
     margin-top: 2px;
   }
 
@@ -209,7 +295,12 @@ $border:           #e2e8f0;
 
     .poids-preview-fill {
       height: 100%;
-      background: linear-gradient(90deg, $esprit-red-dark 0%, $esprit-red 60%, lighten($esprit-red, 10%) 100%);
+      background: linear-gradient(
+        90deg,
+        $esprit-red-dark 0%,
+        $esprit-red 60%,
+        lighten($esprit-red, 10%) 100%
+      );
       border-radius: 6px;
       transition: width 0.3s ease;
     }
@@ -249,36 +340,48 @@ $border:           #e2e8f0;
     color: $white !important;
     border-radius: 10px;
     font-weight: 700;
-    display: flex; align-items: center; gap: 6px;
-    height: 40px; padding: 0 22px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 22px;
     @include shadow-md;
     transition: all 0.2s;
 
-    mat-icon { font-size: 18px; width: 18px; height: 18px; }
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
 
     &:hover:not(:disabled) {
       background: $esprit-red-dark !important;
       transform: translateY(-1px);
     }
 
-    &:disabled { opacity: 0.6; cursor: not-allowed; }
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   }
 }
 
 // ==================== Spinner dans le bouton ====================
 .save-spinner {
-  ::ng-deep circle { stroke: $white !important; }
+  ::ng-deep circle {
+    stroke: $white !important;
+  }
 }
 
 // ==================== Global overrides ====================
 ::ng-deep {
   // Checkbox couleur ESPRIT (si utilisé ailleurs dans le dialog)
   .mat-mdc-checkbox.mat-primary {
-    --mdc-checkbox-selected-checkmark-color:    #{$white};
-    --mdc-checkbox-selected-icon-color:         #{$esprit-red};
-    --mdc-checkbox-selected-hover-icon-color:   #{$esprit-red-light};
+    --mdc-checkbox-selected-checkmark-color: #{$white};
+    --mdc-checkbox-selected-icon-color: #{$esprit-red};
+    --mdc-checkbox-selected-hover-icon-color: #{$esprit-red-light};
     --mdc-checkbox-selected-pressed-icon-color: #{$esprit-red-dark};
-    --mdc-checkbox-selected-focus-icon-color:   #{$esprit-red};
+    --mdc-checkbox-selected-focus-icon-color: #{$esprit-red};
   }
 
   // Spinner couleur ESPRIT
@@ -303,7 +406,14 @@ $border:           #e2e8f0;
 
 // ==================== Responsive ====================
 @media (max-width: 600px) {
-  .esprit-dialog-container { min-width: unset; }
-  .dlg-header  { padding: 16px 18px; }
-  .dlg-form    { padding: 18px; gap: 14px; }
+  .esprit-dialog-container {
+    min-width: unset;
+  }
+  .dlg-header {
+    padding: 16px 18px;
+  }
+  .dlg-form {
+    padding: 18px;
+    gap: 14px;
+  }
 }

@@ -2,14 +2,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {MatchResult} from "../models/matching.model";
+import { MatchResult } from '../models/matching.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MatchingService {
-
   private readonly apiUrl = `${environment.apiUrl}/api/matching`;
 
   constructor(private http: HttpClient) {}
@@ -30,8 +29,6 @@ export class MatchingService {
     return this.http.get<MatchResult[]>(`${this.apiUrl}/candidates/${candidateId}/offers`);
   }
   rankOffersForProfile(profileId: string): Observable<MatchResult[]> {
-    return this.http.get<MatchResult[]>(
-      `${this.apiUrl}/rankOffersForProfile/${profileId}`
-    );
+    return this.http.get<MatchResult[]>(`${this.apiUrl}/rankOffersForProfile/${profileId}`);
   }
 }

@@ -1,6 +1,5 @@
 <!-- add-critere-dialog.component.html -->
 <div class="esprit-dialog-container">
-
   <!-- ══════════ HEADER ══════════ -->
   <div class="dlg-header">
     <div class="dlg-header-bg"></div>
@@ -10,7 +9,13 @@
       </div>
       <div class="dlg-header-text">
         <h2>{{ isEditMode ? 'Modifier le Critère' : 'Nouveau Critère' }}</h2>
-        <p>{{ isEditMode ? 'Mettez à jour le critère et ses catégories' : 'Définissez le critère et affectez-le aux catégories' }}</p>
+        <p>
+          {{
+            isEditMode
+              ? 'Mettez à jour le critère et ses catégories'
+              : 'Définissez le critère et affectez-le aux catégories'
+          }}
+        </p>
       </div>
     </div>
     <button mat-icon-button class="dlg-close-btn" (click)="onCancel()">
@@ -20,7 +25,6 @@
 
   <!-- ══════════ STEPPER ══════════ -->
   <mat-stepper [linear]="true" #stepper class="esprit-stepper">
-
     <!-- ─────── STEP 1 : Informations ─────── -->
     <mat-step [stepControl]="critereForm" label="Informations">
       <ng-template matStepLabel>
@@ -28,7 +32,6 @@
       </ng-template>
 
       <form [formGroup]="critereForm" class="step-body">
-
         <!-- Nom -->
         <div class="field-wrapper">
           <mat-icon class="field-ico">label</mat-icon>
@@ -36,7 +39,9 @@
             <mat-label>Nom du critère</mat-label>
             <input matInput formControlName="nom" placeholder="Ex: Maîtrise de Angular" />
             <mat-error *ngIf="critereForm.get('nom')?.hasError('required')">Champ requis</mat-error>
-            <mat-error *ngIf="critereForm.get('nom')?.hasError('minlength')">Minimum 3 caractères</mat-error>
+            <mat-error *ngIf="critereForm.get('nom')?.hasError('minlength')"
+              >Minimum 3 caractères</mat-error
+            >
           </mat-form-field>
         </div>
 
@@ -45,10 +50,18 @@
           <mat-icon class="field-ico">description</mat-icon>
           <mat-form-field appearance="outline" class="dlg-field">
             <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description" rows="3"
-                      placeholder="Décrivez ce critère d'évaluation..."></textarea>
-            <mat-hint align="end">{{ critereForm.get('description')?.value?.length || 0 }} / 300</mat-hint>
-            <mat-error *ngIf="critereForm.get('description')?.hasError('required')">Champ requis</mat-error>
+            <textarea
+              matInput
+              formControlName="description"
+              rows="3"
+              placeholder="Décrivez ce critère d'évaluation..."
+            ></textarea>
+            <mat-hint align="end"
+              >{{ critereForm.get('description')?.value?.length || 0 }} / 300</mat-hint
+            >
+            <mat-error *ngIf="critereForm.get('description')?.hasError('required')"
+              >Champ requis</mat-error
+            >
           </mat-form-field>
         </div>
 
@@ -56,8 +69,13 @@
           <button mat-stroked-button class="btn-cancel" type="button" (click)="onCancel()">
             Annuler
           </button>
-          <button mat-raised-button class="btn-next" type="button" matStepperNext
-                  [disabled]="critereForm.invalid">
+          <button
+            mat-raised-button
+            class="btn-next"
+            type="button"
+            matStepperNext
+            [disabled]="critereForm.invalid"
+          >
             Suivant <mat-icon>arrow_forward</mat-icon>
           </button>
         </div>
@@ -71,24 +89,30 @@
       </ng-template>
 
       <div class="step-body">
-
         <!-- Info banner -->
         <div class="affectation-info-banner">
           <mat-icon>info_outline</mat-icon>
           <div>
-            <strong>Optionnel</strong> — Associez ce critère à une ou plusieurs catégories de sélection.
-            Vous pouvez ignorer cette étape et affecter plus tard.
+            <strong>Optionnel</strong> — Associez ce critère à une ou plusieurs catégories de
+            sélection. Vous pouvez ignorer cette étape et affecter plus tard.
           </div>
         </div>
 
         <!-- Search -->
         <div class="offres-search-wrap">
           <mat-icon class="search-ico">search</mat-icon>
-          <input class="offres-search-input" [(ngModel)]="categorieSearch"
-                 (input)="filterCategories()"
-                 placeholder="Rechercher une catégorie..." />
-          <button *ngIf="categorieSearch" mat-icon-button class="search-clear"
-                  (click)="categorieSearch=''; filterCategories()">
+          <input
+            class="offres-search-input"
+            [(ngModel)]="categorieSearch"
+            (input)="filterCategories()"
+            placeholder="Rechercher une catégorie..."
+          />
+          <button
+            *ngIf="categorieSearch"
+            mat-icon-button
+            class="search-clear"
+            (click)="categorieSearch = ''; filterCategories()"
+          >
             <mat-icon>close</mat-icon>
           </button>
         </div>
@@ -98,7 +122,8 @@
           <mat-checkbox
             [checked]="isAllCategoriesSelected()"
             [indeterminate]="selectedCategories.length > 0 && !isAllCategoriesSelected()"
-            (change)="toggleAllCategories($event.checked)">
+            (change)="toggleAllCategories($event.checked)"
+          >
             <span class="select-all-label">Tout sélectionner</span>
           </mat-checkbox>
           <span class="offres-count-label">{{ filteredCategories.length }} catégorie(s)</span>
@@ -106,7 +131,6 @@
 
         <!-- Categories list -->
         <div class="offres-list-scroll">
-
           <!-- Loading -->
           <div *ngIf="isLoadingCategories" class="offres-placeholder">
             <mat-spinner diameter="28"></mat-spinner>
@@ -114,26 +138,40 @@
           </div>
 
           <!-- Empty -->
-          <div *ngIf="!isLoadingCategories && filteredCategories.length === 0" class="offres-placeholder">
+          <div
+            *ngIf="!isLoadingCategories && filteredCategories.length === 0"
+            class="offres-placeholder"
+          >
             <mat-icon>category_off</mat-icon>
             <p>Aucune catégorie disponible</p>
           </div>
 
           <!-- Items -->
-          <div class="offre-row" *ngFor="let cat of filteredCategories"
-               [class.is-selected]="isCategorieSelected(cat.id)"
-               (click)="toggleCategorie(cat)">
-
+          <div
+            class="offre-row"
+            *ngFor="let cat of filteredCategories"
+            [class.is-selected]="isCategorieSelected(cat.id)"
+            (click)="toggleCategorie(cat)"
+          >
             <mat-checkbox
               [checked]="isCategorieSelected(cat.id)"
               (click)="$event.stopPropagation()"
               (change)="toggleCategorie(cat)"
-              class="offre-check">
+              class="offre-check"
+            >
             </mat-checkbox>
 
             <!-- Avatar avec initiale -->
-            <div class="offre-row-icon cat-avatar"
-                 [style.background]="'linear-gradient(135deg,' + getCatColor(cat.nom) + ' 0%,' + getCatColorLight(cat.nom) + ' 100%)'">
+            <div
+              class="offre-row-icon cat-avatar"
+              [style.background]="
+                'linear-gradient(135deg,' +
+                getCatColor(cat.nom) +
+                ' 0%,' +
+                getCatColorLight(cat.nom) +
+                ' 100%)'
+              "
+            >
               <span>{{ cat.nom?.charAt(0)?.toUpperCase() }}</span>
             </div>
 
@@ -148,7 +186,6 @@
             <div class="offre-row-right">
               <span class="poids-pill">{{ cat.poids ?? 0 }}%</span>
             </div>
-
           </div>
         </div>
 
@@ -165,20 +202,28 @@
           <button mat-stroked-button class="btn-back" type="button" matStepperPrevious>
             <mat-icon>arrow_back</mat-icon> Retour
           </button>
-          <button mat-stroked-button class="btn-skip" type="button" [disabled]="isSaving"
-                  (click)="onSaveWithoutAffectation()">
+          <button
+            mat-stroked-button
+            class="btn-skip"
+            type="button"
+            [disabled]="isSaving"
+            (click)="onSaveWithoutAffectation()"
+          >
             <mat-icon>save</mat-icon> Sans affectation
           </button>
-          <button mat-raised-button class="btn-save" type="button"
-                  [disabled]="isSaving" (click)="onSave()">
+          <button
+            mat-raised-button
+            class="btn-save"
+            type="button"
+            [disabled]="isSaving"
+            (click)="onSave()"
+          >
             <mat-spinner *ngIf="isSaving" diameter="16" class="save-spinner"></mat-spinner>
             <mat-icon *ngIf="!isSaving">check</mat-icon>
             {{ isSaving ? 'Enregistrement...' : 'Enregistrer' }}
           </button>
         </div>
-
       </div>
     </mat-step>
-
   </mat-stepper>
 </div>

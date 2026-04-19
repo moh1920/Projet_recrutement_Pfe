@@ -1,5 +1,4 @@
 <div class="ranking-page">
-
   <!-- ════ PAGE HEADER ════ -->
   <div class="page-header">
     <div class="header-bg"></div>
@@ -35,7 +34,6 @@
 
   <!-- ════ PAGE CONTENT ════ -->
   <div class="page-content">
-
     <!-- ── Loading ── -->
     <div *ngIf="loading" class="state-container">
       <mat-spinner diameter="52"></mat-spinner>
@@ -55,24 +53,28 @@
     <div *ngIf="!loading && !error && results.length === 0" class="state-container">
       <mat-icon class="state-icon">search_off</mat-icon>
       <p>Aucune offre ne correspond actuellement à votre profil.</p>
-      <button mat-stroked-button routerLink="/offers">
-        Voir toutes les offres
-      </button>
+      <button mat-stroked-button routerLink="/offers">Voir toutes les offres</button>
     </div>
 
     <!-- ── Results ── -->
     <ng-container *ngIf="!loading && !error && results.length > 0">
-
       <p class="results-count">
         <mat-icon>list_alt</mat-icon>
         {{ results.length }} offre(s) classée(s) par score d'affinité
       </p>
 
       <!-- ── Podium Top 3 ── -->
-      <div class="podium-section" *ngIf="results.length > 0" [ngClass]="{'has-2': results.length === 2, 'has-1': results.length === 1}">
-
+      <div
+        class="podium-section"
+        *ngIf="results.length > 0"
+        [ngClass]="{ 'has-2': results.length === 2, 'has-1': results.length === 1 }"
+      >
         <!-- Rank 2 -->
-        <div class="podium-card rank-2" *ngIf="results.length >= 2" [routerLink]="['/offers', results[1].offerId]">
+        <div
+          class="podium-card rank-2"
+          *ngIf="results.length >= 2"
+          [routerLink]="['/offers', results[1].offerId]"
+        >
           <div class="medal-badge">🥈</div>
           <div class="podium-avatar" [style.background]="getAvatarColor(1)">
             {{ getAvatarLabel(results[1].offerId) }}
@@ -81,22 +83,32 @@
           <div class="candidate-id-tag">{{ getOfferName(results[1].offerId) }}</div>
           <div class="score-badge" [ngClass]="getScoreColor(results[1].globalScore)">
             <mat-icon>{{ getScoreIcon(results[1].globalScore) }}</mat-icon>
-            {{ results[1].globalScore | number:'1.1-1' }}% de match
+            {{ results[1].globalScore | number: '1.1-1' }}% de match
           </div>
           <div class="score-bar-wrap">
-            <div class="score-bar" [ngClass]="getScoreColor(results[1].globalScore)"
-                 [style.width.%]="results[1].globalScore"></div>
+            <div
+              class="score-bar"
+              [ngClass]="getScoreColor(results[1].globalScore)"
+              [style.width.%]="results[1].globalScore"
+            ></div>
           </div>
-          <div class="details-chips" *ngIf="results[1].details && getDetailKeys(results[1].details).length > 0">
+          <div
+            class="details-chips"
+            *ngIf="results[1].details && getDetailKeys(results[1].details).length > 0"
+          >
             <div class="detail-chip" *ngFor="let key of getDetailKeys(results[1].details)">
               <span>{{ key | titlecase }}</span>
-              <span>{{ results[1].details[key] | number:'1.0-1' }}%</span>
+              <span>{{ results[1].details[key] | number: '1.0-1' }}%</span>
             </div>
           </div>
         </div>
 
         <!-- Rank 1 -->
-        <div class="podium-card rank-1" *ngIf="results.length >= 1" [routerLink]="['/offers', results[0].offerId]">
+        <div
+          class="podium-card rank-1"
+          *ngIf="results.length >= 1"
+          [routerLink]="['/offers', results[0].offerId]"
+        >
           <div class="medal-badge">🥇</div>
           <div class="podium-avatar large" [style.background]="getAvatarColor(0)">
             {{ getAvatarLabel(results[0].offerId) }}
@@ -105,22 +117,32 @@
           <div class="candidate-id-tag">{{ getOfferName(results[0].offerId) }}</div>
           <div class="score-badge" [ngClass]="getScoreColor(results[0].globalScore)">
             <mat-icon>{{ getScoreIcon(results[0].globalScore) }}</mat-icon>
-            {{ results[0].globalScore | number:'1.1-1' }}% de match
+            {{ results[0].globalScore | number: '1.1-1' }}% de match
           </div>
           <div class="score-bar-wrap">
-            <div class="score-bar" [ngClass]="getScoreColor(results[0].globalScore)"
-                 [style.width.%]="results[0].globalScore"></div>
+            <div
+              class="score-bar"
+              [ngClass]="getScoreColor(results[0].globalScore)"
+              [style.width.%]="results[0].globalScore"
+            ></div>
           </div>
-          <div class="details-chips" *ngIf="results[0].details && getDetailKeys(results[0].details).length > 0">
+          <div
+            class="details-chips"
+            *ngIf="results[0].details && getDetailKeys(results[0].details).length > 0"
+          >
             <div class="detail-chip" *ngFor="let key of getDetailKeys(results[0].details)">
               <span>{{ key | titlecase }}</span>
-              <span>{{ results[0].details[key] | number:'1.0-1' }}%</span>
+              <span>{{ results[0].details[key] | number: '1.0-1' }}%</span>
             </div>
           </div>
         </div>
 
         <!-- Rank 3 -->
-        <div class="podium-card rank-3" *ngIf="results.length >= 3" [routerLink]="['/offers', results[2].offerId]">
+        <div
+          class="podium-card rank-3"
+          *ngIf="results.length >= 3"
+          [routerLink]="['/offers', results[2].offerId]"
+        >
           <div class="medal-badge">🥉</div>
           <div class="podium-avatar" [style.background]="getAvatarColor(2)">
             {{ getAvatarLabel(results[2].offerId) }}
@@ -129,28 +151,33 @@
           <div class="candidate-id-tag">{{ getOfferName(results[2].offerId) }}</div>
           <div class="score-badge" [ngClass]="getScoreColor(results[2].globalScore)">
             <mat-icon>{{ getScoreIcon(results[2].globalScore) }}</mat-icon>
-            {{ results[2].globalScore | number:'1.1-1' }}% de match
+            {{ results[2].globalScore | number: '1.1-1' }}% de match
           </div>
           <div class="score-bar-wrap">
-            <div class="score-bar" [ngClass]="getScoreColor(results[2].globalScore)"
-                 [style.width.%]="results[2].globalScore"></div>
+            <div
+              class="score-bar"
+              [ngClass]="getScoreColor(results[2].globalScore)"
+              [style.width.%]="results[2].globalScore"
+            ></div>
           </div>
-          <div class="details-chips" *ngIf="results[2].details && getDetailKeys(results[2].details).length > 0">
+          <div
+            class="details-chips"
+            *ngIf="results[2].details && getDetailKeys(results[2].details).length > 0"
+          >
             <div class="detail-chip" *ngFor="let key of getDetailKeys(results[2].details)">
               <span>{{ key | titlecase }}</span>
-              <span>{{ results[2].details[key] | number:'1.0-1' }}%</span>
+              <span>{{ results[2].details[key] | number: '1.0-1' }}%</span>
             </div>
           </div>
         </div>
-
       </div>
 
       <!-- ── Liste rang 4+ ── -->
       <div class="results-list">
         <div
-          *ngFor="let result of results | slice:3; let i = index"
+          *ngFor="let result of results | slice: 3; let i = index"
           class="list-card"
-          [style.animation-delay]="(i * 0.05) + 's'"
+          [style.animation-delay]="i * 0.05 + 's'"
           [routerLink]="['/offers', result.offerId]"
         >
           <div class="list-rank">#{{ i + 4 }}</div>
@@ -161,26 +188,31 @@
 
           <div class="list-info">
             <div class="list-id">{{ getOfferName(result.offerId) }}</div>
-            <div class="list-details" *ngIf="result.details && getDetailKeys(result.details).length > 0">
+            <div
+              class="list-details"
+              *ngIf="result.details && getDetailKeys(result.details).length > 0"
+            >
               <div class="detail-chip" *ngFor="let key of getDetailKeys(result.details)">
                 <span>{{ key | titlecase }}</span>
-                <span>{{ result.details[key] | number:'1.0-1' }}%</span>
+                <span>{{ result.details[key] | number: '1.0-1' }}%</span>
               </div>
             </div>
           </div>
 
           <div class="list-right">
             <div class="list-score" [ngClass]="getScoreColor(result.globalScore)">
-              {{ result.globalScore | number:'1.1-1' }}%
+              {{ result.globalScore | number: '1.1-1' }}%
             </div>
             <div class="list-bar-wrap">
-              <div class="list-bar" [ngClass]="getScoreColor(result.globalScore)"
-                   [style.width.%]="result.globalScore"></div>
+              <div
+                class="list-bar"
+                [ngClass]="getScoreColor(result.globalScore)"
+                [style.width.%]="result.globalScore"
+              ></div>
             </div>
           </div>
         </div>
       </div>
-
     </ng-container>
   </div>
 </div>

@@ -7,14 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule
-  ],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
   // KPI Data
@@ -27,7 +22,7 @@ export class DashboardComponent {
       trend: '+12%',
       trendType: 'up',
       trendIcon: 'trending_up',
-      progress: 75
+      progress: 75,
     },
     {
       title: 'CV Analysés',
@@ -37,7 +32,7 @@ export class DashboardComponent {
       trend: '98%',
       trendType: 'neutral',
       trendIcon: 'check_circle',
-      progress: 98
+      progress: 98,
     },
     {
       title: 'Score Moyen',
@@ -47,7 +42,7 @@ export class DashboardComponent {
       trend: '+2pts',
       trendType: 'up',
       trendIcon: 'trending_up',
-      progress: 76
+      progress: 76,
     },
     {
       title: 'Entretiens',
@@ -57,8 +52,8 @@ export class DashboardComponent {
       trend: 'Ce jour',
       trendType: 'neutral',
       trendIcon: 'schedule',
-      progress: 60
-    }
+      progress: 60,
+    },
   ];
 
   // Timeline Data
@@ -69,7 +64,7 @@ export class DashboardComponent {
       label: 'Dépôt CV',
       description: 'Réception des candidatures',
       date: '01 Jan - Terminé',
-      status: 'completed'
+      status: 'completed',
     },
     {
       step: '2',
@@ -77,7 +72,7 @@ export class DashboardComponent {
       label: 'Analyse IA',
       description: 'Analyse automatique des profils',
       date: 'Auto - Terminé',
-      status: 'completed'
+      status: 'completed',
     },
     {
       step: '3',
@@ -85,7 +80,7 @@ export class DashboardComponent {
       label: 'Scoring',
       description: 'Évaluation des compétences',
       date: 'En cours',
-      status: 'active'
+      status: 'active',
     },
     {
       step: '4',
@@ -93,7 +88,7 @@ export class DashboardComponent {
       label: 'Entretiens',
       description: 'Entretiens avec le jury',
       date: '15 Février',
-      status: 'pending'
+      status: 'pending',
     },
     {
       step: '5',
@@ -101,8 +96,8 @@ export class DashboardComponent {
       label: 'Décision',
       description: 'Décision finale',
       date: '01 Mars',
-      status: 'pending'
-    }
+      status: 'pending',
+    },
   ];
 
   // Bar Chart Data
@@ -110,14 +105,19 @@ export class DashboardComponent {
     { label: '<50', value: 15, type: 'low' },
     { label: '50-70', value: 35, type: 'medium' },
     { label: '70-90', value: 40, type: 'high' },
-    { label: '>90', value: 10, type: 'excellent' }
+    { label: '>90', value: 10, type: 'excellent' },
   ];
 
   // Pie Chart Data
   pieData = [
-    { label: 'Admis', value: 25, color: '#22c55e', path: 'M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831' },
+    {
+      label: 'Admis',
+      value: 25,
+      color: '#22c55e',
+      path: 'M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831',
+    },
     { label: 'Rejeté', value: 15, color: '#ef4444', path: '' },
-    { label: 'En cours', value: 60, color: '#8B0000', path: '' }
+    { label: 'En cours', value: 60, color: '#8B0000', path: '' },
   ];
 
   // Candidates Data
@@ -126,7 +126,7 @@ export class DashboardComponent {
     { name: 'Ahmed Khelif', specialty: 'Cloud Computing', score: 92, status: 'Entretien' },
     { name: 'Mariem Jaziri', specialty: 'Cyber Security', score: 65, status: 'Rejeté' },
     { name: 'Karim Ouerghi', specialty: 'DevOps', score: 78, status: 'En cours' },
-    { name: 'Nadia Bouzid', specialty: 'IA', score: 95, status: 'Admis' }
+    { name: 'Nadia Bouzid', specialty: 'IA', score: 95, status: 'Admis' },
   ];
 
   getScoreClass(score: number): string {
@@ -137,10 +137,14 @@ export class DashboardComponent {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'Admis': return 'admitted';
-      case 'Entretien': return 'interview';
-      case 'Rejeté': return 'rejected';
-      default: return 'pending';
+      case 'Admis':
+        return 'admitted';
+      case 'Entretien':
+        return 'interview';
+      case 'Rejeté':
+        return 'rejected';
+      default:
+        return 'pending';
     }
   }
 }

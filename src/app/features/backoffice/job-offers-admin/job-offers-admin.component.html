@@ -38,11 +38,18 @@
       <div class="search-field">
         <mat-form-field appearance="outline" class="search-box">
           <mat-icon matPrefix>search</mat-icon>
-          <input matInput
-                 [(ngModel)]="searchText"
-                 (input)="applyFilter()"
-                 placeholder="Rechercher une offre...">
-          <button mat-icon-button matSuffix *ngIf="searchText" (click)="searchText=''; applyFilter()">
+          <input
+            matInput
+            [(ngModel)]="searchText"
+            (input)="applyFilter()"
+            placeholder="Rechercher une offre..."
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            *ngIf="searchText"
+            (click)="searchText = ''; applyFilter()"
+          >
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -50,10 +57,12 @@
 
       <div class="filter-chips">
         <mat-chip-listbox>
-          <mat-chip-option *ngFor="let filter of filters"
-                           [selected]="selectedFilter === filter"
-                           (click)="setFilter(filter)">
-            {{filter}}
+          <mat-chip-option
+            *ngFor="let filter of filters"
+            [selected]="selectedFilter === filter"
+            (click)="setFilter(filter)"
+          >
+            {{ filter }}
           </mat-chip-option>
         </mat-chip-listbox>
       </div>
@@ -74,7 +83,7 @@
     <!-- Bulk Actions -->
     <div class="table-header" *ngIf="selection.hasValue()">
       <div class="bulk-actions">
-        <span class="selection-count">{{selection.selected.length}} sélectionné(s)</span>
+        <span class="selection-count">{{ selection.selected.length }} sélectionné(s)</span>
         <button mat-stroked-button color="warn" (click)="deleteSelected()">
           <mat-icon>delete</mat-icon>
           Supprimer
@@ -82,7 +91,7 @@
       </div>
     </div>
 
-    <div class="table-card" style="position: relative;">
+    <div class="table-card" style="position: relative">
       <!-- Loading -->
       <div *ngIf="isLoading" class="loading-overlay">
         <mat-spinner diameter="40"></mat-spinner>
@@ -90,73 +99,76 @@
       </div>
 
       <table mat-table [dataSource]="dataSource" matSort class="modern-table">
-
         <!-- Select Column -->
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                          [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="selection.hasValue() && !isAllSelected()"
-                          [aria-label]="checkboxLabel()">
+            <mat-checkbox
+              (change)="$event ? toggleAllRows() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()"
+            >
             </mat-checkbox>
           </th>
           <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)"
-                          [aria-label]="checkboxLabel(row)">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            >
             </mat-checkbox>
           </td>
         </ng-container>
 
         <!-- Title Column -->
         <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Poste </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Poste</th>
           <td mat-cell *matCellDef="let offer" class="offer-title-cell">
             <div class="title-wrapper">
-              <span class="main-title">{{offer.title}}</span>
-              <span class="subtitle">{{offer.description | slice:0:50}}...</span>
+              <span class="main-title">{{ offer.title }}</span>
+              <span class="subtitle">{{ offer.description | slice: 0 : 50 }}...</span>
             </div>
           </td>
         </ng-container>
 
         <!-- Department Column -->
         <ng-container matColumnDef="department">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Département </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Département</th>
           <td mat-cell *matCellDef="let offer" class="dept-cell">
             <span class="dept-badge">
               <mat-icon>business</mat-icon>
-              {{offer.department}}
+              {{ offer.department }}
             </span>
           </td>
         </ng-container>
 
         <!-- Speciality Column -->
         <ng-container matColumnDef="speciality">
-          <th mat-header-cell *matHeaderCellDef> Spécialité </th>
+          <th mat-header-cell *matHeaderCellDef>Spécialité</th>
           <td mat-cell *matCellDef="let offer" class="speciality-cell">
-            {{offer.speciality}}
+            {{ offer.speciality }}
           </td>
         </ng-container>
 
         <!-- Type Column -->
         <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
           <td mat-cell *matCellDef="let offer" class="type-cell">
             <span class="type-badge" [class]="getTypeClass(offer.type)">
-              <mat-icon>{{getTypeIcon(offer.type)}}</mat-icon>
-              {{offer.type}}
+              <mat-icon>{{ getTypeIcon(offer.type) }}</mat-icon>
+              {{ offer.type }}
             </span>
           </td>
         </ng-container>
 
         <!-- Workload Column -->
         <ng-container matColumnDef="workload">
-          <th mat-header-cell *matHeaderCellDef> Charge </th>
+          <th mat-header-cell *matHeaderCellDef>Charge</th>
           <td mat-cell *matCellDef="let offer" class="workload-cell">
             <span class="workload-text" *ngIf="offer.workload">
               <mat-icon>access_time</mat-icon>
-              {{offer.workload}}h/semaine
+              {{ offer.workload }}h/semaine
             </span>
             <span *ngIf="!offer.workload">-</span>
           </td>
@@ -164,57 +176,67 @@
 
         <!-- Candidates Column -->
         <ng-container matColumnDef="candidates">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidats </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Candidats</th>
           <td mat-cell *matCellDef="let offer" class="candidates-cell">
             <span class="candidates-count" (click)="viewCandidates(offer)">
               <mat-icon>people</mat-icon>
-              {{offer.candidateCount || 0}}
+              {{ offer.candidateCount || 0 }}
             </span>
           </td>
         </ng-container>
 
         <!-- Deadline Column -->
         <ng-container matColumnDef="deadline">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date limite </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date limite</th>
           <td mat-cell *matCellDef="let offer" class="deadline-cell">
             <span class="deadline-text" [class.urgent]="isUrgent(offer.deadline)">
               <mat-icon>event</mat-icon>
-              {{offer.deadline | date:'dd/MM/yyyy'}}
+              {{ offer.deadline | date: 'dd/MM/yyyy' }}
             </span>
           </td>
         </ng-container>
 
         <!-- Status Column -->
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Statut </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Statut</th>
           <td mat-cell *matCellDef="let offer" class="status-cell">
             <span class="status-badge" [class]="getStatusClass(offer.status)">
               <span class="status-dot"></span>
-              {{offer.status}}
+              {{ offer.status }}
             </span>
           </td>
         </ng-container>
 
         <!-- Critères Column -->
         <ng-container matColumnDef="criteres">
-          <th mat-header-cell *matHeaderCellDef> Critères </th>
+          <th mat-header-cell *matHeaderCellDef>Critères</th>
           <td mat-cell *matCellDef="let offer" class="criteres-cell">
-            <div class="criteres-list" *ngIf="offer.criteresDeSelections?.length;">
-                <span class="critere-badge" *ngFor="let critere of offer.criteresDeSelections">
-                  {{ critere.nom }}
-                </span>
+            <div class="criteres-list" *ngIf="offer.criteresDeSelections?.length">
+              <span class="critere-badge" *ngFor="let critere of offer.criteresDeSelections">
+                {{ critere.nom }}
+              </span>
             </div>
           </td>
         </ng-container>
         <!-- Actions Column -->
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let offer" class="actions-cell">
             <div class="action-buttons">
-              <button mat-icon-button class="btn-edit" (click)="openEditDialog(offer)" matTooltip="Modifier">
+              <button
+                mat-icon-button
+                class="btn-edit"
+                (click)="openEditDialog(offer)"
+                matTooltip="Modifier"
+              >
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button class="btn-more" [matMenuTriggerFor]="menu" matTooltip="Plus d'actions">
+              <button
+                mat-icon-button
+                class="btn-more"
+                [matMenuTriggerFor]="menu"
+                matTooltip="Plus d'actions"
+              >
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu" class="action-menu">
@@ -234,9 +256,9 @@
                   <mat-icon>filter_list</mat-icon>
                   <span>Affecter criteres</span>
                 </button>
-                <button mat-menu-item (click)="openRanking(offer.id,offer.title)">
+                <button mat-menu-item (click)="openRanking(offer.id, offer.title)">
                   <mat-icon>filter_list</mat-icon>
-                    <span>Rank candidats</span>
+                  <span>Rank candidats</span>
                 </button>
               </mat-menu>
             </div>
@@ -244,8 +266,11 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            [class.selected]="selection.isSelected(row)"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          [class.selected]="selection.isSelected(row)"
+        ></tr>
 
         <!-- Empty State -->
         <tr class="mat-row" *matNoDataRow>
@@ -266,9 +291,7 @@
       </table>
 
       <!-- Pagination -->
-      <mat-paginator [pageSizeOptions]="[10, 25, 50]"
-                     showFirstLastButtons
-                     class="modern-paginator">
+      <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons class="modern-paginator">
       </mat-paginator>
     </div>
   </div>

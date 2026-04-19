@@ -1,6 +1,5 @@
 <!-- profile.component.html -->
 <div class="profile-container">
-
   <!-- Écran de chargement -->
   <ng-container *ngIf="isLoading">
     <div class="profile-header">
@@ -13,14 +12,15 @@
         <h1>Mon Profil</h1>
       </div>
     </div>
-    <div style="display:flex;justify-content:center;padding:4rem;">
-      <mat-icon style="font-size:48px;color:#8B0000;animation:pulse 1.5s infinite;">hourglass_empty</mat-icon>
+    <div style="display: flex; justify-content: center; padding: 4rem">
+      <mat-icon style="font-size: 48px; color: #8b0000; animation: pulse 1.5s infinite"
+        >hourglass_empty</mat-icon
+      >
     </div>
   </ng-container>
 
   <!-- Contenu principal (affiché uniquement quand user est chargé) -->
   <ng-container *ngIf="!isLoading">
-
     <!-- Header -->
     <div class="profile-header">
       <div class="header-content">
@@ -36,10 +36,8 @@
     <!-- Content -->
     <div class="profile-content">
       <div class="profile-grid">
-
         <!-- ── Sidebar ──────────────────────────────────────────────────── -->
         <div class="profile-sidebar">
-
           <!-- Profile Card -->
           <div class="sidebar-card">
             <div class="avatar-section">
@@ -48,7 +46,11 @@
                   {{ getInitials(user.firstName) }}{{ getInitials(user.lastName) }}
                 </div>
                 <div class="status-indicator"></div>
-                <button class="edit-avatar-btn" (click)="uploadAvatar()" matTooltip="Changer la photo">
+                <button
+                  class="edit-avatar-btn"
+                  (click)="uploadAvatar()"
+                  matTooltip="Changer la photo"
+                >
                   <mat-icon>camera_alt</mat-icon>
                 </button>
               </div>
@@ -88,7 +90,7 @@
                 <div class="info-icon"><mat-icon>calendar_today</mat-icon></div>
                 <div class="info-content">
                   <div class="info-label">Membre depuis</div>
-                  <div class="info-value">{{ user.dateDeCreation | date:'MMMM yyyy' }}</div>
+                  <div class="info-value">{{ user.dateDeCreation | date: 'MMMM yyyy' }}</div>
                 </div>
               </div>
             </div>
@@ -114,7 +116,7 @@
             </div>
             <div class="stat-item">
               <span class="stat-label">Dernière activité</span>
-              <span class="stat-value" style="font-size: 0.875rem;">{{ stats.lastActivity }}</span>
+              <span class="stat-value" style="font-size: 0.875rem">{{ stats.lastActivity }}</span>
             </div>
           </div>
         </div>
@@ -123,7 +125,6 @@
         <div class="profile-main">
           <div class="main-card">
             <mat-tab-group [(selectedIndex)]="activeTab" animationDuration="300ms">
-
               <!-- ── Onglet Informations ─────────────────────────────────── -->
               <mat-tab label="Informations">
                 <div class="tab-content">
@@ -133,11 +134,18 @@
                       Informations Personnelles
                     </h2>
                     <div class="edit-actions">
-                      <button *ngIf="!isEditing" mat-button class="btn-secondary" (click)="toggleEdit()">
+                      <button
+                        *ngIf="!isEditing"
+                        mat-button
+                        class="btn-secondary"
+                        (click)="toggleEdit()"
+                      >
                         <mat-icon>edit</mat-icon> Modifier
                       </button>
                       <ng-container *ngIf="isEditing">
-                        <button mat-button class="btn-secondary" (click)="toggleEdit()">Annuler</button>
+                        <button mat-button class="btn-secondary" (click)="toggleEdit()">
+                          Annuler
+                        </button>
                         <button mat-raised-button class="btn-primary" (click)="saveProfile()">
                           <mat-icon>save</mat-icon> Enregistrer
                         </button>
@@ -147,13 +155,12 @@
 
                   <form [formGroup]="profileForm">
                     <div class="form-grid">
-
                       <!-- Nom Complet -->
                       <div class="form-field">
                         <label>Nom Complet</label>
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-icon matPrefix>person</mat-icon>
-                          <input matInput formControlName="name" [readonly]="!isEditing">
+                          <input matInput formControlName="name" [readonly]="!isEditing" />
                         </mat-form-field>
                       </div>
 
@@ -162,7 +169,7 @@
                         <label>Email Professionnel</label>
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-icon matPrefix>email</mat-icon>
-                          <input matInput formControlName="email" [readonly]="!isEditing">
+                          <input matInput formControlName="email" [readonly]="!isEditing" />
                         </mat-form-field>
                       </div>
 
@@ -171,7 +178,7 @@
                         <label>Téléphone</label>
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-icon matPrefix>phone</mat-icon>
-                          <input matInput formControlName="phone" [readonly]="!isEditing">
+                          <input matInput formControlName="phone" [readonly]="!isEditing" />
                         </mat-form-field>
                       </div>
 
@@ -182,7 +189,9 @@
                         <mat-form-field appearance="outline" class="full-width" *ngIf="isEditing">
                           <mat-icon matPrefix>business</mat-icon>
                           <mat-select formControlName="department">
-                            <mat-option *ngFor="let dept of departments" [value]="dept">{{ dept }}</mat-option>
+                            <mat-option *ngFor="let dept of departments" [value]="dept">{{
+                              dept
+                            }}</mat-option>
                           </mat-select>
                         </mat-form-field>
                         <!-- Mode lecture -->
@@ -200,7 +209,7 @@
                         <label>Adresse</label>
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-icon matPrefix>location_on</mat-icon>
-                          <input matInput formControlName="address" [readonly]="!isEditing">
+                          <input matInput formControlName="address" [readonly]="!isEditing" />
                         </mat-form-field>
                       </div>
 
@@ -209,16 +218,20 @@
                         <label>Biographie</label>
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-icon matPrefix>description</mat-icon>
-                          <textarea matInput formControlName="bio" rows="4" [readonly]="!isEditing"></textarea>
+                          <textarea
+                            matInput
+                            formControlName="bio"
+                            rows="4"
+                            [readonly]="!isEditing"
+                          ></textarea>
                         </mat-form-field>
                       </div>
-
                     </div>
                   </form>
 
-                  <mat-divider style="margin: 2rem 0;"></mat-divider>
+                  <mat-divider style="margin: 2rem 0"></mat-divider>
 
-                  <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700;">
+                  <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700">
                     Informations Professionnelles
                   </h3>
 
@@ -232,13 +245,12 @@
                     </div>
                     <div class="readonly-field">
                       <div class="field-label">Statut du compte</div>
-                      <div class="field-value" style="color: #10B981;">
-                        <mat-icon style="color: #10B981;">check_circle</mat-icon>
+                      <div class="field-value" style="color: #10b981">
+                        <mat-icon style="color: #10b981">check_circle</mat-icon>
                         {{ user.statusUser }}
                       </div>
                     </div>
                   </div>
-
                 </div>
               </mat-tab>
 
@@ -274,7 +286,6 @@
                   </div>
 
                   <div class="security-section">
-
                     <div class="security-item">
                       <div class="security-info">
                         <div class="security-icon"><mat-icon>password</mat-icon></div>
@@ -288,7 +299,7 @@
 
                     <div class="security-item">
                       <div class="security-info">
-                        <div class="security-icon" style="background:#D1FAE5;color:#065F46;">
+                        <div class="security-icon" style="background: #d1fae5; color: #065f46">
                           <mat-icon>verified_user</mat-icon>
                         </div>
                         <div class="security-text">
@@ -301,7 +312,7 @@
 
                     <div class="security-item">
                       <div class="security-info">
-                        <div class="security-icon" style="background:#DBEAFE;color:#1E40AF;">
+                        <div class="security-icon" style="background: #dbeafe; color: #1e40af">
                           <mat-icon>notifications</mat-icon>
                         </div>
                         <div class="security-text">
@@ -311,35 +322,38 @@
                       </div>
                       <mat-slide-toggle [checked]="true" color="primary"></mat-slide-toggle>
                     </div>
-
                   </div>
 
-                  <mat-divider style="margin: 2rem 0;"></mat-divider>
+                  <mat-divider style="margin: 2rem 0"></mat-divider>
 
-                  <h3 style="margin:0 0 1rem 0;font-size:1.125rem;font-weight:700;color:#DC2626;">
+                  <h3
+                    style="
+                      margin: 0 0 1rem 0;
+                      font-size: 1.125rem;
+                      font-weight: 700;
+                      color: #dc2626;
+                    "
+                  >
                     Zone dangereuse
                   </h3>
 
-                  <div class="security-item" style="border-color:#FECACA;background:#FEF2F2;">
+                  <div class="security-item" style="border-color: #fecaca; background: #fef2f2">
                     <div class="security-info">
-                      <div class="security-icon" style="background:#FEE2E2;color:#DC2626;">
+                      <div class="security-icon" style="background: #fee2e2; color: #dc2626">
                         <mat-icon>delete_forever</mat-icon>
                       </div>
                       <div class="security-text">
-                        <h4 style="color:#DC2626;">Supprimer le compte</h4>
+                        <h4 style="color: #dc2626">Supprimer le compte</h4>
                         <p>Cette action est irréversible</p>
                       </div>
                     </div>
                     <button mat-stroked-button color="warn">Supprimer</button>
                   </div>
-
                 </div>
               </mat-tab>
-
             </mat-tab-group>
           </div>
         </div>
-
       </div>
     </div>
   </ng-container>

@@ -1,6 +1,12 @@
 // src/app/core/notifications/notification.model.ts
 export type NotificationType =
-  'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR' | 'MEETING' | 'TASK' | 'SYSTEM';
+  | 'INFO'
+  | 'SUCCESS'
+  | 'WARNING'
+  | 'ERROR'
+  | 'MEETING'
+  | 'TASK'
+  | 'SYSTEM';
 
 export interface NotificationDTO {
   id: string;

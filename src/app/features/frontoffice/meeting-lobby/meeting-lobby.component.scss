@@ -1,6 +1,6 @@
 // ─── Variables ───────────────────────────────────────────────────────────────
 
-$esprit-red: #8B0000;
+$esprit-red: #8b0000;
 $esprit-red-light: #d32f2f;
 $esprit-red-dark: #5c0000;
 $text-dark: #0f172a;
@@ -27,24 +27,46 @@ $glass-shadow: 0 8px 32px rgba(139, 0, 0, 0.15);
 // ─── Animations ─────────────────────────────────────────────────────────────
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba($esprit-red, 0.4); }
-  50% { box-shadow: 0 0 20px 5px rgba($esprit-red, 0.2); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba($esprit-red, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba($esprit-red, 0.2);
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 // ─── Header ─────────────────────────────────────────────────────────────────
@@ -75,9 +97,9 @@ $glass-shadow: 0 8px 32px rgba(139, 0, 0, 0.15);
     position: absolute;
     inset: 0;
     background-image:
-      radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 2px, transparent 2px),
-      radial-gradient(circle at 90% 60%, rgba(255,255,255,0.08) 1.5px, transparent 1.5px),
-      radial-gradient(circle at 30% 70%, rgba(255,255,255,0.06) 1px, transparent 1px);
+      radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+      radial-gradient(circle at 90% 60%, rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px),
+      radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
     background-size: 100% 100%;
     animation: float 6s ease-in-out infinite;
     pointer-events: none;
@@ -145,7 +167,7 @@ $glass-shadow: 0 8px 32px rgba(139, 0, 0, 0.15);
     font-weight: 700;
     margin: 0 0 12px 0;
     letter-spacing: -0.02em;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   .page-subtitle {
@@ -177,7 +199,7 @@ $glass-shadow: 0 8px 32px rgba(139, 0, 0, 0.15);
     left: 0;
     right: 0;
     height: 100px;
-    background: linear-gradient(to bottom, rgba(248,250,252,0), $bg-light);
+    background: linear-gradient(to bottom, rgba(248, 250, 252, 0), $bg-light);
     pointer-events: none;
   }
 }
@@ -201,7 +223,9 @@ $glass-shadow: 0 8px 32px rgba(139, 0, 0, 0.15);
   position: relative;
   overflow: hidden;
   animation: slide-up 0.6s ease-out 0.2s both;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
   &:hover {
     transform: translateY(-2px);
@@ -228,7 +252,11 @@ $glass-shadow: 0 8px 32px rgba(139, 0, 0, 0.15);
   .icon-wrapper {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, rgba($esprit-red, 0.1) 0%, rgba($esprit-red-light, 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba($esprit-red, 0.1) 0%,
+      rgba($esprit-red-light, 0.05) 100%
+    );
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -367,7 +395,9 @@ $glass-shadow: 0 8px 32px rgba(139, 0, 0, 0.15);
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease !important;
-    box-shadow: 0 4px 6px -1px rgba($esprit-red, 0.3), 0 2px 4px -1px rgba($esprit-red, 0.2) !important;
+    box-shadow:
+      0 4px 6px -1px rgba($esprit-red, 0.3),
+      0 2px 4px -1px rgba($esprit-red, 0.2) !important;
 
     &::before {
       content: '';
@@ -376,7 +406,7 @@ $glass-shadow: 0 8px 32px rgba(139, 0, 0, 0.15);
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
       transition: left 0.5s ease;
     }
 

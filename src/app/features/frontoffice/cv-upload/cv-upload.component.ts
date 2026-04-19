@@ -8,102 +8,99 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CvExtractionService } from '../../../core/services/cv-extraction.service';
 
 @Component({
-    selector: 'app-cv-upload',
-    standalone: true,
-    imports: [
-        CommonModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatProgressSpinnerModule
-    ],
-    templateUrl: './cv-upload.component.html',
-    styleUrl: './cv-upload.component.scss'
+  selector: 'app-cv-upload',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  templateUrl: './cv-upload.component.html',
+  styleUrl: './cv-upload.component.scss',
 })
 export class CvUploadComponent {
-    private cvExtractionService = inject(CvExtractionService);
-    private router = inject(Router);
+  private cvExtractionService = inject(CvExtractionService);
+  private router = inject(Router);
 
-    isDragging = false;
-    selectedFile: File | null = null;
-    isLoading = false;
-    errorMessage = '';
+  isDragging = false;
+  selectedFile: File | null = null;
+  isLoading = false;
+  errorMessage = '';
 
-    onDragOver(event: DragEvent) {
-        event.preventDefault();
-        event.stopPropagation();
-        this.isDragging = true;
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.handleFile(files[0]);
+    }
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.handleFile(file);
+    }
+  }
+
+  handleFile(file: File) {
+    // Basic validation
+    if (
+      file.type !== 'application/pdf' &&
+      file.type !== 'application/msword' &&
+      file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ) {
+      this.errorMessage = 'Format non supporté. Veuillez uploader un PDF ou DOCX.';
+      return;
     }
 
-    onDragLeave(event: DragEvent) {
-        event.preventDefault();
-        event.stopPropagation();
-        this.isDragging = false;
+    if (file.size > 5 * 1024 * 1024) {
+      // 5MB limit
+      this.errorMessage = 'Le fichier est trop volumineux (Max 5MB).';
+      return;
     }
 
-    onDrop(event: DragEvent) {
-        event.preventDefault();
-        event.stopPropagation();
-        this.isDragging = false;
+    this.selectedFile = file;
+    this.errorMessage = '';
+  }
 
-        const files = event.dataTransfer?.files;
-        if (files && files.length > 0) {
-            this.handleFile(files[0]);
-        }
-    }
+  removeFile() {
+    this.selectedFile = null;
+    this.errorMessage = '';
+  }
 
-    onFileSelected(event: any) {
-        const file = event.target.files[0];
-        if (file) {
-            this.handleFile(file);
-        }
-    }
+  uploadCv() {
+    if (!this.selectedFile) return;
 
-    handleFile(file: File) {
-        // Basic validation
-        if (file.type !== 'application/pdf' &&
-            file.type !== 'application/msword' &&
-            file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-            this.errorMessage = 'Format non supporté. Veuillez uploader un PDF ou DOCX.';
-            return;
-        }
+    this.isLoading = true;
+    this.errorMessage = '';
 
-        if (file.size > 5 * 1024 * 1024) { // 5MB limit
-            this.errorMessage = 'Le fichier est trop volumineux (Max 5MB).';
-            return;
-        }
+    this.cvExtractionService.extractCv(this.selectedFile).subscribe({
+      next: (response) => {
+        this.isLoading = false;
 
-        this.selectedFile = file;
-        this.errorMessage = '';
-    }
-
-    removeFile() {
-        this.selectedFile = null;
-        this.errorMessage = '';
-    }
-
-    uploadCv() {
-        if (!this.selectedFile) return;
-
-        this.isLoading = true;
-        this.errorMessage = '';
-
-        this.cvExtractionService.extractCv(this.selectedFile).subscribe({
-            next: (response) => {
-                this.isLoading = false;
-
-                console.log(response);
-                // Redirect to profile builder and pass the extracted data
-                this.router.navigate(['/profile-builder'], {
-                    state: { extractedData: response }
-
-                });
-            },
-            error: (error) => {
-                this.isLoading = false;
-                console.error('Extraction error', error);
-                this.errorMessage = "Une erreur s'est produite lors de l'analyse du CV. Veuillez réessayer ou remplir le formulaire manuellement.";
-            }
+        console.log(response);
+        // Redirect to profile builder and pass the extracted data
+        this.router.navigate(['/profile-builder'], {
+          state: { extractedData: response },
         });
-    }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Extraction error', error);
+        this.errorMessage =
+          "Une erreur s'est produite lors de l'analyse du CV. Veuillez réessayer ou remplir le formulaire manuellement.";
+      },
+    });
+  }
 }

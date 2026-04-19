@@ -19,18 +19,22 @@
 
   <!-- KPI Cards -->
   <div class="kpi-grid">
-    <mat-card class="kpi-card" *ngFor="let stat of stats; let i = index" [style.animation-delay]="i * 0.1 + 's'">
+    <mat-card
+      class="kpi-card"
+      *ngFor="let stat of stats; let i = index"
+      [style.animation-delay]="i * 0.1 + 's'"
+    >
       <div class="kpi-content">
         <div class="kpi-info">
-          <span class="kpi-title">{{stat.title}}</span>
-          <span class="kpi-value">{{stat.value}}</span>
+          <span class="kpi-title">{{ stat.title }}</span>
+          <span class="kpi-value">{{ stat.value }}</span>
           <span class="kpi-trend" [class]="stat.trendType">
-                        <mat-icon>{{stat.trendIcon}}</mat-icon>
-            {{stat.trend}}
-                    </span>
+            <mat-icon>{{ stat.trendIcon }}</mat-icon>
+            {{ stat.trend }}
+          </span>
         </div>
         <div class="kpi-icon" [class]="stat.color">
-          <mat-icon>{{stat.icon}}</mat-icon>
+          <mat-icon>{{ stat.icon }}</mat-icon>
         </div>
       </div>
       <div class="kpi-progress">
@@ -54,19 +58,23 @@
       </mat-card-header>
       <mat-card-content>
         <div class="timeline">
-          <div class="timeline-item" *ngFor="let step of timelineSteps; let last = last" [class]="step.status">
+          <div
+            class="timeline-item"
+            *ngFor="let step of timelineSteps; let last = last"
+            [class]="step.status"
+          >
             <div class="timeline-marker">
               <div class="marker-circle">
                 <mat-icon *ngIf="step.status === 'completed'">check</mat-icon>
-                <mat-icon *ngIf="step.status === 'active'">{{step.icon}}</mat-icon>
-                <span *ngIf="step.status === 'pending'">{{step.step}}</span>
+                <mat-icon *ngIf="step.status === 'active'">{{ step.icon }}</mat-icon>
+                <span *ngIf="step.status === 'pending'">{{ step.step }}</span>
               </div>
               <div class="marker-line" *ngIf="!last"></div>
             </div>
             <div class="timeline-content">
-              <h4>{{step.label}}</h4>
-              <p>{{step.description}}</p>
-              <span class="timeline-date">{{step.date}}</span>
+              <h4>{{ step.label }}</h4>
+              <p>{{ step.description }}</p>
+              <span class="timeline-date">{{ step.date }}</span>
             </div>
           </div>
         </div>
@@ -88,9 +96,9 @@
             <div class="bar-item" *ngFor="let bar of barData">
               <div class="bar-wrapper">
                 <div class="bar" [style.height.%]="bar.value" [class]="bar.type"></div>
-                <span class="bar-value">{{bar.value}}%</span>
+                <span class="bar-value">{{ bar.value }}%</span>
               </div>
-              <span class="bar-label">{{bar.label}}</span>
+              <span class="bar-label">{{ bar.label }}</span>
             </div>
           </div>
         </mat-card-content>
@@ -108,9 +116,11 @@
           <div class="pie-chart-container">
             <div class="pie-chart">
               <svg viewBox="0 0 36 36">
-                <path *ngFor="let slice of pieData"
-                      [attr.d]="slice.path"
-                      [attr.fill]="slice.color"/>
+                <path
+                  *ngFor="let slice of pieData"
+                  [attr.d]="slice.path"
+                  [attr.fill]="slice.color"
+                />
               </svg>
               <div class="pie-center">
                 <span>142</span>
@@ -120,8 +130,8 @@
             <div class="pie-legend">
               <div class="legend-item" *ngFor="let item of pieData">
                 <span class="legend-dot" [style.background]="item.color"></span>
-                <span class="legend-label">{{item.label}}</span>
-                <span class="legend-value">{{item.value}}%</span>
+                <span class="legend-label">{{ item.label }}</span>
+                <span class="legend-value">{{ item.value }}%</span>
               </div>
             </div>
           </div>
@@ -145,43 +155,43 @@
     <mat-card-content>
       <table class="data-table">
         <thead>
-        <tr>
-          <th>Candidat</th>
-          <th>Spécialité</th>
-          <th>Score IA</th>
-          <th>Statut</th>
-          <th>Action</th>
-        </tr>
+          <tr>
+            <th>Candidat</th>
+            <th>Spécialité</th>
+            <th>Score IA</th>
+            <th>Statut</th>
+            <th>Action</th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let candidate of recentCandidates">
-          <td>
-            <div class="candidate-info">
-              <div class="candidate-avatar">
-                {{candidate.name.charAt(0)}}
+          <tr *ngFor="let candidate of recentCandidates">
+            <td>
+              <div class="candidate-info">
+                <div class="candidate-avatar">
+                  {{ candidate.name.charAt(0) }}
+                </div>
+                <span class="candidate-name">{{ candidate.name }}</span>
               </div>
-              <span class="candidate-name">{{candidate.name}}</span>
-            </div>
-          </td>
-          <td>{{candidate.specialty}}</td>
-          <td>
-            <div class="score-display">
-              <div class="score-ring" [class]="getScoreClass(candidate.score)">
-                <span>{{candidate.score}}</span>
+            </td>
+            <td>{{ candidate.specialty }}</td>
+            <td>
+              <div class="score-display">
+                <div class="score-ring" [class]="getScoreClass(candidate.score)">
+                  <span>{{ candidate.score }}</span>
+                </div>
               </div>
-            </div>
-          </td>
-          <td>
-                            <span class="status-badge" [class]="getStatusClass(candidate.status)">
-                                {{candidate.status}}
-                            </span>
-          </td>
-          <td>
-            <button mat-icon-button color="primary">
-              <mat-icon>visibility</mat-icon>
-            </button>
-          </td>
-        </tr>
+            </td>
+            <td>
+              <span class="status-badge" [class]="getStatusClass(candidate.status)">
+                {{ candidate.status }}
+              </span>
+            </td>
+            <td>
+              <button mat-icon-button color="primary">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </mat-card-content>

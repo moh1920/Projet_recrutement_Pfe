@@ -1,31 +1,41 @@
 <div class="upload-container">
   <div class="header-section">
     <h1>Créez votre profil candidat</h1>
-    <p>Téléchargez votre CV pour pré-remplir automatiquement votre dossier de candidature grâce à notre intelligence artificielle.</p>
+    <p>
+      Téléchargez votre CV pour pré-remplir automatiquement votre dossier de candidature grâce à
+      notre intelligence artificielle.
+    </p>
   </div>
 
   <mat-card class="upload-card">
     <mat-card-content>
       <!-- Upload Zone -->
-      <div class="drop-zone" 
-           [class.dragging]="isDragging"
-           [class.loading]="isLoading"
-           (dragover)="onDragOver($event)" 
-           (dragleave)="onDragLeave($event)" 
-           (drop)="onDrop($event)">
-        
+      <div
+        class="drop-zone"
+        [class.dragging]="isDragging"
+        [class.loading]="isLoading"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
         <ng-container *ngIf="!isLoading && !selectedFile">
           <mat-icon class="upload-icon">cloud_upload</mat-icon>
           <h3>Glissez et déposez votre CV ici</h3>
           <p class="file-types">Formats acceptés: PDF, DOC, DOCX (Max 5MB)</p>
-          
+
           <div class="divider"><span>ou</span></div>
-          
+
           <button mat-flat-button color="primary" class="browse-btn" (click)="fileInput.click()">
             <mat-icon>folder_open</mat-icon>
             Parcourir les fichiers
           </button>
-          <input type="file" #fileInput (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" hidden>
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileSelected($event)"
+            accept=".pdf,.doc,.docx"
+            hidden
+          />
         </ng-container>
 
         <!-- Selected File View -->
@@ -34,9 +44,16 @@
             <mat-icon class="file-icon">description</mat-icon>
             <div class="file-details">
               <span class="file-name">{{ selectedFile.name }}</span>
-              <span class="file-size">{{ (selectedFile.size / 1024 / 1024) | number:'1.1-2' }} MB</span>
+              <span class="file-size"
+                >{{ selectedFile.size / 1024 / 1024 | number: '1.1-2' }} MB</span
+              >
             </div>
-            <button mat-icon-button color="warn" (click)="removeFile()" matTooltip="Retirer le fichier">
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="removeFile()"
+              matTooltip="Retirer le fichier"
+            >
               <mat-icon>close</mat-icon>
             </button>
           </div>
@@ -55,7 +72,9 @@
           <div class="loading-state">
             <mat-spinner diameter="60"></mat-spinner>
             <h3>Analyse en cours...</h3>
-            <p>Notre IA extrait les informations de votre CV, veuillez patienter quelques instants.</p>
+            <p>
+              Notre IA extrait les informations de votre CV, veuillez patienter quelques instants.
+            </p>
           </div>
         </ng-container>
 

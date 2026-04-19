@@ -3,5 +3,5 @@ export const environment = {
   keycloakUrl: 'http://localhost:9090',
   keycloakRealm: 'espritRecrutement',
   keycloakClientId: 'espritRecrutement',
-  apiUrl: 'http://localhost:8020'
+  apiUrl: 'http://localhost:8020',
 };
