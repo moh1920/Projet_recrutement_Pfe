@@ -172,7 +172,7 @@ jobs:
   docker:
     name: Docker Build & Push
     runs-on: ubuntu-latest
-    needs: trivy
+    needs: [ trivy , sonar]
     if: github.event_name == 'push'
 
     steps:
