@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.5</version>
-		<!-- ↑ 3.2.5 → 3.3.5 : embarque tomcat-embed-core 10.1.31 (corrige CRITICAL) -->
+		<version>3.2.5</version>
 		<relativePath/>
 	</parent>
 
@@ -16,33 +15,26 @@
 	<name>PfeBackendProject</name>
 	<description>projet de recrutement des enseignants a esprit</description>
 	<url/>
-	<licenses><license/></licenses>
-	<developers><developer/></developers>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
 	<scm>
-		<connection/><developerConnection/><tag/><url/>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
 	</scm>
-
 	<properties>
 		<java.version>17</java.version>
 
-		<!-- SonarCloud -->
+		<!-- SonarCloud — NE PAS mettre localhost ici -->
 		<sonar.organization>moh1920</sonar.organization>
 		<sonar.projectKey>moh1920_Projet_recrutement_Pfe</sonar.projectKey>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
-		<!-- Versions centralisées — faciles à mettre à jour -->
-		<keycloak.version>24.0.5</keycloak.version>
-		<!-- ↑ 23.0.4 → 24.0.5 : corrige 6 CVE HIGH -->
-
-		<langchain4j.version>0.36.2</langchain4j.version>
-		<!-- ↑ 0.35.0 → 0.36.2 : corrige CVE HIGH -->
-
-		<nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
-		<!-- ↑ 9.24.4 → 9.40 : corrige CVE HIGH
-		     spring-boot-starter-oauth2-resource-server embarque nimbus-jose-jwt,
-		     cette propriété override la version du BOM Spring Boot -->
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -52,6 +44,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -68,6 +61,9 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -77,25 +73,21 @@
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 
-		<!-- Keycloak : 23.0.4 → 24.0.5 (corrige 6 CVE HIGH) -->
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-admin-client</artifactId>
-			<version>${keycloak.version}</version>
+			<version>23.0.4</version>
 		</dependency>
 
-		<!-- Nimbus JOSE+JWT : override de la version embarquée par oauth2-resource-server -->
-		<dependency>
-			<groupId>com.nimbusds</groupId>
-			<artifactId>nimbus-jose-jwt</artifactId>
-			<version>${nimbus-jose-jwt.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+
+
+
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
@@ -107,34 +99,48 @@
 			<version>1.5.5.Final</version>
 			<scope>provided</scope>
 		</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+
+
+
+		<!-- WebSocket + STOMP (signalisation WebRTC) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
-		<!-- LangChain4j : 0.35.0 → 0.36.2 (corrige CVE HIGH) -->
+
+
+		<!-- Remplace langchain4j-anthropic par : -->
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j</artifactId>
-			<version>${langchain4j.version}</version>
+			<version>0.35.0</version>
 		</dependency>
+
+
+
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-google-ai-gemini</artifactId>
-			<version>${langchain4j.version}</version>
+			<version>0.35.0</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.cloudinary</groupId>
 			<artifactId>cloudinary-http44</artifactId>
 			<version>1.36.0</version>
 		</dependency>
-	</dependencies>
 
+
+
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -149,13 +155,11 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.9.1.2184</version>
 			</plugin>
-
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -171,21 +175,37 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- ════════════════════════════════════════════════════════════
+     Ajouter ce bloc dans la section <plugins> de ton pom.xml
+     (dans <build> → <plugins>)
+     ════════════════════════════════════════════════════════════ -->
 
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>12.1.0</version>
 				<configuration>
+					<!-- Seuil CVSS : le build échoue si un CVE >= 7.0 est trouvé
+                         (7 = High, 9 = Critical uniquement, 0 = tous les CVE) -->
 					<failBuildOnCVSS>7</failBuildOnCVSS>
+
+					<!-- Fichier des faux positifs à ignorer -->
 					<suppressionFile>.github/owasp-suppressions.xml</suppressionFile>
+
+					<!-- Formats de rapport générés -->
 					<formats>
 						<format>HTML</format>
 						<format>JSON</format>
 						<format>SARIF</format>
 					</formats>
+
+					<!-- Clé API NVD (optionnelle mais recommandée pour éviter le rate-limit)
+                         Crée une clé gratuite sur : https://nvd.nist.gov/developers/request-an-api-key
+                         Puis ajoute NVD_API_KEY dans tes GitHub Secrets -->
 					<!--suppress UnresolvedMavenProperty -->
 					<nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
+
+					<!-- Ne pas scanner les dépendances de scope test -->
 					<skipTestScope>true</skipTestScope>
 				</configuration>
 			</plugin>
