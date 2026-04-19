@@ -123,7 +123,6 @@ jobs:
         with:
           path: ~/.dependency-check/data
           key: ${{ runner.os }}-nvd-v12-${{ hashFiles('**/pom.xml') }}
-          # ↑ "v12" force la création d'un nouveau cache propre
           restore-keys: ${{ runner.os }}-nvd-v12-
 
       - name: Run OWASP Dependency-Check
@@ -173,6 +172,33 @@ jobs:
           path: target/
           if-no-files-found: warn
           retention-days: 14
+
+      # Fix : tronque les rule IDs > 255 caractères générés par le plugin OWASP
+      - name: Fix SARIF — tronquer les rule IDs trop longs
+        if: always() && hashFiles('target/dependency-check-report.sarif') != ''
+        run: |
+          python3 - <<'EOF'
+          import json
+          
+          sarif_path = "target/dependency-check-report.sarif"
+          
+          with open(sarif_path, "r", encoding="utf-8") as f:
+              sarif = json.load(f)
+          
+          for run in sarif.get("runs", []):
+              driver = run.get("tool", {}).get("driver", {})
+              for rule in driver.get("rules", []):
+                  if len(rule.get("id", "")) > 255:
+                      rule["id"] = rule["id"][:255]
+              for result in run.get("results", []):
+                  if len(result.get("ruleId", "")) > 255:
+                      result["ruleId"] = result["ruleId"][:255]
+          
+          with open(sarif_path, "w", encoding="utf-8") as f:
+              json.dump(sarif, f)
+          
+          print("SARIF corrigé avec succès.")
+          EOF
 
       - name: Upload SARIF to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v4
