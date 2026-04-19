@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [pfe-dev]
 
-# Étape partagée réutilisable
 defaults:
   run:
     shell: bash
@@ -52,7 +51,7 @@ jobs:
           retention-days: 7
 
   # ══════════════════════════════════════════════
-  # JOB 2 — Tests + Couverture (1 seule exécution)
+  # JOB 2 — Tests + Couverture
   # ══════════════════════════════════════════════
   test:
     name: Tests Unitaires
@@ -70,6 +69,7 @@ jobs:
           cache: 'npm'
 
       - name: Restore node_modules cache
+        id: cache-nm
         uses: actions/cache@v4
         with:
           path: node_modules
@@ -83,7 +83,6 @@ jobs:
       - name: Run Tests with Coverage
         run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
 
-      # Upload lcov.info pour Sonar (évite le double test)
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -92,7 +91,7 @@ jobs:
           retention-days: 7
 
   # ══════════════════════════════════════════════
-  # JOB 3 — SonarCloud (réutilise lcov.info)
+  # JOB 3 — SonarCloud
   # ══════════════════════════════════════════════
   sonar:
     name: SonarCloud Analysis
@@ -115,7 +114,6 @@ jobs:
           path: node_modules
           key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-      # Télécharge le rapport déjà généré — pas de re-test
       - uses: actions/download-artifact@v4
         with:
           name: coverage-report
@@ -137,42 +135,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
 
-
-
   # ══════════════════════════════════════════════
-  # JOB 5 — Trivy Security Scan
-  # ══════════════════════════════════════════════
-  trivy:
-    name: Trivy Security Scan
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.event_name == 'push'
-
-    steps:
-      - name: Scan image Docker avec Trivy
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: sayarimohamed/pfe-frontend:${{ github.sha }}
-          format: table
-          exit-code: 1
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH
-          output: trivy-report.txt
-
-      - name: Upload rapport Trivy
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: trivy-security-report
-          path: trivy-report.txt
-          retention-days: 30
-  # ══════════════════════════════════════════════
-  # JOB 5 — Docker Build & Push
+  # JOB 4 — Docker Build & Push
   # ══════════════════════════════════════════════
   docker:
     name: Docker Build & Push
     runs-on: ubuntu-latest
-    needs: [ trivy , sonar]
+    needs: sonar                         # ✓ corrigé — plus de dépendance trivy ici
     if: github.event_name == 'push'
 
     steps:
@@ -197,12 +166,47 @@ jobs:
           cache-to: type=gha,mode=max
 
   # ══════════════════════════════════════════════
-  # JOB 5 — Deploy Azure + Rollback
+  # JOB 5 — Trivy Security Scan
+  # ══════════════════════════════════════════════
+  trivy:
+    name: Trivy Security Scan
+    runs-on: ubuntu-latest
+    needs: docker                        # ✓ corrigé — après docker, pas après test
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3     # ✓ ajouté — nécessaire pour pull depuis DockerHub
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Scan image avec Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: docker.io/sayarimohamed/pfe-frontend:${{ github.sha }}
+          format: table
+          exit-code: 1
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
+          output: trivy-report.txt
+          image-src: remote              # ✓ ajouté — force le pull depuis DockerHub
+
+      - name: Upload rapport Trivy
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-security-report
+          path: trivy-report.txt
+          retention-days: 30
+
+  # ══════════════════════════════════════════════
+  # JOB 6 — Deploy Azure + Rollback
   # ══════════════════════════════════════════════
   deploy-frontend:
     name: Deploy Frontend Azure
     runs-on: ubuntu-latest
-    needs: docker
+    needs: trivy                         # ✓ corrigé — attend que Trivy valide
     if: github.event_name == 'push'
 
     permissions:
@@ -221,7 +225,6 @@ jobs:
 
       - name: Deploy with auto-rollback
         run: |
-          # Sauvegarde la révision active avant déploiement
           PREV_REVISION=$(az containerapp revision list \
             --name pfe-frontend \
             --resource-group pfe-rg \
@@ -230,7 +233,6 @@ jobs:
 
           echo "Révision précédente : $PREV_REVISION"
 
-          # Tente le déploiement
           if ! az containerapp update \
             --name pfe-frontend \
             --resource-group pfe-rg \
@@ -245,12 +247,12 @@ jobs:
           fi
 
   # ══════════════════════════════════════════════
-  # JOB 6 — Notification échec
+  # JOB 7 — Notification échec
   # ══════════════════════════════════════════════
   notify-failure:
     name: Notify on Failure
     runs-on: ubuntu-latest
-    needs: [build, test, sonar, docker, deploy-frontend]
+    needs: [build, test, sonar, docker, trivy, deploy-frontend]  # ✓ trivy ajouté
     if: failure()
 
     steps:
