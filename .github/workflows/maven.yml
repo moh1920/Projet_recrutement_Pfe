@@ -340,6 +340,33 @@ jobs:
           key: ${{ runner.os }}-trivy-${{ github.run_id }}
           restore-keys: ${{ runner.os }}-trivy-
 
+      # ── Rapport de diagnostic AVANT le scan bloquant ──
+      - name: Trivy — diagnostic complet (non bloquant)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: sayarimohamed/pfe-backend:${{ github.sha }}
+          scan-type: image
+          scanners: vuln
+          severity: CRITICAL,HIGH,MEDIUM
+          format: table
+          output: trivy-diagnostic.txt
+          exit-code: '0'             # non bloquant
+          ignore-unfixed: false      # montre TOUT y compris sans correctif
+
+      - name: Afficher le diagnostic dans les logs
+        if: always()
+        run: |
+          echo "=== Vulnérabilités détectées par Trivy ==="
+          cat trivy-diagnostic.txt
+
+      - name: Upload diagnostic
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-diagnostic
+          path: trivy-diagnostic.txt
+          retention-days: 3
+
       - name: Trivy — scan vulnérabilités image Docker
         uses: aquasecurity/trivy-action@master
         with:
