@@ -1,4 +1,9 @@
 import os
+
+# --- Déplacement du cache de HuggingFace vers le disque F ---
+os.environ["HF_HOME"] = "F:/HF_Cache"
+os.environ["HUGGINGFACE_HUB_CACHE"] = "F:/HF_Cache"
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -30,15 +35,27 @@ app = FastAPI(
 #
 # Pour fine-tuner ce modèle, lancer : python train_model.py
 # ─────────────────────────────────────────────────────────────────────────────
-BASE_MODEL      = "intfloat/multilingual-e5-base"   # ← remplace MiniLM
-MODEL_SAVE_PATH = "./trained_model"
+MODELS_CONFIG = {
+    "e5": {
+        "base_name": "intfloat/multilingual-e5-base",
+        "save_path": "./trained_model_e5"
+    },
+    "bge-m3": {
+        "base_name": "BAAI/bge-m3",
+        "save_path": "./trained_model_bge_m3"
+    }
+}
 
-if os.path.exists(MODEL_SAVE_PATH):
-    logger.info(f"Loading custom trained model from {MODEL_SAVE_PATH}...")
-    model = SentenceTransformer(MODEL_SAVE_PATH)
-else:
-    logger.info(f"Loading base model: {BASE_MODEL}")
-    model = SentenceTransformer(BASE_MODEL)
+MODELS = {}
+for model_key, config in MODELS_CONFIG.items():
+    if os.path.exists(config["save_path"]):
+        logger.info(f"Loading custom trained model [{model_key}] from {config['save_path']}...")
+        MODELS[model_key] = SentenceTransformer(config["save_path"])
+    else:
+        logger.info(f"Loading base model [{model_key}]: {config['base_name']}")
+        MODELS[model_key] = SentenceTransformer(config["base_name"])
+
+PRIMARY_MODEL = "bge-m3"  # Modèle par défaut renvoyé dans le globalScore principal
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -49,11 +66,19 @@ class MatchRequest(BaseModel):
     candidate: Dict[str, Any]
     profile: Optional[Dict[str, Any]] = None
 
+class ModelScoreDetail(BaseModel):
+    globalScore: float
+    semanticScore: float
+    skillsScore: float
+    experienceScore: float
+    educationScore: float
+
 class MatchResult(BaseModel):
     offerId: str
     candidateId: str
     globalScore: float
     details: Dict[str, Any]
+    modelScores: Optional[Dict[str, ModelScoreDetail]] = None
 
 class CandidateProfilePair(BaseModel):
     candidate: Dict[str, Any]
@@ -67,6 +92,7 @@ class TrainingExampleDTO(BaseModel):
 class TrainingRequest(BaseModel):
     examples: List[TrainingExampleDTO]
     epochs: Optional[int] = 1
+    model_type: Optional[str] = "bge-m3"  # "e5" ou "bge-m3"
 
 class MatchMultipleRequest(BaseModel):
     offer: Dict[str, Any]
@@ -85,22 +111,24 @@ class MatchProfileOffersRequest(BaseModel):
 # ─────────────────────────────────────────────────────────────────────────────
 # LOGIQUE MÉTIER
 # ─────────────────────────────────────────────────────────────────────────────
-def encode_for_e5(text: str, is_query: bool = True) -> str:
+def format_input_for_model(text: str, is_query: bool, model_key: str) -> str:
     """
-    multilingual-e5-base requiert un préfixe pour de meilleures performances :
-      - "query: ..."   → texte à comparer (côté offre / recherche)
-      - "passage: ..." → texte de référence (côté candidat / document)
+    Formate le texte d'entrée selon les spécificités de chaque modèle.
+    e5 nécessite 'query:' et 'passage:', bge-m3 fonctionne classiquement.
     """
-    prefix = "query: " if is_query else "passage: "
-    return prefix + text.strip()
+    text = text.strip()
+    if model_key == "e5":
+        prefix = "query: " if is_query else "passage: "
+        return prefix + text
+    return text
 
 
-def calculate_semantic_similarity(text1: str, text2: str) -> float:
+def calculate_semantic_similarity(text1: str, text2: str, model_encoder: SentenceTransformer, model_key: str) -> float:
     if not text1 or not text2:
         return 0.0
     # text1 = offre (query), text2 = candidat (passage)
-    emb1 = model.encode([encode_for_e5(text1, is_query=True)])
-    emb2 = model.encode([encode_for_e5(text2, is_query=False)])
+    emb1 = model_encoder.encode([format_input_for_model(text1, is_query=True, model_key=model_key)])
+    emb2 = model_encoder.encode([format_input_for_model(text2, is_query=False, model_key=model_key)])
     sim  = cosine_similarity(emb1, emb2)[0][0]
     return float(max(0.0, sim))
 
@@ -187,7 +215,7 @@ def process_match(
         matching_skills = set()
         skills_score    = 100.0
 
-    # 4. SIMILARITÉ SÉMANTIQUE (40 %)
+    # 4. SIMILARITÉ SÉMANTIQUE (40 %) SUR L'ENSEMBLE DES MODÈLES
     offer_text = " ".join([
         str(offer.get("title", "")),
         str(offer.get("description", "")),
@@ -198,32 +226,46 @@ def process_match(
         str(profile.get("motivation", "")),
         " ".join(candidate.get("skills", [])),
     ])
-    semantic_score = calculate_semantic_similarity(offer_text, cand_text) * 100.0
 
-    # SCORE GLOBAL
-    global_score = (
-        exp_score      * 0.15
-        + edu_score    * 0.15
-        + skills_score * 0.30
-        + semantic_score * 0.40
-    )
+    model_scores = {}
+    for mod_key, mod_encoder in MODELS.items():
+        sim_score = calculate_semantic_similarity(offer_text, cand_text, mod_encoder, mod_key) * 100.0
+        g_score = (
+            exp_score      * 0.15
+            + edu_score    * 0.15
+            + skills_score * 0.30
+            + sim_score    * 0.40
+        )
+        model_scores[mod_key] = {
+            "globalScore": round(g_score, 2),
+            "semanticScore": round(sim_score, 2),
+            "skillsScore": round(skills_score, 2),
+            "experienceScore": round(exp_score, 2),
+            "educationScore": round(edu_score, 2)
+        }
+
+    # Données par défaut pour la compatibilité ascendante (on utilise PRIMARY_MODEL, voire 'e5' si non dispo)
+    main_model_key = PRIMARY_MODEL if PRIMARY_MODEL in model_scores else list(model_scores.keys())[0]
+    main_scores = model_scores[main_model_key]
 
     missing_skills = req_skills - matching_skills
 
     return MatchResult(
         offerId=offer.get("_id", offer.get("id", "unknown_offer")),
         candidateId=candidate.get("_id", candidate.get("id", "unknown_candidate")),
-        globalScore=round(global_score, 2),
+        globalScore=main_scores["globalScore"],
         details={
-            "experienceScore":  round(exp_score, 2),
-            "educationScore":   round(edu_score, 2),
-            "skillsScore":      round(skills_score, 2),
-            "semanticScore":    round(semantic_score, 2),
+            "experienceScore":  main_scores["experienceScore"],
+            "educationScore":   main_scores["educationScore"],
+            "skillsScore":      main_scores["skillsScore"],
+            "semanticScore":    main_scores["semanticScore"],
             "matchingSkills":   list(matching_skills),
             "missingSkills":    list(missing_skills),
             "candidateExperience": cand_exp,
             "offerMinExperience":  offer_min_exp,
+            "usedModel": main_model_key
         },
+        modelScores=model_scores
     )
 
 
@@ -284,14 +326,25 @@ async def rank_profile_offers(request: MatchProfileOffersRequest):
 
 
 @app.post("/api/train")
-async def train_model(request: TrainingRequest):
-    global model
+async def api_train_model(request: TrainingRequest):
     try:
-        logger.info(f"Training: {len(request.examples)} exemples, {request.epochs} epoch(s)")
+        model_key = request.model_type or PRIMARY_MODEL
+        if model_key not in MODELS_CONFIG:
+            raise HTTPException(status_code=400, detail=f"Modèle inconnu : {model_key}")
+            
+        logger.info(f"Training [{model_key}]: {len(request.examples)} exemples, {request.epochs} epoch(s)")
+
+        encoder_to_train = MODELS.get(model_key)
+        if encoder_to_train is None:
+            # S'il n'était pas chargé en mémoire (cas peu probable ici), le charger
+            encoder_to_train = SentenceTransformer(MODELS_CONFIG[model_key]["base_name"])
 
         train_examples = [
             InputExample(
-                texts=[ex.offer_text, ex.candidate_text],
+                texts=[
+                    format_input_for_model(ex.offer_text, True, model_key),
+                    format_input_for_model(ex.candidate_text, False, model_key)
+                ],
                 label=float(max(0.0, min(1.0, ex.score))),
             )
             for ex in request.examples
@@ -301,20 +354,24 @@ async def train_model(request: TrainingRequest):
             raise HTTPException(status_code=400, detail="Aucun exemple valide fourni.")
 
         train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=16)
-        train_loss       = losses.CosineSimilarityLoss(model)
+        train_loss       = losses.CosineSimilarityLoss(encoder_to_train)
 
-        model.fit(
+        encoder_to_train.fit(
             train_objectives=[(train_dataloader, train_loss)],
             epochs=request.epochs,
             warmup_steps=100,
             show_progress_bar=True,
         )
 
-        os.makedirs(MODEL_SAVE_PATH, exist_ok=True)
-        model.save(MODEL_SAVE_PATH)
-        logger.info(f"Modèle sauvegardé dans {MODEL_SAVE_PATH}")
+        save_path = MODELS_CONFIG[model_key]["save_path"]
+        os.makedirs(save_path, exist_ok=True)
+        encoder_to_train.save(save_path)
+        
+        # Mettre à jour l'instance en mémoire
+        MODELS[model_key] = encoder_to_train
+        logger.info(f"Modèle [{model_key}] sauvegardé dans {save_path}")
 
-        return {"status": "success", "message": f"Modèle entraîné et sauvegardé dans {MODEL_SAVE_PATH}"}
+        return {"status": "success", "message": f"Modèle {model_key} entraîné et sauvegardé dans {save_path}"}
 
     except Exception as e:
         logger.error(f"Erreur entraînement: {e}")

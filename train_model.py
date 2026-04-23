@@ -9,6 +9,11 @@ Usage:
 """
 
 import os
+
+# --- Déplacement du cache de HuggingFace vers le disque F ---
+os.environ["HF_HOME"] = "F:/HF_Cache"
+os.environ["HUGGINGFACE_HUB_CACHE"] = "F:/HF_Cache"
+
 import json
 import argparse
 import logging
@@ -25,8 +30,16 @@ from torch.utils.data import DataLoader
 # ─────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────
-BASE_MODEL      = "intfloat/multilingual-e5-base"   # Remplace MiniLM
-MODEL_SAVE_PATH = "./trained_model"
+MODELS_CONFIG = {
+    "e5": {
+        "base_model": "intfloat/multilingual-e5-base",
+        "save_path": "./trained_model_e5"
+    },
+    "bge-m3": {
+        "base_model": "BAAI/bge-m3",
+        "save_path": "./trained_model_bge_m3"
+    }
+}
 EVAL_SAVE_PATH  = "./eval_results"
 BATCH_SIZE      = 2
 EPOCHS          = 3
@@ -237,13 +250,24 @@ def load_examples_from_json(path: str) -> List[Tuple[str, str, float]]:
     return examples
 
 
+def format_text(text: str, is_query: bool, model_key: str) -> str:
+    text = text.strip()
+    if model_key == "e5":
+        return ("query: " if is_query else "passage: ") + text
+    return text
+
+
 def build_input_examples(
-    data: List[Tuple[str, str, float]]
+    data: List[Tuple[str, str, float]],
+    model_key: str = "bge-m3"
 ) -> List[InputExample]:
     """Convertit les tuples en InputExample pour SentenceTransformers."""
     return [
         InputExample(
-            texts=[offer, candidate],
+            texts=[
+                format_text(offer, True, model_key),
+                format_text(candidate, False, model_key)
+            ],
             label=float(max(0.0, min(1.0, score))),
         )
         for offer, candidate, score in data
@@ -262,7 +286,7 @@ def split_train_eval(
 # ─────────────────────────────────────────────
 # ENTRAÎNEMENT
 # ─────────────────────────────────────────────
-def train(data_path: str | None = None, epochs: int = EPOCHS) -> None:
+def train(data_path: str | None = None, epochs: int = EPOCHS, model_key: str = "bge-m3") -> None:
     # 1. Choix des données
     raw_data = (
         load_examples_from_json(data_path)
@@ -276,11 +300,13 @@ def train(data_path: str | None = None, epochs: int = EPOCHS) -> None:
     logger.info(f"Total examples: {len(raw_data)}")
 
     # 2. Chargement du modèle de base
-    logger.info(f"Loading base model: {BASE_MODEL}")
-    model = SentenceTransformer(BASE_MODEL)
+    base_model_name = MODELS_CONFIG[model_key]["base_model"]
+    model_save_path = MODELS_CONFIG[model_key]["save_path"]
+    logger.info(f"Loading base model [{model_key}]: {base_model_name}")
+    model = SentenceTransformer(base_model_name)
 
     # 3. Préparation des données
-    all_examples   = build_input_examples(raw_data)
+    all_examples   = build_input_examples(raw_data, model_key)
     train_examples, eval_examples = split_train_eval(all_examples)
 
     logger.info(f"Train: {len(train_examples)} | Eval: {len(eval_examples)}")
@@ -320,9 +346,9 @@ def train(data_path: str | None = None, epochs: int = EPOCHS) -> None:
     )
 
     # 7. Sauvegarde du modèle final
-    os.makedirs(MODEL_SAVE_PATH, exist_ok=True)
-    model.save(MODEL_SAVE_PATH)
-    logger.info(f"✅ Model saved to {MODEL_SAVE_PATH}")
+    os.makedirs(model_save_path, exist_ok=True)
+    model.save(model_save_path)
+    logger.info(f"✅ Model saved to {model_save_path}")
 
     # 8. Test rapide post-entraînement
     quick_eval(model)
@@ -387,14 +413,23 @@ if __name__ == "__main__":
         action="store_true",
         help="Évaluer le modèle existant sans entraîner",
     )
+    parser.add_argument(
+        "--model_type",
+        type=str,
+        choices=["e5", "bge-m3"],
+        default="bge-m3",
+        help="Type de modèle à utiliser"
+    )
     args = parser.parse_args()
 
     if args.eval:
         logger.info("Loading existing model for evaluation only...")
-        if os.path.exists(MODEL_SAVE_PATH):
-            m = SentenceTransformer(MODEL_SAVE_PATH)
+        save_path = MODELS_CONFIG[args.model_type]["save_path"]
+        base_name = MODELS_CONFIG[args.model_type]["base_model"]
+        if os.path.exists(save_path):
+            m = SentenceTransformer(save_path)
         else:
-            m = SentenceTransformer(BASE_MODEL)
+            m = SentenceTransformer(base_name)
         quick_eval(m)
     else:
-        train(data_path=args.data, epochs=args.epochs)
+        train(data_path=args.data, epochs=args.epochs, model_key=args.model_type)

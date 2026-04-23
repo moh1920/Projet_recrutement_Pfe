@@ -131,6 +131,8 @@ if __name__ == "__main__":
         
         result = response.json()
         print(f"Candidate: {candidate_data['firstName']} Score: {result['globalScore']}%")
+        if 'modelScores' in result:
+            print(f"Model Scores: {json.dumps(result['modelScores'], indent=2)}")
     except requests.exceptions.ConnectionError:
         print("\nERREUR: Impossible de se connecter à l'API.")
         print("Veuillez d'abord démarrer le serveur FastAPI avec la commande :")

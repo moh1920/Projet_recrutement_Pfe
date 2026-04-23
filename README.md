@@ -15,10 +15,12 @@ Ce service s'intègre avec une architecture backend (ex: Spring Boot) pour fourn
 ### 🔍 L'algorithme (Score sur 100%)
 
 Le calcul du score (`globalScore`) est pondéré sur 4 critères d'évaluation :
-1. **Similarité Sémantique (40%)** : Utilise le modèle Transformer NLP optimisé de HuggingFace (`intfloat/multilingual-e5-base`), potentiellement fine-tuné sur nos données RH. Il convertit les textes en vecteurs pour analyser le *sens* du profil par rapport à la description de l'offre.
+1. **Similarité Sémantique (40%)** : Utilise désormais **deux modèles en parallèle** pour évaluation et comparaison : `BAAI/bge-m3` (modèle principal de très haute performance, ~2.2Go) et `intfloat/multilingual-e5-base` (modèle secondaire/historique). Ils convertissent les textes en vecteurs pour analyser le *sens* du profil par rapport à la description de l'offre.
 2. **Compétences Techniques (30%)** : Matching exact des compétences exigées (Langages de programmation, Outils, Frameworks).
 3. **Niveau d'Études (15%)** : Vérification de la hiérarchie académique (Licence, Master, Ingénieur, Doctorat).
 4. **Expérience (15%)** : Minimum d'années d'expérience confronté au profil du candidat.
+
+> **Nouveau Format API :** Les réponses JSON incluent un objet structuré `modelScores` dans la section `details` vous permettant de comparer instantanément la validation de chaque modèle d'IA !
 
 ---
 
@@ -33,19 +35,19 @@ Le calcul du score (`globalScore`) est pondéré sur 4 critères d'évaluation :
    ```bash
    pip install -r requirements.txt
    ```
-2. Lancer le serveur local (avec rechargement à chaud) en utilisant `uvicorn` :
+2. L'API chargera les deux modèles en mémoire (assurez-vous d'avoir au moins 3.5 Go de RAM). Lancer le serveur local (avec rechargement à chaud) en utilisant `uvicorn` :
    ```bash
    python -m uvicorn main:app --port 8001 --reload
    ```
-   > **Note :** Lors du 1er lancement, s'il n'y a pas de modèle pré-entraîné dans `./trained_model`, le modèle de base `multilingual-e5-base` sera téléchargé depuis internet (environ 278 Mo). La console peut rester en attente de ce téléchargement.
+   > **Note :** Lors du 1er lancement, s'il n'y a pas de modèles pré-entraînés dans les répertoires de sauvegarde locaux, les modèles de base (`bge-m3` et `e5-base`) seront téléchargés depuis internet (~2.5 Go au total). La console peut rester en attente de ce téléchargement un long moment.
 
 ### Fine-Tuning Local (Entraînement)
-Vous pouvez ré-affiner les résultats du modèle localement avec le script d'entraînement inclus `train_model.py` :
-- **Entraîner avec les cas de base (synthétiques) :** `python train_model.py`
-- **Entraîner avec vos propres données (JSON) :** `python train_model.py --data ./hr_dataset.json`
-- **Uniquement tester l'évaluation :** `python train_model.py --eval`
+Vous pouvez ré-affiner les résultats des modèles localement avec le script d'entraînement inclus `train_model.py`. Ce script a été mis à jour pour être un formateur dynamique (vous permet de spécifier `--model_type bge-m3` ou `e5`) :
+- **Entraîner avec les cas de base :** `python train_model.py --model_type bge-m3`
+- **Entraîner avec vos propres données (JSON) :** `python train_model.py --data ./hr_dataset.json --model_type bge-m3`
+- **Uniquement tester l'évaluation sur l'ancien modèle :** `python train_model.py --eval --model_type e5`
 
-Le modèle affiné s'enregistrera automatiquement dans le dossier `./trained_model` et sera chargé en priorité par l'API FastAPI au prochain lancement de `main.py`.
+Le modèle affiné s'enregistrera automatiquement dans le dossier réservé (soit `./trained_model_bge_m3`, soit `./trained_model_e5`) et sera chargé en priorité par l'API FastAPI au prochain lancement de l'application.
 
 ---
 
