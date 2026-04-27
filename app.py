@@ -73,8 +73,8 @@ async def extract_cv_file(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
         
     ext = os.path.splitext(file.filename)[1].lower()
-    if ext not in ['.pdf', '.docx', '.doc']:
-        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF ou un DOCX.")
+    if ext not in ['.pdf', '.docx', '.doc', '.png', '.jpg', '.jpeg']:
+        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF, DOCX ou Image (PNG/JPG).")
         
     try:
         content = await file.read()
@@ -113,8 +113,8 @@ async def extract_cv_file_llm(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
         
     ext = os.path.splitext(file.filename)[1].lower()
-    if ext not in ['.pdf', '.docx', '.doc']:
-        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF ou un DOCX.")
+    if ext not in ['.pdf', '.docx', '.doc', '.png', '.jpg', '.jpeg']:
+        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF, DOCX ou Image (PNG/JPG).")
         
     try:
         content = await file.read()
@@ -154,8 +154,8 @@ async def extract_cv_file_hybrid(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
         
     ext = os.path.splitext(file.filename)[1].lower()
-    if ext not in ['.pdf', '.docx', '.doc']:
-        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF ou un DOCX.")
+    if ext not in ['.pdf', '.docx', '.doc', '.png', '.jpg', '.jpeg']:
+        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF, DOCX ou Image (PNG/JPG).")
         
     try:
         content = await file.read()
@@ -208,8 +208,8 @@ async def evaluate_cv_file(
         raise HTTPException(status_code=400, detail="Aucun fichier fourni.")
         
     ext = os.path.splitext(file.filename)[1].lower()
-    if ext not in ['.pdf', '.docx', '.doc']:
-        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF ou un DOCX.")
+    if ext not in ['.pdf', '.docx', '.doc', '.png', '.jpg', '.jpeg']:
+        raise HTTPException(status_code=415, detail="Format non supporté. Veuillez uploader un PDF, DOCX ou Image (PNG/JPG).")
         
     try:
         from utils import JobOffer
@@ -242,5 +242,3 @@ async def evaluate_cv_file(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur lors du traitement du fichier ou de l'évaluation: {str(e)}")
 
-# To run the app:
-# uvicorn app:app --reload

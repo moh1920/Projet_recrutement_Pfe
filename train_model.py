@@ -381,7 +381,7 @@ def create_and_train_model():
      {"entities": [(14, 56, "ORG")]}),
 
     ("Stage de recherche effectué à l'Université de Monastir en juillet 2019.",
-     {"entities": [(31, 53, "ORG"), (64, 71, "DATE")]}),
+     {"entities": [(31, 53, "Q"), (64, 71, "DATE")]}),
 
     ("Laboratoire LISI, Université de la Manouba, Tunisie.",
      {"entities": [(12, 16, "ORG"), (18, 42, "ORG")]}),

@@ -1,0 +1,40 @@
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environnement virtuel local
+venv/
+env/
+.venv/
+
+# Variables d'environnement (secrets)
+.env
+
+# Fichiers de test et scripts dev
+test_*.py
+fix.py
+tmp_*.py
+train_model.py
+evaluate_*.py
+
+# Documents / rapports
+*.docx
+*.md
+cv_text.txt
+output.txt
+result.txt
+
+# Git
+.git/
+.gitignore
+
+# Cache Python
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -6,6 +6,14 @@ import docx
 from pydantic import BaseModel, Field
 from typing import List, Optional
 import spacy
+import pytesseract
+from utils_image import preprocess_image_for_ocr, ocr_with_best_config, clean_ocr_text
+
+from PIL import Image
+
+# Chemin Tesseract : Windows seulement (sous Linux/Docker, Tesseract est dans le PATH)
+if os.name == 'nt':
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
@@ -170,32 +178,56 @@ def clean_text(text: str) -> str:
     return text.strip().replace('\n', ' ')
 
 def extract_text_from_file(file_content: bytes, filename: str) -> str:
-    """Extract text from a PDF or DOCX file."""
     ext = os.path.splitext(filename)[1].lower()
     text = ""
-    
+
     try:
         if ext == '.pdf':
-            # Use PyMuPDF to extract text
             doc = fitz.open(stream=file_content, filetype="pdf")
             for page in doc:
-                text += page.get_text()
+                page_text = page.get_text()
+                # Si page vide → page image (PDF scanné)
+                if len(page_text.strip()) < 50:
+                    pix = page.get_pixmap(dpi=300)
+                    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                    img = preprocess_image_for_ocr(img)
+                    page_text = ocr_with_best_config(img)
+                    page_text = clean_ocr_text(page_text)
+                text += page_text + "\n"
             doc.close()
+
         elif ext in ['.docx', '.doc']:
-            # Use python-docx to extract text
             doc = docx.Document(io.BytesIO(file_content))
             for para in doc.paragraphs:
-                text += para.text + "\\n"
+                text += para.text + "\n"
+
+        elif ext in ['.png', '.jpg', '.jpeg', '.webp', '.tiff']:
+            image = Image.open(io.BytesIO(file_content))
+            # Prétraitement avancé
+            image = preprocess_image_for_ocr(image)
+            # OCR multi-configuration
+            text = ocr_with_best_config(image)
+            # Nettoyage post-OCR
+            text = clean_ocr_text(text)
+
+            # Fallback si texte insuffisant : essai sans binarisation
+            if len(text.strip()) < 100:
+                raw_img = Image.open(io.BytesIO(file_content)).convert("L")
+                text_fallback = pytesseract.image_to_string(
+                    raw_img, config="--oem 3 --psm 6 -l fra+eng")
+                if len(text_fallback) > len(text):
+                    text = clean_ocr_text(text_fallback)
+
         elif ext == '.txt':
             text = file_content.decode('utf-8', errors='ignore')
-        else:
-            raise ValueError(f"Unsupported file extension: {ext}")
-            
-    except Exception as e:
-        raise Exception(f"Failed to extract text from {filename}: {str(e)}")
-        
-    return clean_text(text)
 
+        else:
+            raise ValueError(f"Extension non supportée : {ext}")
+
+    except Exception as e:
+        raise Exception(f"Échec extraction {filename}: {str(e)}")
+
+    return clean_text(text)
 def extract_information(text: str, nlp_model) -> dict:
     doc = nlp_model(text)
     
@@ -329,7 +361,8 @@ def extract_information_llm(text: str) -> dict:
     
     # We use Qwen2.5 which is highly optimized for strict JSON generation
     llm_endpoint = HuggingFaceEndpoint(
-        repo_id="Qwen/Qwen2.5-7B-Instruct",
+        repo_id="Qwen/Qwen3-8B",
+        #repo_id="Qwen/Qwen2.5-7B-Instruct",
         temperature=0.01,
         max_new_tokens=2048,
         return_full_text=False
@@ -430,7 +463,8 @@ def evaluate_cv_against_offer(request: EvaluationRequest) -> dict:
     
     # Using the same powerful instruct model for strict JSON output and reasoning
     llm_endpoint = HuggingFaceEndpoint(
-        repo_id="Qwen/Qwen2.5-7B-Instruct",
+        repo_id="Qwen/Qwen3-8B",
+        #repo_id="Qwen/Qwen2.5-7B-Instruct",
         temperature=0.01,
         max_new_tokens=4000,
         return_full_text=False
@@ -484,6 +518,7 @@ def evaluate_cv_against_offer(request: EvaluationRequest) -> dict:
                    "- N'invente AUCUNE qualification non présente.\n\n"
                    "INSTRUCTIONS DE FORMATAGE :\n{format_instructions}\n"
                    "PRODUIS STRICTEMENT CE JSON. N'AJOUTE AUCUN TEXTE AUTOUR.\n"
+                   "NO-THINKING-MODE"
         ),
         ("user", "OFFRE D'EMPLOI:\n{job_offer}\n\nDONNÉES DU CANDIDAT (Texte Brut):\n{cv_text}\n\nDONNÉES DU CANDIDAT (JSON Extrait):\n{cv_data}")
     ])
