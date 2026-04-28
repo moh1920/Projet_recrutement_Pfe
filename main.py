@@ -42,7 +42,7 @@ MODELS_CONFIG = {
     },
     "bge-m3": {
         "base_name": "BAAI/bge-m3",
-        "save_path": "./trained_model_bge_m3"
+        "save_path": "G:/ai_models/trained_model_bge_m3_v3"
     }
 }
 

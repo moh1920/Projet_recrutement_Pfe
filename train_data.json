@@ -1,0 +1,727 @@
+[
+  {
+    "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+    "candidate_text": "Étudiant Master IA Python pandas scikit-learn projet NLP universitaire.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Développeur Angular RxJS TypeScript frontend SPA",
+    "candidate_text": "Vétérinaire clinique animaux de compagnie 5 ans.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Mobile Android Kotlin Jetpack Compose",
+    "candidate_text": "Analyste financier audit interne contrôle gestion.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Administrateur base de données Oracle PostgreSQL DBA",
+    "candidate_text": "Développeur mobile Flutter 3 ans, peu de SQL.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "Ingénieur Data Pipeline Spark Kafka AWS",
+    "candidate_text": "Professeur mathématiques lycée algèbre géométrie.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js خبرة 3 سنوات",
+    "candidate_text": "مطور 5 سنوات React Node.js PostgreSQL Docker مشاريع تجارة إلكترونية.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Angular RxJS TypeScript frontend SPA",
+    "candidate_text": "Frontend junior 1 an React, découverte Angular en formation.",
+    "score": 0.51
+  },
+  {
+    "offer_text": "Product Manager SaaS B2B roadmap OKR",
+    "candidate_text": "Consultant ERP SAP 6 ans, pas de produit digital.",
+    "score": 0.2
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure DevOps Infrastructure as Code",
+    "candidate_text": "Cloud Engineer 4 ans Azure ARM Terraform DevOps pipelines CI/CD.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Ingénieur MLOps MLflow Kubeflow modèles en production",
+    "candidate_text": "MLOps 4 ans MLflow Kubeflow Seldon déploiement modèles monitoring.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Contrôleur de gestion reporting finance Excel Power BI",
+    "candidate_text": "Développeur Symfony PHP MySQL API REST.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Paris",
+    "candidate_text": "Développeur React 4 ans, notions Node.js, PostgreSQL. Surtout frontend.",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Product Manager B2B SaaS roadmap OKR 5 ans",
+    "candidate_text": "Développeur 4 ans, envie de passer PM, pas d'expérience produit.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Product Manager B2B SaaS roadmap OKR 5 ans",
+    "candidate_text": "PM 4 ans B2C SaaS, habitué roadmap, débute sur OKR.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Développeur PHP Symfony MySQL API REST 3 ans",
+    "candidate_text": "Développeur PHP junior 1 an WordPress, notions MVC de base.",
+    "score": 0.51
+  },
+  {
+    "offer_text": "Expert SAP FICO finance controlling",
+    "candidate_text": "Directeur financier DAF 8 ans, utilisateur SAP non technicien.",
+    "score": 0.28
+  },
+  {
+    "offer_text": "مطور تطبيقات Flutter Dart موبايل",
+    "candidate_text": "حلاق رجالي 8 سنوات.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "مهندس أمن معلومات CISSP SOC pentest",
+    "candidate_text": "مهندس أمن 5 سنوات CISSP SOC Splunk pentest اختبار اختراق.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Développeur Go microservices Kubernetes backend",
+    "candidate_text": "Backend Python 3 ans, curieux de Go, zéro Kubernetes.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Ingénieur réseau Cisco CCNP VPN sécurité",
+    "candidate_text": "Réseau 4 ans Cisco CCNA, en cours CCNP, bonne connaissance VPN.",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Chef de projet IT Agile Scrum gestion équipe 5 ans",
+    "candidate_text": "Chef de projet 4 ans Agile, pas de certif Scrum, bonne gestion équipe.",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Ingénieur MLOps MLflow Kubeflow modèles en production",
+    "candidate_text": "Data Scientist 2 ans notebook Jupyter, jamais déployé en prod.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Data Engineer Spark Kafka AWS pipeline",
+    "candidate_text": "مدرس تربية بدنية 8 سنوات مدارس.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning Python PyTorch NLP",
+    "candidate_text": "ML Engineer 4 ans PyTorch transformers HuggingFace fine-tuning LLM.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Développeur PHP Symfony MySQL API REST 3 ans",
+    "candidate_text": "Développeur PHP 4 ans Symfony Doctrine MySQL REST API JWT.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP",
+    "candidate_text": "مدير مشاريع 4 سنوات Agile، شهادة PMP قيد التحضير.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Ingénieur Backend Python Django REST API microservices",
+    "candidate_text": "Chef de projet marketing digital SEO/SEA campagnes Google Ads.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "مهندس بيانات Spark ETL Hadoop",
+    "candidate_text": "محلل أعمال business analyst متطلبات وظيفية 4 سنوات.",
+    "score": 0.2
+  },
+  {
+    "offer_text": "Contrôleur de gestion reporting finance Excel Power BI",
+    "candidate_text": "Contrôleur de gestion 4 ans budgets reporting mensuel Power BI SAP.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Analyste données Power BI DAX SQL reporting",
+    "candidate_text": "Infirmier urgences 8 ans soins intensifs, pas d'IT.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Expert SAP FICO finance controlling 6 ans",
+    "candidate_text": "Comptable 5 ans Excel SAP utilisateur basique, pas consultant.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Ingénieur Backend Python Django REST API microservices",
+    "candidate_text": "Développeur Python 3 ans Flask REST API, pas de microservices.",
+    "score": 0.76
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop ETL",
+    "candidate_text": "مهندس بيانات 4 سنوات Spark Hadoop Hive ETL pipeline بيانات ضخمة.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Développeur React TypeScript frontend 4 ans",
+    "candidate_text": "Frontend 3 ans React JavaScript, migration TypeScript en cours.",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift SwiftUI 3 ans",
+    "candidate_text": "iOS Developer 2 ans Swift, Objective-C, peu d'expérience SwiftUI.",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Ingénieur QA automatisation Selenium Python CI",
+    "candidate_text": "Traducteur interprète arabe français anglais conférences.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Analyste données Power BI DAX SQL reporting",
+    "candidate_text": "Analyste 3 ans Tableau SQL, en formation Power BI DAX.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Développeur Angular RxJS TypeScript frontend SPA",
+    "candidate_text": "Frontend 3 ans Angular 8, upgrade en cours vers Angular 17, RxJS connu.",
+    "score": 0.79
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter Dart خبرة سنتين",
+    "candidate_text": "مطور Flutter 3 سنوات تطبيقات iOS Android Dart Firebase.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+    "candidate_text": "Administrateur système Linux 3 ans scripts Bash, notions Docker.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Architecte logiciel Java Spring microservices 7 ans",
+    "candidate_text": "Java Senior 6 ans Spring Boot, débute sur microservices.",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Développeur PHP Symfony MySQL API REST 3 ans",
+    "candidate_text": "PHP 3 ans Laravel MySQL REST, migration vers Symfony récente.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Développeur Angular RxJS TypeScript frontend SPA",
+    "candidate_text": "Frontend 4 ans Angular RxJS TypeScript NgRx Material Design SPA.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure DevOps Infrastructure as Code",
+    "candidate_text": "Développeur mobile iOS Swift 3 ans, zéro cloud.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "Ingénieur Backend Python Django microservices",
+    "candidate_text": "DBA Oracle SQL 6 ans, pas de backend Python.",
+    "score": 0.22
+  },
+  {
+    "offer_text": "Data Engineer Python Airflow dbt BigQuery",
+    "candidate_text": "Designer UX/UI Figma 3 ans, pas de data ni de code.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Architecte logiciel Java Spring microservices 7 ans",
+    "candidate_text": "Architecte réseau Cisco CCNP datacenter, pas de software.",
+    "score": 0.33
+  },
+  {
+    "offer_text": "Développeur Vue.js Nuxt.js frontend JavaScript",
+    "candidate_text": "Data Engineer Spark Kafka AWS 4 ans, pas de frontend.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Développeur Salesforce Apex Lightning CRM",
+    "candidate_text": "Développeur .NET 4 ans, jamais utilisé Salesforce.",
+    "score": 0.2
+  },
+  {
+    "offer_text": "Développeur Vue.js Nuxt.js frontend JavaScript",
+    "candidate_text": "Frontend 3 ans React principalement, projet Vue.js en side project.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Analyste Power BI DAX SQL reporting",
+    "candidate_text": "Développeur Java backend 5 ans, pas de BI.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Scrum Master PSM agile coaching",
+    "candidate_text": "Directeur de projet PMO waterfall 7 ans.",
+    "score": 0.22
+  },
+  {
+    "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+    "candidate_text": "DevOps 3 ans AWS EC2, Jenkins, notions Kubernetes. Pas de Terraform.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Ingénieur Data Pipeline Spark Kafka AWS",
+    "candidate_text": "Data Engineer 3 ans Python ETL, notions Spark, pas de Kafka.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Développeur Salesforce Apex Lightning CRM",
+    "candidate_text": "Développeur web 3 ans, jamais utilisé Salesforce, notions CRM générales.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter Dart خبرة سنتين",
+    "candidate_text": "ممرض رعاية مركزة 6 سنوات مستشفى عمومي.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure DevOps Infrastructure as Code",
+    "candidate_text": "Cloud 3 ans AWS principalement, notions Azure, Terraform de base.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure DevOps IaC",
+    "candidate_text": "Mécanicien automobile 8 ans garage indépendant.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Paris",
+    "candidate_text": "Développeur frontend React 1 an stage e-commerce, notions Node.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Expert Cybersécurité pentest SIEM SOC certifié CISSP",
+    "candidate_text": "Cuisinier chef étoilé 15 ans restauration gastronomique.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Scrum Master certifié PSM équipe agile 5 ans",
+    "candidate_text": "Ingénieur QA manuel 5 ans, pas de rôle agile.",
+    "score": 0.35
+  },
+  {
+    "offer_text": "Responsable RH recrutement SIRH 5 ans",
+    "candidate_text": "RH généraliste 7 ans recrutement cadres SIRH Workday paie ADP.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Chef de projet IT Agile Scrum gestion équipe 5 ans",
+    "candidate_text": "Développeur senior 8 ans, lead tech, notions gestion projet Kanban.",
+    "score": 0.45
+  },
+  {
+    "offer_text": "Développeur Go microservices Kubernetes backend",
+    "candidate_text": "Chargé RH recrutement SIRH 4 ans, pas de technique.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Product Manager B2B SaaS roadmap OKR 5 ans",
+    "candidate_text": "Comptable 6 ans bilan fiscal TVA, pas de produit digital.",
+    "score": 0.31
+  },
+  {
+    "offer_text": "Ingénieur réseau Cisco CCNP VPN sécurité",
+    "candidate_text": "Data Scientist Python ML 3 ans, jamais touché au réseau.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Développeur React TypeScript frontend 4 ans",
+    "candidate_text": "Chauffeur livreur 5 ans transport marchandises.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure DevOps Infrastructure as Code",
+    "candidate_text": "Sysadmin Linux 4 ans, notions cloud hébergement mutualisé.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+    "candidate_text": "Infirmier urgences 8 ans soins intensifs bloc opératoire.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Expert SAP FICO finance controlling",
+    "candidate_text": "Moniteur auto-école 6 ans permis B.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Go microservices Kubernetes backend",
+    "candidate_text": "Go Developer 3 ans microservices gRPC Kubernetes Prometheus.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Enseignant informatique université Java POO algorithmique",
+    "candidate_text": "Logisticien supply chain entrepôt gestion stocks.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP",
+    "candidate_text": "مدير مشاريع 6 سنوات Agile Scrum JIRA PMP فريق 12 شخصاً.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP",
+    "candidate_text": "بائع تجزئة ملابس 8 سنوات محلات تجارية.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+    "candidate_text": "Designer UX/UI Figma prototypage maquettes responsive.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Data Engineer Python Airflow dbt BigQuery",
+    "candidate_text": "DBA SQL Server 5 ans, pas d'orchestration pipeline.",
+    "score": 0.24
+  },
+  {
+    "offer_text": "Développeur C# .NET Core Azure",
+    "candidate_text": "Développeur Node.js 3 ans, jamais utilisé .NET.",
+    "score": 0.2
+  },
+  {
+    "offer_text": "Responsable RH recrutement SIRH 5 ans",
+    "candidate_text": "Assistant RH 2 ans, recrutement basique, pas de SIRH dédié.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Product Manager B2B SaaS roadmap OKR 5 ans",
+    "candidate_text": "Agriculteur polyculture élevage 10 ans exploitation familiale.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack خبرة 3 سنوات",
+    "candidate_text": "مطور Android 4 سنوات Kotlin Jetpack Compose Room Firebase.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Paris",
+    "candidate_text": "Développeur Java backend 5 ans, zéro JavaScript ni React.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "مطور ويب React Node.js 3 سنوات",
+    "candidate_text": "مطور Java EE 4 سنوات، لا JavaScript.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Ingénieur MLOps MLflow Kubeflow modèles en production",
+    "candidate_text": "ML Engineer 3 ans, déploiement modèles Docker, débute MLflow.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Développeur C# .NET Azure backend 4 ans",
+    "candidate_text": "Développeur .NET 5 ans C# ASP.NET Core Azure SQL Server.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "DevOps Kubernetes AWS CI/CD Terraform",
+    "candidate_text": "Sysadmin Windows Active Directory 5 ans, pas de Linux.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Product Manager SaaS B2B roadmap",
+    "candidate_text": "Maçon bâtiment 12 ans travaux gros œuvre.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Scrum Master Agile PSM coaching",
+    "candidate_text": "Menuisier ébéniste 10 ans mobilier sur mesure.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Contrôleur de gestion reporting finance Excel Power BI",
+    "candidate_text": "Comptable junior 2 ans Excel intermédiaire, début reporting.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Développeur Angular RxJS TypeScript frontend SPA",
+    "candidate_text": "Ingénieur DevOps AWS Terraform 4 ans, pas de frontend.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "Architecte logiciel Java Spring microservices",
+    "candidate_text": "Développeur C++ embarqué 6 ans, pas de web ni cloud.",
+    "score": 0.25
+  },
+  {
+    "offer_text": "Développeur React TypeScript SPA frontend",
+    "candidate_text": "Développeur Android Kotlin 3 ans, zéro web.",
+    "score": 0.24
+  },
+  {
+    "offer_text": "Développeur Salesforce Apex Lightning CRM",
+    "candidate_text": "Consultant Salesforce 4 ans Apex Visualforce Lightning Flow certifié.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop ETL",
+    "candidate_text": "مهندس بيانات سنتان Python ETL، معرفة أساسية Spark.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Développeur Angular RxJS TypeScript SPA",
+    "candidate_text": "Développeur iOS Swift 3 ans, zéro web frontend.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot microservices REST",
+    "candidate_text": "Java débutant 1 an formation, notions Spring framework.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Enseignant informatique université Java POO algorithmique",
+    "candidate_text": "Enseignant chercheur 8 ans Java Python algorithmique publi IEEE.",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Ingénieur MLOps MLflow Kubeflow production",
+    "candidate_text": "Chercheur académique ML publications, pas de prod.",
+    "score": 0.28
+  },
+  {
+    "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+    "candidate_text": "Développeur PHP 4 ans, jamais touché à l'infra ni au cloud.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP",
+    "candidate_text": "مهندس ميكانيك تصميم CAO SolidWorks 5 سنوات.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Développeur Vue.js Nuxt.js frontend JavaScript",
+    "candidate_text": "Plombier chauffagiste 12 ans maintenance industrielle.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur QA automatisation Selenium Python CI",
+    "candidate_text": "QA Engineer 4 ans Selenium Python pytest CI Jenkins automatisation.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Salesforce Apex Lightning CRM",
+    "candidate_text": "Biologiste laboratoire 5 ans, reconversion non amorcée.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Administrateur base de données Oracle PostgreSQL DBA",
+    "candidate_text": "Développeur fullstack 3 ans, utilise MySQL quotidien, pas de DBA.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Chef de projet IT Agile Scrum équipe",
+    "candidate_text": "Consultant SAP FICO 5 ans, pas de gestion projet IT.",
+    "score": 0.2
+  },
+  {
+    "offer_text": "Scrum Master certifié PSM équipe agile 5 ans",
+    "candidate_text": "Développeur 5 ans, participe aux cérémonies Scrum, pas de rôle SM.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Développeur C# .NET Azure backend 4 ans",
+    "candidate_text": ".NET 3 ans C# ASP.NET Framework, migration .NET Core en cours.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Ingénieur QA automatisation Selenium Python CI",
+    "candidate_text": "Testeur manuel 3 ans, envie d'automatiser, apprend Python.",
+    "score": 0.51
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure DevOps Infrastructure as Code",
+    "candidate_text": "Photographe professionnel mariages événements 7 ans.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning PyTorch NLP",
+    "candidate_text": "Statisticien R 4 ans, notions Python, pas de deep learning.",
+    "score": 0.28
+  },
+  {
+    "offer_text": "Analyste données Power BI DAX SQL reporting",
+    "candidate_text": "Analyste BI 5 ans Power BI DAX SQL Server tableaux de bord.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Ingénieur réseau Cisco CCNP VPN sécurité",
+    "candidate_text": "Réseau 5 ans Cisco CCNP routage switching VPN firewall Palo Alto.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Analyste données Power BI DAX SQL reporting",
+    "candidate_text": "Contrôleur de gestion 3 ans Excel avancé, débute Power BI.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Data Scientist Machine Learning NLP Python",
+    "candidate_text": "Biostatisticien R SPSS 4 ans, notions Python basiques.",
+    "score": 0.25
+  },
+  {
+    "offer_text": "مدير مشاريع Agile Scrum PMP تقنية",
+    "candidate_text": "مهندس شبكات Cisco 5 سنوات، لا إدارة مشاريع.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Développeur Go microservices backend",
+    "candidate_text": "Développeur Ruby Rails 4 ans, jamais fait de Go.",
+    "score": 0.25
+  },
+  {
+    "offer_text": "Ingénieur QA automatisation Selenium Python CI",
+    "candidate_text": "QA 3 ans Selenium Java, Python basique, CI GitLab.",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Ingénieur réseau Cisco CCNP VPN sécurité",
+    "candidate_text": "Avocat droit des affaires 8 ans cabinet international.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js خبرة 3 سنوات",
+    "candidate_text": "طبيب أسنان 7 سنوات عيادة خاصة.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur Data Pipeline Spark Kafka AWS",
+    "candidate_text": "Développeur Python 2 ans, notions SQL, intéressé par le big data.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure IaC DevOps",
+    "candidate_text": "Administrateur VMware vSphere 5 ans, pas de cloud public.",
+    "score": 0.25
+  },
+  {
+    "offer_text": "مهندس أمن معلومات CISSP SOC pentest",
+    "candidate_text": "نادل مطعم فاخر 5 سنوات خدمة ضيوف.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur Backend Python Django REST API microservices",
+    "candidate_text": "Analyste financier Excel VBA SQL reporting, pas de dev web.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "Développeur Rust systèmes embarqués performance",
+    "candidate_text": "Psychologue scolaire 6 ans établissements primaires.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop ETL",
+    "candidate_text": "محلل بيانات سنتان SQL Excel Power BI، لم يعمل مع Spark.",
+    "score": 0.51
+  },
+  {
+    "offer_text": "Scrum Master certifié PSM équipe agile 5 ans",
+    "candidate_text": "Scrum Master PSM I II 6 ans coaching équipes agile PI Planning SAFe.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Enseignant informatique université Java POO algorithmique",
+    "candidate_text": "Développeur Java 3 ans, jamais enseigné, bon niveau algo.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift SwiftUI 3 ans",
+    "candidate_text": "Développeur backend PHP Symfony 4 ans, zéro mobile.",
+    "score": 0.31
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning Python PyTorch NLP",
+    "candidate_text": "Data analyst 2 ans Python SQL, cours ML Coursera terminé.",
+    "score": 0.54
+  },
+  {
+    "offer_text": "Ingénieur Backend Python Django REST API microservices",
+    "candidate_text": "Développeur Python junior 1 an scripts data, notions Django tutorial.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Scrum Master certifié PSM équipe agile 5 ans",
+    "candidate_text": "Coiffeur styliste 8 ans salon haut de gamme.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur React TypeScript frontend 4 ans",
+    "candidate_text": "Graphiste UI Figma Photoshop Illustrator, pas de code.",
+    "score": 0.35
+  },
+  {
+    "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+    "candidate_text": "DevOps 6 ans AWS EKS Terraform Helm Jenkins pipeline CI/CD.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot microservices REST",
+    "candidate_text": "Java 5 ans Spring Boot microservices Kafka Docker REST API.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Analyste données Power BI DAX SQL reporting",
+    "candidate_text": "Boulanger pâtissier 10 ans artisan indépendant.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Rust systèmes embarqués performance",
+    "candidate_text": "Développeur Rust 3 ans systèmes embarqués WASM performance bas niveau.",
+    "score": 0.89
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي Python TensorFlow سنتان",
+    "candidate_text": "خبير بيانات 3 سنوات Python scikit-learn TensorFlow معالجة لغات طبيعية.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Ingénieur Data Pipeline Spark Kafka AWS",
+    "candidate_text": "Data Engineer 5 ans Spark, Kafka, AWS S3 Glue, orchestration Airflow.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP",
+    "candidate_text": "مطور أول 5 سنوات، يقود فريق صغير، لا شهادة في إدارة المشاريع.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Développeur Rust systèmes embarqués performance",
+    "candidate_text": "C/C++ embarqué 2 ans, intéressé Rust, pas encore pratiqué.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Développeur Vue.js Nuxt.js frontend JavaScript",
+    "candidate_text": "Frontend 3 ans Vue.js Nuxt.js Vuex TypeScript tests unitaires.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+    "candidate_text": "Statisticien SAS SPSS 4 ans, pas de Python ni de ML moderne.",
+    "score": 0.35
+  },
+  {
+    "offer_text": "Expert SAP FICO finance controlling 6 ans",
+    "candidate_text": "Consultant SAP FICO 7 ans finance controlling FI CO SD implantation.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Ingénieur réseau Cisco CCNP VPN sécurité",
+    "candidate_text": "Technicien support N1/N2 3 ans, notions réseau de base, pas de Cisco.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Développeur React TypeScript frontend 4 ans",
+    "candidate_text": "Développeur web 2 ans HTML CSS JavaScript vanilla, débute React.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Expert Cybersécurité pentest SIEM SOC certifié CISSP",
+    "candidate_text": "Ingénieur sécu 4 ans réseau, notions pentest, pas certifié CISSP.",
+    "score": 0.72
+  }
+]

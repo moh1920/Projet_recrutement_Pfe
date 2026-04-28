@@ -1,0 +1,4002 @@
+[
+  {
+    "offer_text": "Expert Cybersécurité SOC, Pentest, SIEM, Metasploit, Sécurité 5 ans minimum",
+    "candidate_text": "7 ans d'expérience en expert cybersécurité, Pandas, NLP.",
+    "score": 0.33
+  },
+  {
+    "offer_text": "Product Manager Priorisation, SaaS, User Research, Roadmap, Analytics 5 ans Lille",
+    "candidate_text": "3 ans product manager, Pandas, PyTorch, scikit-learn.",
+    "score": 0.26
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Lille POO, Pédagogie, Publications, Python",
+    "candidate_text": "8 ans enseignant informatique, ADP, Paie, Entretiens, SIRH.",
+    "score": 0.17
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans Terraform, Lambda, EC2, IAM, VPC",
+    "candidate_text": "5 ans ingénieur cloud aws, EC2, AWS, S3, VPC, Lambda. Application mobile",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation Cypress, Playwright, CI/CD 3 ans Rennes",
+    "candidate_text": "Ingénieur QA Automatisation senior 1 ans, pytest, BDD, CI/CD, Cypress, Playwright.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات",
+    "candidate_text": "مطور مطور ويب متكامل React Node.js 2 سنوات، PostgreSQL, REST API, TypeScript, MongoDB, JavaScript, React. شركة ناشئة",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Data Engineer 3 ans ETL, Spark, Kafka, Big Data",
+    "candidate_text": "Data Engineer confirmé 5 ans, Python, Spark, Big Data, SQL, AWS, Kafka, Airflow, ETL. Projet fintech",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans Azure, ARM, DevOps, Pipelines",
+    "candidate_text": "Ingénieur Cloud Azure senior 3 ans, ARM, DevOps, Infrastructure as Code, AKS, Azure.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Product Manager Analytics, User Research, A/B Testing, B2B 5 ans",
+    "candidate_text": "Product Manager 2 ans, Analytics, Roadmap, OKR.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS Jenkins, AWS, Terraform, CI/CD خبرة 4 سنوات على الأقل",
+    "candidate_text": "1 سنوات خبرة في مهندس DevOps Kubernetes AWS، Helm, Docker, AWS.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Chef de Projet IT 5+ ans Planification, Jira, Gestion d'équipe",
+    "candidate_text": "Chef de Projet IT 2 ans, Budget, Scrum.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans Terraform, CloudFormation, Lambda, VPC CDI",
+    "candidate_text": "Conducteur 5 ans expérience, marchandises, logistique, transport.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Scrum Master 5 ans SAFe, Scrum, Kanban, Agile, Jira",
+    "candidate_text": "Scrum Master senior 4 ans, HA, Oracle, SQL Server.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud Pentest, GuardDuty, SecurityHub, SOC, IAM 4 ans",
+    "candidate_text": "1 ans ingénieur sécurité cloud, Cloud Security, Pentest, GuardDuty, SOC, WAF.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans Python, pytest, Playwright Lyon",
+    "candidate_text": "Ingénieur QA Automatisation 4 ans, CI/CD, Cypress, Playwright, BDD, pytest, Python, Jenkins. Plateforme B2B",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Analyste BI 3 ans SQL Server, Reporting, SQL, Power BI Nantes",
+    "candidate_text": "Commercial 11 ans expérience, négociation, B2B, prospection.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Data Scientist 2 ans PyTorch, scikit-learn, Pandas",
+    "candidate_text": "5 ans data scientist, scikit-learn, Machine Learning, TensorFlow, PyTorch, Pandas, SQL, NLP, Python. Migration legacy",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Product Manager 5 ans OKR, A/B Testing, B2B, SaaS, Priorisation",
+    "candidate_text": "Profil product manager 1 ans, Roadmap, OKR, B2B, Priorisation, SaaS.",
+    "score": 0.43
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP 5 سنوات JIRA, Planification, Gestion, Agile",
+    "candidate_text": "مطور مدير مشاريع تقنية Agile Scrum PMP 4 سنوات، Budget, Gestion, JIRA, Planification, فريق. بنية تحتية سحابية",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure Infrastructure as Code, ARM, DevOps 4 ans Nice",
+    "candidate_text": "5 ans ingénieur cloud azure, AKS, DevOps, Azure, Pipelines, Terraform. Cloud native",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation Playwright, Python, BDD, Selenium 3 ans Lille",
+    "candidate_text": "3 ans ingénieur qa automatisation, BDD, Playwright, CI/CD, pytest, Selenium, Cypress, Python. Projet fintech",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Routage, CCNP, Switching, VPN",
+    "candidate_text": "ingénieur réseau 2 ans, CCNP, Palo Alto.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift UIKit, SwiftUI, App Store, Combine, Swift 3 ans minimum",
+    "candidate_text": "développeur mobile ios swift 5 ans, UIKit, CoreData, App Store, Swift, SwiftUI, Combine, Xcode. Missions e-commerce",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Scrum Master 5 ans Agile, Kanban, Coaching, SAFe Lille CDI",
+    "candidate_text": "Scrum Master confirmé 3 ans, Agile, Jira, Cérémonies, Coaching, PSM, SAFe, Scrum. Startup SaaS",
+    "score": 0.83
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات تونس",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 3 سنوات، Terraform, Helm, AWS, Kubernetes, CI/CD.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans Prometheus, SLO, SLI, Observabilité Paris CDI",
+    "candidate_text": "SRE Site Reliability Engineer 7 ans, SLO, Grafana, Observabilité, Kubernetes, Incidents. Équipe internationale",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4+ ans Infrastructure as Code, AKS, Terraform Bordeaux",
+    "candidate_text": "Ingénieur Cloud Azure senior 1 ans, DevOps, AKS, Pipelines, Azure.",
+    "score": 0.49
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans DevOps, ARM, Terraform, Azure, Infrastructure as Code",
+    "candidate_text": "6 ans d'expérience en ingénieur cloud azure, Systèmes embarqués, WASM.",
+    "score": 0.29
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5+ ans Palo Alto, VPN, Cisco, Switching Paris",
+    "candidate_text": "7 ans ingénieur réseau, Palo Alto, Switching, Firewall, CCNP, VPN, Cisco. Data driven",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans Retrofit, Kotlin, Google Play, Jetpack Compose Lille",
+    "candidate_text": "Développeur Android Kotlin 6 ans, Google Play, MVVM, Firebase, Retrofit, Room, Kotlin. Performance optimisation",
+    "score": 0.95
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js PostgreSQL, React, JavaScript, Node.js, MongoDB خبرة 3 سنوات على الأقل",
+    "candidate_text": "مطور مطور ويب متكامل React Node.js 5 سنوات، Data Warehouse, dbt, Snowflake.",
+    "score": 0.16
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 2 سنوات، Kubernetes, Jenkins.",
+    "score": 0.45
+  },
+  {
+    "offer_text": "Analyste BI 3 ans DAX, Power BI, SQL Server, SQL Paris",
+    "candidate_text": "Analyste BI 1 ans, Reporting, Power BI, SQL Server, Tableaux de bord, SQL.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات الرياض",
+    "candidate_text": "3 سنوات خبرة في مطور Android Kotlin Jetpack، Room, Android, Jetpack. تطبيقات موبايل",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Développeur PHP Symfony Doctrine, Twig, JWT 3 ans Montpellier",
+    "candidate_text": "3 ans développeur php symfony, REST API, Doctrine, PHP, Twig. Migration legacy",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans expérience Nantes",
+    "candidate_text": "1 ans développeur php symfony, CoreData, SwiftUI, Combine.",
+    "score": 0.37
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter 2 سنوات القاهرة",
+    "candidate_text": "خبير مطور تطبيقات موبايل Flutter 1 سنوات، تطبيقات, Flutter.",
+    "score": 0.49
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans Marseille Kubernetes, gRPC, PostgreSQL, Go, Golang",
+    "candidate_text": "développeur go backend 6 ans, PostgreSQL, Redis, gRPC, Golang, Kubernetes. Plateforme B2B",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3 ans Bas niveau, WASM, C, Rust, Performance",
+    "candidate_text": "développeur rust embarqué 4 ans, C, Bas niveau, Performance, Rust, Systèmes embarqués.",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Développeur C# .NET 4 ans expérience Rennes",
+    "candidate_text": "2 ans développeur c# .net, PostgreSQL, HA, MySQL.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Publications, Java, Pédagogie, Python, Recherche Marseille CDI",
+    "candidate_text": "Enseignant Informatique confirmé 3 ans, POO, Université, Recherche.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer On-call, Grafana, SLO, Incidents 4 ans minimum",
+    "candidate_text": "SRE Site Reliability Engineer senior 4 ans, Prometheus, Observabilité, Kubernetes, Incidents, SLO.",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Product Designer 4 ans UI, Figma, Prototypage, Responsive, Design System",
+    "candidate_text": "4 ans product designer, Maquettes, UI, Design System, Figma, UX, Prototypage, Responsive. Startup SaaS",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans Rennes Jetpack Compose, Kotlin, MVVM, Room, Google Play",
+    "candidate_text": "Développeur Android Kotlin confirmé 1 ans, Kotlin, Jetpack Compose, Retrofit, Firebase, Google Play. Architecture microservices",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans Splunk, Sécurité, Pentest, Metasploit",
+    "candidate_text": "7 ans d'expérience en expert cybersécurité, Sécurité, SIEM, Metasploit, CISSP, Splunk, SOC. Data driven",
+    "score": 0.86
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP 5 سنوات PMP, JIRA, Planification",
+    "candidate_text": "مدير مشاريع تقنية Agile Scrum PMP 6 سنوات، فريق, Budget, Scrum, Gestion, Planification. بنية تحتية سحابية",
+    "score": 0.8
+  },
+  {
+    "offer_text": "UX Designer 3 ans Tests utilisateurs, Wireframes, Design System, Accessibilité",
+    "candidate_text": "Profil ux designer 7 ans, Cisco, Routage.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Développeur Vue.js 3+ ans TypeScript, Tailwind, Vue.js, Pinia, JavaScript Rennes",
+    "candidate_text": "5 ans développeur vue.js, Vuex, Vue.js, JavaScript, Pinia, TypeScript, Tailwind, Nuxt.js. Architecture microservices",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5+ ans Firewall, CCNP, Routage Paris",
+    "candidate_text": "Ingénieur Réseau confirmé 7 ans, Airflow, ETL, Python.",
+    "score": 0.38
+  },
+  {
+    "offer_text": "Product Manager 5 ans expérience Montpellier",
+    "candidate_text": "Product Manager confirmé 1 ans, OKR.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3+ ans Fine-tuning, Python, MLOps, PyTorch, Transformers",
+    "candidate_text": "1 ans ingénieur machine learning, MLOps, Fine-tuning, Python, Transformers, HuggingFace, PyTorch. Projet greenfield",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Chef de Projet IT 5 ans Budget, Agile, Scrum, PMP Lille CDI",
+    "candidate_text": "Électricien 8 ans expérience, armoires, industriel, chantier.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Android, State Management, Flutter, REST API, Firebase Strasbourg CDI",
+    "candidate_text": "1 ans développeur flutter, Flutter.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات الرياض",
+    "candidate_text": "خبير مطور Ruby on Rails API 8 سنوات، Docker, REST API, MongoDB.",
+    "score": 0.29
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans MySQL, PostgreSQL, SQL Server, PL/SQL, Performance Rennes",
+    "candidate_text": "4 ans administrateur base de données, Oracle, PL/SQL, MySQL, Backup, Performance.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Pédagogie, Algorithmique, Université, Java",
+    "candidate_text": "Profil enseignant informatique 6 ans, Université, Algorithmique, POO, Recherche, Java, Publications. Startup SaaS",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation Playwright, CI/CD, BDD, Python 3 ans",
+    "candidate_text": "ingénieur qa automatisation 3 ans, pytest, Selenium, BDD, Python, Playwright, CI/CD. Performance optimisation",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift UIKit, App Store, Xcode 3 ans minimum",
+    "candidate_text": "Développeur Mobile iOS Swift 4 ans, Leadership, Mentorat, GraphQL.",
+    "score": 0.39
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop خبرة 3 سنوات",
+    "candidate_text": "مهندس بيانات Spark Hadoop 4 سنوات، Gestion de carrière, Entretiens, SIRH, Recrutement.",
+    "score": 0.39
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4 ans Redis, Ruby on Rails, REST API, PostgreSQL, GraphQL",
+    "candidate_text": "Développeur Ruby on Rails confirmé 6 ans, Sidekiq, Redis, REST API, Ruby on Rails. Migration legacy",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Product Manager Priorisation, Analytics, OKR 5 ans minimum",
+    "candidate_text": "2 ans product manager, Roadmap, SaaS, Priorisation, A/B Testing, B2B.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Data Scientist 2 ans scikit-learn, SQL, TensorFlow, NLP",
+    "candidate_text": "Data Scientist 3 ans, PyTorch, SQL, Python, Pandas, TensorFlow, NLP. Cloud native",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans Nice CO, FI, Finance, S/4HANA, FICO",
+    "candidate_text": "Expert SAP FICO confirmé 3 ans, FICO, FI, SD.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Consultant SAP SD 5 ans Distribution, FI, MM, SAP, Commandes",
+    "candidate_text": "2 ans d'expérience en consultant sap sd, Commandes, MM, S/4HANA.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Gouvernance, dbt, Data Warehouse, Data Lake",
+    "candidate_text": "2 ans architecte données, Gouvernance, Data Warehouse, Snowflake, BigQuery.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP 3 سنوات BERT, HuggingFace, Fine-tuning, Python, نشر نماذج",
+    "candidate_text": "4 سنوات خبرة في مهندس ذكاء اصطناعي NLP، نشر نماذج, HuggingFace, Python, BERT, NLP, Fine-tuning.",
+    "score": 0.76
+  },
+  {
+    "offer_text": "UX Designer 3 ans Accessibilité, Figma, Prototypage, Recherche utilisateur, Wireframes Nantes",
+    "candidate_text": "UX Designer 5 ans, Accessibilité, Wireframes, Recherche utilisateur, Design System. Architecture microservices",
+    "score": 0.89
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات Compose, Android, Jetpack, Google Play, Firebase",
+    "candidate_text": "Avocat 3 سنوات، barreau, plaidoiries, contrats.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Backend Python Redis, REST API, Docker, Python, Django 3 ans Paris",
+    "candidate_text": "Développeur Backend Python senior 3 ans, FastAPI, Docker, Celery, PostgreSQL, Python, Django, Redis, REST API. Migration legacy",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans Golang, Go, Redis Strasbourg CDI",
+    "candidate_text": "développeur go backend 1 ans, Microservices, PostgreSQL, Go, Golang, Kubernetes.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Développeur Flutter State Management, Android, iOS, REST API, Dart 2 ans Lille",
+    "candidate_text": "Architecte 5 ans expérience, plans, CAO, bâtiment.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans PostgreSQL, Docker, REST API, MongoDB Rennes CDI",
+    "candidate_text": "Développeur Full Stack React Node.js 5 ans, Équipe, Leadership, Code Review, Mentorat.",
+    "score": 0.28
+  },
+  {
+    "offer_text": "UX Designer 3 ans expérience Toulouse",
+    "candidate_text": "Agent immobilier 12 ans expérience, mandats, ventes, locations.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Paris Gouvernance, Data Warehouse, Snowflake, Airflow, Data Lake",
+    "candidate_text": "4 ans architecte données, Gouvernance, dbt, Data Warehouse, Data Lake. Data driven",
+    "score": 0.8
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات GraphQL, Sidekiq, REST API, Ruby",
+    "candidate_text": "مطور Ruby on Rails API 2 سنوات، GraphQL, Ruby on Rails, Redis.",
+    "score": 0.76
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي خبرة 2 سنوات",
+    "candidate_text": "3 سنوات خبرة في عالم بيانات تعلم آلي، scikit-learn, TensorFlow, Pandas. شركة ناشئة",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Chef de Projet IT 5 ans Gestion d'équipe, Planification, Jira, PMP CDI",
+    "candidate_text": "Chef de Projet IT confirmé 4 ans, Jira, PMP, Roadmap, Planification. Projet fintech",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Expert SAP FICO 6+ ans S/4HANA, Finance, FI, FICO, SAP Bordeaux",
+    "candidate_text": "Expert SAP FICO confirmé 4 ans, S/4HANA, SD.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans expérience Lille",
+    "candidate_text": "Expert SAP FICO senior 1 ans, IAM, EC2.",
+    "score": 0.37
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans AKS, ARM, Azure, DevOps, Terraform CDI",
+    "candidate_text": "Ingénieur Cloud Azure confirmé 4 ans, AKS, Azure, Infrastructure as Code, Pipelines, DevOps, ARM, Terraform. Application mobile",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5+ ans Backup, MySQL, SQL Server, PostgreSQL, Performance Lyon",
+    "candidate_text": "6 ans administrateur base de données, HA, Backup, SQL Server, PL/SQL, Oracle, Performance, PostgreSQL, MySQL. Missions e-commerce",
+    "score": 0.96
+  },
+  {
+    "offer_text": "Data Scientist 2 ans scikit-learn, PyTorch, Pandas, Machine Learning, NLP CDI",
+    "candidate_text": "Data Scientist 1 ans, scikit-learn, NLP, PyTorch, Machine Learning, SQL, Python.",
+    "score": 0.77
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter خبرة 2 سنوات",
+    "candidate_text": "مطور تطبيقات موبايل Flutter 3 سنوات، Firebase, iOS, Dart, موبايل, تطبيقات, Android. مشاريع ناجحة",
+    "score": 0.85
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans Helm, Git, Kubernetes Lyon",
+    "candidate_text": "DevOps Engineer 3 ans, Terraform, CI/CD, Git, Kubernetes, Jenkins, Helm, Docker, AWS. Startup SaaS",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4+ ans Ruby, Ruby on Rails, GraphQL, Redis, REST API Nantes",
+    "candidate_text": "développeur ruby on rails 4 ans, PostgreSQL, REST API, GraphQL, Redis, Ruby. Cloud native",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4 ans Redis, Ruby, Ruby on Rails, GraphQL, REST API",
+    "candidate_text": "développeur ruby on rails 1 ans, Ruby, GraphQL, REST API, Sidekiq.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Contrôleur de Gestion Reporting, KPI, Power BI, Excel, Finance 4 ans Lyon",
+    "candidate_text": "Contrôleur de Gestion senior 3 ans, Reporting, Analyse financière, Budgets, Power BI.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans expérience Rennes",
+    "candidate_text": "6 ans d'expérience en ingénieur cloud azure, ARM, AKS, Azure, DevOps, Terraform, Infrastructure as Code, Pipelines. Plateforme B2B",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Consultant SAP SD 5+ ans SAP, Commandes, Ventes, Distribution Bordeaux",
+    "candidate_text": "4 ans consultant sap sd, Android, iOS.",
+    "score": 0.22
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Spring Boot, Docker, REST API, Spring Nice",
+    "candidate_text": "Développeur Java Spring Boot 4 ans, Spring Boot, Hibernate, Spring, REST API, Java, Microservices, Docker. Projet greenfield",
+    "score": 0.94
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API REST API, Sidekiq, Ruby on Rails, Ruby, PostgreSQL خبرة 4 سنوات على الأقل",
+    "candidate_text": "خبير مطور Ruby on Rails API 4 سنوات، Python, Spark, Hive.",
+    "score": 0.16
+  },
+  {
+    "offer_text": "Développeur PHP Symfony Twig, JWT, REST API, MySQL, PHP 3 ans minimum",
+    "candidate_text": "Développeur PHP Symfony confirmé 2 ans, PHP, MySQL, Doctrine, Twig, JWT. Performance optimisation",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Tech Lead 5 ans Mentorat, TypeScript, Équipe, Code Review Rennes CDI",
+    "candidate_text": "Tech Lead senior 6 ans, SQL, SQL Server.",
+    "score": 0.38
+  },
+  {
+    "offer_text": "Développeur Salesforce 4 ans Nantes CRM, SOQL, Apex, LWC",
+    "candidate_text": "Développeur Salesforce senior 3 ans, SOQL, Lightning, Apex.",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Data Engineer 3 ans ETL, SQL, Spark, AWS",
+    "candidate_text": "1 ans d'expérience en data engineer, Kafka.",
+    "score": 0.56
+  },
+  {
+    "offer_text": "Tech Lead 5 ans TypeScript, Leadership, Architecture",
+    "candidate_text": "7 ans tech lead, ASP.NET Core, REST API, Entity Framework, Azure.",
+    "score": 0.17
+  },
+  {
+    "offer_text": "Développeur C# .NET C#, ASP.NET Core, SQL Server 4 ans",
+    "candidate_text": "5 ans développeur c# .net, .NET, C#, REST API, SQL Server.",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Analyste BI 3+ ans Reporting, SSAS, Power BI Lille",
+    "candidate_text": "Conducteur 7 ans expérience, transport, livraison, marchandises.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "Data Scientist 2 ans Machine Learning, TensorFlow, Python, Pandas",
+    "candidate_text": "Data Scientist senior 2 ans, PostgreSQL, TypeScript.",
+    "score": 0.31
+  },
+  {
+    "offer_text": "Data Scientist 2 ans Montpellier NLP, TensorFlow, scikit-learn, Python, Machine Learning",
+    "candidate_text": "Data Scientist confirmé 2 ans, Pandas, PyTorch, scikit-learn, SQL, NLP. Migration legacy",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans SAP, Finance, FICO, S/4HANA, CO Lille CDI",
+    "candidate_text": "7 ans expert sap fico, CO, S/4HANA, FI, Finance. Agile/Scrum",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Product Designer 4 ans expérience Rennes",
+    "candidate_text": "Product Designer 6 ans, Figma, Maquettes, UX, Prototypage, Responsive, Design System. Cloud native",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Développeur Salesforce 4 ans REST API, Salesforce, LWC, CRM, SOQL Lille",
+    "candidate_text": "Développeur Salesforce senior 1 ans, Salesforce, CRM.",
+    "score": 0.59
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans AWS, Helm, CI/CD, Jenkins, Kubernetes",
+    "candidate_text": "DevOps Engineer 3 ans, Node.js, Git, Docker, PostgreSQL.",
+    "score": 0.27
+  },
+  {
+    "offer_text": "Enseignant Informatique 5+ ans Python, Pédagogie, POO, Recherche Marseille",
+    "candidate_text": "2 ans d'expérience en enseignant informatique, POO, Java, Recherche.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS خبرة 4 سنوات",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 3 سنوات، Kubernetes, Jenkins, Docker, Terraform.",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Data Analyst 2 ans Lyon Tableau, Power BI, SQL, KPI, Python",
+    "candidate_text": "1 ans data analyst, Python, Pandas, SQL, KPI, Reporting.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans Kubernetes, Prometheus, SLI",
+    "candidate_text": "3 ans d'expérience en sre site reliability engineer, On-call, Kubernetes, Grafana, SLO, Incidents, Prometheus, Observabilité, SLI. Application mobile",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Toulouse Gouvernance, Snowflake, Data Warehouse",
+    "candidate_text": "5 ans architecte données, Jetpack, Compose.",
+    "score": 0.27
+  },
+  {
+    "offer_text": "Chef de Projet IT 5 ans Budget, Agile, PMP CDI",
+    "candidate_text": "6 ans d'expérience en chef de projet it, Scrum, PMP, Agile, Budget, Jira, Planification, Gestion d'équipe, Roadmap. Équipe internationale",
+    "score": 0.96
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات دبي",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 3 سنوات، Helm, Jenkins, Terraform, Docker.",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Développeur Vue.js Vuex, Tailwind, Pinia 3 ans minimum",
+    "candidate_text": "4 ans développeur vue.js, TypeScript, Vuex, Tailwind, Vue.js, Pinia, Nuxt.js, JavaScript. Application mobile",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Data Analyst 2+ ans KPI, Pandas, Power BI, SQL Nice",
+    "candidate_text": "1 ans data analyst, Reporting, Power BI.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP 3 سنوات القاهرة",
+    "candidate_text": "مطور مهندس ذكاء اصطناعي NLP 4 سنوات، HuggingFace, Transformers, Python, BERT. مشاريع ناجحة",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Développeur Salesforce 4 ans Lille CRM, Lightning, Salesforce, LWC",
+    "candidate_text": "2 ans d'expérience en développeur salesforce, Lightning, CRM, SOQL, REST API.",
+    "score": 0.56
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Cisco, Switching, Routage, Firewall Lille",
+    "candidate_text": "Ingénieur Réseau confirmé 6 ans, VPN, Firewall, Routage, Switching, CCNP, Palo Alto, Cisco. Équipe internationale",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans MongoDB, Docker, TypeScript, JavaScript, PostgreSQL Nice",
+    "candidate_text": "Agent immobilier 7 ans expérience, ventes, mandats, locations.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS خبرة 4 سنوات",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 2 سنوات، Helm, CI/CD, Terraform, Jenkins.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "UX Designer 3 ans Tests utilisateurs, Prototypage, Design System",
+    "candidate_text": "UX Designer senior 1 ans, PSM, Coaching, Agile, Jira.",
+    "score": 0.29
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3 ans Xcode, Combine, CoreData, SwiftUI",
+    "candidate_text": "Profil développeur mobile ios swift 4 ans, CI/CD, CoreData, Combine, Xcode, Swift, App Store, SwiftUI. Startup SaaS",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Consultant SAP SD Ventes, FI, SAP, Distribution, MM 5 ans Nice",
+    "candidate_text": "3 ans d'expérience en consultant sap sd, S/4HANA, Distribution, FI, Commandes, SD. Cloud native",
+    "score": 0.85
+  },
+  {
+    "offer_text": "Développeur Salesforce 4+ ans Salesforce, CRM, Apex Rennes",
+    "candidate_text": "4 ans développeur salesforce, Lightning, REST API, SOQL, Apex, LWC, CRM.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Vue.js 3+ ans Tailwind, Pinia, Nuxt.js, Vue.js",
+    "candidate_text": "Profil développeur vue.js 5 ans, Vuex, Pinia, TypeScript, Vue.js, Nuxt.js, JavaScript. Équipe internationale",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js Git, REST API, TypeScript, PostgreSQL 3 ans Rennes",
+    "candidate_text": "Développeur Full Stack React Node.js confirmé 1 ans, MongoDB, Git, JavaScript.",
+    "score": 0.59
+  },
+  {
+    "offer_text": "Product Designer Prototypage, UX, UI, Responsive, Design System 4 ans Rennes",
+    "candidate_text": "7 ans d'expérience en product designer, Java, Université.",
+    "score": 0.21
+  },
+  {
+    "offer_text": "Product Designer Design System, Maquettes, UI, UX 4 ans minimum",
+    "candidate_text": "Product Designer senior 2 ans, Figma, Maquettes, Design System, Prototypage.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans Kubernetes, On-call, Observabilité Lille CDI",
+    "candidate_text": "3 ans sre site reliability engineer, Grafana, SLO, Observabilité, On-call.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Analyste BI 3 ans Montpellier DAX, SQL Server, Tableaux de bord",
+    "candidate_text": "3 ans d'expérience en analyste bi, SQL Server, SSAS, Reporting, DAX, SQL, Power BI.",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Ingénieur Réseau Palo Alto, Cisco, Firewall, VPN 5 ans minimum",
+    "candidate_text": "ingénieur réseau 3 ans, Cisco.",
+    "score": 0.51
+  },
+  {
+    "offer_text": "Product Designer 4 ans expérience Nice",
+    "candidate_text": "3 ans product designer, UX, UI, Prototypage.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API خبرة 4 سنوات",
+    "candidate_text": "خبير مطور Ruby on Rails API 4 سنوات، REST API, Sidekiq, PostgreSQL. بنية تحتية سحابية",
+    "score": 0.79
+  },
+  {
+    "offer_text": "UX Designer 3 ans Accessibilité, Design System, Recherche utilisateur, Wireframes Bordeaux",
+    "candidate_text": "ux designer 5 ans, AWS, Jenkins, Docker.",
+    "score": 0.19
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js خبرة 3 سنوات",
+    "candidate_text": "4 سنوات خبرة في مطور ويب متكامل React Node.js، TypeScript, Docker, JavaScript, PostgreSQL, REST API. شركة ناشئة",
+    "score": 0.92
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop خبرة 3 سنوات",
+    "candidate_text": "خبير مهندس بيانات Spark Hadoop 1 سنوات، Python, بيانات ضخمة, Hive, Pipeline.",
+    "score": 0.43
+  },
+  {
+    "offer_text": "Data Analyst Pandas, Power BI, Python, KPI 2 ans minimum",
+    "candidate_text": "1 ans d'expérience en data analyst, Tableau, Power BI, Excel, Reporting, Python. Application mobile",
+    "score": 0.8
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات PostgreSQL, JavaScript, Docker, Node.js",
+    "candidate_text": "مطور ويب متكامل React Node.js 8 سنوات، Wireframes, Design System.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans expérience",
+    "candidate_text": "6 ans enseignant informatique, Algorithmique, Java, Recherche, POO, Université, Publications, Pédagogie. Projet greenfield",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift Xcode, App Store, CoreData 3 ans Toulouse",
+    "candidate_text": "Développeur Mobile iOS Swift confirmé 7 ans, Sidekiq, Redis.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "مهندس أمن معلومات Réseau, CISSP, Pentest خبرة 5 سنوات على الأقل",
+    "candidate_text": "خبير مهندس أمن معلومات 4 سنوات، Sécurité, CISSP, Réseau, Pentest, SOC. تطبيقات موبايل",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Chef de Projet IT Gestion d'équipe, Agile, Planification, PMP, Jira 5 ans minimum",
+    "candidate_text": "Agent immobilier 9 ans expérience, mandats, transactions, ventes.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter 2 سنوات Firebase, iOS, Android الرياض",
+    "candidate_text": "4 سنوات خبرة في مطور تطبيقات موبايل Flutter، Figma, Prototypage, Tests utilisateurs.",
+    "score": 0.36
+  },
+  {
+    "offer_text": "Data Analyst 2+ ans Power BI, KPI, Reporting, Tableau, Pandas Montpellier",
+    "candidate_text": "Data Analyst 1 ans, Excel, Power BI, Pandas, Python, Tableau.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Product Manager 5 ans OKR, B2B, Priorisation",
+    "candidate_text": "Profil product manager 6 ans, Analytics, B2B, Roadmap, OKR, Priorisation, A/B Testing, User Research. Performance optimisation",
+    "score": 0.76
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans CI/CD, Kubernetes, AWS",
+    "candidate_text": "Profil devops engineer 3 ans, AWS, Helm.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans Symfony, Doctrine, PHP, MySQL, REST API Bordeaux",
+    "candidate_text": "Développeur PHP Symfony confirmé 2 ans, PHP, MySQL, Twig, Doctrine, JWT.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails Ruby on Rails, Ruby, GraphQL, PostgreSQL 4 ans Marseille",
+    "candidate_text": "6 ans développeur ruby on rails, Ruby, PostgreSQL.",
+    "score": 0.33
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans expérience Rennes",
+    "candidate_text": "Expert Cybersécurité confirmé 2 ans, SOC, Metasploit, Splunk.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP 5 سنوات فريق, PMP, Scrum, Agile, Planification",
+    "candidate_text": "مدير مشاريع تقنية Agile Scrum PMP 3 سنوات، Gestion, JIRA, Planification, فريق, PMP, Agile.",
+    "score": 0.77
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات Android, Jetpack, Room, Firebase دبي",
+    "candidate_text": "Avocat 10 سنوات، droit, barreau, plaidoiries.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans FI, SAP, FICO, SD Toulouse CDI",
+    "candidate_text": "Expert SAP FICO confirmé 4 ans, S/4HANA, FICO, SAP, Finance, SD.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Product Manager OKR, B2B, A/B Testing, SaaS, Analytics 5 ans Toulouse",
+    "candidate_text": "5 ans d'expérience en product manager, Roadmap, B2B, Priorisation, SaaS, OKR.",
+    "score": 0.85
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP Budget, Planification, فريق خبرة 5 سنوات على الأقل",
+    "candidate_text": "خبير مدير مشاريع تقنية Agile Scrum PMP 1 سنوات، Agile, فريق, PMP, Scrum, Budget.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3+ ans Fine-tuning, HuggingFace, MLOps, PyTorch, Python Strasbourg",
+    "candidate_text": "Ingénieur Machine Learning 4 ans, MLOps, HuggingFace, Fine-tuning. Équipe internationale",
+    "score": 0.85
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans expérience Toulouse",
+    "candidate_text": "Profil ingénieur réseau 3 ans, Cisco, Routage, Switching, Palo Alto.",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Data Analyst Tableau, Excel, Reporting 2 ans minimum",
+    "candidate_text": "Data Analyst 1 ans, Tableau, Python, KPI, Reporting, Pandas. Application mobile",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Responsable RH Recrutement 5 ans Lille SIRH, ADP, Workday, Recrutement",
+    "candidate_text": "Responsable RH Recrutement confirmé 6 ans, ADP, Recrutement, Gestion de carrière, Workday, Entretiens.",
+    "score": 0.84
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP 5 سنوات Agile, Gestion, PMP, Planification, Budget",
+    "candidate_text": "مطور مدير مشاريع تقنية Agile Scrum PMP 3 سنوات، فريق, Gestion, Budget. تطبيقات موبايل",
+    "score": 0.85
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4 ans Finance, Budgets, Reporting Bordeaux CDI",
+    "candidate_text": "Contrôleur de Gestion 3 ans, Reporting, Budgets, SAP, Analyse financière.",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Data Analyst Power BI, KPI, SQL 2 ans minimum",
+    "candidate_text": "Data Analyst senior 1 ans, Python, SQL, Reporting, Pandas, Power BI.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué Bas niveau, Performance, RTOS, Systèmes embarqués, C 3 ans Nice",
+    "candidate_text": "2 ans développeur rust embarqué, RTOS, WASM, Rust, Systèmes embarqués, C.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans Oracle, Backup, SQL Server, MySQL Strasbourg",
+    "candidate_text": "Administrateur Base de Données 3 ans, PL/SQL, SQL Server, HA, Oracle, Backup, Performance, MySQL. Migration legacy",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans Bordeaux SIEM, Metasploit, Sécurité, CISSP, Splunk",
+    "candidate_text": "Expert Cybersécurité confirmé 2 ans, OSCP, Sécurité, Splunk, Metasploit, SOC, SIEM.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4 ans expérience Bordeaux",
+    "candidate_text": "Contrôleur de Gestion confirmé 5 ans, Power BI, Reporting, Analyse financière, KPI. Projet fintech",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Ingénieur MLOps 3 ans expérience Lyon",
+    "candidate_text": "Ingénieur MLOps 3 ans, Kubeflow, Monitoring, Seldon, Modèles en production, MLflow, Kubernetes. Migration legacy",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans expérience Lyon",
+    "candidate_text": "3 ans développeur frontend angular, Angular, SPA, RxJS, HTML, TypeScript, NgRx. Application mobile",
+    "score": 0.93
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans expérience Bordeaux",
+    "candidate_text": "DevOps Engineer confirmé 1 ans, AWS, CI/CD, Terraform, Kubernetes, Jenkins.",
+    "score": 0.56
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans Oracle, SQL Server, Performance, MySQL, PostgreSQL",
+    "candidate_text": "Agent immobilier 10 ans expérience, mandats, locations, transactions.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "Data Engineer 3 ans Kafka, SQL, Airflow, Big Data Paris CDI",
+    "candidate_text": "1 ans data engineer, Python, Big Data, ETL, SQL, Spark, Airflow.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS Helm, Kubernetes, Jenkins, AWS خبرة 4 سنوات على الأقل",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 1 سنوات، Docker, Helm, Jenkins, CI/CD.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "Scrum Master 5 ans Marseille PSM, Jira, Agile, Kanban",
+    "candidate_text": "Profil scrum master 1 ans, Cérémonies, PSM.",
+    "score": 0.59
+  },
+  {
+    "offer_text": "Enseignant Informatique 5+ ans Python, POO, Recherche, Pédagogie, Java",
+    "candidate_text": "3 ans enseignant informatique, POO, Recherche, Java.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات الرياض",
+    "candidate_text": "مطور مطور Android Kotlin Jetpack 2 سنوات، Android, Compose, Google Play, Room, Firebase.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Data Analyst 2 ans Power BI, SQL, Excel",
+    "candidate_text": "Data Analyst confirmé 1 ans, Power BI, KPI, Reporting, Excel.",
+    "score": 0.56
+  },
+  {
+    "offer_text": "Développeur Backend Python 3 ans Celery, REST API, Docker, Python",
+    "candidate_text": "Développeur Backend Python 1 ans, PostgreSQL, Python, Redis.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات Réseau, Pentest, اختبار اختراق, Sécurité",
+    "candidate_text": "مطور مهندس أمن معلومات 5 سنوات، اختبار اختراق, Splunk, SOC, Pentest, Sécurité, Réseau.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans S3, IAM, Lambda",
+    "candidate_text": "4 ans ingénieur cloud aws, AWS, S3, Lambda, IAM. Performance optimisation",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Product Manager Priorisation, User Research, Analytics 5 ans Strasbourg",
+    "candidate_text": "6 ans product manager, Analytics, Priorisation, A/B Testing. Équipe internationale",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Développeur Salesforce 4+ ans Apex, REST API, Lightning Nice",
+    "candidate_text": "5 ans développeur salesforce, Lightning, REST API, CRM, SOQL, Salesforce, LWC, Apex. Cloud native",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Scrum Master 5 ans Nantes Jira, Kanban, Coaching, PSM",
+    "candidate_text": "Scrum Master confirmé 5 ans, Scrum, Jira, Cérémonies, SAFe, PSM, Kanban, Coaching, Agile. Missions e-commerce",
+    "score": 0.93
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans Jenkins, Docker, CI/CD, Terraform, Helm Nice CDI",
+    "candidate_text": "5 ans devops engineer, Helm, Docker, CI/CD, Kubernetes, Terraform, Jenkins.",
+    "score": 0.93
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer Prometheus, Kubernetes, On-call, SLO, SLI 4 ans Toulouse",
+    "candidate_text": "SRE Site Reliability Engineer senior 3 ans, On-call, SLI, Observabilité, Kubernetes, Grafana. Architecture microservices",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Palo Alto, Firewall, CCNP, Routage, Cisco",
+    "candidate_text": "5 ans ingénieur réseau, CCNP, Palo Alto, Switching, Routage, Firewall, Cisco. Cloud native",
+    "score": 0.95
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP خبرة 3 سنوات",
+    "candidate_text": "1 سنوات خبرة في مهندس ذكاء اصطناعي NLP، NLP, نشر نماذج, HuggingFace.",
+    "score": 0.51
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي TensorFlow, NLP, Python, scikit-learn خبرة 2 سنوات على الأقل",
+    "candidate_text": "عالم بيانات تعلم آلي 1 سنوات، SQL, Pandas, TensorFlow, Machine Learning.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans Kubernetes, Golang, PostgreSQL, Microservices CDI",
+    "candidate_text": "Développeur Go Backend senior 1 ans, Kubernetes, PostgreSQL, Microservices.",
+    "score": 0.54
+  },
+  {
+    "offer_text": "Data Engineer 3 ans Python, Spark, SQL, Kafka, Airflow Rennes",
+    "candidate_text": "Data Engineer 2 ans, Switching, Palo Alto.",
+    "score": 0.24
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans Pentest, IAM, Cloud Security",
+    "candidate_text": "Ingénieur Sécurité Cloud 5 ans, Pentest, SecurityHub, Cloud Security, IAM, SOC, WAF, AWS.",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud WAF, IAM, SOC, SecurityHub 4 ans",
+    "candidate_text": "ingénieur sécurité cloud 5 ans, AWS, Pentest, SOC, WAF, IAM, SecurityHub, Cloud Security, GuardDuty.",
+    "score": 0.86
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans Git, Docker, Kubernetes, Jenkins, AWS Bordeaux",
+    "candidate_text": "DevOps Engineer confirmé 7 ans, GuardDuty, SOC, Cloud Security.",
+    "score": 0.17
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3+ ans Jenkins, BDD, CI/CD, Selenium Marseille",
+    "candidate_text": "ingénieur qa automatisation 2 ans, Jenkins, BDD, Playwright, pytest. Application mobile",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Scrum Master 5 ans Kanban, Jira, Agile Montpellier",
+    "candidate_text": "7 ans scrum master, Scrum, Jira, Cérémonies, Agile, Coaching, PSM, Kanban. Migration legacy",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Analyste BI 3 ans Power BI, DAX, Reporting, SSAS CDI",
+    "candidate_text": "Avocat 9 ans expérience, contrats, droit, plaidoiries.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "Développeur Vue.js 3 ans Pinia, JavaScript, Vue.js",
+    "candidate_text": "1 ans d'expérience en développeur vue.js, JavaScript, Vue.js, Pinia, Vuex, Nuxt.js. Architecture microservices",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Développeur C# .NET 4 ans SQL Server, Azure, REST API",
+    "candidate_text": "Développeur C# .NET senior 6 ans, ASP.NET Core, .NET, REST API, Entity Framework, C#, Azure, SQL Server. Projet greenfield",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Chef de Projet IT 5+ ans Scrum, Roadmap, PMP, Planification Lille",
+    "candidate_text": "Chef de Projet IT 1 ans, Roadmap.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Data Engineer AWS, Spark, Kafka, ETL 3 ans minimum",
+    "candidate_text": "5 ans data engineer, SQL, Kafka, AWS, Big Data, ETL, Python.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans State Management, REST API, Dart, Flutter",
+    "candidate_text": "1 ans développeur flutter, Flutter, State Management, iOS, REST API.",
+    "score": 0.63
+  },
+  {
+    "offer_text": "Analyste BI 3 ans SQL, DAX, Power BI CDI",
+    "candidate_text": "Analyste BI 1 ans, DAX, Reporting, Power BI, SQL Server.",
+    "score": 0.43
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans Terraform, Lambda, VPC",
+    "candidate_text": "Ingénieur Cloud AWS senior 5 ans, Helm, Docker.",
+    "score": 0.35
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans MySQL, Backup, PL/SQL Lille",
+    "candidate_text": "Administrateur Base de Données senior 3 ans, PL/SQL, HA, PostgreSQL.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation BDD, CI/CD, Playwright 3 ans minimum",
+    "candidate_text": "1 ans ingénieur qa automatisation, Python, Selenium.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "UX Designer Prototypage, Figma, Accessibilité, Design System, Tests utilisateurs 3 ans minimum",
+    "candidate_text": "UX Designer confirmé 4 ans, Design System, Prototypage, Figma, Accessibilité, Tests utilisateurs, Recherche utilisateur.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3+ ans Rust, Systèmes embarqués, C, Bas niveau, Performance Rennes",
+    "candidate_text": "Architecte 3 ans expérience, plans, CAO, construction.",
+    "score": 0.05
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans AWS, CloudFormation, S3, EC2, Terraform",
+    "candidate_text": "Ingénieur Cloud AWS confirmé 4 ans, S3, Lambda, VPC. Projet greenfield",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans Rennes Python, LLM, MLOps, HuggingFace",
+    "candidate_text": "3 ans ingénieur machine learning, MLOps, PyTorch, HuggingFace.",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans IAM, Cloud Security, SecurityHub Lyon CDI",
+    "candidate_text": "Avocat 10 ans expérience, plaidoiries, droit, contrats.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "Product Designer 4 ans UX, Figma, Responsive, Maquettes, UI",
+    "candidate_text": "2 ans product designer, UI, UX, Responsive, Design System.",
+    "score": 0.81
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API Ruby, Redis, REST API, GraphQL خبرة 4 سنوات على الأقل",
+    "candidate_text": "خبير مطور Ruby on Rails API 1 سنوات، Sidekiq, REST API.",
+    "score": 0.45
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans Cloud Security, AWS, WAF, SecurityHub Strasbourg CDI",
+    "candidate_text": "ingénieur sécurité cloud 1 ans, GuardDuty, AWS, SOC, IAM, WAF.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans MLOps, PyTorch, LLM, Python CDI",
+    "candidate_text": "4 ans d'expérience en ingénieur machine learning, LLM, Transformers, PyTorch, Python, Fine-tuning. Missions e-commerce",
+    "score": 0.92
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS Kubernetes, Docker, Jenkins خبرة 4 سنوات على الأقل",
+    "candidate_text": "مهندس DevOps Kubernetes AWS 2 سنوات، Kubernetes, CI/CD, AWS. بنية تحتية سحابية",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Spring, Java, Spring Boot",
+    "candidate_text": "3 ans d'expérience en développeur java spring boot, Java, Spring Boot, Hibernate.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4 ans GraphQL, Ruby, Redis",
+    "candidate_text": "Développeur Ruby on Rails senior 3 ans, Sidekiq, GraphQL, PostgreSQL, Redis, Ruby.",
+    "score": 0.63
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans TypeScript, CSS, HTML, NgRx, RxJS Toulouse",
+    "candidate_text": "2 ans développeur frontend angular, Python, HuggingFace.",
+    "score": 0.31
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans expérience Strasbourg",
+    "candidate_text": "3 ans expert cybersécurité, Metasploit, CISSP, Sécurité, Pentest, Splunk.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans Jenkins, Selenium, CI/CD, BDD Rennes CDI",
+    "candidate_text": "ingénieur qa automatisation 1 ans, pytest, BDD, Selenium, Jenkins, Python, CI/CD, Cypress. Missions e-commerce",
+    "score": 0.84
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات Sécurité, Splunk, Réseau",
+    "candidate_text": "مهندس أمن معلومات 3 سنوات، اختبار اختراق, Splunk, CISSP.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans FICO, Finance, Controlling, SAP, S/4HANA Paris",
+    "candidate_text": "Expert SAP FICO confirmé 2 ans, S/4HANA, SAP, Finance, FICO.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans Pipelines, Azure, ARM, AKS Strasbourg CDI",
+    "candidate_text": "Profil ingénieur cloud azure 1 ans, ARM, Pipelines, Azure.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات Room, Google Play, Android, Kotlin دبي",
+    "candidate_text": "2 سنوات خبرة في مطور Android Kotlin Jetpack، Android, Room, Kotlin, Compose, Jetpack.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3+ ans Node.js, MongoDB, JavaScript, TypeScript Marseille",
+    "candidate_text": "5 ans développeur full stack react node.js, TypeScript, Node.js, JavaScript, Docker, Git, PostgreSQL. Architecture microservices",
+    "score": 0.9
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop 3 سنوات Pipeline, Spark, Hadoop, Python",
+    "candidate_text": "مطور مهندس بيانات Spark Hadoop 6 سنوات، ETL, Hadoop, Hive, Pipeline, Spark. تجارة إلكترونية",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Vue.js 3+ ans Nuxt.js, Tailwind, Vue.js Nantes",
+    "candidate_text": "Développeur Vue.js senior 2 ans, TypeScript, Vue.js, Tailwind, Pinia, Nuxt.js.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP 5 سنوات PMP, Scrum, Agile, فريق, Budget",
+    "candidate_text": "مطور مدير مشاريع تقنية Agile Scrum PMP 4 سنوات، Planification, Gestion, PMP, Agile, Scrum, فريق, JIRA.",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Développeur Salesforce Lightning, LWC, Apex 4 ans minimum",
+    "candidate_text": "1 ans développeur salesforce, Lightning.",
+    "score": 0.47
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Spring Boot, Kafka, Microservices Marseille CDI",
+    "candidate_text": "3 ans d'expérience en développeur java spring boot, Spring Boot, Microservices, Spring, Hibernate.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans Strasbourg Angular, HTML, Material Design, TypeScript",
+    "candidate_text": "1 ans développeur frontend angular, TypeScript, Material Design, NgRx, HTML, CSS.",
+    "score": 0.48
+  },
+  {
+    "offer_text": "Scrum Master Kanban, Cérémonies, Scrum, Jira 5 ans Nice",
+    "candidate_text": "scrum master 5 ans, Agile, Coaching, Scrum, PSM, Cérémonies. Équipe internationale",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Ingénieur MLOps MLflow, Kubernetes, Docker, Modèles en production, Seldon 3 ans minimum",
+    "candidate_text": "Ingénieur MLOps confirmé 4 ans, Monitoring, Seldon, Modèles en production, MLflow, Kubernetes, Docker, Kubeflow.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Data Analyst 2 ans expérience Nantes",
+    "candidate_text": "Data Analyst confirmé 4 ans, Pandas, Tableau, Power BI, KPI, Excel, Python, Reporting, SQL. Équipe internationale",
+    "score": 0.96
+  },
+  {
+    "offer_text": "Expert SAP FICO FICO, SAP, CO 6 ans minimum",
+    "candidate_text": "Expert SAP FICO 5 ans, S/4HANA, Finance, Controlling, CO, FI.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans CloudFormation, Lambda, EC2, AWS",
+    "candidate_text": "2 ans ingénieur cloud aws, VPC, AWS, EC2.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP 3 سنوات Transformers, HuggingFace, Python, نشر نماذج, BERT",
+    "candidate_text": "مهندس ذكاء اصطناعي NLP 1 سنوات، Python, Transformers, BERT, HuggingFace.",
+    "score": 0.63
+  },
+  {
+    "offer_text": "Data Analyst Pandas, KPI, Tableau, SQL 2 ans minimum",
+    "candidate_text": "Data Analyst 4 ans, SQL, Tableau, Excel, KPI, Pandas, Reporting. Migration legacy",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Consultant SAP SD 5 ans Bordeaux Distribution, MM, Commandes",
+    "candidate_text": "Consultant SAP SD senior 8 ans, SAP, Commandes, SD, Distribution, Ventes, MM, S/4HANA. CI/CD maîtrisé",
+    "score": 0.92
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans Docker, CI/CD, Jenkins, Git, Terraform",
+    "candidate_text": "DevOps Engineer 6 ans, Git, Terraform, Helm, Docker, Kubernetes, AWS, Jenkins. Équipe internationale",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Backend Python Python, Docker, FastAPI 3 ans minimum",
+    "candidate_text": "1 ans développeur backend python, PyTorch, Python.",
+    "score": 0.29
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter خبرة 2 سنوات",
+    "candidate_text": "مطور تطبيقات موبايل Flutter 1 سنوات، Dart, تطبيقات.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API Ruby, GraphQL, PostgreSQL, REST API خبرة 4 سنوات على الأقل",
+    "candidate_text": "5 سنوات خبرة في مطور Ruby on Rails API، Lambda, S3, VPC.",
+    "score": 0.39
+  },
+  {
+    "offer_text": "Architecte Données 5+ ans BigQuery, dbt, Data Lake, Airflow, Gouvernance Bordeaux",
+    "candidate_text": "Architecte Données 4 ans, Gouvernance, Snowflake, BigQuery, dbt, Airflow.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3 ans Marseille RTOS, Rust, Performance, Systèmes embarqués",
+    "candidate_text": "développeur rust embarqué 2 ans, WASM, Systèmes embarqués, RTOS, Performance.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "UX Designer 3 ans expérience",
+    "candidate_text": "ux designer 1 ans, Tests utilisateurs, Prototypage, Wireframes, Design System.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Data Analyst 2 ans Reporting, SQL, Pandas, Excel, Python",
+    "candidate_text": "Enseignant 10 ans expérience, programme, pédagogie, élèves.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Expert Cybersécurité SIEM, Sécurité, Metasploit, Pentest 5 ans Toulouse",
+    "candidate_text": "Expert Cybersécurité senior 3 ans, Metasploit.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans Lille BDD, CI/CD, pytest, Cypress, Python",
+    "candidate_text": "Profil ingénieur qa automatisation 1 ans, Jenkins, CI/CD, pytest, Cypress, Selenium, BDD, Playwright.",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3+ ans Jenkins, BDD, Playwright, Cypress, Python Strasbourg",
+    "candidate_text": "Ingénieur QA Automatisation 5 ans, Playwright, Jenkins, BDD, Cypress, Python, CI/CD.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans Metasploit, SIEM, OSCP",
+    "candidate_text": "Expert Cybersécurité confirmé 7 ans, Sidekiq, Ruby on Rails, Redis.",
+    "score": 0.17
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3 ans App Store, Swift, CI/CD Nice CDI",
+    "candidate_text": "4 ans d'expérience en développeur mobile ios swift, App Store, CI/CD, SwiftUI, Swift. Plateforme B2B",
+    "score": 0.87
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack خبرة 3 سنوات",
+    "candidate_text": "مطور مطور Android Kotlin Jetpack 4 سنوات، Google Play, Room, Android, Compose. تجارة إلكترونية",
+    "score": 0.76
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js TypeScript, React, REST API, MongoDB, Docker خبرة 3 سنوات على الأقل",
+    "candidate_text": "مطور مطور ويب متكامل React Node.js 1 سنوات، JavaScript.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Ingénieur MLOps 3 ans Kubeflow, MLflow, Monitoring, Seldon, Docker",
+    "candidate_text": "Ingénieur MLOps senior 2 ans, Monitoring, Seldon, Docker.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans gRPC, Golang, Microservices, Redis",
+    "candidate_text": "Développeur Go Backend senior 4 ans, Kubernetes, Golang, PostgreSQL, Redis, Microservices, Go.",
+    "score": 0.88
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات اختبار اختراق, Réseau, SOC, CISSP",
+    "candidate_text": "خبير مهندس أمن معلومات 4 سنوات، MongoDB, Docker.",
+    "score": 0.38
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans GuardDuty, SecurityHub, IAM, Cloud Security",
+    "candidate_text": "2 ans d'expérience en ingénieur sécurité cloud, Cloud Security, AWS.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans SOC, CISSP, SIEM, Pentest Nice",
+    "candidate_text": "6 ans d'expérience en expert cybersécurité, OSCP, CISSP, Metasploit, Splunk, SIEM. Agile/Scrum",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4 ans KPI, Reporting, Budgets, Finance",
+    "candidate_text": "Contrôleur de Gestion senior 3 ans, KPI, Analyse financière, Budgets, Finance, Power BI, Reporting.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "مهندس أمن معلومات خبرة 5 سنوات",
+    "candidate_text": "خبير مهندس أمن معلومات 2 سنوات، CISSP, Splunk.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "Responsable RH Recrutement 5 ans Paie, Entretiens, Recrutement, SIRH",
+    "candidate_text": "4 ans d'expérience en responsable rh recrutement, Entretiens, Workday, SIRH.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Product Designer 4 ans Maquettes, Responsive, Prototypage, UX, Figma",
+    "candidate_text": "Agent immobilier 3 ans expérience, locations, mandats, ventes.",
+    "score": 0.05
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans SPA, NgRx, TypeScript, Material Design, CSS Strasbourg",
+    "candidate_text": "4 ans développeur frontend angular, RxJS, Material Design, NgRx, HTML, Angular. Projet greenfield",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS AWS, Terraform, CloudFormation, EC2, VPC 4 ans Lille",
+    "candidate_text": "Profil ingénieur cloud aws 1 ans, Terraform.",
+    "score": 0.46
+  },
+  {
+    "offer_text": "DevOps Engineer Git, Docker, Jenkins, Helm 4 ans Lille",
+    "candidate_text": "DevOps Engineer confirmé 3 ans, Git, Terraform, Kubernetes, Docker, CI/CD. Missions e-commerce",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Développeur C# .NET Azure, Entity Framework, SQL Server 4 ans",
+    "candidate_text": "1 ans d'expérience en développeur c# .net, SQL Server, Entity Framework, C#.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Développeur Backend Python 3+ ans Django, REST API, Celery, Redis Toulouse",
+    "candidate_text": "Développeur Backend Python confirmé 3 ans, PostgreSQL, Python, FastAPI, Redis. Startup SaaS",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5+ ans Backup, Oracle, MySQL Marseille",
+    "candidate_text": "Administrateur Base de Données confirmé 3 ans, Performance, Oracle, SQL Server.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "Product Manager 5 ans SaaS, A/B Testing, Analytics, OKR, User Research",
+    "candidate_text": "Profil product manager 5 ans, User Research, B2B, Analytics, OKR, SaaS, A/B Testing, Priorisation. Agile/Scrum",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans expérience Paris",
+    "candidate_text": "Développeur PHP Symfony 4 ans, Doctrine, PHP, Symfony, REST API.",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Développeur C# .NET .NET, ASP.NET Core, SQL Server, Entity Framework 4 ans Nantes",
+    "candidate_text": "2 ans développeur c# .net, Entity Framework.",
+    "score": 0.54
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات PostgreSQL, Sidekiq, Ruby, REST API, Redis",
+    "candidate_text": "خبير مطور Ruby on Rails API 1 سنوات، Sidekiq, GraphQL.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Enseignant Informatique 5+ ans Java, Université, Python, Algorithmique Paris",
+    "candidate_text": "Enseignant Informatique senior 7 ans, POO, Publications, Université, Python, Pédagogie. Startup SaaS",
+    "score": 0.87
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات PostgreSQL, Node.js, REST API, React, JavaScript تونس",
+    "candidate_text": "4 سنوات خبرة في مطور ويب متكامل React Node.js، Node.js, MongoDB, PostgreSQL, TypeScript, JavaScript. مشاريع ناجحة",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans Material Design, Angular, SPA, CSS, TypeScript",
+    "candidate_text": "6 ans développeur frontend angular, SPA, NgRx, HTML, Material Design, RxJS.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans expérience Bordeaux",
+    "candidate_text": "Conducteur 4 ans expérience, transport, marchandises, livraison.",
+    "score": 0.05
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3 ans expérience Marseille",
+    "candidate_text": "Profil développeur rust embarqué 1 ans, WASM, Rust.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Python, Université, Java Lille CDI",
+    "candidate_text": "Enseignant Informatique confirmé 5 ans, Microservices, REST API, Hibernate, Kafka.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API Ruby on Rails, Sidekiq, Redis, REST API, GraphQL خبرة 4 سنوات على الأقل",
+    "candidate_text": "مطور Ruby on Rails API 7 سنوات، Sidekiq, GraphQL, Ruby, REST API, Redis, PostgreSQL. بنية تحتية سحابية",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Data Analyst 2 ans expérience Toulouse",
+    "candidate_text": "data analyst 3 ans, SQL, Python, Pandas, Power BI. Projet fintech",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Ingénieur MLOps Monitoring, Kubernetes, Modèles en production 3 ans",
+    "candidate_text": "Ingénieur MLOps senior 1 ans, Seldon, Docker, Kubernetes.",
+    "score": 0.43
+  },
+  {
+    "offer_text": "UX Designer 3 ans Prototypage, Design System, Recherche utilisateur",
+    "candidate_text": "UX Designer 1 ans, Recherche utilisateur, Wireframes.",
+    "score": 0.57
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4+ ans REST API, Kafka, Spring Boot, Java, Spring Marseille",
+    "candidate_text": "5 ans développeur java spring boot, Spring Boot, Kafka, Docker, Spring, Java, REST API, Microservices. Startup SaaS",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Développeur Salesforce 4 ans Apex, Salesforce, SOQL, REST API Marseille CDI",
+    "candidate_text": "développeur salesforce 3 ans, Lightning, CRM, Apex, LWC, Salesforce.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js PostgreSQL, REST API, MongoDB 3 ans",
+    "candidate_text": "Développeur Full Stack React Node.js 1 ans, REST API, PostgreSQL, Node.js. Migration legacy",
+    "score": 0.84
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات اختبار اختراق, Sécurité, SOC",
+    "candidate_text": "خبير مهندس أمن معلومات 4 سنوات، Sécurité, Pentest.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Product Designer UX, Design System, UI, Figma 4 ans",
+    "candidate_text": "1 ans d'expérience en product designer, UI, UX, Figma, Responsive, Prototypage.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "Architecte Données 5+ ans Data Warehouse, Data Lake, dbt, Snowflake",
+    "candidate_text": "Architecte Données senior 4 ans, Gouvernance, Snowflake.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans Performance, PostgreSQL, PL/SQL",
+    "candidate_text": "administrateur base de données 8 ans, SAP, FICO.",
+    "score": 0.29
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans Nice HTML, RxJS, Material Design",
+    "candidate_text": "Profil développeur frontend angular 2 ans, Angular, Material Design, HTML, CSS. Startup SaaS",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué Performance, Systèmes embarqués, Bas niveau, RTOS, Rust 3 ans minimum",
+    "candidate_text": "développeur rust embarqué 2 ans, Bas niveau, WASM, C, Systèmes embarqués, Performance, RTOS. Agile/Scrum",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans Angular, NgRx, RxJS, HTML",
+    "candidate_text": "Profil développeur frontend angular 4 ans, CSS, NgRx, Material Design, HTML, TypeScript, SPA, RxJS. CI/CD maîtrisé",
+    "score": 0.87
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js TypeScript, React, Node.js خبرة 3 سنوات على الأقل",
+    "candidate_text": "4 سنوات خبرة في مطور ويب متكامل React Node.js، Node.js, Docker, MongoDB, TypeScript, REST API, JavaScript.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter خبرة 2 سنوات",
+    "candidate_text": "1 سنوات خبرة في مطور تطبيقات موبايل Flutter، Dart.",
+    "score": 0.54
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات",
+    "candidate_text": "عالم بيانات تعلم آلي 1 سنوات، scikit-learn, NLP, Python.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Strasbourg Python, Algorithmique, Java, POO",
+    "candidate_text": "Enseignant Informatique senior 7 ans, Python, Publications, Recherche, Algorithmique, Université, Pédagogie. Migration legacy",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Ingénieur MLOps Kubernetes, Modèles en production, Monitoring, Seldon 3 ans",
+    "candidate_text": "1 ans d'expérience en ingénieur mlops, Docker, Kubernetes, MLflow.",
+    "score": 0.49
+  },
+  {
+    "offer_text": "Enseignant Informatique Algorithmique, Pédagogie, Python, POO, Publications 5 ans minimum",
+    "candidate_text": "3 ans d'expérience en enseignant informatique, Université, Java, Pédagogie, Algorithmique, POO, Recherche.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Développeur Backend Python 3 ans Docker, Python, REST API Lyon",
+    "candidate_text": "Agent immobilier 9 ans expérience, locations, transactions, mandats.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Algorithmique, Pédagogie, Publications",
+    "candidate_text": "Enseignant Informatique senior 4 ans, POO, Recherche, Université, Publications, Pédagogie, Python.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "Data Analyst 2+ ans Python, Tableau, Excel, Pandas",
+    "candidate_text": "Data Analyst confirmé 2 ans, Power BI, Python, SQL, Pandas. Projet fintech",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Expert Cybersécurité CISSP, Metasploit, Pentest, Splunk 5 ans Montpellier",
+    "candidate_text": "Expert Cybersécurité senior 8 ans, Pentest, Sécurité, Splunk, SIEM, OSCP, Metasploit, SOC. Performance optimisation",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans CSS, Angular, NgRx, Material Design, HTML Toulouse",
+    "candidate_text": "Développeur Frontend Angular 1 ans, NgRx, SPA, HTML.",
+    "score": 0.46
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud IAM, SecurityHub, WAF, GuardDuty 4 ans minimum",
+    "candidate_text": "5 ans d'expérience en ingénieur sécurité cloud, Pentest, GuardDuty, SOC, SecurityHub, AWS.",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Data Scientist SQL, Machine Learning, Python 2 ans",
+    "candidate_text": "4 ans data scientist, PyTorch, SQL, Machine Learning, TensorFlow, Python. Data driven",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Salesforce LWC, CRM, Salesforce, SOQL 4 ans minimum",
+    "candidate_text": "développeur salesforce 3 ans, Lightning, Apex, Salesforce, CRM, REST API. Architecture microservices",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans Nantes Fine-tuning, Python, PyTorch, HuggingFace, Transformers",
+    "candidate_text": "1 ans ingénieur machine learning, Python, LLM.",
+    "score": 0.47
+  },
+  {
+    "offer_text": "Tech Lead 5 ans Mentorat, GraphQL, Code Review, Architecture, Node.js CDI",
+    "candidate_text": "tech lead 6 ans, Android, تطبيقات, iOS.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js Node.js, Git, MongoDB, TypeScript 3 ans Bordeaux",
+    "candidate_text": "Développeur Full Stack React Node.js 1 ans, REST API, TypeScript, React, PostgreSQL.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans AWS, IAM, SecurityHub",
+    "candidate_text": "Pompier 10 ans expérience, secours, intervention, incendie.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans Marseille React, Docker, JavaScript",
+    "candidate_text": "3 ans développeur full stack react node.js, Git, PostgreSQL, Node.js, JavaScript. Cloud native",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Tech Lead Architecture, Équipe, TypeScript 5 ans Strasbourg",
+    "candidate_text": "7 ans tech lead, TypeScript, Équipe, Mentorat, Code Review, Architecture, Node.js. Cloud native",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Android Kotlin Kotlin, Jetpack Compose, Firebase 3 ans minimum",
+    "candidate_text": "5 ans d'expérience en développeur android kotlin, Room, Firebase, Jetpack Compose, Google Play. Équipe internationale",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans expérience",
+    "candidate_text": "Développeur Frontend Angular senior 2 ans, CSS, Angular, HTML, NgRx, SPA, Material Design.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS EC2, Terraform, IAM 4 ans Marseille",
+    "candidate_text": "3 ans d'expérience en ingénieur cloud aws, CloudFormation, Terraform, VPC, EC2, Lambda, S3.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي خبرة 2 سنوات",
+    "candidate_text": "عالم بيانات تعلم آلي 1 سنوات، scikit-learn, Machine Learning, NLP. بنية تحتية سحابية",
+    "score": 0.8
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات Room, Android, Kotlin, Jetpack, Compose",
+    "candidate_text": "مطور مطور Android Kotlin Jetpack 4 سنوات، Firebase, Room, Compose, Jetpack, Android, Google Play, Kotlin. بنية تحتية سحابية",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Switching, CCNP, Palo Alto, Routage, Firewall Nantes CDI",
+    "candidate_text": "Ingénieur Réseau 2 ans, Routage, Firewall.",
+    "score": 0.59
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans Transformers, PyTorch, LLM, HuggingFace Strasbourg",
+    "candidate_text": "Profil ingénieur machine learning 1 ans, Transformers, PyTorch, HuggingFace, Python.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات القاهرة",
+    "candidate_text": "مهندس DevOps Kubernetes AWS 1 سنوات، Terraform, AWS, Docker, Jenkins.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3 ans expérience Montpellier",
+    "candidate_text": "1 ans développeur mobile ios swift, UIKit, Xcode, CI/CD, Combine.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Toulouse Microservices, Spring Boot, Hibernate, Kafka",
+    "candidate_text": "4 ans développeur java spring boot, Docker, Spring Boot, Hibernate, REST API, Spring, Kafka, Microservices, Java. Data driven",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans expérience Strasbourg",
+    "candidate_text": "Kinésithérapeute 8 ans expérience, rééducation, sport, patients.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Product Manager 5 ans Bordeaux Analytics, OKR, Roadmap, Priorisation",
+    "candidate_text": "Product Manager senior 2 ans, Roadmap, B2B, Analytics, User Research, Priorisation.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "DevOps Engineer Kubernetes, Terraform, Docker, Jenkins, CI/CD 4 ans minimum",
+    "candidate_text": "DevOps Engineer confirmé 1 ans, AWS, Helm, Terraform, Kubernetes.",
+    "score": 0.57
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans Angular, HTML, SPA Lyon",
+    "candidate_text": "3 ans développeur frontend angular, SPA, CSS, RxJS.",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Gouvernance, Snowflake, dbt, Airflow, Data Warehouse",
+    "candidate_text": "Coiffeur 11 ans expérience, couleur, coupe, salon.",
+    "score": 0.05
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans PostgreSQL, Microservices, gRPC, Redis, Golang Bordeaux",
+    "candidate_text": "développeur go backend 4 ans, Golang, Kubernetes, PostgreSQL, gRPC. Missions e-commerce",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure ARM, DevOps, AKS, Azure, Pipelines 4 ans Strasbourg",
+    "candidate_text": "Profil ingénieur cloud azure 1 ans, AKS, Infrastructure as Code, ARM.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Data Analyst 2 ans expérience Lyon",
+    "candidate_text": "Journaliste 12 ans expérience, presse, articles, rédaction.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات Helm, AWS, Jenkins, CI/CD",
+    "candidate_text": "مهندس DevOps Kubernetes AWS 4 سنوات، Terraform, Helm, Docker, Jenkins, CI/CD, AWS, Kubernetes.",
+    "score": 0.85
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات Sidekiq, PostgreSQL, Ruby",
+    "candidate_text": "مطور مطور Ruby on Rails API 4 سنوات، REST API, Redis, Sidekiq, Ruby, PostgreSQL. تجارة إلكترونية",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans Montpellier PHP, JWT, Twig, MySQL",
+    "candidate_text": "1 ans d'expérience en développeur php symfony, Symfony, JWT, Doctrine, Twig.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans Redis, Golang, Microservices, gRPC, Kubernetes Lille CDI",
+    "candidate_text": "6 ans d'expérience en développeur go backend, Golang, Microservices, Kubernetes, Redis, PostgreSQL, Go.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Tech Lead 5 ans expérience Lille",
+    "candidate_text": "2 ans d'expérience en tech lead, GraphQL, Code Review, Node.js, Équipe.",
+    "score": 0.63
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans SAP, SD, S/4HANA",
+    "candidate_text": "1 ans d'expérience en expert sap fico, WAF, GuardDuty, Pentest, Cloud Security.",
+    "score": 0.21
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter خبرة 2 سنوات",
+    "candidate_text": "مطور تطبيقات موبايل Flutter 1 سنوات، iOS, Dart, تطبيقات.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Data Scientist 2 ans Nantes NLP, Machine Learning, PyTorch, Python",
+    "candidate_text": "Data Scientist 4 ans, Systèmes embarqués, Rust, Bas niveau, WASM.",
+    "score": 0.29
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans Toulouse Backup, HA, SQL Server",
+    "candidate_text": "4 ans administrateur base de données, Oracle, Backup, Performance, PostgreSQL, SQL Server, MySQL, HA. Startup SaaS",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Architecte Données 5 ans expérience Marseille",
+    "candidate_text": "Architecte Données confirmé 5 ans, dbt, Data Lake, Data Warehouse, BigQuery, Snowflake, Gouvernance. Équipe internationale",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3+ ans Python, MLOps, PyTorch, Transformers Lyon",
+    "candidate_text": "ingénieur machine learning 1 ans, Fine-tuning, LLM, Transformers.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Chef de Projet IT 5+ ans Budget, Agile, Planification, Jira, Gestion d'équipe Paris",
+    "candidate_text": "5 ans chef de projet it, Roadmap, Budget, Agile, Planification. Architecture microservices",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Scrum Master 5 ans Agile, PSM, Jira, Coaching",
+    "candidate_text": "Conducteur 10 ans expérience, livraison, logistique, transport.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans Kubernetes, Incidents, On-call, Grafana, SLO Rennes",
+    "candidate_text": "SRE Site Reliability Engineer confirmé 2 ans, Observabilité, Grafana, Prometheus, On-call.",
+    "score": 0.56
+  },
+  {
+    "offer_text": "Product Designer 4 ans Bordeaux UX, UI, Prototypage, Maquettes, Responsive",
+    "candidate_text": "Product Designer confirmé 2 ans, Maquettes, Prototypage.",
+    "score": 0.64
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans expérience",
+    "candidate_text": "développeur go backend 1 ans, Kubernetes, Go, gRPC, Redis, Microservices. Startup SaaS",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Consultant SAP SD SAP, SD, FI, Ventes, S/4HANA 5 ans minimum",
+    "candidate_text": "Consultant SAP SD confirmé 1 ans, UIKit, SwiftUI, CI/CD, Swift.",
+    "score": 0.16
+  },
+  {
+    "offer_text": "Chef de Projet IT 5+ ans Scrum, Budget, Gestion d'équipe, Planification Toulouse",
+    "candidate_text": "2 ans chef de projet it, Agile, Roadmap, Jira, Gestion d'équipe, Scrum, PMP.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails Ruby, Redis, Sidekiq, Ruby on Rails, GraphQL 4 ans minimum",
+    "candidate_text": "développeur ruby on rails 1 ans, GraphQL, Ruby on Rails.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Enseignant Informatique 5+ ans POO, Algorithmique, Java, Pédagogie Montpellier",
+    "candidate_text": "7 ans enseignant informatique, Java, POO, Recherche, Université, Pédagogie, Python, Algorithmique. Projet fintech",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Product Manager 5 ans Analytics, B2B, OKR",
+    "candidate_text": "7 ans d'expérience en product manager, User Research, B2B, Priorisation, A/B Testing, Roadmap, SaaS.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans Helm, AWS, Docker, Terraform, CI/CD",
+    "candidate_text": "2 ans devops engineer, Terraform, AWS, Kubernetes.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3 ans RTOS, Rust, WASM, Bas niveau Lyon",
+    "candidate_text": "4 ans d'expérience en développeur rust embarqué, Performance, WASM, C, Bas niveau, Systèmes embarqués, Rust. Plateforme B2B",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Android, Flutter, iOS, State Management Lyon CDI",
+    "candidate_text": "6 ans d'expérience en développeur flutter, KPI, Pandas, Reporting, Python.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Analyste BI 3 ans SQL Server, SQL, Reporting, SSAS, Tableaux de bord Lille",
+    "candidate_text": "1 ans analyste bi, Tableaux de bord, Reporting.",
+    "score": 0.49
+  },
+  {
+    "offer_text": "Tech Lead 5 ans Rennes Code Review, TypeScript, Équipe, Architecture",
+    "candidate_text": "5 ans tech lead, Node.js, Mentorat, Architecture, TypeScript, GraphQL, Équipe, Code Review, Leadership.",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Snowflake, Gouvernance, BigQuery, Data Lake",
+    "candidate_text": "5 ans architecte données, dbt, Data Lake, Airflow, Snowflake, BigQuery. Plateforme B2B",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans REST API, Twig, MySQL, PHP",
+    "candidate_text": "Développeur PHP Symfony 4 ans, JWT, Twig, MySQL, Symfony. Performance optimisation",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans VPC, IAM, EC2, S3",
+    "candidate_text": "4 ans ingénieur cloud aws, EC2, VPC, S3, AWS, Terraform, Lambda. Application mobile",
+    "score": 0.88
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter 2 سنوات موبايل, Android, Firebase, تطبيقات, Dart",
+    "candidate_text": "Électricien 10 سنوات، câblage, chantier, armoires.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning LLM, Transformers, Python, Fine-tuning 3 ans minimum",
+    "candidate_text": "4 ans d'expérience en ingénieur machine learning, Fine-tuning, Transformers, LLM, Python, MLOps. Architecture microservices",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Scrum Master 5 ans Jira, Cérémonies, Coaching",
+    "candidate_text": "Scrum Master 8 ans, Agile, Coaching, Scrum, PSM, SAFe, Cérémonies, Kanban. Projet greenfield",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Expert SAP FICO SD, CO, SAP, FICO, S/4HANA 6 ans Toulouse",
+    "candidate_text": "3 ans d'expérience en expert sap fico, CO, Controlling, FICO, S/4HANA, SAP.",
+    "score": 0.63
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans expérience Montpellier",
+    "candidate_text": "Développeur PHP Symfony 7 ans, Figma, Recherche utilisateur, Wireframes.",
+    "score": 0.19
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Flutter, Dart, Firebase, iOS, REST API Marseille CDI",
+    "candidate_text": "Développeur Flutter confirmé 1 ans, Dart, State Management, Flutter, Firebase, Android. Plateforme B2B",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Tech Lead 5 ans Mentorat, Équipe, Architecture, GraphQL, TypeScript",
+    "candidate_text": "Tech Lead senior 1 ans, Équipe, Leadership, GraphQL.",
+    "score": 0.46
+  },
+  {
+    "offer_text": "Product Manager 5 ans A/B Testing, Roadmap, SaaS, Priorisation Nantes CDI",
+    "candidate_text": "Product Manager senior 6 ans, B2B, OKR, SaaS.",
+    "score": 0.78
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js MongoDB, Docker, React خبرة 3 سنوات على الأقل",
+    "candidate_text": "مطور ويب متكامل React Node.js 4 سنوات، PostgreSQL, MongoDB, Docker, REST API, JavaScript, Node.js, React. تجارة إلكترونية",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Data Scientist 2 ans Pandas, SQL, NLP, TensorFlow Rennes",
+    "candidate_text": "Profil data scientist 1 ans, TensorFlow, PyTorch, NLP.",
+    "score": 0.46
+  },
+  {
+    "offer_text": "Ingénieur MLOps 3 ans Docker, Modèles en production, Monitoring",
+    "candidate_text": "4 ans ingénieur mlops, Modèles en production, Seldon, MLflow, Monitoring, Kubeflow.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات القاهرة",
+    "candidate_text": "4 سنوات خبرة في مطور ويب متكامل React Node.js، Docker, PostgreSQL, React, Node.js. تطبيقات موبايل",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Data Engineer 3 ans Spark, Python, SQL, ETL",
+    "candidate_text": "1 ans data engineer, Kafka, Python, SQL, Airflow.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات React, PostgreSQL, Docker, TypeScript, Node.js",
+    "candidate_text": "6 سنوات خبرة في مطور ويب متكامل React Node.js، TypeScript, PostgreSQL, React, Docker, Node.js.",
+    "score": 0.96
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop 3 سنوات Hadoop, Spark, Hive, Pipeline",
+    "candidate_text": "مطور مهندس بيانات Spark Hadoop 6 سنوات، Terraform, Lambda, CloudFormation.",
+    "score": 0.3
+  },
+  {
+    "offer_text": "Data Analyst 2 ans Power BI, Excel, Python Lyon",
+    "candidate_text": "Data Analyst 2 ans, Reporting, Power BI, Tableau, SQL, Python, KPI, Excel. Projet fintech",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Développeur Backend Python Python, Celery, Django 3 ans minimum",
+    "candidate_text": "Développeur Backend Python 1 ans, PostgreSQL, Django.",
+    "score": 0.49
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans Go, gRPC, PostgreSQL",
+    "candidate_text": "2 ans d'expérience en développeur go backend, EC2, AWS, IAM.",
+    "score": 0.19
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Gouvernance, Snowflake, Data Warehouse, dbt",
+    "candidate_text": "Architecte Données confirmé 6 ans, Data Warehouse, Snowflake, dbt, BigQuery. Plateforme B2B",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Tech Lead 5 ans Mentorat, GraphQL, Node.js, TypeScript",
+    "candidate_text": "Tech Lead senior 5 ans, Architecture, GraphQL, Leadership, Node.js, Code Review, Équipe, TypeScript. Architecture microservices",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans SOC, CISSP, Pentest, OSCP",
+    "candidate_text": "expert cybersécurité 5 ans, OSCP, Splunk, Metasploit, SIEM, CISSP, SOC, Sécurité. Missions e-commerce",
+    "score": 0.77
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans expérience",
+    "candidate_text": "3 ans sre site reliability engineer, Observabilité, Kubernetes.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Ingénieur MLOps Modèles en production, Kubernetes, Monitoring, MLflow 3 ans minimum",
+    "candidate_text": "Ingénieur MLOps confirmé 1 ans, MLflow, Docker, Seldon, Modèles en production, Kubeflow, Kubernetes. Équipe internationale",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Développeur C# .NET 4+ ans .NET, C#, Entity Framework, SQL Server Strasbourg",
+    "candidate_text": "1 ans développeur c# .net, Azure, Entity Framework, C#, ASP.NET Core.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS Helm, Docker, CI/CD, AWS خبرة 4 سنوات على الأقل",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 1 سنوات، CI/CD, Jenkins, Kubernetes, AWS.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation pytest, Python, Selenium, BDD 3 ans",
+    "candidate_text": "2 ans ingénieur qa automatisation, Jenkins, Selenium.",
+    "score": 0.64
+  },
+  {
+    "offer_text": "Expert Cybersécurité SIEM, OSCP, Sécurité, Pentest 5 ans Bordeaux",
+    "candidate_text": "3 ans expert cybersécurité, Metasploit, Pentest, SIEM.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Scrum Master 5+ ans SAFe, PSM, Coaching, Cérémonies Lyon",
+    "candidate_text": "2 ans d'expérience en scrum master, SAFe, Agile.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات الرياض",
+    "candidate_text": "3 سنوات خبرة في مطور Ruby on Rails API، Ruby, Redis, PostgreSQL.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4 ans REST API, GraphQL, Ruby on Rails, Sidekiq, Ruby",
+    "candidate_text": "2 ans d'expérience en développeur ruby on rails, Redis, PostgreSQL, REST API.",
+    "score": 0.63
+  },
+  {
+    "offer_text": "Consultant SAP SD 5 ans Ventes, SAP, FI, SD, Distribution CDI",
+    "candidate_text": "Consultant SAP SD senior 5 ans, MM, Distribution, SAP, FI, Commandes, Ventes, S/4HANA. Missions e-commerce",
+    "score": 0.83
+  },
+  {
+    "offer_text": "DevOps Engineer Terraform, Git, Docker, AWS, Helm 4 ans minimum",
+    "candidate_text": "DevOps Engineer 2 ans, Git, Terraform, Jenkins, Docker, CI/CD.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans TypeScript, CSS, SPA Nantes",
+    "candidate_text": "développeur frontend angular 8 ans, Power BI, SQL.",
+    "score": 0.27
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans Toulouse S/4HANA, CO, SD",
+    "candidate_text": "Expert SAP FICO confirmé 3 ans, Controlling, SAP.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "Développeur Vue.js 3+ ans TypeScript, Pinia, JavaScript Nantes",
+    "candidate_text": "développeur vue.js 3 ans, JavaScript, Pinia, Vuex, Nuxt.js, Vue.js, TypeScript. Projet greenfield",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Data Analyst 2 ans KPI, SQL, Power BI Nantes CDI",
+    "candidate_text": "Data Analyst 1 ans, KPI, Tableau.",
+    "score": 0.59
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter 2 سنوات iOS, موبايل, تطبيقات",
+    "candidate_text": "مطور مطور تطبيقات موبايل Flutter 1 سنوات، Flutter, موبايل, iOS, Firebase.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "Développeur Vue.js 3 ans Bordeaux Vuex, Pinia, Tailwind, TypeScript",
+    "candidate_text": "1 ans développeur vue.js, Vuex.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans expérience Nantes",
+    "candidate_text": "3 ans d'expérience en développeur frontend angular, PostgreSQL, Go.",
+    "score": 0.28
+  },
+  {
+    "offer_text": "Data Scientist TensorFlow, scikit-learn, NLP 2 ans minimum",
+    "candidate_text": "Psychologue 5 ans expérience, thérapie, adultes, consultation.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Product Designer Responsive, Figma, Maquettes, UI 4 ans Strasbourg",
+    "candidate_text": "5 ans d'expérience en product designer, Maquettes, Design System, Prototypage, UX. Projet greenfield",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans AWS, IAM, Terraform",
+    "candidate_text": "Ingénieur Cloud AWS senior 3 ans, AWS, S3, IAM, VPC, CloudFormation.",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Product Designer 4 ans UI, Maquettes, Responsive Bordeaux CDI",
+    "candidate_text": "Product Designer 2 ans, Responsive, Prototypage, Figma, Design System.",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Data Lake, Airflow, Snowflake, Gouvernance, Data Warehouse",
+    "candidate_text": "Architecte Données confirmé 3 ans, BigQuery, Airflow.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5+ ans Metasploit, Sécurité, OSCP, SIEM, CISSP Nice",
+    "candidate_text": "expert cybersécurité 4 ans, Metasploit, OSCP, CISSP, SIEM, Sécurité, Pentest. Startup SaaS",
+    "score": 0.83
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans SLO, On-call, SLI, Kubernetes, Observabilité Toulouse",
+    "candidate_text": "3 ans sre site reliability engineer, On-call, Grafana, Prometheus, Kubernetes, Incidents.",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Data Scientist 2 ans SQL, NLP, PyTorch, Machine Learning, Pandas",
+    "candidate_text": "Profil data scientist 1 ans, SQL, NLP, Python.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Bordeaux Dart, Flutter, Firebase",
+    "candidate_text": "2 ans développeur flutter, REST API, PostgreSQL.",
+    "score": 0.38
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP خبرة 3 سنوات",
+    "candidate_text": "مهندس ذكاء اصطناعي NLP 3 سنوات، Python, BERT, Transformers, نشر نماذج. مشاريع ناجحة",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Data Scientist TensorFlow, Pandas, NLP, SQL, Python 2 ans minimum",
+    "candidate_text": "3 ans data scientist, scikit-learn, Python, TensorFlow. Équipe internationale",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Développeur Frontend Angular NgRx, HTML, CSS, RxJS 3 ans minimum",
+    "candidate_text": "Profil développeur frontend angular 1 ans, HTML, CSS.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans Fine-tuning, Transformers, LLM, Python Bordeaux",
+    "candidate_text": "1 ans d'expérience en ingénieur machine learning, Transformers, Python.",
+    "score": 0.59
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans LLM, PyTorch, HuggingFace Toulouse CDI",
+    "candidate_text": "ingénieur machine learning 1 ans, MLOps, LLM.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Data Warehouse, Snowflake, Data Lake Rennes",
+    "candidate_text": "4 ans architecte données, Airflow, dbt, Gouvernance, Data Warehouse, BigQuery, Snowflake.",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans S3, VPC, AWS, Lambda, IAM Nice CDI",
+    "candidate_text": "ingénieur cloud aws 5 ans, S3, IAM, VPC, CloudFormation.",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans expérience Paris",
+    "candidate_text": "Comptable 11 ans expérience, Excel, TV, bilan.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "Développeur Frontend Angular HTML, SPA, CSS, Material Design 3 ans",
+    "candidate_text": "2 ans d'expérience en développeur frontend angular, NgRx, HTML, CSS, RxJS. Projet greenfield",
+    "score": 0.85
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3 ans CoreData, Swift, App Store Lille",
+    "candidate_text": "Développeur Mobile iOS Swift confirmé 1 ans, Xcode.",
+    "score": 0.46
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans expérience Strasbourg",
+    "candidate_text": "Développeur Android Kotlin 2 ans, Kotlin, MVVM, Room, Google Play.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Développeur Flutter 2+ ans Flutter, REST API, State Management",
+    "candidate_text": "Profil développeur flutter 3 ans, State Management, REST API, Firebase, Flutter. Application mobile",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Data Engineer 3+ ans SQL, Spark, AWS, Big Data Bordeaux",
+    "candidate_text": "Data Engineer 6 ans, Airflow, Python, Big Data, SQL, Kafka, Spark, AWS, ETL. Projet fintech",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Product Manager 5 ans expérience",
+    "candidate_text": "Product Manager 2 ans, B2B, OKR, SaaS, A/B Testing, User Research.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Lille Flutter, Android, State Management, iOS, Firebase",
+    "candidate_text": "développeur flutter 1 ans, iOS, Android, State Management, Firebase, Dart.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Développeur Backend Python 3 ans REST API, FastAPI, PostgreSQL CDI",
+    "candidate_text": "Développeur Backend Python senior 3 ans, SAFe, Scrum.",
+    "score": 0.36
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API Ruby on Rails, Ruby, Redis, GraphQL, PostgreSQL خبرة 4 سنوات على الأقل",
+    "candidate_text": "خبير مطور Ruby on Rails API 1 سنوات، Ruby, Ruby on Rails.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans Lille Git, MongoDB, TypeScript",
+    "candidate_text": "1 ans développeur full stack react node.js, MongoDB, PostgreSQL, TypeScript, JavaScript, REST API, React.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Expert SAP FICO CO, Finance, Controlling, S/4HANA, FI 6 ans",
+    "candidate_text": "2 ans expert sap fico, CO, SAP.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API REST API, PostgreSQL, Sidekiq خبرة 4 سنوات على الأقل",
+    "candidate_text": "مطور مطور Ruby on Rails API 1 سنوات، Ruby on Rails, Redis, REST API, PostgreSQL.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Scrum Master 5 ans expérience Lille",
+    "candidate_text": "Scrum Master 2 ans, Cérémonies, Agile, Scrum, PSM, Kanban.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Data Engineer 3+ ans Big Data, Spark, Airflow, Python, Kafka",
+    "candidate_text": "Profil data engineer 6 ans, Kafka, Airflow, Python, Spark, SQL, ETL, AWS, Big Data.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop 3 سنوات ETL, Hadoop, Pipeline الرياض",
+    "candidate_text": "مطور مهندس بيانات Spark Hadoop 4 سنوات، Jetpack Compose, Retrofit, Firebase, MVVM.",
+    "score": 0.2
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans FICO, CO, SD",
+    "candidate_text": "Profil expert sap fico 5 ans, Nuxt.js, Vue.js, Pinia.",
+    "score": 0.36
+  },
+  {
+    "offer_text": "Développeur Vue.js 3 ans JavaScript, TypeScript, Vuex, Vue.js, Nuxt.js",
+    "candidate_text": "3 ans développeur vue.js, Nuxt.js, Vue.js, TypeScript, Pinia.",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Développeur Salesforce 4 ans Lille Lightning, LWC, Apex",
+    "candidate_text": "Développeur Salesforce confirmé 1 ans, Salesforce, CRM, SOQL.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Ingénieur Réseau Routage, Switching, Palo Alto, Cisco, Firewall 5 ans Paris",
+    "candidate_text": "Journaliste 5 ans expérience, rédaction, interviews, presse.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "Ingénieur MLOps 3 ans Seldon, MLflow, Docker, Monitoring, Kubeflow",
+    "candidate_text": "Ingénieur MLOps senior 5 ans, Docker, Monitoring, Seldon, Kubeflow, Kubernetes, MLflow. Application mobile",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Data Engineer SQL, Airflow, Kafka 3 ans minimum",
+    "candidate_text": "Data Engineer 5 ans, Airflow, Big Data, Python, Kafka, SQL. Data driven",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Tech Lead 5+ ans Équipe, Code Review, Mentorat, Leadership Paris",
+    "candidate_text": "Tech Lead senior 1 ans, Architecture, Mentorat, Leadership, GraphQL.",
+    "score": 0.46
+  },
+  {
+    "offer_text": "Analyste BI 3 ans DAX, SQL Server, SQL, Power BI Strasbourg",
+    "candidate_text": "4 ans d'expérience en analyste bi, Reporting, Tableaux de bord, Power BI. Architecture microservices",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Chef de Projet IT 5 ans expérience Nice",
+    "candidate_text": "4 ans d'expérience en chef de projet it, RTOS, C.",
+    "score": 0.23
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي TensorFlow, Pandas, SQL خبرة 2 سنوات على الأقل",
+    "candidate_text": "مطور عالم بيانات تعلم آلي 4 سنوات، Ruby on Rails, REST API.",
+    "score": 0.34
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans Twig, Doctrine, MySQL, PHP CDI",
+    "candidate_text": "2 ans développeur php symfony, MySQL, Twig, JWT, Doctrine, REST API.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Architecte Données BigQuery, Snowflake, Airflow, Data Lake 5 ans Nice",
+    "candidate_text": "8 ans architecte données, PostgreSQL, REST API.",
+    "score": 0.19
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans expérience Nantes",
+    "candidate_text": "Électricien 9 ans expérience, armoires, industriel, câblage.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud SOC, Cloud Security, IAM 4 ans minimum",
+    "candidate_text": "2 ans d'expérience en ingénieur sécurité cloud, SOC, IAM, GuardDuty.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4 ans Budgets, Power BI, KPI, Excel, SAP Paris CDI",
+    "candidate_text": "Contrôleur de Gestion 5 ans, Power BI, Excel, Reporting, KPI, Budgets, Analyse financière. Startup SaaS",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Chef de Projet IT 5 ans Jira, Agile, Planification Marseille CDI",
+    "candidate_text": "Profil chef de projet it 6 ans, Gestion d'équipe, Agile, Scrum. Missions e-commerce",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3+ ans Swift, Combine, CI/CD, UIKit Montpellier",
+    "candidate_text": "Coiffeur 6 ans expérience, style, coupe, salon.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans Selenium, CI/CD, pytest",
+    "candidate_text": "Ingénieur QA Automatisation 5 ans, BDD, Selenium, Python, Cypress, Jenkins. Plateforme B2B",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Data Engineer 3 ans Kafka, AWS, ETL, Big Data, Airflow",
+    "candidate_text": "3 ans d'expérience en data engineer, Big Data, Python, Spark, ETL, Airflow, Kafka. Équipe internationale",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Data Analyst Reporting, Tableau, Pandas, Excel, Power BI 2 ans Lille",
+    "candidate_text": "Profil data analyst 1 ans, Excel, KPI, Python, Power BI.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات Terraform, Helm, AWS, Kubernetes",
+    "candidate_text": "مطور مهندس DevOps Kubernetes AWS 7 سنوات، Kubernetes, Docker, AWS, Jenkins, Terraform. تطبيقات موبايل",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Android, Firebase, State Management",
+    "candidate_text": "1 ans développeur flutter, REST API, Android, iOS, State Management, Dart. Équipe internationale",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans Nantes BDD, Selenium, CI/CD, pytest",
+    "candidate_text": "2 ans d'expérience en ingénieur qa automatisation, Jenkins, pytest, Playwright, Python. Missions e-commerce",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans Jetpack Compose, Kotlin, Room, Firebase, MVVM Nantes CDI",
+    "candidate_text": "1 ans d'expérience en développeur android kotlin, MVVM, Jetpack Compose.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات CISSP, Réseau, Splunk, Sécurité, اختبار اختراق الرياض",
+    "candidate_text": "5 سنوات خبرة في مهندس أمن معلومات، CISSP, Réseau, اختبار اختراق, Splunk, Sécurité, SOC. تطبيقات موبايل",
+    "score": 0.77
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API Redis, Ruby on Rails, PostgreSQL, GraphQL, REST API خبرة 4 سنوات على الأقل",
+    "candidate_text": "خبير مطور Ruby on Rails API 4 سنوات، REST API, Ruby on Rails, Ruby, GraphQL, Redis, Sidekiq. تجارة إلكترونية",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Développeur Vue.js Tailwind, Pinia, TypeScript 3 ans Lyon",
+    "candidate_text": "6 ans développeur vue.js, JavaScript, Vuex, Vue.js, TypeScript, Nuxt.js. Data driven",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4 ans Finance, Reporting, Power BI, Analyse financière, KPI Lille CDI",
+    "candidate_text": "Contrôleur de Gestion confirmé 5 ans, KPI, Reporting, Excel, Finance, Budgets, Analyse financière, SAP. Startup SaaS",
+    "score": 0.94
+  },
+  {
+    "offer_text": "UX Designer Figma, Tests utilisateurs, Design System, Wireframes 3 ans minimum",
+    "candidate_text": "4 ans d'expérience en ux designer, Figma, Accessibilité, Recherche utilisateur, Tests utilisateurs, Prototypage, Design System, Wireframes. Agile/Scrum",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4 ans Finance, Excel, KPI, Reporting, Power BI Nice",
+    "candidate_text": "Contrôleur de Gestion confirmé 2 ans, Reporting, Budgets, SAP, Finance, Analyse financière, Excel, Power BI. Cloud native",
+    "score": 0.82
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans Rennes AWS, Terraform, Helm, Git",
+    "candidate_text": "5 ans devops engineer, Git, Terraform, Docker, Jenkins. Cloud native",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Firewall, Palo Alto, Switching, VPN, Routage",
+    "candidate_text": "Profil ingénieur réseau 2 ans, VPN, Cisco.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans PHP, Symfony, Doctrine, Twig, REST API CDI",
+    "candidate_text": "1 ans d'expérience en développeur php symfony, Twig, PHP, Symfony, Doctrine, REST API.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Product Designer 4 ans Figma, Responsive, Prototypage Paris",
+    "candidate_text": "Profil product designer 2 ans, UI, Responsive, Prototypage.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "Product Manager 5 ans Nantes OKR, SaaS, Analytics",
+    "candidate_text": "4 ans product manager, Roadmap, Analytics, User Research. Plateforme B2B",
+    "score": 0.79
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات الرياض",
+    "candidate_text": "6 سنوات خبرة في مطور ويب متكامل React Node.js، PostgreSQL, JavaScript, Docker, React, Node.js, TypeScript, MongoDB.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué WASM, C, RTOS, Performance, Rust 3 ans Lille",
+    "candidate_text": "Développeur Rust Embarqué 5 ans, RTOS, Systèmes embarqués, WASM, Rust, Bas niveau. Projet fintech",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Marseille Python, Publications, Pédagogie, POO",
+    "candidate_text": "Profil enseignant informatique 3 ans, Java, Université, POO.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans POO, Algorithmique, Java Lyon",
+    "candidate_text": "Plombier 7 ans expérience, industrielle, maintenance, plomberie.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Routage, Palo Alto, CCNP",
+    "candidate_text": "2 ans ingénieur réseau, Cisco, Palo Alto, VPN, Routage, Firewall.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "Développeur C# .NET 4 ans .NET, Entity Framework, REST API, C#, Azure",
+    "candidate_text": "Développeur C# .NET confirmé 1 ans, Azure, Entity Framework, .NET.",
+    "score": 0.59
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3 ans Combine, CI/CD, UIKit, App Store",
+    "candidate_text": "Journaliste 8 ans expérience, articles, presse, rédaction.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans Kotlin, Google Play, Jetpack Compose, MVVM Nice",
+    "candidate_text": "Boulanger 9 ans expérience, four, pâtisserie, pain.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans expérience Marseille",
+    "candidate_text": "Profil sre site reliability engineer 4 ans, Kubernetes, SLO, Observabilité, Incidents, Grafana, Prometheus, SLI, On-call.",
+    "score": 0.85
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP 3 سنوات Transformers, BERT, NLP, Python",
+    "candidate_text": "مطور مهندس ذكاء اصطناعي NLP 1 سنوات، NLP, HuggingFace, Fine-tuning.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "Responsable RH Recrutement 5+ ans Gestion de carrière, Paie, SIRH",
+    "candidate_text": "Responsable RH Recrutement confirmé 6 ans, Entretiens, Paie, Gestion de carrière, SIRH. Agile/Scrum",
+    "score": 0.87
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات الرياض",
+    "candidate_text": "مطور ويب متكامل React Node.js 1 سنوات، Node.js, JavaScript.",
+    "score": 0.51
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans Rennes Docker, Node.js, PostgreSQL",
+    "candidate_text": "1 ans développeur full stack react node.js, MongoDB, Docker, TypeScript, PostgreSQL, REST API.",
+    "score": 0.55
+  },
+  {
+    "offer_text": "Consultant SAP SD Distribution, SD, MM 5 ans Paris",
+    "candidate_text": "Consultant SAP SD senior 4 ans, FI, S/4HANA, Ventes.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop 3 سنوات Hadoop, Spark, ETL, بيانات ضخمة, Pipeline",
+    "candidate_text": "Pompier 5 سنوات، secours, incendie, brigade.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans BDD, Jenkins, pytest Marseille",
+    "candidate_text": "1 ans d'expérience en ingénieur qa automatisation, Python, BDD, pytest, Selenium, Cypress.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "Ingénieur Réseau VPN, Firewall, CCNP, Routage, Palo Alto 5 ans Toulouse",
+    "candidate_text": "Avocat 4 ans expérience, contrats, plaidoiries, droit.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات",
+    "candidate_text": "1 سنوات خبرة في عالم بيانات تعلم آلي، SQL, Machine Learning.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "DevOps Engineer 4+ ans AWS, Git, CI/CD, Jenkins Bordeaux",
+    "candidate_text": "4 ans devops engineer, Docker, AWS, Helm, Terraform, CI/CD, Jenkins, Kubernetes, Git.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans NgRx, RxJS, TypeScript, Material Design, CSS Nantes CDI",
+    "candidate_text": "5 ans développeur frontend angular, Microservices, Kafka, Spring Boot, Hibernate.",
+    "score": 0.17
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3 ans Systèmes embarqués, Bas niveau, WASM, C Strasbourg CDI",
+    "candidate_text": "Développeur Rust Embarqué senior 3 ans, Systèmes embarqués, Performance, RTOS, C, Bas niveau. Projet greenfield",
+    "score": 0.84
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop 3 سنوات دبي",
+    "candidate_text": "مطور مهندس بيانات Spark Hadoop 6 سنوات، Prototypage, Tests utilisateurs.",
+    "score": 0.22
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات SQL, Pandas, Machine Learning تونس",
+    "candidate_text": "عالم بيانات تعلم آلي 1 سنوات، Machine Learning, TensorFlow, Python.",
+    "score": 0.57
+  },
+  {
+    "offer_text": "Data Analyst SQL, Reporting, Excel, Pandas, KPI 2 ans minimum",
+    "candidate_text": "Data Analyst confirmé 1 ans, Tableau, Power BI, Excel. CI/CD maîtrisé",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Expert Cybersécurité Sécurité, CISSP, SOC, Metasploit 5 ans",
+    "candidate_text": "3 ans d'expérience en expert cybersécurité, Pentest, Sécurité, CISSP, Metasploit.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Chef de Projet IT 5 ans Toulouse Roadmap, Agile, Scrum, Gestion d'équipe",
+    "candidate_text": "chef de projet it 3 ans, Redis, GraphQL, PostgreSQL, REST API.",
+    "score": 0.33
+  },
+  {
+    "offer_text": "Développeur Vue.js JavaScript, Vuex, Nuxt.js, Tailwind 3 ans minimum",
+    "candidate_text": "5 ans développeur vue.js, TypeScript, JavaScript, Vue.js, Vuex, Pinia, Nuxt.js, Tailwind. Projet fintech",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3 ans SwiftUI, App Store, Xcode, UIKit Marseille",
+    "candidate_text": "Développeur Mobile iOS Swift 2 ans, CI/CD, Xcode, SwiftUI, Combine, CoreData, UIKit. Missions e-commerce",
+    "score": 0.85
+  },
+  {
+    "offer_text": "Chef de Projet IT 5 ans Strasbourg Agile, PMP, Planification, Gestion d'équipe, Roadmap",
+    "candidate_text": "chef de projet it 3 ans, Planification, Gestion d'équipe, Agile, Roadmap, Scrum.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4 ans Nice Budgets, Finance, SAP, Reporting",
+    "candidate_text": "Contrôleur de Gestion 4 ans, Excel, SAP, Budgets. Projet greenfield",
+    "score": 0.81
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack خبرة 3 سنوات",
+    "candidate_text": "مطور Android Kotlin Jetpack 2 سنوات، Room, Compose.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans Pentest, IAM, WAF, SecurityHub, AWS",
+    "candidate_text": "ingénieur sécurité cloud 1 ans, Cloud Security, IAM, WAF, GuardDuty, SecurityHub.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Publications, Université, Java, Pédagogie Strasbourg",
+    "candidate_text": "Enseignant Informatique confirmé 4 ans, Python, POO, Recherche, Université, Publications, Java. Migration legacy",
+    "score": 0.8
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات scikit-learn, Machine Learning, Python, Pandas, SQL",
+    "candidate_text": "مطور عالم بيانات تعلم آلي 1 سنوات، Machine Learning, Pandas, Python, SQL, NLP. بنية تحتية سحابية",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué RTOS, C, Bas niveau, Systèmes embarqués, Performance 3 ans Paris",
+    "candidate_text": "Développeur Rust Embarqué 1 ans, WASM, C, Performance, Rust, Systèmes embarqués.",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning Transformers, MLOps, Python, PyTorch 3 ans Nantes",
+    "candidate_text": "ingénieur machine learning 1 ans, LLM, PyTorch, MLOps.",
+    "score": 0.63
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans AKS, Azure, Pipelines, Infrastructure as Code Montpellier",
+    "candidate_text": "Ingénieur Cloud Azure confirmé 6 ans, Pipelines, Infrastructure as Code, Azure, DevOps. Application mobile",
+    "score": 0.87
+  },
+  {
+    "offer_text": "UX Designer 3 ans Marseille Design System, Tests utilisateurs, Recherche utilisateur, Wireframes, Accessibilité",
+    "candidate_text": "1 ans ux designer, Prototypage.",
+    "score": 0.43
+  },
+  {
+    "offer_text": "Data Engineer Spark, ETL, AWS, Airflow 3 ans minimum",
+    "candidate_text": "Data Engineer 4 ans, Kafka, AWS, SQL, ETL, Airflow, Big Data, Spark. Plateforme B2B",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Développeur Go Backend Go, Redis, PostgreSQL, gRPC 3 ans minimum",
+    "candidate_text": "1 ans développeur go backend, Golang, gRPC, Microservices.",
+    "score": 0.46
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans CSS, NgRx, SPA, Material Design, RxJS Strasbourg CDI",
+    "candidate_text": "Développeur Frontend Angular confirmé 1 ans, TypeScript, SPA, RxJS, Material Design.",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Expert Cybersécurité Pentest, SOC, Sécurité, Splunk, CISSP 5 ans Lyon",
+    "candidate_text": "Profil expert cybersécurité 8 ans, Sécurité, SOC, Pentest, SIEM, Splunk.",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails PostgreSQL, Ruby, REST API 4 ans Paris",
+    "candidate_text": "développeur ruby on rails 1 ans, Ruby on Rails.",
+    "score": 0.49
+  },
+  {
+    "offer_text": "Développeur Go Backend Microservices, Go, PostgreSQL, gRPC 3 ans Paris",
+    "candidate_text": "Profil développeur go backend 2 ans, Kubernetes, Redis, PostgreSQL, Go, Golang. Cloud native",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Strasbourg Snowflake, dbt, BigQuery",
+    "candidate_text": "architecte données 5 ans, Data Warehouse, Data Lake, dbt, BigQuery, Airflow, Gouvernance.",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Ingénieur MLOps 3+ ans MLflow, Kubeflow, Monitoring, Modèles en production Bordeaux",
+    "candidate_text": "ingénieur mlops 3 ans, Kubeflow, Seldon, Docker, Monitoring, Modèles en production, Kubernetes, MLflow. Agile/Scrum",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Développeur Salesforce Lightning, Apex, Salesforce 4 ans minimum",
+    "candidate_text": "Développeur Salesforce senior 1 ans, REST API, LWC, Apex, CRM.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Java, Pédagogie, Université, Publications, POO",
+    "candidate_text": "Enseignant Informatique senior 8 ans, Material Design, SPA, TypeScript, RxJS.",
+    "score": 0.27
+  },
+  {
+    "offer_text": "Développeur C# .NET 4 ans Azure, SQL Server, ASP.NET Core, C# Lyon",
+    "candidate_text": "Profil développeur c# .net 1 ans, C#, Entity Framework.",
+    "score": 0.41
+  },
+  {
+    "offer_text": "Consultant SAP SD 5 ans expérience Lyon",
+    "candidate_text": "Infirmier 10 ans expérience, urgences, bloc opératoire, hôpital.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات",
+    "candidate_text": "خبير مهندس أمن معلومات 1 سنوات، CISSP, Sécurité, Splunk.",
+    "score": 0.54
+  },
+  {
+    "offer_text": "DevOps Engineer AWS, Git, Helm 4 ans minimum",
+    "candidate_text": "Formateur 9 ans expérience, bureautique, Excel, Word.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "Product Designer 4 ans Strasbourg Design System, Figma, Responsive, UX",
+    "candidate_text": "4 ans product designer, PostgreSQL, Sidekiq, Redis, Ruby.",
+    "score": 0.19
+  },
+  {
+    "offer_text": "UX Designer 3 ans Recherche utilisateur, Tests utilisateurs, Prototypage, Figma",
+    "candidate_text": "2 ans ux designer, Design System, Tests utilisateurs.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer Kubernetes, Prometheus, SLO, SLI 4 ans minimum",
+    "candidate_text": "SRE Site Reliability Engineer 2 ans, On-call, Observabilité, Incidents, Prometheus, Kubernetes. Startup SaaS",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Développeur PHP Symfony JWT, MySQL, REST API 3 ans minimum",
+    "candidate_text": "Chef cuisinier 9 ans expérience, gastronomie, restauration, cuisine.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans Git, JavaScript, Docker Strasbourg CDI",
+    "candidate_text": "Développeur Full Stack React Node.js senior 1 ans, Docker, Git, JavaScript, React, TypeScript, PostgreSQL, REST API, MongoDB. Missions e-commerce",
+    "score": 0.77
+  },
+  {
+    "offer_text": "مهندس أمن معلومات Splunk, Sécurité, SOC, Pentest, Réseau خبرة 5 سنوات على الأقل",
+    "candidate_text": "3 سنوات خبرة في مهندس أمن معلومات، Réseau.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "Ingénieur MLOps 3 ans MLflow, Modèles en production, Docker, Kubeflow, Seldon",
+    "candidate_text": "4 ans ingénieur mlops, Docker, Seldon, Modèles en production, Kubernetes. CI/CD maîtrisé",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Développeur Flutter iOS, Firebase, Flutter, State Management, Dart 2 ans Strasbourg",
+    "candidate_text": "1 ans d'expérience en développeur flutter, Firebase, Android.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Analyste BI 3 ans Rennes SQL, SQL Server, DAX, Tableaux de bord",
+    "candidate_text": "Profil analyste bi 4 ans, DAX, Power BI, Tableaux de bord, SQL Server, SQL. Cloud native",
+    "score": 0.96
+  },
+  {
+    "offer_text": "Scrum Master Cérémonies, PSM, Scrum, Jira 5 ans",
+    "candidate_text": "Profil scrum master 3 ans, Jira, Scrum, Kanban, Coaching.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "Développeur Backend Python Python, Docker, REST API, PostgreSQL, Django 3 ans minimum",
+    "candidate_text": "Profil développeur backend python 3 ans, PostgreSQL, Redis, REST API, FastAPI. Projet fintech",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Responsable RH Recrutement Gestion de carrière, Workday, Recrutement 5 ans",
+    "candidate_text": "Architecte 12 ans expérience, CAO, bâtiment, construction.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "Data Analyst 2 ans Pandas, Excel, Tableau Lyon",
+    "candidate_text": "Profil data analyst 3 ans, Tableau, Excel, Python, Power BI, Reporting, KPI, Pandas. Équipe internationale",
+    "score": 0.8
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات Android, Compose, Jetpack, Room, Google Play الرياض",
+    "candidate_text": "مطور مطور Android Kotlin Jetpack 4 سنوات، Firebase, Kotlin, Jetpack, Google Play, Compose. شركة ناشئة",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Data Scientist 2 ans SQL, Machine Learning, Pandas, NLP Lyon",
+    "candidate_text": "3 ans data scientist, Python, NLP, scikit-learn, PyTorch. Application mobile",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5+ ans MySQL, Oracle, SQL Server, PL/SQL, PostgreSQL Lille",
+    "candidate_text": "Profil administrateur base de données 4 ans, SQL Server, PostgreSQL.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans expérience Paris",
+    "candidate_text": "ingénieur cloud aws 2 ans, Lambda, S3, VPC.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans Room, Google Play, MVVM, Retrofit",
+    "candidate_text": "Développeur Android Kotlin senior 1 ans, MVVM, Jetpack Compose, Google Play. Équipe internationale",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans Paris Angular, RxJS, TypeScript, CSS",
+    "candidate_text": "1 ans développeur frontend angular, TypeScript, SPA.",
+    "score": 0.48
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3+ ans Firebase, Google Play, Room, Kotlin, Jetpack Compose Rennes",
+    "candidate_text": "5 ans d'expérience en développeur android kotlin, Azure, DevOps.",
+    "score": 0.27
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API خبرة 4 سنوات",
+    "candidate_text": "7 سنوات خبرة في مطور Ruby on Rails API، REST API, Ruby on Rails, GraphQL, Sidekiq, Ruby, Redis, PostgreSQL. شركة ناشئة",
+    "score": 0.95
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات Python, NLP, scikit-learn, SQL القاهرة",
+    "candidate_text": "Enseignant 12 سنوات، cours, pédagogie, programme.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "Administrateur Base de Données PL/SQL, HA, SQL Server, PostgreSQL, Performance 5 ans minimum",
+    "candidate_text": "5 ans administrateur base de données, Backup, HA, Performance, SQL Server, PostgreSQL, Oracle, PL/SQL. Migration legacy",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans expérience",
+    "candidate_text": "Développeur Frontend Angular 6 ans, Python, CI/CD.",
+    "score": 0.27
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات Kotlin, Room, Firebase, Compose دبي",
+    "candidate_text": "خبير مطور Android Kotlin Jetpack 3 سنوات، Jetpack, Android, Google Play, Compose. مشاريع ناجحة",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Développeur Backend Python REST API, Python, FastAPI, Django, Docker 3 ans minimum",
+    "candidate_text": "développeur backend python 4 ans, Docker, REST API, Redis, PostgreSQL, FastAPI, Python. CI/CD maîtrisé",
+    "score": 0.87
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات Sidekiq, REST API, Ruby on Rails, GraphQL",
+    "candidate_text": "مطور مطور Ruby on Rails API 6 سنوات، Sidekiq, PostgreSQL, Ruby, Redis, REST API, GraphQL, Ruby on Rails. شركة ناشئة",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans expérience Lille",
+    "candidate_text": "Ingénieur Cloud Azure senior 6 ans, AKS, DevOps, Terraform, Pipelines. Missions e-commerce",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Data Analyst 2+ ans KPI, Tableau, SQL, Excel, Pandas",
+    "candidate_text": "Data Analyst confirmé 1 ans, Pandas, Excel.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "Data Scientist Pandas, Python, scikit-learn 2 ans minimum",
+    "candidate_text": "Data Scientist 1 ans, TensorFlow, SQL, NLP, PyTorch.",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Data Analyst Pandas, SQL, Python 2 ans minimum",
+    "candidate_text": "data analyst 1 ans, Excel.",
+    "score": 0.46
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans SOC, IAM, WAF, Cloud Security Paris",
+    "candidate_text": "2 ans d'expérience en ingénieur sécurité cloud, WAF, Pentest, GuardDuty. Performance optimisation",
+    "score": 0.76
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API Redis, Ruby, GraphQL خبرة 4 سنوات على الأقل",
+    "candidate_text": "3 سنوات خبرة في مطور Ruby on Rails API، SQL, Tableaux de bord.",
+    "score": 0.24
+  },
+  {
+    "offer_text": "Développeur C# .NET Entity Framework, Azure, SQL Server, REST API 4 ans minimum",
+    "candidate_text": "3 ans développeur c# .net, Entity Framework, REST API, .NET, ASP.NET Core, SQL Server. Missions e-commerce",
+    "score": 0.83
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات Machine Learning, Python, SQL",
+    "candidate_text": "خبير عالم بيانات تعلم آلي 1 سنوات، NLP, SQL.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué WASM, Bas niveau, RTOS, Systèmes embarqués, C 3 ans minimum",
+    "candidate_text": "Développeur Rust Embarqué senior 1 ans, Rust, RTOS, Performance, Systèmes embarqués, WASM.",
+    "score": 0.77
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack Kotlin, Jetpack, Google Play, Room خبرة 3 سنوات على الأقل",
+    "candidate_text": "خبير مطور Android Kotlin Jetpack 5 سنوات، Compose, Google Play, Jetpack, Android, Room. تجارة إلكترونية",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4 ans Marseille Ruby, Sidekiq, PostgreSQL",
+    "candidate_text": "1 ans développeur ruby on rails, Ruby on Rails, Ruby, REST API, GraphQL.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4+ ans Terraform, Pipelines, Azure, AKS, ARM Lyon",
+    "candidate_text": "Ingénieur Cloud Azure confirmé 2 ans, DevOps, Pipelines, Terraform, Infrastructure as Code.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Flutter, Firebase, State Management, REST API",
+    "candidate_text": "développeur flutter 1 ans, State Management, Flutter.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Firewall, Cisco, CCNP, Switching, Palo Alto",
+    "candidate_text": "6 ans ingénieur réseau, Palo Alto, Cisco, VPN, CCNP, Firewall. Agile/Scrum",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Product Manager 5 ans Roadmap, Priorisation, B2B, Analytics, User Research",
+    "candidate_text": "product manager 4 ans, User Research, SaaS, OKR. Cloud native",
+    "score": 0.79
+  },
+  {
+    "offer_text": "DevOps Engineer 4+ ans Helm, Terraform, Jenkins, Docker, CI/CD Lyon",
+    "candidate_text": "4 ans d'expérience en devops engineer, Docker, Jenkins, Terraform, AWS, Helm, CI/CD, Git, Kubernetes. Projet fintech",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Tech Lead 5+ ans Équipe, Mentorat, Leadership, Node.js Nice",
+    "candidate_text": "Tech Lead senior 2 ans, Architecture, TypeScript.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "Développeur Salesforce 4+ ans SOQL, LWC, CRM, Apex Toulouse",
+    "candidate_text": "6 ans développeur salesforce, REST API, SOQL, Apex, CRM, Salesforce. Performance optimisation",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4 ans Marseille KPI, Analyse financière, Reporting, Budgets",
+    "candidate_text": "Contrôleur de Gestion 4 ans, Reporting, Analyse financière, KPI, Excel, Budgets, Power BI, SAP, Finance. Agile/Scrum",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4+ ans Microservices, Kafka, Java, REST API, Docker Toulouse",
+    "candidate_text": "4 ans d'expérience en développeur java spring boot, Kafka, Hibernate, Spring Boot, Microservices, Spring, Docker. Cloud native",
+    "score": 0.76
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS خبرة 4 سنوات",
+    "candidate_text": "5 سنوات خبرة في مهندس DevOps Kubernetes AWS، Docker, Kubernetes, Helm, Jenkins. شركة ناشئة",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Ingénieur Réseau Switching, Routage, Cisco, Palo Alto, VPN 5 ans Lyon",
+    "candidate_text": "2 ans ingénieur réseau, Firewall, CCNP.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Palo Alto, CCNP, VPN CDI",
+    "candidate_text": "6 ans ingénieur réseau, AWS, Python.",
+    "score": 0.18
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans expérience",
+    "candidate_text": "Profil ingénieur cloud azure 6 ans, AKS, Azure, Infrastructure as Code, DevOps, ARM, Terraform. Plateforme B2B",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift Xcode, CoreData, CI/CD, Swift, SwiftUI 3 ans Lyon",
+    "candidate_text": "Commercial 11 ans expérience, prospection, ventes, B2B.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3+ ans Performance, Rust, C, Bas niveau Paris",
+    "candidate_text": "Médecin 6 ans expérience, clinique, consultations, diagnostic.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans IAM, WAF, Pentest, SecurityHub, GuardDuty Nantes",
+    "candidate_text": "ingénieur sécurité cloud 6 ans, CI/CD, Jenkins, Helm.",
+    "score": 0.23
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي خبرة 2 سنوات",
+    "candidate_text": "5 سنوات خبرة في عالم بيانات تعلم آلي، Flutter, Firebase, State Management, Android.",
+    "score": 0.29
+  },
+  {
+    "offer_text": "Développeur Salesforce 4 ans Montpellier Lightning, REST API, LWC, SOQL, CRM",
+    "candidate_text": "Développeur Salesforce confirmé 2 ans, CRM.",
+    "score": 0.57
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot Kafka, Hibernate, Docker, REST API, Spring Boot 4 ans minimum",
+    "candidate_text": "1 ans développeur java spring boot, Microservices, Hibernate, Spring Boot, Docker.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Développeur Backend Python Django, PostgreSQL, Docker, Redis 3 ans Paris",
+    "candidate_text": "5 ans développeur backend python, FastAPI, REST API, Django, Docker, Python, Redis, PostgreSQL, Celery.",
+    "score": 0.85
+  },
+  {
+    "offer_text": "Consultant SAP SD 5 ans SAP, SD, Ventes Lyon",
+    "candidate_text": "2 ans d'expérience en consultant sap sd, Big Data, Spark.",
+    "score": 0.27
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4+ ans REST API, Spring Boot, Docker, Kafka Rennes",
+    "candidate_text": "4 ans d'expérience en développeur java spring boot, Docker, REST API, Spring Boot, Kafka, Java.",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans TypeScript, Material Design, RxJS, CSS Strasbourg",
+    "candidate_text": "Développeur Frontend Angular 5 ans, HTML, CSS, Angular, TypeScript, RxJS. Plateforme B2B",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans Nice SAP, Finance, CO",
+    "candidate_text": "Profil expert sap fico 8 ans, CO, Controlling, FI, SAP, Finance, S/4HANA, SD, FICO. Plateforme B2B",
+    "score": 0.86
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات Réseau, CISSP, SOC",
+    "candidate_text": "مهندس أمن معلومات 7 سنوات، Pinia, TypeScript, Vue.js.",
+    "score": 0.29
+  },
+  {
+    "offer_text": "Data Scientist TensorFlow, Python, NLP, scikit-learn 2 ans Paris",
+    "candidate_text": "Profil data scientist 1 ans, Pandas, scikit-learn.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans On-call, Observabilité, Kubernetes, SLI, Grafana CDI",
+    "candidate_text": "SRE Site Reliability Engineer confirmé 4 ans, On-call, SLI, Prometheus, Kubernetes, Observabilité. Application mobile",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans expérience Nice",
+    "candidate_text": "développeur android kotlin 4 ans, Jetpack Compose, Room, Retrofit. Migration legacy",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Scrum Master 5 ans expérience Paris",
+    "candidate_text": "Scrum Master confirmé 7 ans, PSM, Kanban, Cérémonies, Agile, Scrum, SAFe. CI/CD maîtrisé",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans AWS, VPC, S3, IAM, Lambda Lille CDI",
+    "candidate_text": "1 ans d'expérience en ingénieur cloud aws, S3, IAM, AWS, Terraform.",
+    "score": 0.64
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP فريق, Budget, Scrum, Gestion خبرة 5 سنوات على الأقل",
+    "candidate_text": "خبير مدير مشاريع تقنية Agile Scrum PMP 6 سنوات، JIRA, Planification, Agile, Budget, Gestion, Scrum, فريق.",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Responsable RH Recrutement 5 ans Entretiens, ADP, SIRH, Gestion de carrière",
+    "candidate_text": "7 ans d'expérience en responsable rh recrutement, Recrutement, ADP, Entretiens, Gestion de carrière, Workday, Paie.",
+    "score": 0.86
+  },
+  {
+    "offer_text": "DevOps Engineer Kubernetes, Docker, AWS, Terraform, Helm 4 ans Marseille",
+    "candidate_text": "3 ans devops engineer, Docker, AWS, CI/CD, Git, Jenkins, Kubernetes.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4 ans Toulouse GraphQL, Sidekiq, Ruby on Rails, Redis, Ruby",
+    "candidate_text": "Développeur Ruby on Rails confirmé 4 ans, Sidekiq, PostgreSQL, Redis, Ruby on Rails, REST API, Ruby, GraphQL.",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans LLM, PyTorch, HuggingFace, Transformers CDI",
+    "candidate_text": "5 ans ingénieur machine learning, HuggingFace, PyTorch, Transformers, Fine-tuning, Python, MLOps, LLM.",
+    "score": 0.89
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer Prometheus, On-call, Observabilité 4 ans Lille",
+    "candidate_text": "SRE Site Reliability Engineer confirmé 3 ans, SLI, Incidents, Prometheus, Kubernetes, SLO, On-call.",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans Bordeaux Azure, AKS, DevOps",
+    "candidate_text": "Profil ingénieur cloud azure 4 ans, DAX, Tableaux de bord, SQL.",
+    "score": 0.28
+  },
+  {
+    "offer_text": "Data Engineer 3 ans ETL, Kafka, AWS, Python Marseille",
+    "candidate_text": "4 ans data engineer, Kafka, ETL, Spark, Python, Airflow, Big Data, SQL, AWS. Performance optimisation",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Android Kotlin Google Play, Room, MVVM 3 ans minimum",
+    "candidate_text": "1 ans développeur android kotlin, Firebase, Retrofit, Kotlin, MVVM.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter 2 سنوات Dart, موبايل, تطبيقات, Android, Firebase",
+    "candidate_text": "4 سنوات خبرة في مطور تطبيقات موبايل Flutter، موبايل, Dart, iOS, تطبيقات, Android. شركة ناشئة",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Développeur C# .NET 4 ans Bordeaux ASP.NET Core, SQL Server, Azure",
+    "candidate_text": "Profil développeur c# .net 4 ans, Azure, Entity Framework, ASP.NET Core, .NET, C#, SQL Server.",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Développeur C# .NET Azure, REST API, .NET, ASP.NET Core, C# 4 ans Montpellier",
+    "candidate_text": "1 ans d'expérience en développeur c# .net, Entity Framework, REST API, .NET, ASP.NET Core.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans pytest, BDD, Selenium Montpellier",
+    "candidate_text": "Profil ingénieur qa automatisation 1 ans, S/4HANA, FI.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans AWS, S3, VPC, Lambda, Terraform",
+    "candidate_text": "4 ans ingénieur cloud aws, VPC, AWS, EC2, S3, Terraform, Lambda, IAM.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3 ans Combine, Swift, UIKit, CoreData",
+    "candidate_text": "Profil développeur mobile ios swift 1 ans, CoreData, CI/CD, Combine.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات القاهرة",
+    "candidate_text": "مطور مطور ويب متكامل React Node.js 2 سنوات، REST API, PostgreSQL, Node.js.",
+    "score": 0.64
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات Machine Learning, NLP, TensorFlow",
+    "candidate_text": "مطور عالم بيانات تعلم آلي 1 سنوات، TensorFlow, SQL, NLP, scikit-learn, Python.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans SOC, Pentest, IAM, GuardDuty Rennes",
+    "candidate_text": "4 ans ingénieur sécurité cloud, AWS, Cloud Security, Pentest, GuardDuty, IAM, SecurityHub, SOC, WAF. Data driven",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift Xcode, Combine, UIKit 3 ans minimum",
+    "candidate_text": "Profil développeur mobile ios swift 1 ans, SwiftUI, Xcode, CI/CD, CoreData.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "Analyste BI 3 ans Reporting, SQL Server, DAX, Tableaux de bord",
+    "candidate_text": "Profil analyste bi 5 ans, Tableaux de bord, SQL, DAX, Reporting, SSAS, SQL Server, Power BI. Plateforme B2B",
+    "score": 0.96
+  },
+  {
+    "offer_text": "Contrôleur de Gestion Power BI, Excel, KPI, Reporting 4 ans minimum",
+    "candidate_text": "Contrôleur de Gestion senior 4 ans, SAP, KPI, Finance, Budgets, Reporting.",
+    "score": 0.82
+  },
+  {
+    "offer_text": "UX Designer 3 ans Design System, Tests utilisateurs, Accessibilité Strasbourg",
+    "candidate_text": "1 ans ux designer, Design System.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Algorithmique, Université, Java, Recherche, Python Nantes",
+    "candidate_text": "Enseignant Informatique 6 ans, Java, Python, POO, Recherche, Publications.",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur Backend Python 3 ans Celery, Redis, PostgreSQL, Docker, REST API Montpellier CDI",
+    "candidate_text": "développeur backend python 1 ans, Django, FastAPI, Redis, Celery, Python.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans Strasbourg Metasploit, Sécurité, Splunk, CISSP, SOC",
+    "candidate_text": "Profil expert cybersécurité 2 ans, Metasploit, Sécurité, SIEM, OSCP, CISSP.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Tech Lead 5+ ans TypeScript, Node.js, Leadership, Mentorat Toulouse",
+    "candidate_text": "8 ans tech lead, Performance, MySQL, Oracle.",
+    "score": 0.39
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans GuardDuty, AWS, SecurityHub, IAM",
+    "candidate_text": "Ingénieur Sécurité Cloud senior 6 ans, AWS, WAF, SecurityHub, GuardDuty, SOC. Startup SaaS",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Analyste BI 3+ ans SQL, Reporting, Tableaux de bord, SQL Server Lyon",
+    "candidate_text": "4 ans analyste bi, SQL Server, Reporting, DAX, Tableaux de bord, SQL. Équipe internationale",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Responsable RH Recrutement 5 ans expérience Lyon",
+    "candidate_text": "6 ans d'expérience en responsable rh recrutement, Paie, Entretiens, Gestion de carrière, SIRH, ADP. Projet fintech",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Data Engineer 3 ans Kafka, SQL, Big Data",
+    "candidate_text": "1 ans data engineer, Python, Airflow.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Consultant SAP SD 5 ans Ventes, FI, MM Marseille CDI",
+    "candidate_text": "Consultant SAP SD confirmé 5 ans, SD, S/4HANA, Distribution, MM, Commandes, SAP. Missions e-commerce",
+    "score": 0.8
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter خبرة 2 سنوات",
+    "candidate_text": "خبير مطور تطبيقات موبايل Flutter 1 سنوات، تطبيقات, Android, موبايل.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Administrateur Base de Données MySQL, Oracle, Backup, Performance, HA 5 ans minimum",
+    "candidate_text": "Administrateur Base de Données 1 ans, SPA, HTML, Material Design.",
+    "score": 0.24
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation Selenium, Jenkins, Cypress, Playwright, Python 3 ans minimum",
+    "candidate_text": "4 ans ingénieur qa automatisation, Playwright, Jenkins, pytest, Python, Selenium, CI/CD, Cypress. CI/CD maîtrisé",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Développeur Vue.js 3+ ans Vue.js, JavaScript, TypeScript, Vuex, Nuxt.js",
+    "candidate_text": "3 ans développeur vue.js, Tailwind, Nuxt.js, Vue.js, Pinia. Architecture microservices",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Kafka, REST API, Java, Docker, Microservices Toulouse CDI",
+    "candidate_text": "1 ans développeur java spring boot, REST API, Docker.",
+    "score": 0.45
+  },
+  {
+    "offer_text": "Développeur Backend Python 3 ans FastAPI, PostgreSQL, Django Paris CDI",
+    "candidate_text": "Architecte 8 ans expérience, plans, construction, CAO.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans expérience Lille",
+    "candidate_text": "2 ans développeur php symfony, Symfony, Twig, JWT, Doctrine, REST API, PHP, MySQL. Migration legacy",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Administrateur Base de Données Performance, PostgreSQL, MySQL, HA, Oracle 5 ans Marseille",
+    "candidate_text": "1 ans administrateur base de données, Backup, HA.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Expert SAP FICO 6 ans Controlling, CO, SAP Strasbourg CDI",
+    "candidate_text": "3 ans expert sap fico, SAP, Controlling, FI, Finance, S/4HANA.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات Helm, AWS, Docker, Jenkins",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 8 سنوات، Nuxt.js, Pinia.",
+    "score": 0.23
+  },
+  {
+    "offer_text": "Data Analyst 2 ans Excel, KPI, SQL, Power BI, Tableau",
+    "candidate_text": "Data Analyst senior 1 ans, Python, SQL, Power BI, KPI. Agile/Scrum",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3 ans C, Performance, Rust, Bas niveau",
+    "candidate_text": "Journaliste 11 ans expérience, interviews, articles, presse.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Scrum Master 5 ans Scrum, Coaching, SAFe Nantes CDI",
+    "candidate_text": "Agent immobilier 9 ans expérience, transactions, ventes, mandats.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات",
+    "candidate_text": "2 سنوات خبرة في مطور Ruby on Rails API، Sidekiq, Redis, REST API.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Tech Lead 5 ans Leadership, TypeScript, Node.js Strasbourg CDI",
+    "candidate_text": "Tech Lead 2 ans, Code Review, Leadership, Équipe, Architecture.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "DevOps Engineer 4+ ans Kubernetes, AWS, CI/CD Marseille",
+    "candidate_text": "3 ans devops engineer, AWS, CI/CD, Git, Terraform, Helm, Docker. Plateforme B2B",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans PyTorch, HuggingFace, Fine-tuning Toulouse",
+    "candidate_text": "Ingénieur Machine Learning 5 ans, Pandas, TensorFlow.",
+    "score": 0.27
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Flutter, iOS, Android, State Management, Firebase",
+    "candidate_text": "3 ans développeur flutter, Flutter, State Management, Firebase, REST API, iOS, Android. CI/CD maîtrisé",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Responsable RH Recrutement 5 ans Recrutement, Gestion de carrière, ADP Rennes",
+    "candidate_text": "responsable rh recrutement 3 ans, Gestion de carrière, Entretiens, Paie.",
+    "score": 0.74
+  },
+  {
+    "offer_text": "Product Manager 5 ans SaaS, Analytics, Roadmap, Priorisation, A/B Testing Strasbourg CDI",
+    "candidate_text": "product manager 3 ans, OKR, User Research, SaaS, A/B Testing. Application mobile",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Développeur Mobile iOS Swift 3 ans CoreData, UIKit, Xcode, SwiftUI",
+    "candidate_text": "1 ans développeur mobile ios swift, SwiftUI, UIKit.",
+    "score": 0.62
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans Selenium, Python, BDD",
+    "candidate_text": "2 ans ingénieur qa automatisation, BDD, Selenium.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Data Scientist NLP, TensorFlow, Pandas, SQL 2 ans minimum",
+    "candidate_text": "data scientist 5 ans, Machine Learning, scikit-learn, PyTorch, NLP, Pandas, Python. Cloud native",
+    "score": 0.93
+  },
+  {
+    "offer_text": "Développeur Flutter 2+ ans Flutter, iOS, Dart",
+    "candidate_text": "Développeur Flutter senior 4 ans, SIEM, Splunk, Sécurité.",
+    "score": 0.34
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Spring, REST API, Hibernate",
+    "candidate_text": "Développeur Java Spring Boot senior 5 ans, Microservices, Docker, REST API, Spring Boot. CI/CD maîtrisé",
+    "score": 0.76
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات Kotlin, Firebase, Android, Compose, Google Play",
+    "candidate_text": "Comptable 3 سنوات، TV, Excel, fiscalité.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js 3 سنوات الرياض",
+    "candidate_text": "1 سنوات خبرة في مطور ويب متكامل React Node.js، JavaScript.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Tech Lead 5+ ans Code Review, TypeScript, Leadership, Node.js Lyon",
+    "candidate_text": "7 ans tech lead, Leadership, Code Review, Node.js, Équipe.",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning LLM, Fine-tuning, Transformers 3 ans minimum",
+    "candidate_text": "Ingénieur Machine Learning senior 2 ans, Transformers, LLM, Python, PyTorch. Performance optimisation",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Développeur Go Backend Golang, Redis, Kubernetes 3 ans minimum",
+    "candidate_text": "1 ans développeur go backend, Go, gRPC, Redis, PostgreSQL, Golang.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "Architecte Données Data Lake, BigQuery, dbt 5 ans Rennes",
+    "candidate_text": "2 ans architecte données, Snowflake, Gouvernance, BigQuery, dbt, Data Lake.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Spring Boot, Docker, Microservices, REST API, Kafka Nice",
+    "candidate_text": "Développeur Java Spring Boot senior 6 ans, Jira, Planification, PMP.",
+    "score": 0.31
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات تونس",
+    "candidate_text": "1 سنوات خبرة في مطور Android Kotlin Jetpack، Compose, Jetpack, Firebase.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Lyon CCNP, Switching, VPN",
+    "candidate_text": "8 ans ingénieur réseau, LWC, Lightning.",
+    "score": 0.38
+  },
+  {
+    "offer_text": "Scrum Master Kanban, Cérémonies, Jira, SAFe, PSM 5 ans Strasbourg",
+    "candidate_text": "scrum master 4 ans, SAFe, PSM, Kanban. Performance optimisation",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Expert Cybersécurité 5 ans CISSP, OSCP, Metasploit, Sécurité, SOC",
+    "candidate_text": "Expert Cybersécurité confirmé 7 ans, Splunk, Sécurité, Pentest, Metasploit. Startup SaaS",
+    "score": 0.92
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات Pandas, NLP, scikit-learn",
+    "candidate_text": "مطور عالم بيانات تعلم آلي 1 سنوات، SQL, Python, NLP, Pandas, Machine Learning, TensorFlow. تجارة إلكترونية",
+    "score": 0.77
+  },
+  {
+    "offer_text": "Data Scientist SQL, TensorFlow, Pandas, NLP, scikit-learn 2 ans Rennes",
+    "candidate_text": "Data Scientist senior 7 ans, .NET, Azure, ASP.NET Core.",
+    "score": 0.37
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation 3 ans CI/CD, BDD, Selenium Paris",
+    "candidate_text": "3 ans ingénieur qa automatisation, BDD, Playwright, Jenkins, CI/CD, Python, Cypress, pytest. Agile/Scrum",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans MongoDB, PostgreSQL, TypeScript Lyon",
+    "candidate_text": "Développeur Full Stack React Node.js confirmé 1 ans, PostgreSQL, Docker, MongoDB, React, TypeScript.",
+    "score": 0.43
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Python, Recherche, Publications, Algorithmique Lille",
+    "candidate_text": "6 ans d'expérience en enseignant informatique, POO, Université, Recherche. Application mobile",
+    "score": 0.84
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack Room, Firebase, Kotlin, Google Play خبرة 3 سنوات على الأقل",
+    "candidate_text": "مطور Android Kotlin Jetpack 8 سنوات، Agile, Kanban, PSM, Cérémonies.",
+    "score": 0.16
+  },
+  {
+    "offer_text": "Ingénieur MLOps 3 ans expérience Bordeaux",
+    "candidate_text": "Plombier 11 ans expérience, plomberie, industrielle, maintenance.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "Data Analyst 2 ans expérience Nantes",
+    "candidate_text": "Data Analyst confirmé 1 ans, Excel, SQL, Tableau.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans GuardDuty, IAM, AWS, WAF Lyon CDI",
+    "candidate_text": "Médecin 11 ans expérience, patients, diagnostic, clinique.",
+    "score": 0.0
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning Fine-tuning, Transformers, HuggingFace, MLOps, LLM 3 ans Strasbourg",
+    "candidate_text": "1 ans d'expérience en ingénieur machine learning, HuggingFace, Transformers, LLM, PyTorch, MLOps.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "عالم بيانات تعلم آلي 2 سنوات تونس",
+    "candidate_text": "عالم بيانات تعلم آلي 1 سنوات، Machine Learning, scikit-learn, TensorFlow, Python, Pandas.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "Ingénieur Cloud Azure 4 ans Terraform, Infrastructure as Code, AKS Strasbourg CDI",
+    "candidate_text": "Profil ingénieur cloud azure 1 ans, ARM, AKS.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans IAM, SecurityHub, Cloud Security, GuardDuty",
+    "candidate_text": "1 ans ingénieur sécurité cloud, SecurityHub, Cloud Security, SOC.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API خبرة 4 سنوات",
+    "candidate_text": "مطور مطور Ruby on Rails API 5 سنوات، PostgreSQL, Ruby on Rails, GraphQL. تطبيقات موبايل",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS EC2, CloudFormation, AWS, IAM, VPC 4 ans Nice",
+    "candidate_text": "Pompier 5 ans expérience, intervention, brigade, secours.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans Oracle, Performance, SQL Server, MySQL, Backup Lyon CDI",
+    "candidate_text": "Administrateur Base de Données confirmé 2 ans, PL/SQL, MySQL, SQL Server, Backup, Oracle, HA.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "Ingénieur QA Automatisation pytest, Cypress, Selenium, Python, Playwright 3 ans Marseille",
+    "candidate_text": "ingénieur qa automatisation 1 ans, Selenium, Python, Playwright. Application mobile",
+    "score": 0.75
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP نشر نماذج, Transformers, Python, HuggingFace خبرة 3 سنوات على الأقل",
+    "candidate_text": "3 سنوات خبرة في مهندس ذكاء اصطناعي NLP، NLP, Fine-tuning, HuggingFace, BERT, Python, Transformers. بنية تحتية سحابية",
+    "score": 0.82
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans LLM, MLOps, Fine-tuning, HuggingFace, Transformers",
+    "candidate_text": "Boulanger 3 ans expérience, four, artisan, pâtisserie.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Chef de Projet IT PMP, Budget, Roadmap, Agile, Scrum 5 ans Strasbourg",
+    "candidate_text": "chef de projet it 4 ans, Jira, Roadmap, PMP.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Tech Lead 5 ans Leadership, GraphQL, TypeScript, Équipe",
+    "candidate_text": "tech lead 2 ans, Équipe, GraphQL, Mentorat.",
+    "score": 0.71
+  },
+  {
+    "offer_text": "Scrum Master SAFe, Agile, Scrum 5 ans minimum",
+    "candidate_text": "3 ans scrum master, Coaching, Agile, SAFe, PSM.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP Scrum, فريق, Planification خبرة 5 سنوات على الأقل",
+    "candidate_text": "مطور مدير مشاريع تقنية Agile Scrum PMP 4 سنوات، PMP, Budget, Agile, JIRA, Gestion, Scrum, Planification. بنية تحتية سحابية",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans Kotlin, Jetpack Compose, Room, Google Play, Firebase",
+    "candidate_text": "Développeur Android Kotlin senior 3 ans, Google Play, Kotlin, Retrofit, Jetpack Compose, Room, Firebase, MVVM. Projet fintech",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué RTOS, Performance, C, Bas niveau, Rust 3 ans minimum",
+    "candidate_text": "Développeur Rust Embarqué senior 5 ans, SOC, Réseau, Sécurité.",
+    "score": 0.31
+  },
+  {
+    "offer_text": "Scrum Master 5 ans Paris Agile, Jira, SAFe, Cérémonies, Coaching",
+    "candidate_text": "Scrum Master 5 ans, Coaching, Scrum, Jira, Agile, PSM. Data driven",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Enseignant Informatique Java, Publications, POO 5 ans minimum",
+    "candidate_text": "Enseignant Informatique confirmé 6 ans, Python, Recherche, Algorithmique, Java, Pédagogie. Startup SaaS",
+    "score": 0.93
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans expérience",
+    "candidate_text": "1 ans devops engineer, Jenkins, Kubernetes, Terraform, CI/CD, AWS, Docker.",
+    "score": 0.73
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3 ans WASM, Rust, Performance, Systèmes embarqués, Bas niveau Nantes CDI",
+    "candidate_text": "Conducteur 5 ans expérience, marchandises, logistique, transport.",
+    "score": 0.01
+  },
+  {
+    "offer_text": "Expert Cybersécurité CISSP, OSCP, Metasploit, SOC 5 ans minimum",
+    "candidate_text": "7 ans d'expérience en expert cybersécurité, Metasploit, Splunk, Pentest, CISSP, SIEM, Sécurité.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "Product Manager 5 ans Analytics, B2B, Roadmap",
+    "candidate_text": "Product Manager 5 ans, Analytics, SaaS, B2B, OKR, A/B Testing, Priorisation.",
+    "score": 0.88
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans PyTorch, Transformers, HuggingFace, MLOps, LLM",
+    "candidate_text": "Conducteur 7 ans expérience, marchandises, transport, logistique.",
+    "score": 0.05
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack Google Play, Android, Compose خبرة 3 سنوات على الأقل",
+    "candidate_text": "4 سنوات خبرة في مطور Android Kotlin Jetpack، Room, Android, Google Play, Firebase, Jetpack, Kotlin, Compose.",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans Backup, Performance, PL/SQL",
+    "candidate_text": "2 ans d'expérience en administrateur base de données, OKR, Priorisation, Roadmap, B2B.",
+    "score": 0.22
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات Sécurité, Splunk, اختبار اختراق, SOC, Réseau",
+    "candidate_text": "مطور مهندس أمن معلومات 6 سنوات، Sécurité, CISSP, SOC, اختبار اختراق. تجارة إلكترونية",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans Pentest, SOC, WAF CDI",
+    "candidate_text": "4 ans ingénieur sécurité cloud, IAM, GuardDuty, AWS, SecurityHub, WAF, SOC, Cloud Security, Pentest. Startup SaaS",
+    "score": 0.95
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP 5 سنوات JIRA, Agile, Budget, Scrum, Planification",
+    "candidate_text": "مطور مدير مشاريع تقنية Agile Scrum PMP 6 سنوات، فريق, Scrum, JIRA, Budget, Planification, PMP, Agile, Gestion.",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3 ans Lille JWT, PHP, Symfony, MySQL",
+    "candidate_text": "Développeur PHP Symfony senior 4 ans, MySQL, PHP, Twig, Symfony, Doctrine, JWT. Missions e-commerce",
+    "score": 0.83
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات اختبار اختراق, Splunk, Pentest, Réseau, Sécurité القاهرة",
+    "candidate_text": "مطور مهندس أمن معلومات 2 سنوات، Splunk, CISSP, Réseau, SOC.",
+    "score": 0.67
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3 ans PyTorch, LLM, MLOps, HuggingFace Montpellier CDI",
+    "candidate_text": "5 ans ingénieur machine learning, Dart, iOS.",
+    "score": 0.31
+  },
+  {
+    "offer_text": "Développeur Backend Python 3 ans Celery, FastAPI, REST API, PostgreSQL, Django Paris",
+    "candidate_text": "développeur backend python 1 ans, Docker, Redis.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Développeur Frontend Angular RxJS, Angular, SPA 3 ans",
+    "candidate_text": "3 ans d'expérience en développeur frontend angular, Material Design, SPA, HTML, RxJS, NgRx, Angular.",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4+ ans EC2, S3, CloudFormation, Lambda, VPC",
+    "candidate_text": "Plombier 6 ans expérience, chauffage, maintenance, plomberie.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "Développeur C# .NET 4 ans C#, Entity Framework, .NET, REST API, SQL Server",
+    "candidate_text": "Développeur C# .NET 5 ans, Kotlin, Firebase.",
+    "score": 0.22
+  },
+  {
+    "offer_text": "Scrum Master 5+ ans PSM, Kanban, SAFe, Agile Montpellier",
+    "candidate_text": "2 ans scrum master, Cérémonies, Agile.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP 3 سنوات NLP, نشر نماذج, Fine-tuning, BERT, Python",
+    "candidate_text": "مطور مهندس ذكاء اصطناعي NLP 6 سنوات، SaaS, User Research, Roadmap.",
+    "score": 0.26
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4 ans Ruby, GraphQL, Ruby on Rails, PostgreSQL",
+    "candidate_text": "3 ans développeur ruby on rails, Ruby on Rails, GraphQL, Sidekiq, Ruby, REST API.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات AWS, Terraform, CI/CD, Helm, Docker",
+    "candidate_text": "خبير مهندس DevOps Kubernetes AWS 7 سنوات، SAP, FI, FICO.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3+ ans MVVM, Room, Firebase, Retrofit, Kotlin",
+    "candidate_text": "Développeur Android Kotlin confirmé 1 ans, Firebase, MVVM, Google Play.",
+    "score": 0.54
+  },
+  {
+    "offer_text": "Architecte Données 5 ans Snowflake, Airflow, Gouvernance, Data Warehouse, BigQuery",
+    "candidate_text": "Architecte Données 2 ans, Snowflake, Gouvernance.",
+    "score": 0.47
+  },
+  {
+    "offer_text": "Tech Lead 5 ans expérience Nice",
+    "candidate_text": "5 ans d'expérience en tech lead, Leadership, Architecture, Mentorat, Équipe, TypeScript, Node.js, Code Review. Performance optimisation",
+    "score": 0.87
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans CI/CD, Helm, Docker, Git Strasbourg CDI",
+    "candidate_text": "DevOps Engineer confirmé 3 ans, Terraform, CI/CD, Helm, Docker.",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Développeur Go Backend Redis, Go, Golang, PostgreSQL 3 ans Marseille",
+    "candidate_text": "Boulanger 8 ans expérience, artisan, pâtisserie, pain.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "Product Designer 4 ans Prototypage, Figma, Maquettes Toulouse CDI",
+    "candidate_text": "Product Designer confirmé 2 ans, Prototypage, Maquettes, UX, Design System, UI.",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Développeur C# .NET C#, REST API, Entity Framework 4 ans minimum",
+    "candidate_text": "Profil développeur c# .net 4 ans, ASP.NET Core, Entity Framework, C#, REST API, Azure, SQL Server, .NET. CI/CD maîtrisé",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Responsable RH Recrutement 5 ans Bordeaux Paie, SIRH, Gestion de carrière, Entretiens",
+    "candidate_text": "responsable rh recrutement 5 ans, Paie, Gestion de carrière, SIRH.",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans Node.js, Git, PostgreSQL, REST API, TypeScript Lyon",
+    "candidate_text": "Développeur Full Stack React Node.js 1 ans, Node.js, REST API, MongoDB, Git, TypeScript, JavaScript, PostgreSQL, Docker. Projet fintech",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Développeur Vue.js 3 ans Marseille Tailwind, Pinia, JavaScript, Vuex",
+    "candidate_text": "Profil développeur vue.js 4 ans, JavaScript, Nuxt.js, TypeScript, Vue.js. Data driven",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Développeur Salesforce 4+ ans SOQL, CRM, Lightning, REST API Lille",
+    "candidate_text": "Développeur Salesforce confirmé 6 ans, Apex, Salesforce, SOQL, REST API, Lightning, CRM, LWC. Data driven",
+    "score": 0.89
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP BERT, Python, Transformers, NLP, HuggingFace خبرة 3 سنوات على الأقل",
+    "candidate_text": "مهندس ذكاء اصطناعي NLP 1 سنوات، Transformers, Python.",
+    "score": 0.48
+  },
+  {
+    "offer_text": "Analyste BI 3 ans Strasbourg Reporting, Power BI, Tableaux de bord",
+    "candidate_text": "3 ans d'expérience en analyste bi, SSAS, Tableaux de bord, DAX, SQL, SQL Server, Reporting.",
+    "score": 0.96
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack خبرة 3 سنوات",
+    "candidate_text": "مطور مطور Android Kotlin Jetpack 3 سنوات، Android, Google Play, Compose, Room, Jetpack.",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Data Scientist 2 ans expérience Nantes",
+    "candidate_text": "2 ans data scientist, Observabilité, On-call, SLO, Incidents.",
+    "score": 0.24
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans Marseille NgRx, Material Design, HTML, Angular, TypeScript",
+    "candidate_text": "2 ans développeur frontend angular, Android, موبايل, iOS, تطبيقات.",
+    "score": 0.19
+  },
+  {
+    "offer_text": "Data Engineer 3 ans Paris Airflow, Spark, Python, ETL",
+    "candidate_text": "Data Engineer 1 ans, Airflow, ETL, Big Data.",
+    "score": 0.44
+  },
+  {
+    "offer_text": "مهندس بيانات Spark Hadoop 3 سنوات Pipeline, بيانات ضخمة, Spark, Python القاهرة",
+    "candidate_text": "1 سنوات خبرة في مهندس بيانات Spark Hadoop، بيانات ضخمة, Hadoop, ETL.",
+    "score": 0.4
+  },
+  {
+    "offer_text": "Product Designer 4+ ans Design System, UI, Prototypage, Figma, Maquettes Rennes",
+    "candidate_text": "2 ans product designer, Figma, Design System, UI.",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Développeur Frontend Angular 3 ans expérience",
+    "candidate_text": "2 ans d'expérience en développeur frontend angular, RxJS, SPA, CSS.",
+    "score": 0.7
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Cisco, VPN, Routage",
+    "candidate_text": "2 ans ingénieur réseau, موبايل, iOS, Firebase.",
+    "score": 0.38
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات الرياض",
+    "candidate_text": "مهندس أمن معلومات 2 سنوات، SOC, CISSP, اختبار اختراق.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "UX Designer 3+ ans Accessibilité, Figma, Recherche utilisateur, Prototypage, Wireframes Nice",
+    "candidate_text": "Profil ux designer 1 ans, Recherche utilisateur, Accessibilité, Wireframes. Équipe internationale",
+    "score": 0.79
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js PostgreSQL, JavaScript, REST API, Node.js, React خبرة 3 سنوات على الأقل",
+    "candidate_text": "مطور مطور ويب متكامل React Node.js 1 سنوات، JavaScript, TypeScript, MongoDB, React, PostgreSQL.",
+    "score": 0.41
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Palo Alto, Cisco, CCNP, Switching CDI",
+    "candidate_text": "Ingénieur Réseau confirmé 3 ans, Routage, Firewall, VPN.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP Transformers, HuggingFace, Python, Fine-tuning خبرة 3 سنوات على الأقل",
+    "candidate_text": "مطور مهندس ذكاء اصطناعي NLP 3 سنوات، Transformers, Python, HuggingFace, NLP. تطبيقات موبايل",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Tech Lead 5 ans GraphQL, Code Review, Leadership, Architecture",
+    "candidate_text": "Tech Lead 4 ans, Code Review, Leadership, GraphQL, Équipe, Architecture. Plateforme B2B",
+    "score": 0.84
+  },
+  {
+    "offer_text": "Développeur Android Kotlin 3 ans Retrofit, MVVM, Room, Jetpack Compose Rennes CDI",
+    "candidate_text": "2 ans développeur android kotlin, MVVM, Google Play, Kotlin, Firebase, Room. Projet greenfield",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4+ ans Cloud Security, WAF, GuardDuty, SecurityHub Marseille",
+    "candidate_text": "5 ans ingénieur sécurité cloud, GuardDuty, AWS, SecurityHub, Pentest, SOC, WAF, IAM. Projet fintech",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Data Engineer 3 ans AWS, ETL, SQL",
+    "candidate_text": "2 ans d'expérience en data engineer, Room, Kotlin, Firebase, Retrofit.",
+    "score": 0.15
+  },
+  {
+    "offer_text": "Chef de Projet IT 5+ ans Planification, Gestion d'équipe, Budget Rennes",
+    "candidate_text": "chef de projet it 5 ans, Roadmap, PMP, Jira, Planification, Scrum, Agile. Agile/Scrum",
+    "score": 0.76
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات الرياض",
+    "candidate_text": "مطور مطور Ruby on Rails API 2 سنوات، Redis, REST API, Sidekiq, Ruby on Rails, GraphQL, Ruby. مشاريع ناجحة",
+    "score": 0.83
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP 3 سنوات Transformers, HuggingFace, Fine-tuning",
+    "candidate_text": "مهندس ذكاء اصطناعي NLP 1 سنوات، Python.",
+    "score": 0.53
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans Firebase, Dart, Android, REST API",
+    "candidate_text": "Développeur Flutter confirmé 7 ans, Budgets, Analyse financière.",
+    "score": 0.16
+  },
+  {
+    "offer_text": "Administrateur Base de Données 5 ans Montpellier Backup, Performance, MySQL",
+    "candidate_text": "administrateur base de données 5 ans, Oracle, PL/SQL, Backup, SQL Server, MySQL, HA, PostgreSQL. Équipe internationale",
+    "score": 0.78
+  },
+  {
+    "offer_text": "Product Manager OKR, A/B Testing, Roadmap, User Research, SaaS 5 ans minimum",
+    "candidate_text": "Psychologue 6 ans expérience, adultes, enfants, consultation.",
+    "score": 0.05
+  },
+  {
+    "offer_text": "Product Designer 4 ans Maquettes, Figma, UI, Design System, Responsive CDI",
+    "candidate_text": "Profil product designer 4 ans, UI, Maquettes, UX, Responsive, Prototypage. Migration legacy",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Développeur Flutter Firebase, REST API, Dart 2 ans",
+    "candidate_text": "1 ans développeur flutter, REST API, State Management, Dart, Firebase.",
+    "score": 0.54
+  },
+  {
+    "offer_text": "مهندس DevOps Kubernetes AWS 4 سنوات الرياض",
+    "candidate_text": "مهندس DevOps Kubernetes AWS 3 سنوات، Helm, Jenkins.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4 ans Ruby on Rails, Sidekiq, Redis Montpellier",
+    "candidate_text": "1 ans d'expérience en développeur ruby on rails, PostgreSQL.",
+    "score": 0.58
+  },
+  {
+    "offer_text": "Développeur Rust Embarqué 3+ ans WASM, Rust, C, Systèmes embarqués Strasbourg",
+    "candidate_text": "Développeur Rust Embarqué confirmé 4 ans, Rust, RTOS, WASM, Bas niveau, C, Systèmes embarqués. Data driven",
+    "score": 0.96
+  },
+  {
+    "offer_text": "Développeur Flutter 2 ans expérience Paris",
+    "candidate_text": "Architecte 9 ans expérience, bâtiment, CAO, plans.",
+    "score": 0.04
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans Nantes On-call, Incidents, Observabilité, SLO, Kubernetes",
+    "candidate_text": "Chef cuisinier 3 ans expérience, restauration, gastronomie, brigade.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Développeur Go Backend 3+ ans Golang, PostgreSQL, Microservices",
+    "candidate_text": "1 ans développeur go backend, gRPC, Kubernetes, PostgreSQL, Redis, Microservices.",
+    "score": 0.72
+  },
+  {
+    "offer_text": "Développeur Salesforce 4 ans Salesforce, CRM, LWC, REST API Toulouse",
+    "candidate_text": "Développeur Salesforce confirmé 1 ans, Lightning, CRM, Salesforce, SOQL.",
+    "score": 0.54
+  },
+  {
+    "offer_text": "مهندس ذكاء اصطناعي NLP Python, HuggingFace, نشر نماذج, NLP خبرة 3 سنوات على الأقل",
+    "candidate_text": "مطور مهندس ذكاء اصطناعي NLP 5 سنوات، Fine-tuning, HuggingFace, BERT, Transformers.",
+    "score": 0.9
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات Splunk, Sécurité, CISSP, اختبار اختراق, Pentest",
+    "candidate_text": "8 سنوات خبرة في مهندس أمن معلومات، WASM, RTOS, Systèmes embarqués, Bas niveau.",
+    "score": 0.32
+  },
+  {
+    "offer_text": "Tech Lead Architecture, Code Review, GraphQL, TypeScript, Leadership 5 ans minimum",
+    "candidate_text": "Tech Lead senior 6 ans, TypeScript, Leadership, Code Review. Data driven",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Data Engineer 3 ans expérience Lille",
+    "candidate_text": "Profil data engineer 5 ans, Kafka, Airflow, Big Data, ETL, SQL, AWS, Spark. Plateforme B2B",
+    "score": 0.91
+  },
+  {
+    "offer_text": "Développeur Vue.js 3+ ans JavaScript, Vuex, Pinia, Nuxt.js, TypeScript Nantes",
+    "candidate_text": "Développeur Vue.js confirmé 5 ans, REST API, Python.",
+    "score": 0.22
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud Cloud Security, IAM, SOC, Pentest 4 ans minimum",
+    "candidate_text": "Ingénieur Sécurité Cloud confirmé 5 ans, SecurityHub, GuardDuty, IAM. CI/CD maîtrisé",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Contrôleur de Gestion 4+ ans Finance, Power BI, KPI, Budgets, SAP Marseille",
+    "candidate_text": "6 ans contrôleur de gestion, Budgets, Finance, SAP, Analyse financière, Reporting, KPI. Performance optimisation",
+    "score": 0.93
+  },
+  {
+    "offer_text": "مطور ويب متكامل React Node.js TypeScript, Docker, PostgreSQL, Node.js, MongoDB خبرة 3 سنوات على الأقل",
+    "candidate_text": "مطور ويب متكامل React Node.js 6 سنوات، Node.js, JavaScript, TypeScript, PostgreSQL, REST API, Docker, React, MongoDB. تجارة إلكترونية",
+    "score": 0.95
+  },
+  {
+    "offer_text": "Développeur Salesforce Lightning, Salesforce, Apex, CRM 4 ans Nantes",
+    "candidate_text": "1 ans développeur salesforce, Salesforce, LWC, REST API.",
+    "score": 0.65
+  },
+  {
+    "offer_text": "Data Scientist 2 ans Machine Learning, PyTorch, Python, Pandas Toulouse",
+    "candidate_text": "3 ans data scientist, SQL, Python, scikit-learn, TensorFlow, NLP. Migration legacy",
+    "score": 0.89
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Spring Boot, Java, Hibernate, REST API Rennes",
+    "candidate_text": "développeur java spring boot 6 ans, Microservices, Java, Hibernate, Docker, Spring Boot, Kafka, REST API. Architecture microservices",
+    "score": 0.87
+  },
+  {
+    "offer_text": "Développeur PHP Symfony 3+ ans MySQL, Symfony, Doctrine, JWT",
+    "candidate_text": "2 ans d'expérience en développeur php symfony, Twig, REST API, JWT, MySQL, Symfony.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Développeur Ruby on Rails 4+ ans Ruby, Redis, PostgreSQL, Sidekiq, REST API Nantes",
+    "candidate_text": "3 ans développeur ruby on rails, Ruby on Rails, GraphQL, Ruby. Data driven",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Tech Lead Code Review, Leadership, GraphQL, Architecture 5 ans Paris",
+    "candidate_text": "Tech Lead senior 6 ans, Architecture, Leadership, TypeScript, GraphQL, Code Review, Node.js. Projet fintech",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Data Scientist 2 ans SQL, NLP, scikit-learn, TensorFlow, Machine Learning Lyon CDI",
+    "candidate_text": "Data Scientist 1 ans, NLP, TensorFlow, SQL, Machine Learning, scikit-learn, Python.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Product Designer 4 ans Nice UX, Responsive, Prototypage",
+    "candidate_text": "Product Designer senior 3 ans, FastAPI, REST API, Celery, Redis.",
+    "score": 0.26
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter تطبيقات, Firebase, iOS, Flutter, Dart خبرة 2 سنوات على الأقل",
+    "candidate_text": "خبير مطور تطبيقات موبايل Flutter 1 سنوات، موبايل, Firebase, Flutter, Android.",
+    "score": 0.57
+  },
+  {
+    "offer_text": "Consultant SAP SD Distribution, MM, S/4HANA, Ventes, SAP 5 ans minimum",
+    "candidate_text": "7 ans consultant sap sd, Distribution, S/4HANA, MM, FI. Startup SaaS",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4 ans Cloud Security, AWS, Pentest, SOC, IAM",
+    "candidate_text": "ingénieur sécurité cloud 6 ans, IAM, SecurityHub, AWS, Cloud Security, SOC, WAF.",
+    "score": 0.85
+  },
+  {
+    "offer_text": "Data Analyst 2 ans Tableau, KPI, Excel, SQL, Pandas Montpellier CDI",
+    "candidate_text": "Architecte 9 ans expérience, construction, plans, bâtiment.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Analyste BI 3 ans Tableaux de bord, SQL, SQL Server, Power BI Marseille CDI",
+    "candidate_text": "Analyste BI senior 2 ans, Power BI, SSAS, Tableaux de bord, Reporting, SQL Server.",
+    "score": 0.8
+  },
+  {
+    "offer_text": "Tech Lead Architecture, TypeScript, Leadership 5 ans minimum",
+    "candidate_text": "Tech Lead 5 ans, Mentorat, Architecture, Équipe, Node.js, Leadership. Architecture microservices",
+    "score": 0.83
+  },
+  {
+    "offer_text": "مدير مشاريع تقنية Agile Scrum PMP 5 سنوات فريق, Agile, PMP, Planification, Gestion",
+    "candidate_text": "2 سنوات خبرة في مدير مشاريع تقنية Agile Scrum PMP، Gestion, Scrum, Planification, Agile, فريق, Budget.",
+    "score": 0.68
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans Git, Node.js, React, JavaScript, MongoDB",
+    "candidate_text": "2 ans développeur full stack react node.js, React, PostgreSQL, Docker, Git, Node.js.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "Product Manager 5 ans Paris Priorisation, B2B, OKR, Analytics, A/B Testing",
+    "candidate_text": "4 ans d'expérience en product manager, SaaS, Analytics, User Research. Architecture microservices",
+    "score": 0.81
+  },
+  {
+    "offer_text": "Analyste BI DAX, SQL Server, Reporting 3 ans Paris",
+    "candidate_text": "analyste bi 1 ans, SQL Server, Reporting.",
+    "score": 0.42
+  },
+  {
+    "offer_text": "مطور Ruby on Rails API 4 سنوات دبي",
+    "candidate_text": "مطور مطور Ruby on Rails API 1 سنوات، PostgreSQL, Redis.",
+    "score": 0.51
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer Incidents, Kubernetes, On-call 4 ans Bordeaux",
+    "candidate_text": "Coiffeur 3 ans expérience, coupe, style, salon.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Ingénieur Sécurité Cloud 4+ ans SecurityHub, AWS, Pentest Paris",
+    "candidate_text": "3 ans d'expérience en ingénieur sécurité cloud, VPC, S3, AWS.",
+    "score": 0.24
+  },
+  {
+    "offer_text": "مطور Android Kotlin Jetpack 3 سنوات Compose, Google Play, Android",
+    "candidate_text": "خبير مطور Android Kotlin Jetpack 1 سنوات، Jetpack, Android, Compose.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "مهندس أمن معلومات 5 سنوات Splunk, SOC, Sécurité, اختبار اختراق, CISSP تونس",
+    "candidate_text": "مطور مهندس أمن معلومات 5 سنوات، Sécurité, CISSP, Pentest, Splunk. بنية تحتية سحابية",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Développeur Go Backend 3 ans Montpellier gRPC, Golang, Kubernetes",
+    "candidate_text": "développeur go backend 2 ans, Coaching, Cérémonies, SAFe, Jira.",
+    "score": 0.23
+  },
+  {
+    "offer_text": "Enseignant Informatique 5 ans Algorithmique, Publications, POO, Université, Python CDI",
+    "candidate_text": "Médecin 7 ans expérience, clinique, diagnostic, patients.",
+    "score": 0.03
+  },
+  {
+    "offer_text": "Développeur Backend Python FastAPI, Django, Python 3 ans minimum",
+    "candidate_text": "développeur backend python 4 ans, Django, Python, Redis, PostgreSQL.",
+    "score": 0.75
+  },
+  {
+    "offer_text": "DevOps Engineer 4 ans Nantes Git, Kubernetes, AWS, Helm",
+    "candidate_text": "DevOps Engineer confirmé 6 ans, Git, Helm, AWS, Terraform, Jenkins, Docker.",
+    "score": 0.88
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer 4 ans Toulouse Incidents, Observabilité, SLI",
+    "candidate_text": "4 ans sre site reliability engineer, Prometheus, Kubernetes, SLI, Incidents, On-call, Observabilité, SLO. Projet fintech",
+    "score": 0.92
+  },
+  {
+    "offer_text": "Expert Cybersécurité Splunk, SOC, Sécurité, CISSP 5 ans Toulouse",
+    "candidate_text": "7 ans expert cybersécurité, Microservices, Spring, Docker, Java.",
+    "score": 0.34
+  },
+  {
+    "offer_text": "Ingénieur Réseau 5 ans Firewall, VPN, Cisco, CCNP",
+    "candidate_text": "3 ans ingénieur réseau, Cisco, Routage, Palo Alto, Firewall.",
+    "score": 0.52
+  },
+  {
+    "offer_text": "Développeur Go Backend Golang, Go, Redis, Microservices 3 ans minimum",
+    "candidate_text": "Profil développeur go backend 2 ans, Microservices, Kubernetes.",
+    "score": 0.61
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Spring, Docker, REST API",
+    "candidate_text": "Profil développeur java spring boot 1 ans, Hibernate, Docker.",
+    "score": 0.59
+  },
+  {
+    "offer_text": "Consultant SAP SD FI, Distribution, S/4HANA, Ventes, MM 5 ans Marseille",
+    "candidate_text": "6 ans consultant sap sd, S/4HANA, Distribution, SD, FI, MM, Ventes, Commandes. CI/CD maîtrisé",
+    "score": 0.76
+  },
+  {
+    "offer_text": "Chef de Projet IT Roadmap, Scrum, Planification 5 ans Nantes",
+    "candidate_text": "2 ans d'expérience en chef de projet it, Gestion d'équipe, Roadmap, Budget.",
+    "score": 0.6
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js PostgreSQL, Docker, Node.js 3 ans",
+    "candidate_text": "Développeur Full Stack React Node.js confirmé 4 ans, REST API, React, TypeScript, Docker, Node.js. Projet fintech",
+    "score": 0.83
+  },
+  {
+    "offer_text": "Développeur Backend Python 3 ans Nantes FastAPI, Python, Redis, REST API",
+    "candidate_text": "Développeur Backend Python senior 6 ans, Rust, C, Systèmes embarqués.",
+    "score": 0.26
+  },
+  {
+    "offer_text": "SRE Site Reliability Engineer Observabilité, SLO, Prometheus 4 ans minimum",
+    "candidate_text": "SRE Site Reliability Engineer confirmé 8 ans, Data Warehouse, Airflow, dbt.",
+    "score": 0.34
+  },
+  {
+    "offer_text": "Consultant SAP SD MM, Ventes, FI, Commandes 5 ans Lille",
+    "candidate_text": "consultant sap sd 6 ans, Distribution, FI, Commandes, SD, S/4HANA.",
+    "score": 0.79
+  },
+  {
+    "offer_text": "Développeur C# .NET 4 ans Entity Framework, ASP.NET Core, Azure",
+    "candidate_text": "2 ans d'expérience en développeur c# .net, SQL Server, Entity Framework, C#, Azure.",
+    "score": 0.69
+  },
+  {
+    "offer_text": "Data Engineer 3+ ans AWS, Airflow, Spark",
+    "candidate_text": "Data Engineer confirmé 4 ans, AWS, SQL, ETL, Big Data, Python, Spark. Projet greenfield",
+    "score": 0.85
+  },
+  {
+    "offer_text": "Product Designer 4+ ans Prototypage, Maquettes, UI, Figma, Design System Toulouse",
+    "candidate_text": "product designer 3 ans, UX, Maquettes, Prototypage, UI. Cloud native",
+    "score": 0.83
+  },
+  {
+    "offer_text": "UX Designer 3 ans Prototypage, Accessibilité, Recherche utilisateur Montpellier",
+    "candidate_text": "UX Designer senior 6 ans, Recherche utilisateur, Wireframes, Accessibilité, Design System, Figma, Tests utilisateurs, Prototypage. Migration legacy",
+    "score": 0.94
+  },
+  {
+    "offer_text": "Développeur Flutter Firebase, REST API, Dart 2 ans Marseille",
+    "candidate_text": "développeur flutter 1 ans, Firebase, REST API, Android, Flutter.",
+    "score": 0.64
+  },
+  {
+    "offer_text": "Ingénieur Cloud AWS 4 ans AWS, Terraform, CloudFormation, S3, Lambda",
+    "candidate_text": "Ingénieur Cloud AWS confirmé 2 ans, Terraform, S3, AWS, EC2.",
+    "score": 0.64
+  },
+  {
+    "offer_text": "مطور تطبيقات موبايل Flutter 2 سنوات iOS, Dart, Android",
+    "candidate_text": "1 سنوات خبرة في مطور تطبيقات موبايل Flutter، Dart.",
+    "score": 0.5
+  },
+  {
+    "offer_text": "Développeur Salesforce LWC, Apex, CRM, REST API, Lightning 4 ans minimum",
+    "candidate_text": "Architecte 4 ans expérience, plans, construction, bâtiment.",
+    "score": 0.02
+  },
+  {
+    "offer_text": "Développeur Java Spring Boot 4 ans Paris Spring Boot, Kafka, REST API, Spring",
+    "candidate_text": "5 ans d'expérience en développeur java spring boot, REST API, Microservices, Java, Kafka, Spring Boot, Spring, Docker. Migration legacy",
+    "score": 0.86
+  },
+  {
+    "offer_text": "Chef de Projet IT 5 ans expérience Toulouse",
+    "candidate_text": "Chef de Projet IT senior 3 ans, PMP, Agile, Budget.",
+    "score": 0.66
+  },
+  {
+    "offer_text": "Ingénieur Machine Learning 3+ ans Fine-tuning, MLOps, PyTorch Bordeaux",
+    "candidate_text": "Ingénieur Machine Learning senior 1 ans, Fine-tuning, HuggingFace, Transformers, Python.",
+    "score": 0.57
+  },
+  {
+    "offer_text": "Développeur Full Stack React Node.js 3 ans expérience",
+    "candidate_text": "développeur full stack react node.js 1 ans, Machine Learning, Python.",
+    "score": 0.19
+  }
+]

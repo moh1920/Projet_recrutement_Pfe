@@ -1,0 +1,42 @@
+[
+    {
+        "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Paris",
+        "candidate_text": "5 ans développeur React, Node.js, PostgreSQL, Docker. Missions e-commerce.",
+        "true_score": 0.95
+    },
+    {
+        "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Paris",
+        "candidate_text": "Comptable 10 ans expérience Excel, bilan financier, fiscalité.",
+        "true_score": 0.05
+    },
+    {
+        "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+        "candidate_text": "Data Scientist 3 ans Python scikit-learn TensorFlow NLP classification texte.",
+        "true_score": 0.93
+    },
+    {
+        "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+        "candidate_text": "Infirmier urgences 8 ans soins intensifs bloc opératoire.",
+        "true_score": 0.01
+    },
+    {
+        "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+        "candidate_text": "DevOps 6 ans AWS EKS Terraform Helm Jenkins pipeline CI/CD.",
+        "true_score": 0.92
+    },
+    {
+        "offer_text": "DevOps Engineer CI/CD Kubernetes AWS Terraform 4 ans",
+        "candidate_text": "Designer UX/UI Figma prototypage maquettes responsive.",
+        "true_score": 0.02
+    },
+    {
+        "offer_text": "Développeur Full Stack React Node.js 3 ans expérience Paris",
+        "candidate_text": "Développeur frontend React 1 an stage e-commerce, notions Node.",
+        "true_score": 0.60
+    },
+    {
+        "offer_text": "Data Scientist Machine Learning NLP Python TensorFlow 2 ans",
+        "candidate_text": "Étudiant Master IA Python pandas scikit-learn projet NLP universitaire.",
+        "true_score": 0.55
+    }
+]
