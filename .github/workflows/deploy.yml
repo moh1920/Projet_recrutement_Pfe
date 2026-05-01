@@ -2,9 +2,9 @@ name: CI/CD — Build and Deploy CV API
 
 on:
   push:
-    branches: [main]
+    branches: [feature/cv-extraction-ap]
   pull_request:
-    branches: [main]
+    branches: [feature/cv-extraction-ap]
 
 env:
   ACR_LOGIN_SERVER: acrcvapi.azurecr.io
