@@ -38,3 +38,26 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+
+.env
+.env.prod
+__pycache__
+*.pyc
+*.pyo
+.git
+models/
+*.md
+tests/
+.env
+.env.prod
+__pycache__
+*.pyc
+*.pyo
+.git
+models/
+*.md
+tests/
+*.log
+.venv
+venv
+node_modules

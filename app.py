@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from utils_azure import download_model_from_blob
 import spacy
 import json
 from utils import (
@@ -18,21 +19,32 @@ load_dotenv() # Load environment variables from .env file
 # Global variable to hold our model
 nlp_model = None
 
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#     global nlp_model
+#     model_dir = "./models/model_ner_cv"
+#     if not os.path.exists(model_dir):
+#         print(f"Warning: Modèle non trouvé dans {model_dir}. Utilisation du modèle de base fr_core_news_lg.")
+#         try:
+#             nlp_model = spacy.load("fr_core_news_lg")
+#         except OSError:
+#             import subprocess
+#             subprocess.run(["python", "-m", "spacy", "download", "fr_core_news_lg"])
+#             nlp_model = spacy.load("fr_core_news_lg")
+#     else:
+#         print(f"Loading custom NER model from {model_dir}...")
+#         nlp_model = spacy.load(model_dir)
+#     yield
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global nlp_model
+    # Télécharge depuis Azure Blob si le modèle n'est pas présent localement
+    download_model_from_blob("./models/model_ner_cv")
+
     model_dir = "./models/model_ner_cv"
-    if not os.path.exists(model_dir):
-        print(f"Warning: Modèle non trouvé dans {model_dir}. Utilisation du modèle de base fr_core_news_lg.")
-        try:
-            nlp_model = spacy.load("fr_core_news_lg")
-        except OSError:
-            import subprocess
-            subprocess.run(["python", "-m", "spacy", "download", "fr_core_news_lg"])
-            nlp_model = spacy.load("fr_core_news_lg")
-    else:
-        print(f"Loading custom NER model from {model_dir}...")
-        nlp_model = spacy.load(model_dir)
+    print(f"Chargement du modèle NER depuis {model_dir}...")
+    nlp_model = spacy.load(model_dir)
+    print("Modèle NER chargé.")
     yield
 
 app = FastAPI(

@@ -135,14 +135,7 @@ def clean_llm_json(raw_text: str) -> str:
         text = text[start:end+1]
     return text
 
-def clean_text(text: str) -> str:
-    # Preserve some structure by replacing multiple newlines with a single newline
-    # This helps segmenting institutions and names.
-    import re
-    text = re.sub(r'\n+', '\n', text)
-    # Remove excessive spaces
-    text = re.sub(r' +', ' ', text)
-    return text.strip()
+
 
 def extract_email(text: str) -> Optional[str]:
     match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', text)
@@ -364,7 +357,8 @@ def extract_information_llm(text: str) -> dict:
         repo_id="Qwen/Qwen3-8B",
         #repo_id="Qwen/Qwen2.5-7B-Instruct",
         temperature=0.01,
-        max_new_tokens=2048,
+        max_new_tokens=1024,
+        timeout=120,
         return_full_text=False
     )
     llm = ChatHuggingFace(llm=llm_endpoint)
@@ -466,7 +460,8 @@ def evaluate_cv_against_offer(request: EvaluationRequest) -> dict:
         repo_id="Qwen/Qwen3-8B",
         #repo_id="Qwen/Qwen2.5-7B-Instruct",
         temperature=0.01,
-        max_new_tokens=4000,
+        max_new_tokens=2048,
+        timeout=120,
         return_full_text=False
     )
     llm = ChatHuggingFace(llm=llm_endpoint)
