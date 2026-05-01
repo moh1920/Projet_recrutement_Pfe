@@ -49,7 +49,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ✅ Direct ACR login — no Azure SP/MSI needed
       - name: Login to Azure Container Registry
         uses: docker/login-action@v3
         with:
@@ -71,9 +70,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:cache
           cache-to: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:cache,mode=max
 
-
-
-  # ─── Job 3 : Deploy via Azure CLI ───────────────────────────# ─── Job 3 : Deploy via Azure CLI ───────────────────────────
+  # ─── Job 3 : Deploy via Azure CLI ────────────────────────────
   deploy:
     name: Deploy to Azure App Service
     runs-on: ubuntu-latest
@@ -87,18 +84,44 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
+      # Try client_credentials flow (SP) first
       - name: Get fresh Azure access token
         id: token
         run: |
-          TOKEN=$(curl -s -X POST \
+          RESPONSE=$(curl -s -X POST \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=password" \
-            -d "client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46" \
-            -d "username=${{ secrets.AZURE_CLIENT_USERNAME }}" \
-            -d "password=${{ secrets.AZURE_CLIENT_PASSWORD }}" \
+            -d "grant_type=client_credentials" \
+            -d "client_id=${{ secrets.AZURE_CLIENT_USERNAME }}" \
+            -d "client_secret=${{ secrets.AZURE_CLIENT_PASSWORD }}" \
             -d "scope=https://management.azure.com/.default" \
-            "https://login.microsoftonline.com/${{ secrets.AZURE_TENANT_ID }}/oauth2/v2.0/token" \
-            | jq -r '.access_token')
+            "https://login.microsoftonline.com/${{ secrets.AZURE_TENANT_ID }}/oauth2/v2.0/token")
+
+          echo "Raw response: $RESPONSE"
+
+          TOKEN=$(echo "$RESPONSE" | jq -r '.access_token // empty')
+
+          if [ -z "$TOKEN" ]; then
+            echo "❌ client_credentials failed, trying password flow..."
+
+            RESPONSE=$(curl -s -X POST \
+              -H "Content-Type: application/x-www-form-urlencoded" \
+              -d "grant_type=password" \
+              -d "client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46" \
+              -d "username=${{ secrets.AZURE_CLIENT_USERNAME }}" \
+              -d "password=${{ secrets.AZURE_CLIENT_PASSWORD }}" \
+              -d "scope=https://management.azure.com/.default" \
+              "https://login.microsoftonline.com/${{ secrets.AZURE_TENANT_ID }}/oauth2/v2.0/token")
+
+            echo "Raw response (password flow): $RESPONSE"
+            TOKEN=$(echo "$RESPONSE" | jq -r '.access_token // empty')
+          fi
+
+          if [ -z "$TOKEN" ]; then
+            echo "❌ Both token flows failed. Exiting."
+            exit 1
+          fi
+
+          echo "✅ Token obtained successfully"
           echo "::add-mask::$TOKEN"
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
