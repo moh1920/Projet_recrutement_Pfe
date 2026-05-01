@@ -11,7 +11,6 @@ env:
   IMAGE_NAME: cv-api
   RESOURCE_GROUP: rg-cv-api
   APP_NAME: app-cv-api
-  APP_PLAN: plan-cv-api
 
 jobs:
   # ─── Job 1 : Tests ───────────────────────────────────────────
@@ -19,22 +18,13 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install pytest httpx
-
-      - name: Run tests
-        run: pytest tests/ -v --tb=short
+      - run: pip install -r requirements.txt && pip install pytest httpx
+      - run: pytest tests/ -v --tb=short
         continue-on-error: true
 
   # ─── Job 2 : Build & Push Docker image ───────────────────────
@@ -44,23 +34,18 @@ jobs:
     needs: test
     outputs:
       image_tag: ${{ github.sha }}
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Login to Azure Container Registry
-        uses: docker/login-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ${{ env.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v3
 
-      - name: Build and push image
-        uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v5
         with:
           context: .
           push: true
@@ -77,78 +62,40 @@ jobs:
     needs: build
 
     steps:
-      - name: Deploy image to Azure Web App
-        uses: azure/webapps-deploy@v3
+      - name: Azure Login (Service Principal)
+        uses: azure/login@v2
         with:
-          app-name: ${{ env.APP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image_tag }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Try client_credentials flow (SP) first
-      - name: Get fresh Azure access token
-        id: token
-        run: |
-          RESPONSE=$(curl -s -X POST \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=client_credentials" \
-            -d "client_id=${{ secrets.AZURE_CLIENT_USERNAME }}" \
-            -d "client_secret=${{ secrets.AZURE_CLIENT_PASSWORD }}" \
-            -d "scope=https://management.azure.com/.default" \
-            "https://login.microsoftonline.com/${{ secrets.AZURE_TENANT_ID }}/oauth2/v2.0/token")
-
-          echo "Raw response: $RESPONSE"
-
-          TOKEN=$(echo "$RESPONSE" | jq -r '.access_token // empty')
-
-          if [ -z "$TOKEN" ]; then
-            echo "❌ client_credentials failed, trying password flow..."
-
-            RESPONSE=$(curl -s -X POST \
-              -H "Content-Type: application/x-www-form-urlencoded" \
-              -d "grant_type=password" \
-              -d "client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46" \
-              -d "username=${{ secrets.AZURE_CLIENT_USERNAME }}" \
-              -d "password=${{ secrets.AZURE_CLIENT_PASSWORD }}" \
-              -d "scope=https://management.azure.com/.default" \
-              "https://login.microsoftonline.com/${{ secrets.AZURE_TENANT_ID }}/oauth2/v2.0/token")
-
-            echo "Raw response (password flow): $RESPONSE"
-            TOKEN=$(echo "$RESPONSE" | jq -r '.access_token // empty')
-          fi
-
-          if [ -z "$TOKEN" ]; then
-            echo "❌ Both token flows failed. Exiting."
-            exit 1
-          fi
-
-          echo "✅ Token obtained successfully"
-          echo "::add-mask::$TOKEN"
-          echo "token=$TOKEN" >> $GITHUB_OUTPUT
-
-      - name: Deploy image to Azure Web App
-        run: |
-          curl -s -X PATCH \
-            -H "Authorization: Bearer ${{ steps.token.outputs.token }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "properties": {
-                "siteConfig": {
-                  "linuxFxVersion": "DOCKER|${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image_tag }}"
-                },
-                "appSettings": [
-                  { "name": "DOCKER_REGISTRY_SERVER_URL",      "value": "https://${{ env.ACR_LOGIN_SERVER }}" },
-                  { "name": "DOCKER_REGISTRY_SERVER_USERNAME", "value": "${{ secrets.ACR_USERNAME }}" },
-                  { "name": "DOCKER_REGISTRY_SERVER_PASSWORD", "value": "${{ secrets.ACR_PASSWORD }}" },
-                  { "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE", "value": "false" }
-                ]
-              }
-            }' \
-            "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_NAME }}?api-version=2023-01-01"
+      - name: Configure container image on App Service
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az webapp config container set \
+              --name ${{ env.APP_NAME }} \
+              --resource-group ${{ env.RESOURCE_GROUP }} \
+              --container-image-name ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image_tag }} \
+              --container-registry-url https://${{ env.ACR_LOGIN_SERVER }} \
+              --container-registry-user ${{ secrets.ACR_USERNAME }} \
+              --container-registry-password ${{ secrets.ACR_PASSWORD }}
 
       - name: Restart App Service
-        run: |
-          curl -s -X POST \
-            -H "Authorization: Bearer ${{ steps.token.outputs.token }}" \
-            -H "Content-Type: application/json" \
-            -d '{}' \
-            "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_NAME }}/restart?api-version=2023-01-01"
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az webapp restart \
+              --name ${{ env.APP_NAME }} \
+              --resource-group ${{ env.RESOURCE_GROUP }}
+
+      - name: Check deployment status
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az webapp show \
+              --name ${{ env.APP_NAME }} \
+              --resource-group ${{ env.RESOURCE_GROUP }} \
+              --query "{state:state, defaultHostName:defaultHostName}" \
+              -o table
