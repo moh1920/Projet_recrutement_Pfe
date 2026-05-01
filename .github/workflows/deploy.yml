@@ -71,6 +71,8 @@ jobs:
           cache-from: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:cache
           cache-to: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:cache,mode=max
 
+
+
   # ─── Job 3 : Deploy via Azure CLI ───────────────────────────
   deploy:
     name: Deploy to Azure App Service
@@ -85,8 +87,28 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.APP_NAME }}
-          images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image_tag }}
+      - name: Deploy image to Azure Web App via REST API
+        run: |
+          curl -s -X PATCH \
+            -H "Authorization: Bearer ${{ secrets.AZURE_ACCESS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "properties": {
+                "siteConfig": {
+                  "linuxFxVersion": "DOCKER|${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image_tag }}"
+                },
+                "appSettings": [
+                  { "name": "DOCKER_REGISTRY_SERVER_URL",      "value": "https://${{ env.ACR_LOGIN_SERVER }}" },
+                  { "name": "DOCKER_REGISTRY_SERVER_USERNAME", "value": "${{ secrets.ACR_USERNAME }}" },
+                  { "name": "DOCKER_REGISTRY_SERVER_PASSWORD", "value": "${{ secrets.ACR_PASSWORD }}" },
+                  { "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE", "value": "false" }
+                ]
+              }
+            }' \
+            "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_NAME }}?api-version=2023-01-01"
+
+      - name: Restart App Service to pick up new image
+        run: |
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.AZURE_ACCESS_TOKEN }}" \
+            "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_NAME }}/restart?api-version=2023-01-01"
