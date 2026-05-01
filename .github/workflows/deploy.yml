@@ -71,7 +71,7 @@ jobs:
   deploy:
     name: Push ACR & Deploy to Azure Container Apps
     runs-on: ubuntu-latest
-    needs: trivy
+    needs: build
     if: github.event_name == 'push'
 
     steps:
