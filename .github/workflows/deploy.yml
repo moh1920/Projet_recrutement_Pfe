@@ -73,7 +73,7 @@ jobs:
 
 
 
-  # ─── Job 3 : Deploy via Azure CLI ───────────────────────────
+  # ─── Job 3 : Deploy via Azure CLI ───────────────────────────# ─── Job 3 : Deploy via Azure CLI ───────────────────────────
   deploy:
     name: Deploy to Azure App Service
     runs-on: ubuntu-latest
@@ -87,10 +87,25 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Deploy image to Azure Web App via REST API
+      - name: Get fresh Azure access token
+        id: token
+        run: |
+          TOKEN=$(curl -s -X POST \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=password" \
+            -d "client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46" \
+            -d "username=${{ secrets.AZURE_CLIENT_USERNAME }}" \
+            -d "password=${{ secrets.AZURE_CLIENT_PASSWORD }}" \
+            -d "scope=https://management.azure.com/.default" \
+            "https://login.microsoftonline.com/${{ secrets.AZURE_TENANT_ID }}/oauth2/v2.0/token" \
+            | jq -r '.access_token')
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Deploy image to Azure Web App
         run: |
           curl -s -X PATCH \
-            -H "Authorization: Bearer ${{ secrets.AZURE_ACCESS_TOKEN }}" \
+            -H "Authorization: Bearer ${{ steps.token.outputs.token }}" \
             -H "Content-Type: application/json" \
             -d '{
               "properties": {
@@ -107,8 +122,10 @@ jobs:
             }' \
             "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_NAME }}?api-version=2023-01-01"
 
-      - name: Restart App Service to pick up new image
+      - name: Restart App Service
         run: |
           curl -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.AZURE_ACCESS_TOKEN }}" \
+            -H "Authorization: Bearer ${{ steps.token.outputs.token }}" \
+            -H "Content-Type: application/json" \
+            -d '{}' \
             "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_NAME }}/restart?api-version=2023-01-01"
