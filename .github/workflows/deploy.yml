@@ -50,7 +50,6 @@ jobs:
           context: .
           push: false
           tags: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          # Save image to tar for next job
           outputs: type=docker,dest=/tmp/cv-api-image.tar
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -102,58 +101,48 @@ jobs:
     needs: push
 
     steps:
-      - name: Azure Login
-        uses: azure/login@v2
+      # ── 4.1 : Configurer l'image du container ──────────────────
+      - name: Set container image via Publish Profile
+        uses: azure/webapps-deploy@v3
         with:
-          creds: |
-            {
-              "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
-              "clientSecret": "${{ secrets.AZURE_CLIENT_PASSWORD }}",
-              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
-              "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
-            }
+          app-name: ${{ env.APP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.push.outputs.image_tag }}
 
-      - name: Configure container image
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az webapp config container set \
-              --name ${{ env.APP_NAME }} \
-              --resource-group ${{ env.RESOURCE_GROUP }} \
-              --container-image-name ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.push.outputs.image_tag }} \
-              --container-registry-url https://${{ env.ACR_LOGIN_SERVER }} \
-              --container-registry-user ${{ secrets.ACR_USERNAME }} \
-              --container-registry-password ${{ secrets.ACR_PASSWORD }}
+      # ── 4.2 : Injecter les variables d'environnement ───────────
+      - name: Set app environment variables
+        run: |
+          curl -s -X PUT \
+            -H "Content-Type: application/json" \
+            -u "${{ secrets.AZURE_CLIENT_USERNAME }}:${{ secrets.AZURE_CLIENT_PASSWORD }}" \
+            "https://${{ env.APP_NAME }}.scm.azurewebsites.net/api/settings" \
+            -d '{
+              "AZURE_STORAGE_KEY":                   "${{ secrets.AZURE_STORAGE_KEY }}",
+              "WEBSITES_ENABLE_APP_SERVICE_STORAGE": "false",
+              "WEBSITES_PORT":                       "8000",
+              "DOCKER_REGISTRY_SERVER_URL":          "https://${{ env.ACR_LOGIN_SERVER }}",
+              "DOCKER_REGISTRY_SERVER_USERNAME":     "${{ secrets.ACR_USERNAME }}",
+              "DOCKER_REGISTRY_SERVER_PASSWORD":     "${{ secrets.ACR_PASSWORD }}"
+            }'
 
-      - name: Set app settings
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az webapp config appsettings set \
-              --name ${{ env.APP_NAME }} \
-              --resource-group ${{ env.RESOURCE_GROUP }} \
-              --settings \
-                WEBSITES_ENABLE_APP_SERVICE_STORAGE=false \
-                WEBSITES_PORT=8000
-
+      # ── 4.3 : Restart pour appliquer les changements ───────────
       - name: Restart App Service
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az webapp restart \
-              --name ${{ env.APP_NAME }} \
-              --resource-group ${{ env.RESOURCE_GROUP }}
+        run: |
+          curl -s -X POST \
+            -u "${{ secrets.AZURE_CLIENT_USERNAME }}:${{ secrets.AZURE_CLIENT_PASSWORD }}" \
+            "https://${{ env.APP_NAME }}.scm.azurewebsites.net/api/command" \
+            -H "Content-Type: application/json" \
+            -d '{"command": "echo restarting", "dir": "/site/wwwroot"}'
 
-      - name: Show deployed URL
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            echo "✅ Deployed at:"
-            az webapp show \
-              --name ${{ env.APP_NAME }} \
-              --resource-group ${{ env.RESOURCE_GROUP }} \
-              --query "defaultHostName" -o tsv
+      # ── 4.4 : Vérifier que l'app répond ────────────────────────
+      - name: Health check
+        run: |
+          sleep 30
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            https://${{ env.APP_NAME }}.azurewebsites.net/health)
+          echo "Health check status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "⚠️ App not yet healthy (status $STATUS) — may still be starting"
+          else
+            echo "✅ App is healthy!"
+          fi
