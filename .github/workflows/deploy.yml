@@ -77,12 +77,12 @@ jobs:
     needs: build
 
     steps:
-      - name: Login to Azure Container Registry
-        uses: docker/login-action@v3
+      - name: Deploy image to Azure Web App
+        uses: azure/webapps-deploy@v3
         with:
-          registry: ${{ env.ACR_LOGIN_SERVER }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+          app-name: ${{ env.APP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image_tag }}
 
       # Try client_credentials flow (SP) first
       - name: Get fresh Azure access token
