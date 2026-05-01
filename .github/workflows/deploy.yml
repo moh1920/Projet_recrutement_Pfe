@@ -101,48 +101,44 @@ jobs:
     needs: push
 
     steps:
-      # ── 4.1 : Configurer l'image du container ──────────────────
-      - name: Set container image via Publish Profile
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.APP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.push.outputs.image_tag }}
-
-      # ── 4.2 : Injecter les variables d'environnement ───────────
-      - name: Set app environment variables
+      # ── 4.1 : Configurer l'image + registry via Kudu API ──────
+      - name: Configure container image
         run: |
-          curl -s -X PUT \
-            -H "Content-Type: application/json" \
+          curl -s -X POST \
             -u "${{ secrets.AZURE_CLIENT_USERNAME }}:${{ secrets.AZURE_CLIENT_PASSWORD }}" \
+            -H "Content-Type: application/json" \
             "https://${{ env.APP_NAME }}.scm.azurewebsites.net/api/settings" \
             -d '{
-              "AZURE_STORAGE_KEY":                   "${{ secrets.AZURE_STORAGE_KEY }}",
-              "WEBSITES_ENABLE_APP_SERVICE_STORAGE": "false",
-              "WEBSITES_PORT":                       "8000",
               "DOCKER_REGISTRY_SERVER_URL":          "https://${{ env.ACR_LOGIN_SERVER }}",
               "DOCKER_REGISTRY_SERVER_USERNAME":     "${{ secrets.ACR_USERNAME }}",
-              "DOCKER_REGISTRY_SERVER_PASSWORD":     "${{ secrets.ACR_PASSWORD }}"
+              "DOCKER_REGISTRY_SERVER_PASSWORD":     "${{ secrets.ACR_PASSWORD }}",
+              "DOCKER_CUSTOM_IMAGE_NAME":            "${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.push.outputs.image_tag }}",
+              "WEBSITES_ENABLE_APP_SERVICE_STORAGE": "false",
+              "WEBSITES_PORT":                       "8000",
+              "AZURE_STORAGE_KEY":                   "${{ secrets.AZURE_STORAGE_KEY }}"
             }'
 
-      # ── 4.3 : Restart pour appliquer les changements ───────────
+      # ── 4.2 : Restart via Kudu API ─────────────────────────────
       - name: Restart App Service
         run: |
           curl -s -X POST \
             -u "${{ secrets.AZURE_CLIENT_USERNAME }}:${{ secrets.AZURE_CLIENT_PASSWORD }}" \
-            "https://${{ env.APP_NAME }}.scm.azurewebsites.net/api/command" \
-            -H "Content-Type: application/json" \
-            -d '{"command": "echo restarting", "dir": "/site/wwwroot"}'
+            "https://${{ env.APP_NAME }}.scm.azurewebsites.net/api/restart"
+          echo "✅ Restart triggered"
 
-      # ── 4.4 : Vérifier que l'app répond ────────────────────────
+      # ── 4.3 : Health check ─────────────────────────────────────
       - name: Health check
         run: |
-          sleep 30
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            https://${{ env.APP_NAME }}.azurewebsites.net/health)
-          echo "Health check status: $STATUS"
-          if [ "$STATUS" != "200" ]; then
-            echo "⚠️ App not yet healthy (status $STATUS) — may still be starting"
-          else
-            echo "✅ App is healthy!"
-          fi
+          echo "⏳ Waiting 60s for container to start..."
+          sleep 60
+          for i in {1..5}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              https://${{ env.APP_NAME }}.azurewebsites.net/health)
+            echo "Attempt $i — Status: $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ App is healthy!"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "⚠️ App did not respond with 200 after 5 attempts"
