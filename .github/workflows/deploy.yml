@@ -83,56 +83,39 @@ jobs:
     runs-on: ubuntu-latest
     needs: push
     steps:
-      - name: Apply settings + image via Azure REST API
+      - name: Apply settings + image via Kudu
         run: |
-          # Obtenir token
-          TOKEN=$(curl -s -X POST \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=password" \
-            -d "client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46" \
-            -d "username=${{ secrets.AZURE_CLIENT_USERNAME }}" \
-            -d "password=${{ secrets.AZURE_CLIENT_PASSWORD }}" \
-            -d "scope=https://management.azure.com/.default" \
-            "https://login.microsoftonline.com/${{ secrets.AZURE_TENANT_ID }}/oauth2/v2.0/token" \
-            | jq -r '.access_token')
-
-          if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
-            echo "❌ Token failed"
+          KUDU_USER="${{ secrets.AZURE_CLIENT_USERNAME }}"
+          KUDU_PASS="${{ secrets.AZURE_CLIENT_PASSWORD }}"
+          
+          # Vérifier la connexion Kudu
+          echo "🔍 Testing Kudu connection..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -u "${KUDU_USER}:${KUDU_PASS}" \
+            "https://${{ env.APP_NAME }}.scm.azurewebsites.net/api/settings")
+          echo "Kudu status: $STATUS"
+          
+          if [ "$STATUS" != "200" ]; then
+            echo "❌ Kudu auth failed — check AZURE_CLIENT_USERNAME and AZURE_CLIENT_PASSWORD"
             exit 1
           fi
-          echo "✅ Token OK"
 
-          # Injecter les App Settings
-          curl -s -X PUT \
-            -H "Authorization: Bearer $TOKEN" \
+          # Appliquer les settings
+          curl -s -X POST \
+            -u "${KUDU_USER}:${KUDU_PASS}" \
             -H "Content-Type: application/json" \
-            "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_NAME }}/config/appsettings?api-version=2023-01-01" \
+            "https://${{ env.APP_NAME }}.scm.azurewebsites.net/api/settings" \
             -d "{
-              \"properties\": {
-                \"DOCKER_REGISTRY_SERVER_URL\":           \"https://${{ env.ACR_LOGIN_SERVER }}\",
-                \"DOCKER_REGISTRY_SERVER_USERNAME\":      \"${{ secrets.ACR_USERNAME }}\",
-                \"DOCKER_REGISTRY_SERVER_PASSWORD\":      \"${{ secrets.ACR_PASSWORD }}\",
-                \"WEBSITES_ENABLE_APP_SERVICE_STORAGE\":  \"false\",
-                \"WEBSITES_PORT\":                        \"8000\",
-                \"WEBSITES_CONTAINER_START_TIME_LIMIT\":  \"1800\",
-                \"AZURE_STORAGE_KEY\":                    \"${{ secrets.AZURE_STORAGE_KEY }}\"
-              }
+              \"AZURE_STORAGE_KEY\":                    \"${{ secrets.AZURE_STORAGE_KEY }}\",
+              \"DOCKER_REGISTRY_SERVER_URL\":           \"https://${{ env.ACR_LOGIN_SERVER }}\",
+              \"DOCKER_REGISTRY_SERVER_USERNAME\":      \"${{ secrets.ACR_USERNAME }}\",
+              \"DOCKER_REGISTRY_SERVER_PASSWORD\":      \"${{ secrets.ACR_PASSWORD }}\",
+              \"WEBSITES_ENABLE_APP_SERVICE_STORAGE\":  \"false\",
+              \"WEBSITES_PORT\":                        \"8000\",
+              \"WEBSITES_CONTAINER_START_TIME_LIMIT\":  \"1800\",
+              \"DOCKER_CUSTOM_IMAGE_NAME\":             \"${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.push.outputs.image_tag }}\"
             }"
-          echo "✅ App settings applied"
-
-          # Configurer l'image
-          curl -s -X PATCH \
-            -H "Authorization: Bearer $TOKEN" \
-            -H "Content-Type: application/json" \
-            "https://management.azure.com/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_NAME }}?api-version=2023-01-01" \
-            -d "{
-              \"properties\": {
-                \"siteConfig\": {
-                  \"linuxFxVersion\": \"DOCKER|${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.push.outputs.image_tag }}\"
-                }
-              }
-            }"
-          echo "✅ Image: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ needs.push.outputs.image_tag }}"
+          echo "✅ Settings applied"
 
       - name: Restart App Service
         run: |
@@ -140,7 +123,6 @@ jobs:
             -u "${{ secrets.AZURE_CLIENT_USERNAME }}:${{ secrets.AZURE_CLIENT_PASSWORD }}" \
             "https://${{ env.APP_NAME }}.scm.azurewebsites.net/api/restart"
           echo "✅ Restarted"
-
       - name: Health check
         run: |
           echo "⏳ Waiting 3min for model download from Azure Blob..."
