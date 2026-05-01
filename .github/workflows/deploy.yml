@@ -108,6 +108,7 @@ jobs:
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --set-env-vars \
               AZURE_STORAGE_KEY="${{ secrets.AZURE_STORAGE_KEY }}" \
+              HUGGINGFACEHUB_API_TOKEN="${{ secrets.HUGGINGFACEHUB_API_TOKEN }}" \
               WEBSITES_PORT="8000"
 
       - name: Deploy new image to ACA
