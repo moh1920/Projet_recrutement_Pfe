@@ -118,8 +118,10 @@ class CandidatureServiceTest {
     @Test
     void testPostulerCandidature_AlreadyApplied() {
         when(offreRepository.findById("offre-1")).thenReturn(Optional.of(offre));
-        when(candidatureRepository.findByIdProfile("profile-1")).thenReturn(List.of(candidate)); // List or obj depends on repository return type, but the service does !=null
-        when(candidatureRepository.findByIdOffre("offre-1")).thenReturn(List.of(candidate)); // Assuming it returns a non-null object
+
+        // ✅ Mock la nouvelle méthode
+        when(candidatureRepository.existsByIdProfileAndIdOffre("profile-1", "offre-1"))
+                .thenReturn(true);
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
             candidatureService.postulerCandidature("profile-1", "offre-1");
