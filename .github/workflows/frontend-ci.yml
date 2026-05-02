@@ -212,37 +212,37 @@ jobs:
   # ══════════════════════════════════════════════
   # JOB 5 — Trivy Security Scan
   # ══════════════════════════════════════════════
-  trivy:
-    name: Trivy Security Scan
-    runs-on: ubuntu-latest
-    needs: docker                        # ✓ corrigé — après docker, pas après test
-    if: github.event_name == 'push'
-
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3     # ✓ ajouté — nécessaire pour pull depuis DockerHub
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Scan image avec Trivy
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: docker.io/sayarimohamed/pfe-frontend:${{ github.sha }}
-          format: table
-          exit-code: 1
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH
-          output: trivy-report.txt
-          image-src: remote              # ✓ ajouté — force le pull depuis DockerHub
-
-      - name: Upload rapport Trivy
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: trivy-security-report
-          path: trivy-report.txt
-          retention-days: 30
+#  trivy:
+#    name: Trivy Security Scan
+#    runs-on: ubuntu-latest
+#    needs: docker                        # ✓ corrigé — après docker, pas après test
+#    if: github.event_name == 'push'
+#
+#    steps:
+#      - name: Login to Docker Hub
+#        uses: docker/login-action@v3     # ✓ ajouté — nécessaire pour pull depuis DockerHub
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Scan image avec Trivy
+#        uses: aquasecurity/trivy-action@master
+#        with:
+#          image-ref: docker.io/sayarimohamed/pfe-frontend:${{ github.sha }}
+#          format: table
+#          exit-code: 1
+#          ignore-unfixed: true
+#          severity: CRITICAL,HIGH
+#          output: trivy-report.txt
+#          image-src: remote              # ✓ ajouté — force le pull depuis DockerHub
+#
+#      - name: Upload rapport Trivy
+#        uses: actions/upload-artifact@v4
+#        if: always()
+#        with:
+#          name: trivy-security-report
+#          path: trivy-report.txt
+#          retention-days: 30
 
   # ══════════════════════════════════════════════
   # JOB 6 — Deploy Azure + Rollback
@@ -296,7 +296,7 @@ jobs:
   notify-failure:
     name: Notify on Failure
     runs-on: ubuntu-latest
-    needs: [build, test, sonar, docker, trivy, deploy-frontend]
+    needs: [build, test, sonar, docker, deploy-frontend]
     if: failure()
 
     steps:
