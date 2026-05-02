@@ -250,7 +250,8 @@ jobs:
   deploy-frontend:
     name: Deploy Frontend Azure
     runs-on: ubuntu-latest
-    needs: trivy                         # ✓ corrigé — attend que Trivy valide
+    needs: docker
+    # ✓ corrigé — attend que Trivy valide
     if: github.event_name == 'push'
 
     permissions:
