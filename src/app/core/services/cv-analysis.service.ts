@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from "../../../environments/environment";
 
 export interface ScoreBreakdownItem {
   score: number;
@@ -33,7 +34,7 @@ export interface EvaluationResult {
   providedIn: 'root',
 })
 export class CvAnalysisService {
-  private readonly apiUrl = 'http://127.0.0.1:8000/api/v2/evaluate-cv-file';
+  private readonly apiUrl = `${environment.apiUrlFastApi}/api/v2/evaluate-cv-file`;
 
   constructor(private http: HttpClient) {}
 

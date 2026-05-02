@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CvAnalysisService } from './cv-analysis.service';
+import {environment} from "../../../environments/environment";
 
 describe('CvAnalysisService', () => {
   let service: CvAnalysisService;
@@ -28,7 +29,7 @@ describe('CvAnalysisService', () => {
 
     service.evaluateCvFile(mockFile, mockOfferJson).subscribe();
 
-    const req = httpMock.expectOne('http://127.0.0.1:8000/api/v2/evaluate-cv-file');
+    const req = httpMock.expectOne(`${environment.apiUrlFastApi}/api/v2/evaluate-cv-file`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body instanceof FormData).toBeTrue();
     req.flush({});

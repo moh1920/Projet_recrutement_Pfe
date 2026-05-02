@@ -5,4 +5,5 @@ export const environment = {
   keycloakRealm: 'espritRecrutement',
   keycloakClientId: 'espritRecrutement',
   apiUrl: 'https://pfe-backend.graymoss-d46652df.francecentral.azurecontainerapps.io',
+  apiUrlFastApi:'https://cv-api.graymoss-d46652df.francecentral.azurecontainerapps.io'
 };

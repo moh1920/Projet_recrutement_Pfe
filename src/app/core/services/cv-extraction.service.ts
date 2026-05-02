@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from "../../../environments/environment";
 
 export interface CvExtractionResult {
   // Information personnelles
@@ -61,7 +62,7 @@ export interface CvExtractionResult {
 })
 export class CvExtractionService {
   // Update this to point to your FastAPI server if different
-  private readonly apiUrl = 'http://127.0.0.1:8000/api/v2/extract-cv-file-llm';
+  private readonly apiUrl = `${environment.apiUrlFastApi}/api/v3/extract-cv-file-hybrid`;
 
   constructor(private http: HttpClient) {}
 

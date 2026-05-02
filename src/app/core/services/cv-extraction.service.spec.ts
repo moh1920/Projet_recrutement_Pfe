@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CvExtractionService } from './cv-extraction.service';
+import {environment} from "../../../environments/environment";
 
 describe('CvExtractionService', () => {
   let service: CvExtractionService;
@@ -27,7 +28,7 @@ describe('CvExtractionService', () => {
 
     service.extractCv(mockFile).subscribe();
 
-    const req = httpMock.expectOne('http://127.0.0.1:8000/api/v2/extract-cv-file-llm');
+    const req = httpMock.expectOne(`${environment.apiUrlFastApi}/api/v3/extract-cv-file-hybrid`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body instanceof FormData).toBeTrue();
     req.flush({});

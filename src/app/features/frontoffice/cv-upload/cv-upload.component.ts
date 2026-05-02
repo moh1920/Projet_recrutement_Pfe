@@ -22,6 +22,7 @@ export class CvUploadComponent {
   selectedFile: File | null = null;
   isLoading = false;
   errorMessage = '';
+  imagePreviewUrl: string | null = null;
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -54,29 +55,42 @@ export class CvUploadComponent {
   }
 
   handleFile(file: File) {
-    // Basic validation
-    if (
-      file.type !== 'application/pdf' &&
-      file.type !== 'application/msword' &&
-      file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    ) {
-      this.errorMessage = 'Format non supporté. Veuillez uploader un PDF ou DOCX.';
+    const allowedTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'image/jpeg',
+      'image/png',
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      this.errorMessage = 'Format non supporté. Veuillez uploader un PDF, DOCX ou une image (JPG/PNG).';
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      // 5MB limit
       this.errorMessage = 'Le fichier est trop volumineux (Max 5MB).';
       return;
     }
 
     this.selectedFile = file;
     this.errorMessage = '';
-  }
 
+    // Générer un aperçu si c'est une image
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagePreviewUrl = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.imagePreviewUrl = null;
+    }
+  }
   removeFile() {
     this.selectedFile = null;
     this.errorMessage = '';
+    this.imagePreviewUrl = null;
   }
 
   uploadCv() {

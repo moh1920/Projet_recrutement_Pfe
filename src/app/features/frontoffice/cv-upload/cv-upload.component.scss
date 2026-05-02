@@ -101,6 +101,19 @@
   }
 }
 
+
+.image-preview-wrapper {
+  margin-top: 12px;
+  text-align: center;
+
+  .image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    object-fit: contain;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
+}
 .browse-btn {
   padding: 0.5rem 2rem;
   border-radius: 25px;
