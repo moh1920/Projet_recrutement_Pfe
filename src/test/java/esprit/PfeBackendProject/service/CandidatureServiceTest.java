@@ -75,7 +75,6 @@ class CandidatureServiceTest {
     @Test
     void testPostulerCandidature_Success() {
         when(offreRepository.findById("offre-1")).thenReturn(Optional.of(offre));
-        when(candidatureRepository.findByIdProfile("profile-1")).thenReturn(null);
         when(profileRepository.findById("profile-1")).thenReturn(Optional.of(profileDetails));
         when(offreRepository.save(any(Offre.class))).thenReturn(offre);
         when(candidatureRepository.save(any(Candidate.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -118,8 +117,6 @@ class CandidatureServiceTest {
     @Test
     void testPostulerCandidature_AlreadyApplied() {
         when(offreRepository.findById("offre-1")).thenReturn(Optional.of(offre));
-
-        // ✅ Mock la nouvelle méthode
         when(candidatureRepository.existsByIdProfileAndIdOffre("profile-1", "offre-1"))
                 .thenReturn(true);
 
@@ -127,7 +124,8 @@ class CandidatureServiceTest {
             candidatureService.postulerCandidature("profile-1", "offre-1");
         });
 
-        assertEquals("le profile est deja postuler", exception.getMessage());
+        // ✅ Message mis à jour pour correspondre au service
+        assertEquals("Ce profil a déjà postulé à cette offre", exception.getMessage());
         verify(offreRepository, times(1)).findById("offre-1");
         verifyNoInteractions(profileRepository);
         verify(candidatureRepository, never()).save(any());
