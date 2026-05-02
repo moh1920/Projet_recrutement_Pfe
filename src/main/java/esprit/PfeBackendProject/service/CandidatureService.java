@@ -28,8 +28,8 @@ public class CandidatureService {
         Offre offre = offreRepository.findById(idOffre)
                 .orElseThrow(() -> new RuntimeException("offre not found"));
 
-        if(candidatureRepository.findByIdProfile(idProfile)!=null && candidatureRepository.findByIdOffre(idOffre)!=null){
-          throw new RuntimeException("le profile est deja postuler");
+        if (candidatureRepository.existsByIdProfileAndIdOffre(idProfile, idOffre)) {
+            throw new RuntimeException("Ce profil a déjà postulé à cette offre");
         }
 
 

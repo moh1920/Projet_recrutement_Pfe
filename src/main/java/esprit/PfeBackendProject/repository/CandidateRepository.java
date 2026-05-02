@@ -16,6 +16,8 @@ public interface CandidateRepository extends MongoRepository<Candidate, String> 
     // Find by email
     Optional<Candidate> findByEmail(String email);
 
+    boolean existsByIdProfileAndIdOffre(String idProfile, String idOffre);
+
     // Find by name
     List<Candidate> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
             String firstName, String lastName
