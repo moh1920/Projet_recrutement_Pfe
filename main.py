@@ -11,6 +11,7 @@ from sentence_transformers import SentenceTransformer, InputExample, losses
 from torch.utils.data import DataLoader
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+import joblib
 import json
 import logging
 
@@ -20,34 +21,34 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="AI Matching API",
     description="Microservice pour le matching entre les offres de travail, les candidats et les profils détaillés",
-    version="1.0.0"
+    version="2.0.0"
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CHARGEMENT DU MODÈLE
-# Priorité : 1) modèle fine-tuné local  2) modèle de base multilingual-e5-base
-#
-# Pourquoi multilingual-e5-base ?
-#   • Meilleure qualité sémantique que MiniLM pour le matching métier
-#   • Supporte FR / EN / AR (besoin tunisien)
-#   • Taille raisonnable (~278 MB) pour un déploiement local
-#   • Scores MTEB nettement supérieurs sur les tâches de similarité de phrases
-#
-# Pour fine-tuner ce modèle, lancer : python train_model.py
+# CONFIGURATION MODÈLES
+# v5 = BGE-M3 fine-tuné axe1 avec calibration isotonique
+# Seuil prod = 0.67 (optimisé F1 sur validation)
 # ─────────────────────────────────────────────────────────────────────────────
 MODELS_CONFIG = {
     "e5": {
         "base_name": "intfloat/multilingual-e5-base",
-        "save_path": "./trained_model_e5"
+        "save_path": "./trained_model_e5",
+        "calibrator_path": None,
+        "threshold": 0.70,
     },
     "bge-m3": {
         "base_name": "BAAI/bge-m3",
-        "save_path": "G:/ai_models/trained_model_bge_m3_v3"
+        "save_path": "G:/ai_models/trained_model_bge_m3_axe1_v5",   # ← v5
+        "calibrator_path": "calibrator_axe1_v5.pkl",                 # ← calibrateur v5
+        "threshold": 0.67,                                            # ← seuil optimal v5
     }
 }
 
-MODELS = {}
+MODELS      = {}
+CALIBRATORS = {}   # calibrateurs isotoniques par modèle
+
 for model_key, config in MODELS_CONFIG.items():
+    # Chargement modèle
     if os.path.exists(config["save_path"]):
         logger.info(f"Loading custom trained model [{model_key}] from {config['save_path']}...")
         MODELS[model_key] = SentenceTransformer(config["save_path"])
@@ -55,7 +56,17 @@ for model_key, config in MODELS_CONFIG.items():
         logger.info(f"Loading base model [{model_key}]: {config['base_name']}")
         MODELS[model_key] = SentenceTransformer(config["base_name"])
 
-PRIMARY_MODEL = "bge-m3"  # Modèle par défaut renvoyé dans le globalScore principal
+    # Chargement calibrateur (si disponible)
+    cal_path = config.get("calibrator_path")
+    if cal_path and os.path.exists(cal_path):
+        CALIBRATORS[model_key] = joblib.load(cal_path)
+        logger.info(f"Calibrateur [{model_key}] chargé depuis {cal_path}")
+    else:
+        CALIBRATORS[model_key] = None
+        if cal_path:
+            logger.warning(f"Calibrateur [{model_key}] introuvable : {cal_path} — scores bruts utilisés")
+
+PRIMARY_MODEL = "bge-m3"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -72,11 +83,13 @@ class ModelScoreDetail(BaseModel):
     skillsScore: float
     experienceScore: float
     educationScore: float
+    isMatch: bool          # ← nouveau : résultat binaire selon seuil optimal
 
 class MatchResult(BaseModel):
     offerId: str
     candidateId: str
     globalScore: float
+    isMatch: bool          # ← nouveau
     details: Dict[str, Any]
     modelScores: Optional[Dict[str, ModelScoreDetail]] = None
 
@@ -92,7 +105,7 @@ class TrainingExampleDTO(BaseModel):
 class TrainingRequest(BaseModel):
     examples: List[TrainingExampleDTO]
     epochs: Optional[int] = 1
-    model_type: Optional[str] = "bge-m3"  # "e5" ou "bge-m3"
+    model_type: Optional[str] = "bge-m3"
 
 class MatchMultipleRequest(BaseModel):
     offer: Dict[str, Any]
@@ -112,10 +125,6 @@ class MatchProfileOffersRequest(BaseModel):
 # LOGIQUE MÉTIER
 # ─────────────────────────────────────────────────────────────────────────────
 def format_input_for_model(text: str, is_query: bool, model_key: str) -> str:
-    """
-    Formate le texte d'entrée selon les spécificités de chaque modèle.
-    e5 nécessite 'query:' et 'passage:', bge-m3 fonctionne classiquement.
-    """
     text = text.strip()
     if model_key == "e5":
         prefix = "query: " if is_query else "passage: "
@@ -123,14 +132,37 @@ def format_input_for_model(text: str, is_query: bool, model_key: str) -> str:
     return text
 
 
-def calculate_semantic_similarity(text1: str, text2: str, model_encoder: SentenceTransformer, model_key: str) -> float:
+def calculate_semantic_similarity(
+    text1: str,
+    text2: str,
+    model_encoder: SentenceTransformer,
+    model_key: str,
+    calibrator=None,
+) -> float:
+    """
+    Calcule la similarité cosinus entre deux textes.
+    Si un calibrateur isotonique est disponible, applique la correction de biais.
+    """
     if not text1 or not text2:
         return 0.0
-    # text1 = offre (query), text2 = candidat (passage)
-    emb1 = model_encoder.encode([format_input_for_model(text1, is_query=True, model_key=model_key)])
-    emb2 = model_encoder.encode([format_input_for_model(text2, is_query=False, model_key=model_key)])
-    sim  = cosine_similarity(emb1, emb2)[0][0]
-    return float(max(0.0, sim))
+
+    emb1 = model_encoder.encode(
+        [format_input_for_model(text1, is_query=True,  model_key=model_key)],
+        normalize_embeddings=True,
+    )
+    emb2 = model_encoder.encode(
+        [format_input_for_model(text2, is_query=False, model_key=model_key)],
+        normalize_embeddings=True,
+    )
+    raw_sim = float(cosine_similarity(emb1, emb2)[0][0])
+    raw_sim = max(0.0, raw_sim)
+
+    # Calibration isotonique (corrige le biais -0.066 observé sur v5)
+    if calibrator is not None:
+        raw_sim = float(calibrator.predict([raw_sim])[0])
+        raw_sim = max(0.0, min(1.0, raw_sim))
+
+    return raw_sim
 
 
 def calculate_experience_score(offer_min_exp: float, cand_exp: float) -> float:
@@ -215,7 +247,7 @@ def process_match(
         matching_skills = set()
         skills_score    = 100.0
 
-    # 4. SIMILARITÉ SÉMANTIQUE (40 %) SUR L'ENSEMBLE DES MODÈLES
+    # 4. SIMILARITÉ SÉMANTIQUE (40 %) — avec calibration v5
     offer_text = " ".join([
         str(offer.get("title", "")),
         str(offer.get("description", "")),
@@ -229,41 +261,52 @@ def process_match(
 
     model_scores = {}
     for mod_key, mod_encoder in MODELS.items():
-        sim_score = calculate_semantic_similarity(offer_text, cand_text, mod_encoder, mod_key) * 100.0
+        calibrator  = CALIBRATORS.get(mod_key)
+        threshold   = MODELS_CONFIG[mod_key]["threshold"]
+
+        sim_score = calculate_semantic_similarity(
+            offer_text, cand_text, mod_encoder, mod_key, calibrator
+        ) * 100.0
+
         g_score = (
             exp_score      * 0.15
             + edu_score    * 0.15
             + skills_score * 0.30
             + sim_score    * 0.40
         )
+        is_match = (sim_score / 100.0) >= threshold
+
         model_scores[mod_key] = {
-            "globalScore": round(g_score, 2),
-            "semanticScore": round(sim_score, 2),
-            "skillsScore": round(skills_score, 2),
+            "globalScore":     round(g_score, 2),
+            "semanticScore":   round(sim_score, 2),
+            "skillsScore":     round(skills_score, 2),
             "experienceScore": round(exp_score, 2),
-            "educationScore": round(edu_score, 2)
+            "educationScore":  round(edu_score, 2),
+            "isMatch":         is_match,
         }
 
-    # Données par défaut pour la compatibilité ascendante (on utilise PRIMARY_MODEL, voire 'e5' si non dispo)
     main_model_key = PRIMARY_MODEL if PRIMARY_MODEL in model_scores else list(model_scores.keys())[0]
-    main_scores = model_scores[main_model_key]
-
+    main_scores    = model_scores[main_model_key]
     missing_skills = req_skills - matching_skills
 
     return MatchResult(
         offerId=offer.get("_id", offer.get("id", "unknown_offer")),
         candidateId=candidate.get("_id", candidate.get("id", "unknown_candidate")),
         globalScore=main_scores["globalScore"],
+        isMatch=main_scores["isMatch"],
         details={
-            "experienceScore":  main_scores["experienceScore"],
-            "educationScore":   main_scores["educationScore"],
-            "skillsScore":      main_scores["skillsScore"],
-            "semanticScore":    main_scores["semanticScore"],
-            "matchingSkills":   list(matching_skills),
-            "missingSkills":    list(missing_skills),
+            "experienceScore":     main_scores["experienceScore"],
+            "educationScore":      main_scores["educationScore"],
+            "skillsScore":         main_scores["skillsScore"],
+            "semanticScore":       main_scores["semanticScore"],
+            "isMatch":             main_scores["isMatch"],
+            "matchThreshold":      MODELS_CONFIG[main_model_key]["threshold"],
+            "matchingSkills":      list(matching_skills),
+            "missingSkills":       list(missing_skills),
             "candidateExperience": cand_exp,
             "offerMinExperience":  offer_min_exp,
-            "usedModel": main_model_key
+            "usedModel":           main_model_key,
+            "calibrated":          CALIBRATORS.get(main_model_key) is not None,
         },
         modelScores=model_scores
     )
@@ -331,18 +374,17 @@ async def api_train_model(request: TrainingRequest):
         model_key = request.model_type or PRIMARY_MODEL
         if model_key not in MODELS_CONFIG:
             raise HTTPException(status_code=400, detail=f"Modèle inconnu : {model_key}")
-            
+
         logger.info(f"Training [{model_key}]: {len(request.examples)} exemples, {request.epochs} epoch(s)")
 
         encoder_to_train = MODELS.get(model_key)
         if encoder_to_train is None:
-            # S'il n'était pas chargé en mémoire (cas peu probable ici), le charger
             encoder_to_train = SentenceTransformer(MODELS_CONFIG[model_key]["base_name"])
 
         train_examples = [
             InputExample(
                 texts=[
-                    format_input_for_model(ex.offer_text, True, model_key),
+                    format_input_for_model(ex.offer_text, True,  model_key),
                     format_input_for_model(ex.candidate_text, False, model_key)
                 ],
                 label=float(max(0.0, min(1.0, ex.score))),
@@ -366,16 +408,37 @@ async def api_train_model(request: TrainingRequest):
         save_path = MODELS_CONFIG[model_key]["save_path"]
         os.makedirs(save_path, exist_ok=True)
         encoder_to_train.save(save_path)
-        
-        # Mettre à jour l'instance en mémoire
         MODELS[model_key] = encoder_to_train
         logger.info(f"Modèle [{model_key}] sauvegardé dans {save_path}")
 
-        return {"status": "success", "message": f"Modèle {model_key} entraîné et sauvegardé dans {save_path}"}
+        return {
+            "status": "success",
+            "message": f"Modèle {model_key} entraîné et sauvegardé dans {save_path}",
+            "note": "Relancer le serveur pour recharger le calibrateur si nécessaire."
+        }
 
     except Exception as e:
         logger.error(f"Erreur entraînement: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/models-info")
+async def models_info():
+    """Retourne les informations sur les modèles chargés."""
+    info = {}
+    for key, config in MODELS_CONFIG.items():
+        info[key] = {
+            "save_path":   config["save_path"],
+            "loaded":      key in MODELS,
+            "calibrated":  CALIBRATORS.get(key) is not None,
+            "threshold":   config["threshold"],
+        }
+    return {"primary_model": PRIMARY_MODEL, "models": info}
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok", "version": "2.0.0", "primary_model": PRIMARY_MODEL}
 
 
 if __name__ == "__main__":
