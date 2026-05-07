@@ -1,0 +1,59 @@
+# Git internals
+.git/
+.gitignore
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Training & evaluation scripts (not needed at runtime)
+train_model.py
+train_model_v3.py
+evaluate_accuracy.py
+evaluate_bge_m3_axe1.py
+evaluate_bge_m3_axe1_full.py
+compare_models.py
+monitor_model.py
+rapport.js
+test_api.py
+test_matching.py
+
+# Large datasets & training data
+*.json
+!calibrator_axe1_v5.pkl
+
+# Output directories (large model checkpoints, logs, plots)
+trained_model/
+checkpoints/
+eval_results/
+evaluation_results/
+monitoring_output/
+
+# Images & plots
+*.png
+
+# Logs
+*.log
+
+# GitHub Actions (not needed inside container)
+.github/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Docker artifacts
+*.tar
