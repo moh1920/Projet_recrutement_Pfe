@@ -48,14 +48,14 @@ jobs:
           context: .
           push: false
           tags: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          outputs: type=docker,dest=/tmp/matching-cv-image.tar  # ✅ corrigé
+          outputs: type=docker,dest=/tmp/matching-cv-image.tar
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - uses: actions/upload-artifact@v4
         with:
-          name: matching-cv-docker-image                        # ✅ corrigé
-          path: /tmp/matching-cv-image.tar                      # ✅ corrigé
+          name: matching-cv-docker-image
+          path: /tmp/matching-cv-image.tar
           retention-days: 1
 
   deploy:
@@ -70,11 +70,11 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: matching-cv-docker-image                        # ✅ corrigé
+          name: matching-cv-docker-image
           path: /tmp
 
       - name: Load image
-        run: docker load --input /tmp/matching-cv-image.tar     # ✅ corrigé
+        run: docker load --input /tmp/matching-cv-image.tar
 
       - name: Login to ACR
         uses: docker/login-action@v3
@@ -101,16 +101,18 @@ jobs:
       - name: Install containerapp extension
         run: az extension add --name containerapp --upgrade -y
 
-      - name: Create Container App if not exists
+      - name: Deploy
         run: |
           EXISTS=$(az containerapp show \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --query "name" -o tsv 2>/dev/null || echo "")
+
           if [ -z "$EXISTS" ]; then
             ENV_NAME=$(az containerapp env list \
               --resource-group ${{ env.RESOURCE_GROUP }} \
               --query "[0].name" -o tsv)
+
             az containerapp create \
               --name ${{ env.CONTAINER_APP_NAME }} \
               --resource-group ${{ env.RESOURCE_GROUP }} \
@@ -124,7 +126,15 @@ jobs:
               --env-vars \
                 AZURE_STORAGE_KEY="${{ secrets.AZURE_STORAGE_KEY }}" \
                 HUGGINGFACEHUB_API_TOKEN="${{ secrets.HUGGINGFACEHUB_API_TOKEN }}" \
-                WEBSITES_PORT="8001"
+                WEBSITES_PORT="8001" \
+                BGE_M3_SAVE_PATH="/app/models/bge_m3"
+
+            az containerapp update \
+              --name ${{ env.CONTAINER_APP_NAME }} \
+              --resource-group ${{ env.RESOURCE_GROUP }} \
+              --volume-mount "volumeName=bge-m3-vol,mountPath=/app/models/bge_m3" \
+              --volume "volumeName=bge-m3-vol,storageType=AzureFile,storageName=bge-m3-storage"
+
             echo "✅ Container App créé"
           else
             az containerapp update \
@@ -134,7 +144,9 @@ jobs:
               --set-env-vars \
                 AZURE_STORAGE_KEY="${{ secrets.AZURE_STORAGE_KEY }}" \
                 HUGGINGFACEHUB_API_TOKEN="${{ secrets.HUGGINGFACEHUB_API_TOKEN }}" \
-                WEBSITES_PORT="8001"
+                WEBSITES_PORT="8001" \
+                BGE_M3_SAVE_PATH="/app/models/bge_m3"
+
             echo "✅ Container App mis à jour"
           fi
 
