@@ -16,6 +16,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService, User, UserKey, UserDTO } from '../../../core/services/user.service';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
+import {StatusUser} from "../../../core/models/create-user-request.model";
 
 @Component({
   selector: 'app-users',
@@ -206,12 +207,19 @@ export class UsersComponent implements AfterViewInit {
   }
 
   // Status toggle
-  toggleStatus(user: User) {
-    const newStatus = user.status === 'Actif' ? 'Inactif' : 'Actif';
-    // this.userService.updateUser(user.id, { ...user, status: newStatus }).subscribe(() => {
-    //   user.status = newStatus;
-    //   //this.activeUsers = this.dataSource.data.filter(u => u.status === 'Actif').length;
-    // });
+  toggleStatus(user: User): void {
+    if (!user.id) return;
+    const newStatus = user.status === StatusUser.ACTIF ? StatusUser.INACTIF : StatusUser.ACTIF;
+
+    this.userService.updateStatusUser(user.id, newStatus).subscribe({
+      next: () => {
+        user.status = newStatus;
+        this.activeUsers = this.dataSource.data.filter(u => u.status === StatusUser.ACTIF).length;
+      },
+      error: (err) => {
+        console.error('Erreur changement statut:', err);
+      },
+    });
   }
 
   // Column visibility
@@ -311,4 +319,7 @@ export class UsersComponent implements AfterViewInit {
   exportData() {
     // Export CSV/Excel
   }
+
+
+
 }

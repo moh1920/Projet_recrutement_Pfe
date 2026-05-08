@@ -159,4 +159,13 @@ export class CandidateService {
       `${this.apiUrl}/${id}/steps/${encodeURIComponent(stepName)}`
     );
   }
+  updateStatus(id: string, status: string): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/updateStatus/${id}/${status}`,
+      {}
+    );
+  }
+  deleteCandidate(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/deleteCandidature/${id}`);
+  }
 }

@@ -1,0 +1,256 @@
+<div class="steps-page">
+
+  <!-- ═══ HERO HEADER ═══ -->
+  <section class="page-hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span class="material-icons">timeline</span>
+            Suivi en temps réel
+          </div>
+          <h1>Suivi de mes Candidatures</h1>
+          <p class="hero-subtitle">
+            Visualisez l'avancement étape par étape de chacune de vos candidatures chez ESPRIT
+          </p>
+        </div>
+
+        <!-- Stats mini-cards -->
+        <div class="hero-stats" *ngIf="!isLoading && !errorMessage">
+          <div class="stat-pill">
+            <span class="stat-number">{{ totalCandidatures }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-pill stat-pill--active">
+            <span class="stat-number">{{ activeCount }}</span>
+            <span class="stat-label">En cours</span>
+          </div>
+          <div class="stat-pill stat-pill--accepted">
+            <span class="stat-number">{{ acceptedCount }}</span>
+            <span class="stat-label">Acceptées</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 80L60 73C120 67 240 53 360 47C480 40 600 40 720 43C840 47 960 53 1080 57C1200 60 1320 60 1380 60L1440 60V80H1380C1320 80 1200 80 1080 80C960 80 840 80 720 80C600 80 480 80 360 80C240 80 120 80 60 80H0Z" fill="#f1f5f9"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <section class="main-section">
+    <div class="container">
+
+      <!-- Loading -->
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="loader-ring"></div>
+        <p>Chargement de vos candidatures...</p>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="!isLoading && errorMessage" class="error-state">
+        <div class="error-icon-wrap">
+          <span class="material-icons">error_outline</span>
+        </div>
+        <h3>Une erreur est survenue</h3>
+        <p>{{ errorMessage }}</p>
+        <a routerLink="/applications" class="btn-primary">
+          <span class="material-icons">list_alt</span>
+          Voir mes candidatures
+        </a>
+      </div>
+
+      <!-- Empty state -->
+      <div *ngIf="!isLoading && !errorMessage && totalCandidatures === 0" class="empty-state">
+        <div class="empty-illustration">
+          <div class="empty-circle"></div>
+          <span class="material-icons">inbox</span>
+        </div>
+        <h3>Aucune candidature trouvée</h3>
+        <p>Vous n'avez pas encore postulé à une offre. Découvrez nos offres d'emploi !</p>
+        <a routerLink="/offers" class="btn-primary">
+          <span class="material-icons">search</span>
+          Parcourir les offres
+        </a>
+      </div>
+
+      <!-- Candidatures List -->
+      <div *ngIf="!isLoading && !errorMessage && totalCandidatures > 0" class="candidatures-list">
+
+        <div
+          *ngFor="let item of candidaturesWithSteps; let i = index"
+          class="candidature-card"
+          [class.is-expanded]="item.isExpanded"
+          [class.status-accepted]="item.candidature.status === CandidateStatus.ACCEPTE"
+          [class.status-refused]="item.candidature.status === CandidateStatus.REFUSE"
+        >
+
+          <!-- ── Card Top (always visible) ── -->
+          <div class="card-top" (click)="toggleExpand(i)">
+
+            <!-- Left: Icon + Info -->
+            <div class="card-left">
+              <div class="app-icon" [ngClass]="getStatusClass(item.candidature.status)">
+                <span class="material-icons">{{ getStatusIcon(item.candidature.status) }}</span>
+              </div>
+              <div class="app-info">
+                <h3 class="app-title">{{ item.candidature.appliedPosition || 'Poste non spécifié' }}</h3>
+                <div class="app-meta">
+                  <span class="meta-chip" *ngIf="item.candidature.appliedDate">
+                    <span class="material-icons">event</span>
+                    {{ formatDate(item.candidature.appliedDate) }}
+                  </span>
+                  <span class="status-badge" [ngClass]="getStatusClass(item.candidature.status)">
+                    {{ getStatusLabel(item.candidature.status) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Progress + Toggle -->
+            <div class="card-right">
+              <!-- Mini progress bar -->
+              <div class="mini-progress" *ngIf="item.steps.length > 0">
+                <div class="mini-progress-info">
+                  <span class="prog-label">
+                    {{ getCompletedCount(item.steps) }}/{{ item.steps.length }} étapes
+                  </span>
+                  <span class="prog-pct">{{ getProgressPercent(item.steps) }}%</span>
+                </div>
+                <div class="mini-progress-bar">
+                  <div
+                    class="mini-progress-fill"
+                    [style.width.%]="getProgressPercent(item.steps)"
+                    [ngClass]="getStatusClass(item.candidature.status)"
+                  ></div>
+                </div>
+              </div>
+              <div class="no-steps-hint" *ngIf="!item.isLoadingSteps && item.steps.length === 0">
+                <span class="material-icons">pending_actions</span>
+                <span>Étapes en attente</span>
+              </div>
+
+              <!-- Toggle arrow -->
+              <div class="toggle-arrow" [class.rotated]="item.isExpanded">
+                <span class="material-icons">expand_more</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Steps Panel (collapsible) ── -->
+          <div class="steps-panel" [class.open]="item.isExpanded">
+
+            <!-- Loading steps -->
+            <div *ngIf="item.isLoadingSteps" class="steps-loading">
+              <div class="steps-skeleton" *ngFor="let s of [1,2,3]">
+                <div class="skel-dot"></div>
+                <div class="skel-line"></div>
+              </div>
+            </div>
+
+            <!-- No steps -->
+            <div *ngIf="!item.isLoadingSteps && item.steps.length === 0" class="steps-empty">
+              <span class="material-icons">hourglass_empty</span>
+              <p>Aucune étape définie pour le moment.<br>
+                Les recruteurs mettront à jour votre progression prochainement.</p>
+            </div>
+
+            <!-- Steps Timeline -->
+            <div *ngIf="!item.isLoadingSteps && item.steps.length > 0" class="steps-timeline">
+
+              <!-- Progress header -->
+              <div class="progress-header">
+                <div class="progress-bar-container">
+                  <div class="progress-bar-track">
+                    <div
+                      class="progress-bar-fill"
+                      [style.width.%]="getProgressPercent(item.steps)"
+                    ></div>
+                  </div>
+                  <div class="progress-labels">
+                    <span>Début</span>
+                    <span class="progress-pct-label">{{ getProgressPercent(item.steps) }}% complété</span>
+                    <span>Succès</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step items -->
+              <div class="steps-container">
+                <div
+                  *ngFor="let step of item.steps; let idx = index; let isLast = last"
+                  class="step-item"
+                  [ngClass]="step.status || 'pending'"
+                >
+                  <!-- Connector line -->
+                  <div class="step-connector">
+                    <div class="step-dot" [ngClass]="step.status || 'pending'">
+                      <span class="material-icons">{{ getStepIcon(step) }}</span>
+                    </div>
+                    <div class="step-line" *ngIf="!isLast"></div>
+                  </div>
+
+                  <!-- Step content -->
+                  <div class="step-body">
+                    <div class="step-header-row">
+                      <div class="step-number-badge">{{ idx + 1 }}</div>
+                      <h4 class="step-name">{{ step.name }}</h4>
+                      <span class="step-status-chip" [ngClass]="step.status || 'pending'">
+                        {{ getStepLabel(step) }}
+                      </span>
+                    </div>
+
+                    <div class="step-details">
+                      <span class="step-date" *ngIf="step.date">
+                        <span class="material-icons">calendar_today</span>
+                        {{ formatDate(step.date) }}
+                      </span>
+                      <p class="step-desc" *ngIf="step.description">{{ step.description }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Success step (always last) -->
+                <div class="step-item success-final" *ngIf="item.candidature.status === CandidateStatus.ACCEPTE">
+                  <div class="step-connector">
+                    <div class="step-dot completed final-dot">
+                      <span class="material-icons">emoji_events</span>
+                    </div>
+                  </div>
+                  <div class="step-body">
+                    <div class="step-header-row">
+                      <div class="step-number-badge success-num">🎉</div>
+                      <h4 class="step-name success-name">Candidature Acceptée</h4>
+                      <span class="step-status-chip completed">Félicitations !</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick actions -->
+              <div class="step-actions">
+                <a
+                  [routerLink]="['/applications', item.candidature.id]"
+                  class="btn-detail"
+                >
+                  <span class="material-icons">open_in_new</span>
+                  Voir le détail complet
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>

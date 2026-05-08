@@ -248,9 +248,13 @@
                   <mat-icon>timeline</mat-icon>
                   <span>Progression des candidats</span>
                 </button>
+
                 <button mat-menu-item (click)="archiveOffer(offer)">
-                  <mat-icon>archive</mat-icon>
-                  <span>Archiver</span>
+                  <mat-icon>archive</mat-icon><span>Archiver</span>
+                </button>
+                <button mat-menu-item [matMenuTriggerFor]="statusMenu">
+                  <mat-icon>swap_horiz</mat-icon>
+                  <span>Changer le statut</span>
                 </button>
                 <button mat-menu-item (click)="openAffecteCritereDeSelectionDialog(offer)">
                   <mat-icon>filter_list</mat-icon>
@@ -259,6 +263,20 @@
                 <button mat-menu-item (click)="openRanking(offer.id, offer.title)">
                   <mat-icon>filter_list</mat-icon>
                   <span>Rank candidats</span>
+                </button>
+              </mat-menu>
+              <mat-menu #statusMenu="matMenu">
+                <button mat-menu-item (click)="changerStatus(offer.id, 'OPEN')">
+                  <mat-icon style="color: #1D9E75">radio_button_checked</mat-icon>
+                  <span>Ouverte</span>
+                </button>
+                <button mat-menu-item (click)="changerStatus(offer.id, 'IN_PROGRESS')">
+                  <mat-icon style="color: #BA7517">pending</mat-icon>
+                  <span>En cours</span>
+                </button>
+                <button mat-menu-item (click)="changerStatus(offer.id, 'CLOSED')">
+                  <mat-icon style="color: #A32D2D">cancel</mat-icon>
+                  <span>Fermée</span>
                 </button>
               </mat-menu>
             </div>

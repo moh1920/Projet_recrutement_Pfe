@@ -21,13 +21,18 @@ export class AuthService {
 
   constructor() {
     // Simulate persistent login for dev
+    this.currentUserValue;
+    if (this.currentUserValue)
     this.currentUserSubject.next({
-      id: '1',
-      name: 'Mohamed Sayari',
-      avatar: 'assets/avatar-placeholder.png', // We will need a placeholder
-      role: 'ADMIN',
-      email: 'mohamed.sayari@esprit.tn',
+
+      id: this.currentUserValue?.id,
+      name: this.currentUserValue?.name,
+      avatar: this.currentUserValue?.avatar, // We will need a placeholder
+      role: this.currentUserValue?.role,
+      email: this.currentUserValue?.email,
     });
+
+
   }
 
   get currentUserValue(): User | null {

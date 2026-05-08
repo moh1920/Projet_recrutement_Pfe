@@ -542,7 +542,7 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 .profile-avatar-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none;
   padding: 6px 14px 6px 6px;
   border-radius: 30px;
@@ -559,6 +559,7 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     @include flex-center;
     box-shadow: 0 3px 10px rgba(139, 0, 0, 0.25);
     transition: all 0.3s ease;
+    flex-shrink: 0;
 
     mat-icon {
       color: white;
@@ -566,13 +567,47 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
       width: 20px;
       height: 20px;
     }
+
+    // ── Initiales de l'utilisateur ──────────────────────────
+    .avatar-initials {
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      font-family: 'DM Sans', 'Segoe UI', sans-serif;
+      text-transform: uppercase;
+    }
+  }
+
+  // ── Bloc nom + email ─────────────────────────────────────
+  .avatar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
   }
 
   .avatar-label {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.88rem;
+    font-weight: 700;
     color: $text-muted;
     transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+  }
+
+  // Email affiché sous le nom
+  .avatar-role {
+    font-size: 0.68rem;
+    color: lighten($text-muted, 15%);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
   }
 
   &:hover {
@@ -624,6 +659,11 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 
     .avatar-label {
       font-size: 1rem;
+      max-width: none;
+    }
+
+    .avatar-role {
+      max-width: none;
     }
   }
 
@@ -686,6 +726,27 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
   }
   50% {
     box-shadow: 0 2px 14px rgba(255, 68, 68, 0.85);
+  }
+}
+
+// Steps Nav Button - Suivi Étapes
+.steps-btn {
+  position: relative;
+
+  mat-icon {
+    background: linear-gradient(135deg, $esprit-red, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &.active-link {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.07), rgba(59, 130, 246, 0.05));
+
+    mat-icon {
+      -webkit-text-fill-color: $esprit-red;
+      background: none;
+    }
   }
 }
 

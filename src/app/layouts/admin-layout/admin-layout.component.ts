@@ -81,6 +81,7 @@ export class AdminLayoutComponent {
         { icon: 'list', label: 'Liste des offres', route: '/admin/job-offers' },
         { icon: 'checklist', label: 'Critères de sélection', route: '/admin/critereDeSelection' },
         { icon: 'category', label: 'Catégories de sélection', route: '/admin/categorieSelection' },
+        { icon: 'travel_explore', label: 'Scoring LinkedIn', route: '/admin/linkedin-scoring' },
       ],
     },
     { icon: 'people', label: 'Dossiers candidats', route: '/admin/candidates' },

@@ -310,17 +310,32 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
   }
 
   updateStatus(candidate: CandidateDTO, newStatus: string): void {
-    // TODO: this.candidateService.updateStatus(candidate.id!, newStatus).subscribe(...)
-    candidate.status = newStatus as CandidateStatus;
-    this.dataSource.data = [...this.dataSource.data]; // force refresh
-    this.showSnackBar(`Statut mis à jour : ${newStatus}`, 'success');
+    if (!candidate.id) return;
+    this.candidateService.updateStatus(candidate.id, newStatus).subscribe({
+      next: () => {
+        candidate.status = newStatus as CandidateStatus;
+        this.dataSource.data = [...this.dataSource.data];
+        this.showSnackBar(`Statut mis à jour : ${newStatus}`, 'success');
+      },
+      error: (err) => {
+        console.error('Erreur mise à jour statut:', err);
+        this.showSnackBar('Erreur lors de la mise à jour du statut', 'error');
+      },
+    });
   }
 
   deleteCandidate(id?: string): void {
     if (!id) return;
-    // TODO: this.candidateService.deleteCandidate(id).subscribe(...)
-    this.dataSource.data = this.dataSource.data.filter((c) => c.id !== id);
-    this.showSnackBar('Candidat supprimé avec succès', 'success');
+    this.candidateService.deleteCandidate(id).subscribe({
+      next: () => {
+        this.dataSource.data = this.dataSource.data.filter((c) => c.id !== id);
+        this.showSnackBar('Candidat supprimé avec succès', 'success');
+      },
+      error: (err) => {
+        console.error('Erreur suppression candidat:', err);
+        this.showSnackBar('Erreur lors de la suppression', 'error');
+      },
+    });
   }
 
   deleteSelected(): void {
@@ -458,4 +473,6 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
         },
       });
   }
+
+  protected readonly CandidateStatus = CandidateStatus;
 }

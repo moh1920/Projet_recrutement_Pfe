@@ -1,0 +1,804 @@
+// ============================================================
+// candidature-steps.component.scss
+// ============================================================
+
+// ── Variables
+$esprit-red:       #8b0000;
+$esprit-red-light: #d32f2f;
+$esprit-red-dark:  #5c0000;
+$dark:             #0f172a;
+$text-muted:       #64748b;
+$bg:               #f1f5f9;
+$white:            #ffffff;
+$success:          #22c55e;
+$warning:          #f59e0b;
+$danger:           #ef4444;
+$info:             #3b82f6;
+$border:           #e2e8f0;
+
+// ── Mixins
+@mixin flex-center { display:flex; align-items:center; justify-content:center; }
+@mixin flex-between { display:flex; align-items:center; justify-content:space-between; }
+
+// ============================================================
+// BASE
+// ============================================================
+* { margin:0; padding:0; box-sizing:border-box; }
+
+.steps-page {
+  min-height: 100vh;
+  background: $bg;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+// ============================================================
+// HERO HEADER
+// ============================================================
+
+.page-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, $esprit-red 60%, #b91c1c 100%);
+  padding: 72px 0 100px;
+  color: $white;
+  position: relative;
+  overflow: hidden;
+
+  .hero-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba($white, 0.1) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.5;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.2;
+  }
+
+  .hero-orb-1 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, #ff6b6b, transparent 70%);
+    top: -120px; right: -80px;
+  }
+  .hero-orb-2 {
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, #4299e1, transparent 70%);
+    bottom: -60px; left: 10%;
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.hero-text {
+  flex: 1;
+
+  h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    margin: 12px 0 10px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    opacity: 0.8;
+    max-width: 460px;
+    line-height: 1.7;
+  }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba($white, 0.15);
+  border: 1px solid rgba($white, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 40px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  .material-icons { font-size: 14px; }
+}
+
+// Stats pills
+.hero-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-self: center;
+}
+
+.stat-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba($white, 0.12);
+  border: 1px solid rgba($white, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 14px 24px;
+  min-width: 80px;
+  transition: all 0.2s;
+
+  &:hover { background: rgba($white, 0.2); transform: translateY(-2px); }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  &.stat-pill--active { border-color: rgba($warning, 0.6); background: rgba($warning, 0.15); }
+  &.stat-pill--accepted { border-color: rgba($success, 0.6); background: rgba($success, 0.15); }
+}
+
+.hero-wave {
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  svg { display: block; width: 100%; }
+}
+
+// ============================================================
+// MAIN SECTION
+// ============================================================
+
+.main-section {
+  margin-top: -32px;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 80px;
+}
+
+// ============================================================
+// STATES
+// ============================================================
+
+.loading-state, .error-state, .empty-state {
+  text-align: center;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.loader-ring {
+  width: 56px;
+  height: 56px;
+  border: 4px solid rgba($esprit-red, 0.15);
+  border-top-color: $esprit-red;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-state p { font-size: 1rem; color: $text-muted; }
+
+.error-icon-wrap {
+  width: 72px; height: 72px;
+  background: rgba($danger, 0.1);
+  border-radius: 50%;
+  @include flex-center;
+
+  .material-icons { font-size: 36px; color: $danger; }
+}
+
+.error-state h3 { font-size: 1.4rem; color: $dark; }
+.error-state p { font-size: 0.95rem; color: $text-muted; }
+
+.empty-illustration {
+  position: relative;
+  width: 100px; height: 100px;
+  @include flex-center;
+  margin-bottom: 8px;
+
+  .empty-circle {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba($esprit-red, 0.08), rgba($esprit-red, 0.03));
+    border: 2px dashed rgba($esprit-red, 0.2);
+  }
+
+  .material-icons { font-size: 44px; color: $text-muted; position: relative; z-index: 1; }
+}
+
+.empty-state h3 { font-size: 1.4rem; color: $dark; }
+.empty-state p { font-size: 0.95rem; color: $text-muted; max-width: 360px; line-height: 1.6; }
+
+// ============================================================
+// BUTTON
+// ============================================================
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, $esprit-red, $esprit-red-light);
+  color: $white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+  box-shadow: 0 4px 16px rgba($esprit-red, 0.4);
+
+  &:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba($esprit-red, 0.5); }
+  .material-icons { font-size: 18px; }
+}
+
+.btn-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba($esprit-red, 0.06);
+  color: $esprit-red;
+  border: 1.5px solid rgba($esprit-red, 0.2);
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+
+  &:hover {
+    background: $esprit-red;
+    color: $white;
+    border-color: $esprit-red;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba($esprit-red, 0.4);
+  }
+  .material-icons { font-size: 16px; }
+}
+
+// ============================================================
+// CANDIDATURES LIST
+// ============================================================
+
+.candidatures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// ── Candidature Card
+.candidature-card {
+  background: $white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1.5px solid $border;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border-color: rgba($esprit-red, 0.25);
+    transform: translateY(-2px);
+  }
+
+  &.is-expanded {
+    border-color: rgba($esprit-red, 0.35);
+    box-shadow: 0 8px 32px rgba($esprit-red, 0.12);
+  }
+
+  &.status-accepted { border-left: 4px solid $success; }
+  &.status-refused  { border-left: 4px solid $danger;  }
+}
+
+// ── Card Top
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+
+  &:hover { background: #fafafa; }
+
+  @media (max-width: 640px) { flex-direction: column; align-items: flex-start; }
+}
+
+.card-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.app-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  @include flex-center;
+  flex-shrink: 0;
+
+  .material-icons { font-size: 24px; }
+
+  &.status-nouveau    { background: rgba($info, 0.12); color: $info; }
+  &.status-en-cours   { background: rgba($warning, 0.12); color: darken($warning, 15%); }
+  &.status-en-attente { background: rgba($text-muted, 0.12); color: $text-muted; }
+  &.status-accepte    { background: rgba($success, 0.12); color: darken($success, 10%); }
+  &.status-refuse     { background: rgba($danger, 0.12); color: $danger; }
+  &.status-default    { background: $bg; color: $text-muted; }
+}
+
+.app-info {
+  min-width: 0;
+}
+
+.app-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: $dark;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.app-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: $text-muted;
+  font-weight: 500;
+
+  .material-icons { font-size: 13px; }
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+
+  &.status-nouveau    { background: rgba($info, 0.1);    color: $info; }
+  &.status-en-cours   { background: rgba($warning, 0.12); color: darken($warning, 20%); }
+  &.status-en-attente { background: rgba($text-muted, 0.1); color: $text-muted; }
+  &.status-accepte    { background: rgba($success, 0.1); color: darken($success, 15%); }
+  &.status-refuse     { background: rgba($danger, 0.1);  color: $danger; }
+  &.status-default    { background: $bg; color: $text-muted; }
+}
+
+// ── Card Right
+.card-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+
+  @media (max-width: 640px) { width: 100%; justify-content: space-between; }
+}
+
+.mini-progress {
+  min-width: 160px;
+}
+
+.mini-progress-info {
+  @include flex-between;
+  margin-bottom: 6px;
+}
+
+.prog-label {
+  font-size: 0.72rem;
+  color: $text-muted;
+  font-weight: 500;
+}
+
+.prog-pct {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: $dark;
+}
+
+.mini-progress-bar {
+  height: 6px;
+  background: $bg;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.8s ease;
+  background: linear-gradient(90deg, $esprit-red, $esprit-red-light);
+
+  &.status-accepte { background: linear-gradient(90deg, darken($success, 10%), $success); }
+  &.status-refuse  { background: linear-gradient(90deg, $danger, lighten($danger, 10%)); }
+  &.status-en-cours { background: linear-gradient(90deg, darken($warning, 20%), $warning); }
+}
+
+.no-steps-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: $text-muted;
+
+  .material-icons { font-size: 14px; }
+}
+
+// ── Toggle arrow
+.toggle-arrow {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: $bg;
+  @include flex-center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+
+  .material-icons { font-size: 20px; color: $text-muted; transition: transform 0.3s; }
+
+  &.rotated .material-icons { transform: rotate(180deg); }
+}
+
+// ============================================================
+// STEPS PANEL
+// ============================================================
+
+.steps-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  border-top: 1px solid transparent;
+
+  &.open {
+    max-height: 2000px;
+    border-top-color: $border;
+  }
+}
+
+// ── Steps loading skeleton
+.steps-loading {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.steps-skeleton {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .skel-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    flex-shrink: 0;
+  }
+
+  .skel-line {
+    height: 14px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    flex: 1;
+  }
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+// ── Steps empty
+.steps-empty {
+  text-align: center;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  .material-icons {
+    font-size: 40px;
+    color: $text-muted;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: $text-muted;
+    line-height: 1.7;
+  }
+}
+
+// ============================================================
+// STEPS TIMELINE
+// ============================================================
+
+.steps-timeline {
+  padding: 28px;
+}
+
+// Progress header bar
+.progress-header {
+  margin-bottom: 32px;
+}
+
+.progress-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-bar-track {
+  height: 10px;
+  background: $bg;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, $esprit-red-dark, $esprit-red, $esprit-red-light);
+  border-radius: 20px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba($esprit-red, 0.4);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 1px; left: 4px; right: 4px;
+    height: 3px;
+    background: rgba($white, 0.3);
+    border-radius: 10px;
+  }
+}
+
+.progress-labels {
+  @include flex-between;
+  font-size: 0.72rem;
+  color: $text-muted;
+  font-weight: 500;
+
+  .progress-pct-label {
+    font-weight: 700;
+    color: $esprit-red;
+  }
+}
+
+// Steps container
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+// ── Individual Step
+.step-item {
+  display: flex;
+  gap: 16px;
+  animation: fadeSlideIn 0.35s ease both;
+
+  &:nth-child(1) { animation-delay: 0.05s; }
+  &:nth-child(2) { animation-delay: 0.10s; }
+  &:nth-child(3) { animation-delay: 0.15s; }
+  &:nth-child(4) { animation-delay: 0.20s; }
+  &:nth-child(5) { animation-delay: 0.25s; }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+// ── Connector
+.step-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.step-dot {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  @include flex-center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+
+  .material-icons { font-size: 20px; }
+
+  &.completed {
+    background: linear-gradient(135deg, darken($success, 5%), $success);
+    color: $white;
+    box-shadow: 0 4px 14px rgba($success, 0.45);
+  }
+
+  &.current {
+    background: linear-gradient(135deg, $esprit-red-dark, $esprit-red-light);
+    color: $white;
+    box-shadow: 0 4px 14px rgba($esprit-red, 0.45);
+    animation: pulse 2s infinite;
+  }
+
+  &.pending {
+    background: $bg;
+    color: $text-muted;
+    border: 2px solid $border;
+  }
+
+  &.final-dot {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    color: $white;
+    box-shadow: 0 4px 16px rgba($warning, 0.5);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 14px rgba($esprit-red, 0.45); }
+  50% { box-shadow: 0 4px 22px rgba($esprit-red, 0.7), 0 0 0 6px rgba($esprit-red, 0.1); }
+}
+
+.step-line {
+  width: 2px;
+  flex: 1;
+  min-height: 24px;
+  margin: 4px 0;
+  background: linear-gradient(to bottom, $border, transparent);
+  border-radius: 2px;
+}
+
+// ── Step Body
+.step-body {
+  flex: 1;
+  padding-bottom: 28px;
+}
+
+.step-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.step-number-badge {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: $bg;
+  border: 1.5px solid $border;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: $text-muted;
+  @include flex-center;
+  flex-shrink: 0;
+
+  &.success-num {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    width: auto;
+    height: auto;
+  }
+}
+
+.step-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: $dark;
+  flex: 1;
+
+  &.success-name { color: darken($success, 10%); }
+}
+
+.step-status-chip {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+
+  &.completed   { background: rgba($success, 0.12); color: darken($success, 15%); }
+  &.current     { background: rgba($esprit-red, 0.1); color: $esprit-red; }
+  &.pending     { background: rgba($text-muted, 0.1); color: $text-muted; }
+}
+
+.step-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.step-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: $text-muted;
+  font-weight: 500;
+
+  .material-icons { font-size: 13px; }
+}
+
+.step-desc {
+  font-size: 0.85rem;
+  color: $text-muted;
+  line-height: 1.6;
+  margin-top: 4px;
+  padding: 8px 12px;
+  background: $bg;
+  border-radius: 8px;
+  border-left: 3px solid $border;
+}
+
+// ── Success Final
+.success-final .step-body { padding-bottom: 8px; }
+
+// ── Step Actions
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid $border;
+  margin-top: 8px;
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
+@media (max-width: 640px) {
+  .hero-text h1 { font-size: 1.9rem; }
+  .hero-stats { gap: 8px; }
+  .stat-pill { padding: 10px 16px; }
+  .stat-pill .stat-number { font-size: 1.5rem; }
+  .card-top { gap: 14px; }
+  .steps-timeline { padding: 20px 16px; }
+  .mini-progress { min-width: 120px; }
+}

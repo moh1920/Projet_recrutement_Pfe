@@ -62,6 +62,16 @@ export class UserService {
     return this.http.get<UserDTO>(`${this.apiUrl}/userAdminController/getUserById/${keycloakId}`);
   }
   updateUser(keycloakId: string, userDTO: UserDTO): Observable<UserDTO> {
-    return this.http.put<UserDTO>(`${this.apiUrl}/updateUser/${keycloakId}`, userDTO);
+    return this.http.put<UserDTO>(
+      `${this.apiUrl}/userAdminController/updateUser/${keycloakId}`,
+      userDTO
+    );
+  }
+
+  updateStatusUser(id: string, status: StatusUser): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/userAdminController/updateStatusUser/${id}/${status}`,
+      {}
+    );
   }
 }

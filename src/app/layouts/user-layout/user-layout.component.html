@@ -33,6 +33,10 @@
         <mat-icon>description</mat-icon>
         Mes Candidatures
       </a>
+      <a mat-button routerLink="/candidature-steps" routerLinkActive="active-link" *ngIf="isLoggedIn" class="steps-btn">
+        <mat-icon>timeline</mat-icon>
+        Suivi Étapes
+      </a>
       <a
         mat-button
         routerLink="/interview"
@@ -58,12 +62,16 @@
         routerLink="/candidateProfile"
         routerLinkActive="profile-active"
         *ngIf="isLoggedIn"
-        matTooltip="Mon Profil"
+        [matTooltip]="currentUserEmail || 'Mon Profil'"
       >
         <div class="avatar-circle">
-          <mat-icon>person</mat-icon>
+          <span *ngIf="currentUserInitials" class="avatar-initials">{{ currentUserInitials }}</span>
+          <mat-icon *ngIf="!currentUserInitials">person</mat-icon>
         </div>
-        <span class="avatar-label">Profil</span>
+        <div class="avatar-info">
+          <span class="avatar-label">{{ currentUserFullName || 'Mon Profil' }}</span>
+          <span class="avatar-role" *ngIf="currentUserEmail">{{ currentUserEmail }}</span>
+        </div>
       </a>
 
       <a mat-stroked-button class="login-btn" routerLink="/admin" *ngIf="!isLoggedIn">

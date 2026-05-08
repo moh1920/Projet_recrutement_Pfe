@@ -82,6 +82,15 @@ export const routes: Routes = [
         data: { roles: ['admin', 'director', 'candidate'] }, // ✅ Minuscules
       },
       {
+        path: 'candidature-steps',
+        loadComponent: () =>
+          import('./features/frontoffice/candidature-steps/candidature-steps.component').then(
+            (m) => m.CandidatureStepsComponent
+          ),
+        canActivate: [authGuard, roleGuard],
+        data: { roles: ['admin', 'director', 'candidate'] },
+      },
+      {
         path: 'candidateProfile',
         loadComponent: () =>
           import('./features/frontoffice/candidate-profile/candidate-profile.component').then(
@@ -257,6 +266,15 @@ export const routes: Routes = [
             (m) => m.RankingCandidatsComponent
           ),
         data: { roles: ['admin', 'director'] }, // ✅ Minuscules
+      },
+      {
+        path: 'linkedin-scoring',
+        loadComponent: () =>
+          import('./features/backoffice/linkedin-scoring/linkedin-scoring.component').then(
+            (m) => m.LinkedinScoringComponent
+          ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'director'] },
       },
     ],
   },

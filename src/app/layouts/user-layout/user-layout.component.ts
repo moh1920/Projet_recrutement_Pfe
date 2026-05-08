@@ -31,6 +31,11 @@ export class UserLayoutComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   upcomingCount = 1;
 
+  // Informations utilisateur courant (depuis Keycloak)
+  currentUserFullName = '';
+  currentUserInitials = '';
+  currentUserEmail = '';
+
   appKeycloakService = inject(AppKeycloakService);
 
   private subs = new Subscription();
@@ -43,10 +48,11 @@ export class UserLayoutComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.isLoggedIn = await this.appKeycloakService.isLoggedIn();
 
-    // // Connecter le WebSocket seulement si l'utilisateur est connecté
-    // if (this.isLoggedIn) {
-    //   await this.notifService.connect();
-    // }
+    if (this.isLoggedIn) {
+      this.currentUserFullName = this.appKeycloakService.getCurrentUserFullName();
+      this.currentUserInitials = this.appKeycloakService.getCurrentUserInitials();
+      this.currentUserEmail    = this.appKeycloakService.getCurrentUserEmail();
+    }
   }
 
   @HostListener('window:scroll', [])

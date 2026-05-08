@@ -1,0 +1,290 @@
+<div class="linkedin-scoring-page">
+
+  <!-- ═══════════════════════════════ HERO HEADER ═══════════════════════════════ -->
+  <div class="page-hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-icon-wrap">
+        <span class="hero-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+            <rect width="24" height="24" rx="5" fill="#0A66C2"/>
+            <path d="M6.94 5.5a1.44 1.44 0 1 1 0 2.88 1.44 1.44 0 0 1 0-2.88zm-1.2 4.5h2.4V18H5.74V10zM9.5 10h2.3v1.1h.03c.32-.6 1.1-1.23 2.27-1.23 2.43 0 2.88 1.6 2.88 3.68V18H14.7v-3.96c0-.95-.02-2.17-1.32-2.17-1.32 0-1.52 1.03-1.52 2.1V18H9.5V10z" fill="white"/>
+          </svg>
+        </span>
+      </div>
+      <div class="hero-text">
+        <h1 class="hero-title">Recherche LinkedIn & Scoring IA</h1>
+        <p class="hero-subtitle">
+          Sélectionnez une offre pour déclencher le workflow n8n — il scrape les profils LinkedIn
+          depuis votre Google Sheet et retourne un classement scoré automatiquement.
+        </p>
+      </div>
+    </div>
+    <div class="hero-badges">
+      <span class="badge badge-n8n"><mat-icon>hub</mat-icon> n8n Workflow</span>
+      <span class="badge badge-linkedin"><mat-icon>manage_search</mat-icon> LinkedIn Scraping</span>
+      <span class="badge badge-ai"><mat-icon>psychology</mat-icon> IA Scoring</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ OFFER SELECTOR ═══════════════════════════ -->
+  <mat-card class="selector-card">
+    <mat-card-content>
+      <div class="selector-grid">
+        <div class="selector-col">
+          <h2 class="section-title">
+            <mat-icon>work_outline</mat-icon>
+            Choisir une offre
+          </h2>
+
+          <mat-form-field appearance="outline" class="offer-select-field">
+            <mat-label>Sélectionner une offre d'emploi</mat-label>
+            <mat-select [(ngModel)]="selectedOffre" [disabled]="isLoadingOffres">
+              <mat-option *ngIf="isLoadingOffres" disabled>
+                <mat-spinner diameter="16"></mat-spinner>&nbsp; Chargement…
+              </mat-option>
+              <mat-option *ngFor="let offre of offres" [value]="offre">
+                {{ offre.title }} — {{ offre.department }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            class="launch-btn"
+            [disabled]="!selectedOffre || isScoring"
+            (click)="lancerScoring()"
+          >
+            <ng-container *ngIf="!isScoring; else loadingTpl">
+              <mat-icon>rocket_launch</mat-icon>
+              Lancer le Scoring
+            </ng-container>
+            <ng-template #loadingTpl>
+              <mat-spinner diameter="20" color="accent"></mat-spinner>
+              &nbsp;Analyse en cours…
+            </ng-template>
+          </button>
+        </div>
+
+        <!-- Offer preview -->
+        <div class="offer-preview" *ngIf="selectedOffre; else noOfferTpl">
+          <div class="preview-header">
+            <span class="preview-label">Aperçu de l'offre</span>
+            <span class="status-chip" [class]="'status-' + (selectedOffre.status ?? 'default')">
+              {{ selectedOffre.status }}
+            </span>
+          </div>
+          <h3 class="preview-title">{{ selectedOffre.title }}</h3>
+          <div class="preview-meta">
+            <span><mat-icon>apartment</mat-icon>{{ selectedOffre.department }}</span>
+            <span><mat-icon>school</mat-icon>{{ selectedOffre.speciality }}</span>
+            <span><mat-icon>military_tech</mat-icon>{{ selectedOffre.requiredLevel }}</span>
+            <span><mat-icon>work</mat-icon>{{ selectedOffre.type }}</span>
+          </div>
+          <div class="preview-modules" *ngIf="selectedOffre.modules?.length">
+            <span class="module-chip" *ngFor="let m of selectedOffre.modules.slice(0,5)">{{ m }}</span>
+            <span class="module-chip more" *ngIf="selectedOffre.modules.length > 5">
+              +{{ selectedOffre.modules.length - 5 }}
+            </span>
+          </div>
+        </div>
+
+        <ng-template #noOfferTpl>
+          <div class="no-offer-placeholder">
+            <mat-icon>search</mat-icon>
+            <p>Sélectionnez une offre pour voir ses détails</p>
+          </div>
+        </ng-template>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- ═══════════════════════════════ LOADING STATE ════════════════════════════ -->
+  <div class="scoring-loading" *ngIf="isScoring">
+    <div class="loading-card">
+      <div class="loading-animation">
+        <mat-spinner diameter="60" color="warn"></mat-spinner>
+        <div class="loading-orbit"></div>
+      </div>
+      <h3>Workflow n8n en cours d'exécution…</h3>
+      <p>Scraping LinkedIn · Scoring IA · Classement des profils</p>
+      <div class="loading-steps">
+        <span class="lstep active"><mat-icon>cloud_sync</mat-icon> Connexion Google Sheet</span>
+        <span class="lstep active"><mat-icon>manage_search</mat-icon> Recherche LinkedIn</span>
+        <span class="lstep pulse"><mat-icon>psychology</mat-icon> Scoring IA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ RESULTS ══════════════════════════════════ -->
+  <ng-container *ngIf="scoringResult && !isScoring">
+
+    <!-- Summary KPI cards -->
+    <div class="results-header">
+      <h2 class="results-title">
+        <mat-icon>analytics</mat-icon>
+        Résultats — {{ scoringResult.offre_titre }}
+      </h2>
+      <span class="analysis-date">
+        <mat-icon>schedule</mat-icon>
+        Analysé le {{ formatDate(scoringResult.date_analyse) }}
+      </span>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-total">
+        <div class="kpi-icon"><mat-icon>people</mat-icon></div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ scoringResult.total_profils }}</span>
+          <span class="kpi-label">Profils analysés</span>
+        </div>
+      </div>
+      <div class="kpi-card kpi-contacter">
+        <div class="kpi-icon"><mat-icon>call</mat-icon></div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ scoringResult.top_contacter }}</span>
+          <span class="kpi-label">À contacter</span>
+        </div>
+      </div>
+      <div class="kpi-card kpi-considerer">
+        <div class="kpi-icon"><mat-icon>thumbs_up_down</mat-icon></div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ scoringResult.top_a_considerer }}</span>
+          <span class="kpi-label">À considérer</span>
+        </div>
+      </div>
+      <div class="kpi-card kpi-score">
+        <div class="kpi-icon"><mat-icon>emoji_events</mat-icon></div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ scoringResult.meilleur_score }}<small>/100</small></span>
+          <span class="kpi-label">Meilleur score</span>
+        </div>
+      </div>
+      <div class="kpi-card kpi-candidat">
+        <div class="kpi-icon"><mat-icon>person_pin</mat-icon></div>
+        <div class="kpi-body">
+          <span class="kpi-value kpi-name">{{ scoringResult.meilleur_candidat }}</span>
+          <span class="kpi-label">Meilleur candidat</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile cards -->
+    <div class="profiles-section">
+      <h2 class="section-title profiles-section-title">
+        <mat-icon>leaderboard</mat-icon>
+        Classement des candidats
+        <span class="count-badge">{{ scoringResult.profiles.length }}</span>
+      </h2>
+
+      <div class="profile-card" *ngFor="let profil of scoringResult.profiles">
+
+        <!-- Card Header -->
+        <div class="profile-header">
+          <div class="profile-rank">
+            <span class="rank-number">#{{ profil.rang }}</span>
+          </div>
+
+          <div class="profile-avatar">
+            <span>{{ profil.nom?.charAt(0) }}</span>
+          </div>
+
+          <div class="profile-info">
+            <h3 class="profile-name">{{ profil.nom }}</h3>
+            <p class="profile-titre">{{ profil.titre }}</p>
+            <button
+              mat-stroked-button
+              class="linkedin-btn"
+              (click)="openLinkedIn(profil.linkedin_url)"
+              matTooltip="Voir le profil LinkedIn"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+              </svg>
+              Voir profil
+            </button>
+          </div>
+
+          <div class="profile-score-wrap">
+            <div class="score-ring" [style.background]="getScoreGradient(profil.score_compatibilite)">
+              <div class="score-inner">
+                <span class="score-num">{{ profil.score_compatibilite }}</span>
+                <span class="score-unit">/100</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-chips">
+            <span class="match-chip" [class]="getNiveauMatchClass(profil.niveau_match)">
+              <mat-icon>{{ getNiveauMatchIcon(profil.niveau_match) }}</mat-icon>
+              {{ profil.niveau_match }}
+            </span>
+            <span class="rec-chip" [class]="getRecommandationClass(profil.recommandation)">
+              {{ profil.recommandation }}
+            </span>
+          </div>
+
+          <button mat-icon-button class="expand-btn" (click)="toggleProfile(profil.rang)" [matTooltip]="isExpanded(profil.rang) ? 'Réduire' : 'Voir détails'">
+            <mat-icon>{{ isExpanded(profil.rang) ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+
+        <!-- Expandable Detail -->
+        <div class="profile-detail" [class.open]="isExpanded(profil.rang)">
+          <mat-divider></mat-divider>
+
+          <div class="detail-grid">
+            <!-- Points forts / faibles -->
+            <div class="detail-col">
+              <div class="points-block points-forts">
+                <div class="points-title">
+                  <mat-icon>check_circle</mat-icon> Points forts
+                </div>
+                <p>{{ profil.points_forts }}</p>
+              </div>
+              <div class="points-block points-faibles">
+                <div class="points-title">
+                  <mat-icon>cancel</mat-icon> Points faibles
+                </div>
+                <p>{{ profil.points_faibles }}</p>
+              </div>
+            </div>
+
+            <!-- Score breakdown bars -->
+            <div class="detail-col">
+              <div class="scores-breakdown">
+                <div class="breakdown-title">
+                  <mat-icon>bar_chart</mat-icon> Détail des scores
+                </div>
+                <div class="score-bar-row" *ngFor="let entry of getScoreDetailEntries(profil.scores_detail)">
+                  <span class="bar-label">{{ entry.label }}</span>
+                  <div class="bar-track">
+                    <div
+                      class="bar-fill"
+                      [style.width]="getBarWidth(entry.value, entry.max)"
+                      [style.background]="getScoreColor(entry.value / entry.max * 100)"
+                    ></div>
+                  </div>
+                  <span class="bar-value">{{ entry.value }}/{{ entry.max }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ═══════════════════════════════ EMPTY STATE ═══════════════════════════════ -->
+  <div class="empty-state" *ngIf="!scoringResult && !isScoring">
+    <div class="empty-illustration">
+      <mat-icon class="empty-icon">manage_search</mat-icon>
+      <div class="empty-orbit-1"></div>
+      <div class="empty-orbit-2"></div>
+    </div>
+    <h3>Aucune analyse lancée</h3>
+    <p>Sélectionnez une offre d'emploi et cliquez sur <strong>Lancer le Scoring</strong> pour démarrer le workflow n8n.</p>
+  </div>
+
+</div>
