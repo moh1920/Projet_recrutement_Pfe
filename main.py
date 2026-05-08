@@ -1,8 +1,11 @@
 import os
 
-# --- Déplacement du cache de HuggingFace vers le disque F ---
-os.environ["HF_HOME"] = "F:/HF_Cache"
-os.environ["HUGGINGFACE_HUB_CACHE"] = "F:/HF_Cache"
+# --- Cache HuggingFace (local dev) ---
+# En CI/Docker ces variables sont injectées via l'environnement
+if not os.environ.get("HF_HOME"):
+    os.environ["HF_HOME"] = "F:/HF_Cache"
+if not os.environ.get("HUGGINGFACE_HUB_CACHE"):
+    os.environ["HUGGINGFACE_HUB_CACHE"] = "F:/HF_Cache"
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -26,13 +29,10 @@ app = FastAPI(
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CONFIGURATION MODÈLES
-# v5 = BGE-M3 fine-tuné axe1 avec calibration isotonique
-# Seuil prod = 0.67 (optimisé F1 sur validation)
 # ─────────────────────────────────────────────────────────────────────────────
 
-
-# Surcharge des chemins modèles via variables d'environnement (Docker / Azure)
 _BGE_PATH = os.environ.get("BGE_M3_SAVE_PATH", "G:/ai_models/trained_model_bge_m3_axe1_v5")
+
 MODELS_CONFIG = {
     "bge-m3": {
         "base_name":       "BAAI/bge-m3",
@@ -43,26 +43,33 @@ MODELS_CONFIG = {
 }
 
 MODELS      = {}
-CALIBRATORS = {}   # calibrateurs isotoniques par modèle
+CALIBRATORS = {}
 
-for model_key, config in MODELS_CONFIG.items():
-    # Chargement modèle
-    if os.path.exists(config["save_path"]):
-        logger.info(f"Loading custom trained model [{model_key}] from {config['save_path']}...")
-        MODELS[model_key] = SentenceTransformer(config["save_path"])
-    else:
-        logger.info(f"Loading base model [{model_key}]: {config['base_name']}")
-        MODELS[model_key] = SentenceTransformer(config["base_name"])
+# ─────────────────────────────────────────────────────────────────────────────
+# TESTING=true  → chargement du modèle sauté (pytest en CI)
+# TESTING absent → chargement normal (Docker / dev local)
+# ─────────────────────────────────────────────────────────────────────────────
+_TESTING = os.environ.get("TESTING", "").lower() in ("1", "true", "yes")
 
-    # Chargement calibrateur (si disponible)
-    cal_path = config.get("calibrator_path")
-    if cal_path and os.path.exists(cal_path):
-        CALIBRATORS[model_key] = joblib.load(cal_path)
-        logger.info(f"Calibrateur [{model_key}] chargé depuis {cal_path}")
-    else:
-        CALIBRATORS[model_key] = None
-        if cal_path:
-            logger.warning(f"Calibrateur [{model_key}] introuvable : {cal_path} — scores bruts utilisés")
+if _TESTING:
+    logger.warning("TESTING mode — model loading skipped")
+else:
+    for model_key, config in MODELS_CONFIG.items():
+        if os.path.exists(config["save_path"]):
+            logger.info(f"Loading custom trained model [{model_key}] from {config['save_path']}...")
+            MODELS[model_key] = SentenceTransformer(config["save_path"])
+        else:
+            logger.info(f"Loading base model [{model_key}]: {config['base_name']}")
+            MODELS[model_key] = SentenceTransformer(config["base_name"])
+
+        cal_path = config.get("calibrator_path")
+        if cal_path and os.path.exists(cal_path):
+            CALIBRATORS[model_key] = joblib.load(cal_path)
+            logger.info(f"Calibrateur [{model_key}] chargé depuis {cal_path}")
+        else:
+            CALIBRATORS[model_key] = None
+            if cal_path:
+                logger.warning(f"Calibrateur [{model_key}] introuvable : {cal_path} — scores bruts utilisés")
 
 PRIMARY_MODEL = "bge-m3"
 
@@ -81,13 +88,13 @@ class ModelScoreDetail(BaseModel):
     skillsScore: float
     experienceScore: float
     educationScore: float
-    isMatch: bool          # ← nouveau : résultat binaire selon seuil optimal
+    isMatch: bool
 
 class MatchResult(BaseModel):
     offerId: str
     candidateId: str
     globalScore: float
-    isMatch: bool          # ← nouveau
+    isMatch: bool
     details: Dict[str, Any]
     modelScores: Optional[Dict[str, ModelScoreDetail]] = None
 
@@ -137,10 +144,6 @@ def calculate_semantic_similarity(
     model_key: str,
     calibrator=None,
 ) -> float:
-    """
-    Calcule la similarité cosinus entre deux textes.
-    Si un calibrateur isotonique est disponible, applique la correction de biais.
-    """
     if not text1 or not text2:
         return 0.0
 
@@ -155,7 +158,6 @@ def calculate_semantic_similarity(
     raw_sim = float(cosine_similarity(emb1, emb2)[0][0])
     raw_sim = max(0.0, raw_sim)
 
-    # Calibration isotonique (corrige le biais -0.066 observé sur v5)
     if calibrator is not None:
         raw_sim = float(calibrator.predict([raw_sim])[0])
         raw_sim = max(0.0, min(1.0, raw_sim))
@@ -245,7 +247,7 @@ def process_match(
         matching_skills = set()
         skills_score    = 100.0
 
-    # 4. SIMILARITÉ SÉMANTIQUE (40 %) — avec calibration v5
+    # 4. SIMILARITÉ SÉMANTIQUE (40 %)
     offer_text = " ".join([
         str(offer.get("title", "")),
         str(offer.get("description", "")),
@@ -258,30 +260,49 @@ def process_match(
     ])
 
     model_scores = {}
-    for mod_key, mod_encoder in MODELS.items():
-        calibrator  = CALIBRATORS.get(mod_key)
-        threshold   = MODELS_CONFIG[mod_key]["threshold"]
 
-        sim_score = calculate_semantic_similarity(
-            offer_text, cand_text, mod_encoder, mod_key, calibrator
-        ) * 100.0
+    if _TESTING or not MODELS:
+        # Mode test : score sémantique fixe à 0.75 pour valider la logique métier
+        for mod_key, config in MODELS_CONFIG.items():
+            sim_score = 75.0
+            g_score = (
+                exp_score      * 0.15
+                + edu_score    * 0.15
+                + skills_score * 0.30
+                + sim_score    * 0.40
+            )
+            model_scores[mod_key] = {
+                "globalScore":     round(g_score, 2),
+                "semanticScore":   round(sim_score, 2),
+                "skillsScore":     round(skills_score, 2),
+                "experienceScore": round(exp_score, 2),
+                "educationScore":  round(edu_score, 2),
+                "isMatch":         (sim_score / 100.0) >= config["threshold"],
+            }
+    else:
+        for mod_key, mod_encoder in MODELS.items():
+            calibrator  = CALIBRATORS.get(mod_key)
+            threshold   = MODELS_CONFIG[mod_key]["threshold"]
 
-        g_score = (
-            exp_score      * 0.15
-            + edu_score    * 0.15
-            + skills_score * 0.30
-            + sim_score    * 0.40
-        )
-        is_match = (sim_score / 100.0) >= threshold
+            sim_score = calculate_semantic_similarity(
+                offer_text, cand_text, mod_encoder, mod_key, calibrator
+            ) * 100.0
 
-        model_scores[mod_key] = {
-            "globalScore":     round(g_score, 2),
-            "semanticScore":   round(sim_score, 2),
-            "skillsScore":     round(skills_score, 2),
-            "experienceScore": round(exp_score, 2),
-            "educationScore":  round(edu_score, 2),
-            "isMatch":         is_match,
-        }
+            g_score = (
+                exp_score      * 0.15
+                + edu_score    * 0.15
+                + skills_score * 0.30
+                + sim_score    * 0.40
+            )
+
+            model_scores[mod_key] = {
+                "globalScore":     round(g_score, 2),
+                "semanticScore":   round(sim_score, 2),
+                "skillsScore":     round(skills_score, 2),
+                "experienceScore": round(exp_score, 2),
+                "educationScore":  round(edu_score, 2),
+                "isMatch":         (sim_score / 100.0) >= threshold,
+            }
 
     main_model_key = PRIMARY_MODEL if PRIMARY_MODEL in model_scores else list(model_scores.keys())[0]
     main_scores    = model_scores[main_model_key]
@@ -368,6 +389,8 @@ async def rank_profile_offers(request: MatchProfileOffersRequest):
 
 @app.post("/api/train")
 async def api_train_model(request: TrainingRequest):
+    if _TESTING:
+        return {"status": "skipped", "message": "Training disabled in TESTING mode"}
     try:
         model_key = request.model_type or PRIMARY_MODEL
         if model_key not in MODELS_CONFIG:
@@ -422,16 +445,19 @@ async def api_train_model(request: TrainingRequest):
 
 @app.get("/api/models-info")
 async def models_info():
-    """Retourne les informations sur les modèles chargés."""
-    info = {}
-    for key, config in MODELS_CONFIG.items():
-        info[key] = {
-            "save_path":   config["save_path"],
-            "loaded":      key in MODELS,
-            "calibrated":  CALIBRATORS.get(key) is not None,
-            "threshold":   config["threshold"],
+    return {
+        "primary_model": PRIMARY_MODEL,
+        "testing_mode":  _TESTING,
+        "models": {
+            key: {
+                "save_path":  config["save_path"],
+                "loaded":     key in MODELS,
+                "calibrated": CALIBRATORS.get(key) is not None,
+                "threshold":  config["threshold"],
+            }
+            for key, config in MODELS_CONFIG.items()
         }
-    return {"primary_model": PRIMARY_MODEL, "models": info}
+    }
 
 
 @app.get("/health")
