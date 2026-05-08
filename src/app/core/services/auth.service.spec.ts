@@ -4,10 +4,13 @@ import { AuthService, User } from './auth.service';
 describe('AuthService', () => {
   let service: AuthService;
 
-  beforeEach(() => {
+  // auth.service.spec.ts
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(AuthService);
-  });
+    service.login('ADMIN').subscribe(); // déclenche le mock user
+    tick(500);                          // avance le délai simulé
+  }));
 
   it('should be created', () => {
     expect(service).toBeTruthy();
