@@ -57,7 +57,7 @@ describe('UserService', () => {
   it('should updateUser', () => {
     const dto = { firstName: 'Test' } as UserDTO;
     service.updateUser('k1', dto).subscribe();
-    const req = httpMock.expectOne(`${API_URL}/updateUser/k1`);
+    const req = httpMock.expectOne(`${API_URL}/userAdminController/updateUser/k1`);
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(dto);
     req.flush({});
