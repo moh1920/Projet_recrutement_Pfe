@@ -1,0 +1,4 @@
+ai:
+  matching:
+    api:
+      url: http://localhost:8001
