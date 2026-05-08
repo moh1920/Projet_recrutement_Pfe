@@ -158,18 +158,29 @@ def test_experience_insufficient(offer, profile):
     }).json()
     assert data["details"]["experienceScore"] == pytest.approx(50.0)
 
-def test_education_match(offer, candidate, profile):
-    """Candidat master, offre master → educationScore = 100."""
-    assert client.post("/api/match", json={
-        "offer": offer, "candidate": candidate, "profile": profile
-    }).json()["details"]["educationScore"] == 100.0
-
-def test_education_below_requirement(offer, profile):
-    """Candidat licence, offre master → educationScore = 50."""
-    cand = {"_id": "c", "skills": [], "experience": 3,
-            "education": [{"degree": "licence"}]}
+def test_education_match(offer, candidate):
+    """Candidat master, offre master → educationScore = 100.
+    Profile vide pour isoler la source du niveau."""
     data = client.post("/api/match", json={
-        "offer": offer, "candidate": cand, "profile": profile
+        "offer": offer,
+        "candidate": candidate,
+        "profile": {},
+    }).json()
+    assert data["details"]["educationScore"] == 100.0
+
+def test_education_below_requirement(offer):
+    """Candidat licence, offre master → educationScore = 50.
+    Profile sans niveauDiplome pour ne pas écraser le niveau candidat."""
+    cand = {
+        "_id": "cand-low-edu",
+        "skills": [],
+        "experience": 3,
+        "education": [{"degree": "licence"}],
+    }
+    data = client.post("/api/match", json={
+        "offer": offer,
+        "candidate": cand,
+        "profile": {},
     }).json()
     assert data["details"]["educationScore"] == pytest.approx(50.0)
 
