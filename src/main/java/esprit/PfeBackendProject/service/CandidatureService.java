@@ -286,5 +286,20 @@ public class CandidatureService {
     }
 
 
+    public void updateStatus(String idCandidature, CandidateStatus status) {
+        Candidate candidate = candidatureRepository.findById(idCandidature)
+                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + idCandidature));
+        candidate.setStatus(status);
+        candidate.setUpdatedAt(LocalDateTime.now());
+        candidatureRepository.save(candidate);
+    }
+
+
+    public void deleteCandidature(String id) {
+        if (!candidatureRepository.existsById(id)) {
+            throw new RuntimeException("Candidate not found with id: " + id);
+        }
+        candidatureRepository.deleteById(id);
+    }
 
 }

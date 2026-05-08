@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class AiMatchingService {
 
-    @Value("${ai.matching.api.url:http://127.0.0.1:8001}")
+    @Value("${ai.matching.api.url}")
     private String pythonApiBaseUrl;
 
     private final RestTemplate restTemplate;
@@ -35,7 +35,7 @@ public class AiMatchingService {
      */
     public List<MatchResult> rankCandidatesForOffer(String offerId, Object offer, List<CandidateProfilePair> candidatesPairs) {
         MatchMultipleRequest request = new MatchMultipleRequest();
-        request.setOfferId(offerId);       // ✅ ID explicite
+        request.setOfferId(offerId);
         request.setOffer(offer);
         request.setPairs(candidatesPairs);
 
@@ -59,7 +59,7 @@ public class AiMatchingService {
      */
     public List<MatchResult> rankOffersForCandidate(Candidate candidate, ProfileResponseDTO profile, List<Offre> availableOffers) {
         MatchOffersRequest request = new MatchOffersRequest();
-        request.setCandidateId(candidate.getId());  // ✅ ID explicite
+        request.setCandidateId(candidate.getId());
         request.setCandidate(candidate);
         request.setProfile(profile);
         request.setOffers(availableOffers);

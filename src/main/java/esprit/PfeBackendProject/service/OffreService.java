@@ -6,10 +6,12 @@ import esprit.PfeBackendProject.dto.OffreUpdateDto;
 import esprit.PfeBackendProject.entity.*;
 import esprit.PfeBackendProject.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OffreService {
 
     private final OffreRepository offreRepository;
@@ -174,6 +177,27 @@ public class OffreService {
 //
 //        return candidatureRepository.save(candidature);
 //    }
+
+
+    public void modifierStatusOffre(String idOffre, String status) {
+        Offre offre = offreRepository.findById(idOffre)
+                .orElseThrow(() -> new RuntimeException("Offre not found"));
+        offre.setStatus(status);
+        offreRepository.save(offre);
+
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Exécute tous les jours à minuit
+    public void modifierStatusOffreCrone() {
+        List<Offre> offres = offreRepository.findAll();
+        for (Offre offre : offres) {
+            if (offre.getDeadline() != null && offre.getDeadline().isBefore(LocalDate.now())) {
+                offre.setStatus("Expirée");
+                offreRepository.save(offre);
+                log.error("Offre avec id " + offre.getId() + " a été expirée automatiquement.");
+            }
+        }
+    }
 
 
 

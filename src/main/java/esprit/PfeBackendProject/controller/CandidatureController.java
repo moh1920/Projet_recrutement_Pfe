@@ -2,11 +2,13 @@ package esprit.PfeBackendProject.controller;
 
 import esprit.PfeBackendProject.dto.CandidateDTO;
 import esprit.PfeBackendProject.entity.Candidate;
+import esprit.PfeBackendProject.entity.CandidateStatus;
 import esprit.PfeBackendProject.service.CandidatureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -111,5 +113,25 @@ public class CandidatureController {
             @PathVariable String id,
             @PathVariable String stepName) {
         return ResponseEntity.ok(candidatureService.deleteStep(id, stepName));
+    }
+
+
+    @PutMapping("/updateStatus/{idCandidature}/{status}")
+    public void updateStatus(@PathVariable String idCandidature,@PathVariable CandidateStatus status) {
+       try {
+              candidatureService.updateStatus(idCandidature, status);
+         } catch (Exception e) {
+              throw new RuntimeException(e);
+       }
+    }
+
+    @DeleteMapping("/deleteCandidature/{id}")
+    public void deleteCandidature(@PathVariable String id) {
+        try {
+            candidatureService.deleteCandidature(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

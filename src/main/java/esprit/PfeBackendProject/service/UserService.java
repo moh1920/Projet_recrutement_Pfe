@@ -3,6 +3,7 @@ package esprit.PfeBackendProject.service;
 
 import esprit.PfeBackendProject.configuration.UserMapper;
 import esprit.PfeBackendProject.dto.UserDTO;
+import esprit.PfeBackendProject.entity.StatusUser;
 import esprit.PfeBackendProject.entity.User;
 import esprit.PfeBackendProject.entity.UserDetais;
 import esprit.PfeBackendProject.repository.UserDetaisRepository;
@@ -94,6 +95,22 @@ public class UserService {
 
         return userMapper.mapToDTO(user, userDetais);
     }
+
+    public void updateStatusUser(String id, StatusUser status) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getIdDetaisUsers() == null) {
+            throw new RuntimeException("UserDetais not found for this user");
+        }
+
+        UserDetais userDetais = userDetaisRepository.findById(user.getIdDetaisUsers())
+                .orElseThrow(() -> new RuntimeException("UserDetais not found"));
+
+        userDetais.setStatusUser(status);
+        userDetaisRepository.save(userDetais);
+    }
+
 
 
 }

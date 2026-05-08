@@ -1,7 +1,9 @@
 package esprit.PfeBackendProject.controller;
 
+import esprit.PfeBackendProject.dto.N8nScoringResponse;
 import esprit.PfeBackendProject.dto.OffreUpdateDto;
 import esprit.PfeBackendProject.entity.Offre;
+import esprit.PfeBackendProject.service.N8nRecrutementService;
 import esprit.PfeBackendProject.service.OffreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import java.util.List;
 public class OffreController {
 
     private final OffreService offreService;
+    private final N8nRecrutementService n8nService;
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Offre offre) {
@@ -120,4 +123,24 @@ public class OffreController {
                     .body("Erreur lors de l'affectation des critères");
         }
     }
+
+
+    @PutMapping("/modifierStatusOffre/{idOffre}/{status}")
+    public void modifierStatusOffre(@PathVariable String idOffre,@PathVariable String status) {
+        try {
+            offreService.modifierStatusOffre(idOffre, status);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/scorer-offre")
+    public ResponseEntity<N8nScoringResponse[]> scorerOffre(
+            @RequestBody Offre offre) {
+
+        N8nScoringResponse result = n8nService.lancerScoring(offre);
+        return ResponseEntity.ok(new N8nScoringResponse[]{result});
+    }
+
+
 }

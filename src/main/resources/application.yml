@@ -68,7 +68,7 @@ server:
 # ============ GEMINI AI ============
 gemini:
   api:
-    key: AIzaSyAg1rmWQeguJfxl8vPJiUa5CVesfX4CPPU
+    key: ${GEMINI_API_KEY}
   model: gemini-3-flash-preview
   max-output-tokens: 1500
   temperature: 0.3
@@ -78,3 +78,16 @@ cloudinary:
   cloud-name : dpvqw1nd4
   api-key : 842164992996356
   api-secret : _HsPSNcA3gw5INs6FVFxUp3pCsI
+
+
+n8n:
+  webhook:
+    url: https://sayari123.app.n8n.cloud/webhook-test/offre-recrutement
+    connect-timeout: 10000
+    read-timeout: 120000
+
+
+ai:
+  matching:
+    api:
+      url: ${MATCHING_API_URL:http://127.0.0.1:8001}

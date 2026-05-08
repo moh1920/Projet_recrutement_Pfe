@@ -2,6 +2,9 @@ package esprit.PfeBackendProject.controller;
 
 import esprit.PfeBackendProject.dto.UserDTO;
 import esprit.PfeBackendProject.entity.Offre;
+import esprit.PfeBackendProject.entity.StatusUser;
+import esprit.PfeBackendProject.entity.User;
+import esprit.PfeBackendProject.entity.UserDetais;
 import esprit.PfeBackendProject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,6 +43,15 @@ public class UserController {
             @PathVariable String keycloakId,
             @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.updateUser(keycloakId, userDTO));
+    }
+
+    @PutMapping("updateStatusUser/{id}/{status}")
+    public void updateStatusUser(@PathVariable String id,@PathVariable StatusUser status) {
+        try {
+            userService.updateStatusUser(id, status);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
