@@ -11,6 +11,7 @@ env:
   IMAGE_NAME: cv-api
   CONTAINER_APP_NAME: cv-api
   RESOURCE_GROUP: pfe-rg
+  # CORRECTION 1 : pas de schéma https:// ici — il est ajouté explicitement dans les steps
   APP_URL: cv-api.graymoss-d46652df.francecentral.azurecontainerapps.io
 
 jobs:
@@ -34,7 +35,7 @@ jobs:
 
       - name: Run tests
         run: pytest tests/ -v --tb=short
-        continue-on-error: true
+        # continue-on-error supprimé — les tests bloquent réellement le pipeline
 
   # ─────────────────────────────────────────────
   # JOB 2 — Build Docker Image
@@ -110,28 +111,40 @@ jobs:
       - name: Install containerapp extension
         run: az extension add --name containerapp --upgrade -y
 
-      - name: Set environment variables
+      # CORRECTION 2 : WEBSITES_PORT aligné sur le Dockerfile (8001, pas 8000)
+      # CORRECTION 3 : montage du volume Azure File Share pour le modèle BGE-M3
+      #   → crée d'abord le storage via :
+      #     az containerapp env storage set --name <env> --resource-group pfe-rg \
+      #       --storage-name bge-m3-share --azure-file-account-name <account> \
+      #       --azure-file-account-key <key> --azure-file-share-name bge-m3 \
+      #       --access-mode ReadOnly
+      - name: Deploy new image + env vars to ACA
         run: |
           az containerapp update \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
+            --image ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             --set-env-vars \
               AZURE_STORAGE_KEY="${{ secrets.AZURE_STORAGE_KEY }}" \
               HUGGINGFACEHUB_API_TOKEN="${{ secrets.HUGGINGFACEHUB_API_TOKEN }}" \
-              WEBSITES_PORT="8000"
+              WEBSITES_PORT="8001"
 
-      - name: Deploy new image to ACA
-        run: |
-          az containerapp update \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --image ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+      # CORRECTION 4 : montage du volume pour le cache HuggingFace (tokenizers)
+      #   Optionnel mais évite un re-download complet à chaque redéploiement.
+      #   Nécessite un second Azure File Share "hf-cache" configuré dans l'env ACA.
+      # - name: Mount HF cache volume
+      #   run: |
+      #     az containerapp update \
+      #       --name ${{ env.CONTAINER_APP_NAME }} \
+      #       --resource-group ${{ env.RESOURCE_GROUP }} \
+      #       --volume name=hf-cache,storageType=AzureFile,storageName=hf-cache-share \
+      #       --container-volume-mounts volumeName=hf-cache,mountPath=/app/hf_cache
 
+      # CORRECTION 5 : poll immédiat sans sleep fixe — couvre jusqu'à ~7 min
       - name: Health Check
         run: |
-          echo "⏳ Waiting 3 min for container startup..."
-          sleep 180
-          for i in {1..10}; do
+          echo "⏳ Polling health endpoint (max 20 attempts × 20s = ~7 min)..."
+          for i in {1..20}; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
               "https://${{ env.APP_URL }}/health")
             echo "Attempt $i — HTTP $STATUS"
@@ -139,9 +152,10 @@ jobs:
               echo "✅ CV API is ready!"
               exit 0
             fi
-            sleep 30
+            sleep 20
           done
-          exit 0
+          echo "❌ Health check failed after 20 attempts (~7 min)"
+          exit 1
 
       - name: Summary
         if: always()

@@ -1,11 +1,8 @@
 import os
 
-# --- Cache HuggingFace : utilise la variable d'env si définie (Docker/Azure),
-#     sinon fallback local pour le dev Windows ---
-_hf_cache = os.environ.get("HF_HOME", "F:/HF_Cache")
-os.environ["HF_HOME"] = _hf_cache
-os.environ["HUGGINGFACE_HUB_CACHE"] = os.environ.get("HUGGINGFACE_HUB_CACHE", _hf_cache)
-os.environ["TRANSFORMERS_CACHE"] = os.environ.get("TRANSFORMERS_CACHE", _hf_cache)
+# --- Déplacement du cache de HuggingFace vers le disque F ---
+os.environ["HF_HOME"] = "F:/HF_Cache"
+os.environ["HUGGINGFACE_HUB_CACHE"] = "F:/HF_Cache"
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -32,21 +29,16 @@ app = FastAPI(
 # v5 = BGE-M3 fine-tuné axe1 avec calibration isotonique
 # Seuil prod = 0.67 (optimisé F1 sur validation)
 # ─────────────────────────────────────────────────────────────────────────────
+
+
+# Surcharge des chemins modèles via variables d'environnement (Docker / Azure)
+_BGE_PATH = os.environ.get("BGE_M3_SAVE_PATH", "G:/ai_models/trained_model_bge_m3_axe1_v5")
 MODELS_CONFIG = {
-    "e5": {
-        "base_name": "intfloat/multilingual-e5-base",
-        # En container Docker/Azure → E5_MODEL_PATH=/app/models/e5
-        "save_path": os.environ.get("E5_MODEL_PATH", "./trained_model_e5"),
-        "calibrator_path": None,
-        "threshold": 0.70,
-    },
     "bge-m3": {
-        "base_name": "BAAI/bge-m3",
-        # En container Docker/Azure → BGE_M3_MODEL_PATH=/app/models/bge_m3
-        # En dev local Windows  → G:/ai_models/trained_model_bge_m3_axe1_v5
-        "save_path": os.environ.get("BGE_M3_MODEL_PATH", "G:/ai_models/trained_model_bge_m3_axe1_v5"),
-        "calibrator_path": "calibrator_axe1_v5.pkl",                 # ← calibrateur v5
-        "threshold": 0.67,                                            # ← seuil optimal v5
+        "base_name":       "BAAI/bge-m3",
+        "save_path":       _BGE_PATH,
+        "calibrator_path": "calibrator_axe1_v5.pkl",
+        "threshold":       0.67,
     }
 }
 
@@ -296,8 +288,8 @@ def process_match(
     missing_skills = req_skills - matching_skills
 
     return MatchResult(
-        offerId=offer.get("_id", offer.get("id", "unknown_offer")),
-        candidateId=candidate.get("_id", candidate.get("id", "unknown_candidate")),
+        offerId=str(offer.get("_id", offer.get("id", "unknown_offer"))),
+        candidateId=str(candidate.get("_id", candidate.get("id", "unknown_candidate"))),
         globalScore=main_scores["globalScore"],
         isMatch=main_scores["isMatch"],
         details={
