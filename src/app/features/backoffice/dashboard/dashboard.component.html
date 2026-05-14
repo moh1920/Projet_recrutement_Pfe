@@ -1,199 +1,107 @@
-<div class="dashboard-container">
-  <!-- Header -->
-  <div class="dashboard-header">
-    <div>
-      <h1>Tableau de Bord</h1>
-      <p>Vue d'ensemble du recrutement</p>
-    </div>
-    <div class="header-actions">
-      <button mat-stroked-button>
-        <mat-icon>download</mat-icon>
-        Exporter
-      </button>
-      <button mat-raised-button color="primary">
-        <mat-icon>add</mat-icon>
-        Nouvelle offre
-      </button>
-    </div>
-  </div>
+<div class="space-y-6" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; background-color: #f8fafc; min-height: 100vh;">
+  <app-dashboard-header
+    title="Tableau de Bord Recrutement"
+    subtitle="Vue d'ensemble et statistiques en temps réel"
+  ></app-dashboard-header>
 
   <!-- KPI Cards -->
-  <div class="kpi-grid">
-    <mat-card
-      class="kpi-card"
-      *ngFor="let stat of stats; let i = index"
-      [style.animation-delay]="i * 0.1 + 's'"
-    >
-      <div class="kpi-content">
-        <div class="kpi-info">
-          <span class="kpi-title">{{ stat.title }}</span>
-          <span class="kpi-value">{{ stat.value }}</span>
-          <span class="kpi-trend" [class]="stat.trendType">
-            <mat-icon>{{ stat.trendIcon }}</mat-icon>
-            {{ stat.trend }}
-          </span>
-        </div>
-        <div class="kpi-icon" [class]="stat.color">
-          <mat-icon>{{ stat.icon }}</mat-icon>
-        </div>
-      </div>
-      <div class="kpi-progress">
-        <div class="progress-bar">
-          <div class="progress-fill" [style.width.%]="stat.progress"></div>
-        </div>
-      </div>
-    </mat-card>
+  <div class="grid grid-cols-4 gap-4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem;">
+    <app-kpi-card
+      title="Total Candidatures"
+      [value]="totalCandidatures"
+      [icon]="UsersIcon"
+      color="text-blue-600"
+      bgColor="bg-blue-50"
+    ></app-kpi-card>
+    <app-kpi-card
+      title="Offres Actives"
+      [value]="totalOffres"
+      [icon]="BriefcaseIcon"
+      color="text-violet-600"
+      bgColor="bg-violet-50"
+    ></app-kpi-card>
+    <app-kpi-card
+      title="Entretiens"
+      [value]="totalInterviews"
+      [icon]="ClockIcon"
+      color="text-amber-600"
+      bgColor="bg-amber-50"
+    ></app-kpi-card>
+    <app-kpi-card
+      title="Candidats Admis"
+      [value]="admisCount"
+      [icon]="CheckCircleIcon"
+      color="text-emerald-600"
+      bgColor="bg-emerald-50"
+    ></app-kpi-card>
   </div>
 
-  <!-- Main Content Grid -->
-  <div class="main-grid">
-    <!-- Timeline -->
-    <mat-card class="timeline-card">
-      <mat-card-header>
-        <mat-icon>timeline</mat-icon>
-        <div>
-          <h2>Processus de Recrutement</h2>
-          <span>Session Juin 2026</span>
-        </div>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="timeline">
-          <div
-            class="timeline-item"
-            *ngFor="let step of timelineSteps; let last = last"
-            [class]="step.status"
-          >
-            <div class="timeline-marker">
-              <div class="marker-circle">
-                <mat-icon *ngIf="step.status === 'completed'">check</mat-icon>
-                <mat-icon *ngIf="step.status === 'active'">{{ step.icon }}</mat-icon>
-                <span *ngIf="step.status === 'pending'">{{ step.step }}</span>
-              </div>
-              <div class="marker-line" *ngIf="!last"></div>
-            </div>
-            <div class="timeline-content">
-              <h4>{{ step.label }}</h4>
-              <p>{{ step.description }}</p>
-              <span class="timeline-date">{{ step.date }}</span>
-            </div>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+  <!-- Charts -->
+  <div class="grid grid-cols-2 gap-4" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem;">
+    
+    <!-- Bar Chart -->
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-4" style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem;">
+      <h3 class="text-sm font-semibold text-foreground mb-4" style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem;">Top 5 Postes par nombre de candidats</h3>
+      <div class="h-[280px] w-full" style="height: 280px; width: 100%;">
+        <ngx-charts-bar-horizontal
+          [results]="barData"
+          [xAxis]="true"
+          [yAxis]="true"
+          [customColors]="customColorsBar"
+          [showXAxisLabel]="false"
+          [showYAxisLabel]="false"
+        >
+        </ngx-charts-bar-horizontal>
+      </div>
+    </div>
 
-    <!-- Charts Section -->
-    <div class="charts-section">
-      <!-- Bar Chart -->
-      <mat-card class="chart-card">
-        <mat-card-header>
-          <h3>Répartition des Scores</h3>
-          <button mat-icon-button>
-            <mat-icon>more_vert</mat-icon>
-          </button>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="bar-chart">
-            <div class="bar-item" *ngFor="let bar of barData">
-              <div class="bar-wrapper">
-                <div class="bar" [style.height.%]="bar.value" [class]="bar.type"></div>
-                <span class="bar-value">{{ bar.value }}%</span>
-              </div>
-              <span class="bar-label">{{ bar.label }}</span>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+    <!-- Donut Chart -->
+    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-4" style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem;">
+      <app-donut-chart
+        [data]="donutData"
+        [colors]="donutColors"
+        title="Répartition des statuts de candidature"
+      ></app-donut-chart>
+    </div>
 
-      <!-- Pie Chart -->
-      <mat-card class="chart-card">
-        <mat-card-header>
-          <h3>Statuts Candidatures</h3>
-          <button mat-icon-button>
-            <mat-icon>more_vert</mat-icon>
-          </button>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="pie-chart-container">
-            <div class="pie-chart">
-              <svg viewBox="0 0 36 36">
-                <path
-                  *ngFor="let slice of pieData"
-                  [attr.d]="slice.path"
-                  [attr.fill]="slice.color"
-                />
-              </svg>
-              <div class="pie-center">
-                <span>142</span>
-                <small>Total</small>
-              </div>
-            </div>
-            <div class="pie-legend">
-              <div class="legend-item" *ngFor="let item of pieData">
-                <span class="legend-dot" [style.background]="item.color"></span>
-                <span class="legend-label">{{ item.label }}</span>
-                <span class="legend-value">{{ item.value }}%</span>
-              </div>
-            </div>
+  </div>
+
+  <!-- Recent Candidates List -->
+  <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-4" style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem;">
+    <div class="flex items-center gap-2 mb-4">
+      <lucide-icon [img]="FileTextIcon" style="width: 20px; height: 20px; color: #64748b;"></lucide-icon>
+      <h3 class="text-sm font-semibold text-foreground" style="font-size: 0.875rem; font-weight: 600;">Candidats Récents</h3>
+    </div>
+    
+    <div class="overflow-auto space-y-2" style="display: flex; flex-direction: column; gap: 0.5rem;">
+      <div *ngIf="recentCandidates.length === 0" style="padding: 1rem; text-align: center; color: #64748b; font-size: 0.875rem;">
+        Aucun candidat récent.
+      </div>
+      <div *ngFor="let c of recentCandidates" class="flex items-center justify-between p-2.5 rounded-lg transition-colors" style="display: flex; align-items: center; justify-content: space-between; padding: 0.625rem; border-radius: 0.5rem; background-color: #f8fafc;">
+        <div class="flex-1 min-w-0" style="flex: 1; min-width: 0;">
+          <div class="flex items-center gap-2" style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="text-xs font-semibold truncate" style="font-size: 0.875rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              {{ c.firstName }} {{ c.lastName }}
+            </span>
           </div>
-        </mat-card-content>
-      </mat-card>
+          <p class="text-[10px] text-muted-foreground mt-0.5" style="font-size: 0.75rem; color: #64748b; margin-top: 0.125rem;">
+            Poste: {{ c.appliedPosition || 'Non spécifié' }}
+          </p>
+        </div>
+        <div class="flex items-center gap-3 flex-shrink-0" style="display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0;">
+          <div class="text-right">
+            <p class="text-[10px] text-muted-foreground" style="font-size: 0.625rem; color: #64748b;">
+              {{ c.appliedDate | date:'dd/MM/yyyy' }}
+            </p>
+          </div>
+          <span class="inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-semibold"
+                style="display: inline-flex; align-items: center; border-radius: 0.375rem; padding: 0.125rem 0.5rem; font-size: 0.625rem; font-weight: 600;"
+                [ngClass]="getStatusClass(c.status)">
+            {{ c.status || 'NOUVEAU' }}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Recent Candidates Table -->
-  <mat-card class="table-card">
-    <mat-card-header>
-      <div class="table-title">
-        <mat-icon>people</mat-icon>
-        <div>
-          <h2>Candidats Récents</h2>
-          <span>Derniers profils analysés</span>
-        </div>
-      </div>
-      <button mat-stroked-button color="primary">Voir tout</button>
-    </mat-card-header>
-    <mat-card-content>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Candidat</th>
-            <th>Spécialité</th>
-            <th>Score IA</th>
-            <th>Statut</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let candidate of recentCandidates">
-            <td>
-              <div class="candidate-info">
-                <div class="candidate-avatar">
-                  {{ candidate.name.charAt(0) }}
-                </div>
-                <span class="candidate-name">{{ candidate.name }}</span>
-              </div>
-            </td>
-            <td>{{ candidate.specialty }}</td>
-            <td>
-              <div class="score-display">
-                <div class="score-ring" [class]="getScoreClass(candidate.score)">
-                  <span>{{ candidate.score }}</span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <span class="status-badge" [class]="getStatusClass(candidate.status)">
-                {{ candidate.status }}
-              </span>
-            </td>
-            <td>
-              <button mat-icon-button color="primary">
-                <mat-icon>visibility</mat-icon>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </mat-card-content>
-  </mat-card>
 </div>

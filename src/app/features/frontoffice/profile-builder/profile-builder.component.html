@@ -153,7 +153,12 @@
                             formControlName="nom"
                             placeholder="Ex : Dr. Ahmed Ben Salem"
                           />
-                          <mat-error>Le nom complet est requis</mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('nom')?.hasError('required')">
+                            Le nom complet est obligatoire
+                          </mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('nom')?.hasError('minlength')">
+                            Minimum 2 caractères requis
+                          </mat-error>
                         </mat-form-field>
                       </div>
 
@@ -170,7 +175,12 @@
                             formControlName="email"
                             placeholder="Ex : ahmed.bensalem@email.com"
                           />
-                          <mat-error>Une adresse email valide est requise</mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('email')?.hasError('required')">
+                            L'adresse email est obligatoire
+                          </mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('email')?.hasError('email')">
+                            Veuillez saisir une adresse email valide
+                          </mat-error>
                         </mat-form-field>
                       </div>
 
@@ -186,7 +196,12 @@
                             formControlName="telephone"
                             placeholder="Ex : +216 XX XXX XXX"
                           />
-                          <mat-error>Le numéro de téléphone est requis</mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('telephone')?.hasError('required')">
+                            Le numéro de téléphone est obligatoire
+                          </mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('telephone')?.hasError('pattern')">
+                            Format invalide — ex : +21698765432
+                          </mat-error>
                         </mat-form-field>
                       </div>
 
@@ -201,9 +216,23 @@
                             formControlName="nationalite"
                             placeholder="Sélectionnez votre nationalité"
                           >
-                            <mat-option *ngFor="let nat of nationalites" [value]="nat">{{
-                              nat
-                            }}</mat-option>
+                            <mat-option *ngIf="nationalitesLoading" disabled>
+                              Chargement...
+                            </mat-option>
+
+                            <mat-option
+                              *ngFor="let nat of nationalites"
+                              [value]="nat.name"
+                            >
+                              <div style="display: flex; align-items: center; gap: 10px;">
+                                <img
+                                  [src]="nat.flagUrl"
+                                  [alt]="nat.code"
+                                  style="width: 20px; height: 14px; object-fit: cover; border-radius: 2px;"
+                                />
+                                <span>{{ nat.name }}</span>
+                              </div>
+                            </mat-option>
                           </mat-select>
                           <mat-error>La nationalité est requise</mat-error>
                         </mat-form-field>
@@ -244,6 +273,8 @@
                             matInput
                             [matDatepicker]="picker1"
                             formControlName="dateNaissance"
+                            [min]="minDate"
+                            [max]="maxDate"
                             placeholder="JJ/MM/AAAA"
                           />
                           <mat-datepicker-toggle
@@ -251,7 +282,15 @@
                             [for]="picker1"
                           ></mat-datepicker-toggle>
                           <mat-datepicker #picker1></mat-datepicker>
-                          <mat-error>La date de naissance est requise</mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('dateNaissance')?.hasError('required')">
+                            La date de naissance est requise
+                          </mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('dateNaissance')?.hasError('matDatepickerMax')">
+                            Vous devez avoir au moins 18 ans
+                          </mat-error>
+                          <mat-error *ngIf="personalInfoForm.get('dateNaissance')?.hasError('matDatepickerMin')">
+                            L'âge maximum autorisé est de 70 ans
+                          </mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -264,6 +303,7 @@
                       color="primary"
                       matStepperNext
                       class="btn-next"
+                      (click)="markStep1AsTouched()"
                       [disabled]="!personalInfoForm.valid"
                     >
                       Étape suivante
@@ -365,7 +405,15 @@
                             formControlName="anneeDiplome"
                             placeholder="Ex : 2020"
                           />
-                          <mat-error>Une année valide est requise</mat-error>
+                          <mat-error *ngIf="educationForm.get('anneeDiplome')?.hasError('required')">
+                            L'année d'obtention est obligatoire
+                          </mat-error>
+                          <mat-error *ngIf="educationForm.get('anneeDiplome')?.hasError('min')">
+                            Année trop ancienne (minimum 1950)
+                          </mat-error>
+                          <mat-error *ngIf="educationForm.get('anneeDiplome')?.hasError('max')">
+                            Année invalide (maximum 2030)
+                          </mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -409,6 +457,7 @@
                       color="primary"
                       matStepperNext
                       class="btn-next"
+                      (click)="markStep2AsTouched()"
                       [disabled]="!educationForm.valid"
                     >
                       Étape suivante
@@ -458,9 +507,18 @@
                             type="number"
                             formControlName="nbAnneesExperience"
                             min="0"
+                            max="60"
                             placeholder="Ex : 5"
                           />
-                          <mat-error>Ce champ est requis</mat-error>
+                          <mat-error *ngIf="experienceForm.get('nbAnneesExperience')?.hasError('required')">
+                            Ce champ est obligatoire
+                          </mat-error>
+                          <mat-error *ngIf="experienceForm.get('nbAnneesExperience')?.hasError('min')">
+                            La valeur ne peut pas être négative
+                          </mat-error>
+                          <mat-error *ngIf="experienceForm.get('nbAnneesExperience')?.hasError('max')">
+                            Valeur trop élevée (maximum 60)
+                          </mat-error>
                         </mat-form-field>
                       </div>
 
@@ -611,6 +669,7 @@
                       color="primary"
                       matStepperNext
                       class="btn-next"
+                      (click)="markStep3AsTouched()"
                       [disabled]="!experienceForm.valid"
                     >
                       Étape suivante

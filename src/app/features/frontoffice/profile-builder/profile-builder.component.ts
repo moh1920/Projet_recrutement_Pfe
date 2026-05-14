@@ -17,6 +17,8 @@ import { MatCardModule } from '@angular/material/card';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { ProfileRequestDTO, ProfileService } from '../../../core/services/profile.service';
 import { KeycloakService } from 'keycloak-angular';
+import {Country, CountryService} from "../../../core/services/country.service";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-profile-builder',
@@ -36,6 +38,7 @@ import { KeycloakService } from 'keycloak-angular';
     MatIconModule,
     MatSliderModule,
     MatCardModule,
+    MatProgressSpinner,
   ],
   templateUrl: './profile-builder.component.html',
   styleUrl: './profile-builder.component.scss',
@@ -67,7 +70,6 @@ export class ProfileBuilderComponent implements OnInit {
   // Options
   niveauxDiplome = ['Licence', 'Master', 'Doctorat', 'HDR', 'Ingénieur'];
   gradesAcademiques = ['Assistant', 'Maître Assistant', 'Maître de Conférences', 'Professeur'];
-  nationalites = ['Tunisienne', 'Française', 'Algérienne', 'Marocaine', 'Autre'];
 
   // Skills Lists
   langagesList = [
@@ -121,11 +123,49 @@ export class ProfileBuilderComponent implements OnInit {
     'Apprentissage par Problèmes',
   ];
 
+  // Date limits for DatePicker
+  minDate: Date;
+  maxDate: Date;
+
+
+  private countryService = inject(CountryService);
+
+  // Remplacer le tableau statique par :
+  nationalites: Country[] = [];
+  nationalitesLoading = true;
+
   constructor() {
+    const today = new Date();
+    // Minimum age 18, maximum age 70
+    this.maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    this.minDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+
     this.initForms();
   }
 
+
+
+
   ngOnInit(): void {
+    // Charger les nationalités depuis l'API
+    this.countryService.getCountries().subscribe({
+      next: (countries) => {
+        this.nationalites = countries;
+        this.nationalitesLoading = false;
+      },
+      error: () => {
+        // Fallback en cas d'erreur réseau
+        this.nationalites = [
+          { name: 'Tunisienne', code: 'TN', flagUrl: '🇹🇳' },
+          { name: 'Française',  code: 'FR', flagUrl: '🇫🇷' },
+          { name: 'Algérienne', code: 'DZ', flagUrl: '🇩🇿' },
+          { name: 'Marocaine',  code: 'MA', flagUrl: '🇲🇦' },
+        ];
+        this.nationalitesLoading = false;
+      }
+    });
+
+    // Garder l'extraction des données CV
     const extractedData = history.state.extractedData;
     if (extractedData) {
       this.patchExtractedData(extractedData);
@@ -252,9 +292,9 @@ export class ProfileBuilderComponent implements OnInit {
 
     this.personalInfoForm = this.fb.group({
       userId: [userId],
-      nom: ['', Validators.required],
+      nom: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      telephone: ['', Validators.required],
+      telephone: ['', [Validators.required, Validators.pattern(/^[+]?[0-9]{8,15}$/)]],
       nationalite: ['', Validators.required],
       ville: ['', Validators.required],
       dateNaissance: ['', Validators.required],
@@ -295,6 +335,20 @@ export class ProfileBuilderComponent implements OnInit {
       espritEquipe: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
       motivation: ['', [Validators.required, Validators.minLength(50)]],
     });
+  }
+
+  // ─── Mark steps as touched to display errors ──────────────────────────────
+
+  markStep1AsTouched(): void {
+    this.personalInfoForm.markAllAsTouched();
+  }
+
+  markStep2AsTouched(): void {
+    this.educationForm.markAllAsTouched();
+  }
+
+  markStep3AsTouched(): void {
+    this.experienceForm.markAllAsTouched();
   }
 
   get institutions(): FormArray {

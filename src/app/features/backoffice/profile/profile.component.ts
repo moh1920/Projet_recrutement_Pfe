@@ -156,10 +156,10 @@ export class ProfileComponent implements OnInit {
       // "name" est utilisé dans le HTML → on concatène prénom + nom
       name: [
         this.user.fullName || `${this.user.firstName} ${this.user.lastName}`.trim(),
-        Validators.required,
+        [Validators.required, Validators.minLength(2)],
       ],
       email: [this.user.email, [Validators.required, Validators.email]],
-      phone: [this.user.phone, Validators.required],
+      phone: [this.user.phone, [Validators.required, Validators.pattern(/^[+]?[0-9]{8,15}$/)]],
       department: [this.user.department, Validators.required],
       address: [''],
       bio: [''],

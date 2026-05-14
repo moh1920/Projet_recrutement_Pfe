@@ -146,7 +146,7 @@
                         <button mat-button class="btn-secondary" (click)="toggleEdit()">
                           Annuler
                         </button>
-                        <button mat-raised-button class="btn-primary" (click)="saveProfile()">
+                        <button mat-raised-button class="btn-primary" (click)="saveProfile()" [disabled]="!profileForm.valid">
                           <mat-icon>save</mat-icon> Enregistrer
                         </button>
                       </ng-container>
@@ -161,6 +161,8 @@
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-icon matPrefix>person</mat-icon>
                           <input matInput formControlName="name" [readonly]="!isEditing" />
+                          <mat-error *ngIf="profileForm.get('name')?.hasError('required')">Le nom est obligatoire</mat-error>
+                          <mat-error *ngIf="profileForm.get('name')?.hasError('minlength')">Minimum 2 caractères</mat-error>
                         </mat-form-field>
                       </div>
 
@@ -170,6 +172,8 @@
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-icon matPrefix>email</mat-icon>
                           <input matInput formControlName="email" [readonly]="!isEditing" />
+                          <mat-error *ngIf="profileForm.get('email')?.hasError('required')">L'email est obligatoire</mat-error>
+                          <mat-error *ngIf="profileForm.get('email')?.hasError('email')">Email invalide</mat-error>
                         </mat-form-field>
                       </div>
 
@@ -179,6 +183,8 @@
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-icon matPrefix>phone</mat-icon>
                           <input matInput formControlName="phone" [readonly]="!isEditing" />
+                          <mat-error *ngIf="profileForm.get('phone')?.hasError('required')">Le téléphone est obligatoire</mat-error>
+                          <mat-error *ngIf="profileForm.get('phone')?.hasError('pattern')">Format invalide (ex: +21698765432)</mat-error>
                         </mat-form-field>
                       </div>
 
@@ -193,6 +199,7 @@
                               dept
                             }}</mat-option>
                           </mat-select>
+                          <mat-error *ngIf="profileForm.get('department')?.hasError('required')">Le département est obligatoire</mat-error>
                         </mat-form-field>
                         <!-- Mode lecture -->
                         <div class="readonly-field" *ngIf="!isEditing">

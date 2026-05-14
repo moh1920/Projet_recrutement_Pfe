@@ -60,42 +60,78 @@
                   </div>
 
                   <div class="form-grid">
-                    <mat-form-field appearance="outline" class="form-field">
-                      <mat-label>Nom Complet</mat-label>
-                      <input matInput formControlName="name" placeholder="Dr. Mohamed Ali" />
-                      <mat-icon matPrefix>badge</mat-icon>
-                      <mat-error *ngIf="firstFormGroup.get('name')?.hasError('required')">
-                        Le nom est obligatoire
-                      </mat-error>
-                    </mat-form-field>
+                    <div class="field-group">
+                      <label class="field-label">
+                        <mat-icon class="label-icon">badge</mat-icon>
+                        Nom Complet <span class="required-star">*</span>
+                      </label>
+                      <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Nom Complet</mat-label>
+                        <input matInput formControlName="name" placeholder="Dr. Mohamed Ali" />
+                        <mat-icon matPrefix>badge</mat-icon>
+                        <mat-error *ngIf="firstFormGroup.get('name')?.hasError('required')">
+                          Le nom est obligatoire
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
 
-                    <mat-form-field appearance="outline" class="form-field">
-                      <mat-label>Email Professionnel</mat-label>
-                      <input matInput formControlName="email" placeholder="mohamed.ali@email.com" />
-                      <mat-icon matPrefix>email</mat-icon>
-                      <mat-error *ngIf="firstFormGroup.get('email')?.hasError('required')">
-                        L'email est obligatoire
-                      </mat-error>
-                      <mat-error *ngIf="firstFormGroup.get('email')?.hasError('email')">
-                        Email invalide
-                      </mat-error>
-                    </mat-form-field>
+                    <div class="field-group">
+                      <label class="field-label">
+                        <mat-icon class="label-icon">email</mat-icon>
+                        Email Professionnel <span class="required-star">*</span>
+                      </label>
+                      <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Email Professionnel</mat-label>
+                        <input matInput formControlName="email" placeholder="mohamed.ali@email.com" />
+                        <mat-icon matPrefix>email</mat-icon>
+                        <mat-error *ngIf="firstFormGroup.get('email')?.hasError('required')">
+                          L'email est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="firstFormGroup.get('email')?.hasError('email')">
+                          Email invalide
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
 
-                    <mat-form-field appearance="outline" class="form-field">
-                      <mat-label>Téléphone</mat-label>
-                      <input matInput formControlName="phone" placeholder="+216 XX XXX XXX" />
-                      <mat-icon matPrefix>phone</mat-icon>
-                    </mat-form-field>
+                    <div class="field-group">
+                      <label class="field-label">
+                        <mat-icon class="label-icon">phone</mat-icon>
+                        Téléphone <span class="required-star">*</span>
+                      </label>
+                      <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Téléphone</mat-label>
+                        <input matInput formControlName="phone" placeholder="+216 XX XXX XXX" />
+                        <mat-icon matPrefix>phone</mat-icon>
+                        <mat-error *ngIf="firstFormGroup.get('phone')?.hasError('required')">
+                          Le téléphone est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="firstFormGroup.get('phone')?.hasError('pattern')">
+                          Format invalide (ex: +21698765432)
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
 
-                    <mat-form-field appearance="outline" class="form-field">
-                      <mat-label>Poste visé</mat-label>
-                      <input
-                        matInput
-                        formControlName="position"
-                        placeholder="Enseignant Chercheur"
-                      />
-                      <mat-icon matPrefix>work</mat-icon>
-                    </mat-form-field>
+                    <div class="field-group">
+                      <label class="field-label">
+                        <mat-icon class="label-icon">work</mat-icon>
+                        Poste visé <span class="required-star">*</span>
+                      </label>
+                      <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Poste visé</mat-label>
+                        <input
+                          matInput
+                          formControlName="position"
+                          placeholder="Enseignant Chercheur"
+                        />
+                        <mat-icon matPrefix>work</mat-icon>
+                        <mat-error *ngIf="firstFormGroup.get('position')?.hasError('required')">
+                          Le poste visé est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="firstFormGroup.get('position')?.hasError('minlength')">
+                          Minimum 3 caractères
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
                   </div>
 
                   <div class="step-actions">

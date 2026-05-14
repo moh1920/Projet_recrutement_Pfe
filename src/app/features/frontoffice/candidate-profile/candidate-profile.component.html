@@ -326,8 +326,15 @@
               <h3>Informations personnelles</h3>
               <div class="form-row">
                 <div class="form-group">
-                  <label>Nom complet</label>
-                  <input type="text" formControlName="nom" placeholder="Nom complet" />
+                  <label>Nom complet <span class="required-star">*</span></label>
+                  <input type="text" formControlName="nom" placeholder="Nom complet"
+                    [class.input-error]="profileForm.get('nom')?.invalid && profileForm.get('nom')?.touched" />
+                  <span class="error-msg" *ngIf="profileForm.get('nom')?.hasError('required') && profileForm.get('nom')?.touched">
+                    Le nom est obligatoire
+                  </span>
+                  <span class="error-msg" *ngIf="profileForm.get('nom')?.hasError('minlength') && profileForm.get('nom')?.touched">
+                    Minimum 2 caractères
+                  </span>
                 </div>
                 <div class="form-group">
                   <label>Nationalité</label>
@@ -336,12 +343,26 @@
               </div>
               <div class="form-row">
                 <div class="form-group">
-                  <label>Email</label>
-                  <input type="email" formControlName="email" placeholder="votre@email.com" />
+                  <label>Email <span class="required-star">*</span></label>
+                  <input type="email" formControlName="email" placeholder="votre@email.com"
+                    [class.input-error]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" />
+                  <span class="error-msg" *ngIf="profileForm.get('email')?.hasError('required') && profileForm.get('email')?.touched">
+                    L'email est obligatoire
+                  </span>
+                  <span class="error-msg" *ngIf="profileForm.get('email')?.hasError('email') && profileForm.get('email')?.touched">
+                    Adresse email invalide
+                  </span>
                 </div>
                 <div class="form-group">
-                  <label>Téléphone</label>
-                  <input type="tel" formControlName="telephone" placeholder="+216 XX XXX XXX" />
+                  <label>Téléphone <span class="required-star">*</span></label>
+                  <input type="tel" formControlName="telephone" placeholder="+216 XX XXX XXX"
+                    [class.input-error]="profileForm.get('telephone')?.invalid && profileForm.get('telephone')?.touched" />
+                  <span class="error-msg" *ngIf="profileForm.get('telephone')?.hasError('required') && profileForm.get('telephone')?.touched">
+                    Le téléphone est obligatoire
+                  </span>
+                  <span class="error-msg" *ngIf="profileForm.get('telephone')?.hasError('pattern') && profileForm.get('telephone')?.touched">
+                    Format invalide (ex: +21698765432)
+                  </span>
                 </div>
               </div>
               <div class="form-row">
@@ -380,7 +401,14 @@
                 </div>
                 <div class="form-group">
                   <label>Année du diplôme</label>
-                  <input type="number" formControlName="anneeDiplome" placeholder="2020" />
+                  <input type="number" formControlName="anneeDiplome" placeholder="2020"
+                    [class.input-error]="profileForm.get('anneeDiplome')?.invalid && profileForm.get('anneeDiplome')?.touched" />
+                  <span class="error-msg" *ngIf="profileForm.get('anneeDiplome')?.hasError('min') && profileForm.get('anneeDiplome')?.touched">
+                    Année trop ancienne (min 1950)
+                  </span>
+                  <span class="error-msg" *ngIf="profileForm.get('anneeDiplome')?.hasError('max') && profileForm.get('anneeDiplome')?.touched">
+                    Année invalide (max 2030)
+                  </span>
                 </div>
               </div>
               <div class="form-group">
@@ -395,7 +423,14 @@
               <div class="form-row">
                 <div class="form-group">
                   <label>Nombre d'années d'expérience</label>
-                  <input type="number" formControlName="nbAnneesExperience" min="0" />
+                  <input type="number" formControlName="nbAnneesExperience" min="0" max="60"
+                    [class.input-error]="profileForm.get('nbAnneesExperience')?.invalid && profileForm.get('nbAnneesExperience')?.touched" />
+                  <span class="error-msg" *ngIf="profileForm.get('nbAnneesExperience')?.hasError('min') && profileForm.get('nbAnneesExperience')?.touched">
+                    La valeur ne peut pas être négative
+                  </span>
+                  <span class="error-msg" *ngIf="profileForm.get('nbAnneesExperience')?.hasError('max') && profileForm.get('nbAnneesExperience')?.touched">
+                    Valeur trop élevée (max 60 ans)
+                  </span>
                 </div>
                 <div class="form-group" style="align-self: center">
                   <label class="checkbox">

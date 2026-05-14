@@ -1971,3 +1971,38 @@ $shadow-red: 0 8px 24px rgba(139, 0, 0, 0.2);
     padding: 0 16px;
   }
 }
+
+// ══════════════════════════════════════════════════════════════
+// VALIDATION ERROR STYLES
+// ══════════════════════════════════════════════════════════════
+
+.required-star {
+  color: $esprit-red;
+  margin-left: 2px;
+  font-weight: 700;
+}
+
+.error-msg {
+  display: block;
+  color: $danger;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-top: 4px;
+  padding-left: 2px;
+  animation: fadeUp 0.2s ease both;
+
+  &::before {
+    content: '⚠ ';
+    font-size: 0.75rem;
+  }
+}
+
+.input-error {
+  border-color: $danger !important;
+  box-shadow: 0 0 0 3px rgba($danger, 0.12) !important;
+
+  &:focus {
+    border-color: $danger !important;
+    box-shadow: 0 0 0 3px rgba($danger, 0.2) !important;
+  }
+}

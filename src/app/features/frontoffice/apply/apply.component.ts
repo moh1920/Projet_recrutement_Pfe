@@ -105,10 +105,10 @@ export class ApplyComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) {
     this.firstFormGroup = this._formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: [''],
-      position: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern(/^[+]?[0-9]{8,15}$/)]],
+      position: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
 

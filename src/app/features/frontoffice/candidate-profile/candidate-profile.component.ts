@@ -84,9 +84,9 @@ export class CandidateProfileComponent implements OnInit {
     const p = this.profileCurrent;
     this.profileForm = this.fb.group({
       // Informations Personnelles
-      nom: [p?.nom || '', Validators.required],
+      nom: [p?.nom || '', [Validators.required, Validators.minLength(2)]],
       email: [p?.email || '', [Validators.required, Validators.email]],
-      telephone: [p?.telephone || '', Validators.required],
+      telephone: [p?.telephone || '', [Validators.required, Validators.pattern(/^[+]?[0-9]{8,15}$/)]],
       nationalite: [p?.nationalite || ''],
       ville: [p?.ville || ''],
       dateNaissance: [p?.dateNaissance || ''],
@@ -95,17 +95,17 @@ export class CandidateProfileComponent implements OnInit {
       niveauDiplome: [p?.niveauDiplome || ''],
       specialite: [p?.specialite || ''],
       universite: [p?.universite || ''],
-      anneeDiplome: [p?.anneeDiplome || null],
+      anneeDiplome: [p?.anneeDiplome || null, [Validators.min(1950), Validators.max(2030)]],
       gradeAcademique: [p?.gradeAcademique || ''],
 
       // Expérience Professionnelle
-      nbAnneesExperience: [p?.nbAnneesExperience ?? 0],
+      nbAnneesExperience: [p?.nbAnneesExperience ?? 0, [Validators.min(0), Validators.max(60)]],
       experienceAcademique: [p?.experienceAcademique ?? false],
 
       // Soft Skills
-      communication: [p?.communication ?? 1, [Validators.min(1), Validators.max(5)]],
-      leadership: [p?.leadership ?? 1, [Validators.min(1), Validators.max(5)]],
-      espritEquipe: [p?.espritEquipe ?? 1, [Validators.min(1), Validators.max(5)]],
+      communication: [p?.communication ?? 1, [Validators.required, Validators.min(1), Validators.max(5)]],
+      leadership: [p?.leadership ?? 1, [Validators.required, Validators.min(1), Validators.max(5)]],
+      espritEquipe: [p?.espritEquipe ?? 1, [Validators.required, Validators.min(1), Validators.max(5)]],
       motivation: [p?.motivation || ''],
 
       // Pédagogie
