@@ -72,6 +72,7 @@ public class Candidate {
         private String date;        // e.g. "14 Mars 2026" (nullable for pending)
         private String icon;        // Material icon name, e.g. "person"
         private String description; // Short description of the step
+        private Long score; // Short description of the step
     }
 
     // ─── Enum: StepStatus ───────────────────────────────────────────────────

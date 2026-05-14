@@ -70,5 +70,7 @@ public class CandidateDTO {
         private String date;
         private String icon;
         private String description;
+        private Long score; // Short description of the step
+
     }
 }
