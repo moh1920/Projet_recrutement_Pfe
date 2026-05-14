@@ -1,0 +1,408 @@
+// ==================== Variables ====================
+$esprit-red: #8b0000;
+$esprit-red-light: #a50000;
+$esprit-red-dark: #5c0000;
+$esprit-cream: #fef3f3;
+
+$text-primary: #1a1a2e;
+$text-secondary: #64748b;
+$text-muted: #94a3b8;
+$bg-light: #f8fafc;
+$bg-card: #ffffff;
+$white: #ffffff;
+
+$success: #10b981;
+$success-light: rgba(#10b981, 0.12);
+$warning: #f59e0b;
+$warning-light: rgba(#f59e0b, 0.12);
+$info: #3b82f6;
+$info-light: rgba(#3b82f6, 0.12);
+$danger: #ef4444;
+$danger-light: rgba(#ef4444, 0.12);
+$border: #e2e8f0;
+
+// ==================== Animations ====================
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// ==================== Container ====================
+.decision-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px);
+  background: $bg-light;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  padding-bottom: 40px;
+}
+
+// ==================== Header Banner ====================
+.header-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 32px;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 40%, $esprit-red 100%);
+  color: $white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  .back-btn {
+    color: $white;
+    background: rgba($white, 0.15);
+    transition: all 0.2s ease;
+    &:hover {
+      background: rgba($white, 0.3);
+      transform: translateX(-2px);
+    }
+  }
+
+  .title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+  }
+}
+
+// ==================== Main Content ====================
+.main-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: slideInUp 0.4s ease-out;
+}
+
+// ==================== Candidate Summary ====================
+.candidate-summary {
+  background: $white;
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1px solid $border;
+  display: flex;
+  align-items: center;
+
+  .info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: $text-primary;
+    }
+
+    .role {
+      font-size: 0.95rem;
+      color: $text-secondary;
+      padding-left: 16px;
+      border-left: 2px solid $border;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-left: auto;
+
+      &.status-NOUVEAU { background: $info-light; color: $info; }
+      &.status-EN_COURS { background: $warning-light; color: darken($warning, 15%); }
+      &.status-ACCEPTE { background: $success-light; color: darken($success, 5%); }
+      &.status-REFUSE { background: $danger-light; color: $danger; }
+      &.status-EN_ATTENTE { background: rgba($text-muted, 0.12); color: $text-secondary; }
+    }
+  }
+}
+
+// ==================== Scores Section ====================
+.scores-section {
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0 0 16px 0;
+  }
+
+  .scores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .score-card {
+    border-radius: 12px;
+    border: 1px solid $border;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    }
+
+    mat-card-header {
+      padding-bottom: 16px;
+      border-bottom: 1px solid $border;
+      
+      .card-icon {
+        background: $bg-light;
+        color: $text-secondary;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+
+      mat-card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: $text-primary;
+      }
+    }
+
+    &.ai-card .card-icon {
+      background: $info-light;
+      color: $info;
+    }
+
+    &.interview-card .card-icon {
+      background: $warning-light;
+      color: darken($warning, 15%);
+    }
+
+    mat-card-content {
+      padding-top: 20px;
+      text-align: center;
+
+      .score-value {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 12px;
+        color: $text-primary;
+
+        .unit {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: $text-muted;
+          margin-left: 4px;
+        }
+      }
+
+      .details-text {
+        font-size: 0.85rem;
+        color: $text-secondary;
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+
+    &.ai-card .score-value { color: $info; }
+    &.interview-card .score-value { color: darken($warning, 10%); }
+  }
+}
+
+// ==================== Decision Form ====================
+.decision-form-section {
+  background: $white;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid $border;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $esprit-red;
+    margin: 0 0 20px 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $border;
+
+    mat-icon {
+      color: $esprit-red;
+    }
+  }
+
+  .comment-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+
+    label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: $text-primary;
+
+      .required { color: $danger; }
+    }
+
+    .field-textarea {
+      width: 100%;
+      border: 1.5px solid $border;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: vertical;
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: $esprit-red;
+        box-shadow: 0 0 0 3px rgba($esprit-red, 0.1);
+      }
+    }
+  }
+
+  .actions-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid $border;
+
+    .decision-buttons {
+      display: flex;
+      gap: 16px;
+
+      button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 24px;
+        height: 44px;
+        font-weight: 600;
+        border-radius: 8px;
+        color: $white;
+
+        mat-icon {
+          margin-right: 4px;
+        }
+      }
+
+      .btn-reject {
+        background-color: $danger;
+        &:hover:not([disabled]) { background-color: darken($danger, 10%); }
+      }
+
+      .btn-accept {
+        background-color: $success;
+        &:hover:not([disabled]) { background-color: darken($success, 8%); }
+      }
+    }
+  }
+}
+
+// ==================== Loading & Empty State ====================
+.loading-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 16px;
+  color: $text-secondary;
+  animation: fadeIn 0.3s ease;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: $text-muted;
+  }
+}
+
+// ==================== TOASTS ====================
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: $white;
+  background: #333;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &.toast-success { background: $success; }
+  &.toast-error { background: $danger; }
+  &.toast-info { background: $info; }
+}
+
+// ==================== Responsive ====================
+@media (max-width: 768px) {
+  .actions-footer {
+    flex-direction: column;
+    gap: 20px;
+
+    button { width: 100%; }
+    
+    .decision-buttons {
+      width: 100%;
+      flex-direction: column;
+      button { width: 100%; }
+    }
+  }
+
+  .candidate-summary .info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    .role {
+      padding: 0;
+      border: none;
+    }
+    
+    .status-badge {
+      margin-left: 0;
+    }
+  }
+}

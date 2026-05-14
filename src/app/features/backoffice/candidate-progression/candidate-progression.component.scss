@@ -1121,6 +1121,26 @@ $border-light: #f1f5f9;
           }
         }
 
+        .step-score {
+          display: flex;
+          align-items: center;
+          gap: 3px;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: darken($warning, 10%);
+          background: $warning-light;
+          padding: 2px 8px;
+          border-radius: 20px;
+          margin-right: 6px;
+
+          mat-icon {
+            font-size: 13px;
+            width: 13px;
+            height: 13px;
+            color: $warning;
+          }
+        }
+
         // ═══ QUICK STATUS BUTTONS ═══
         .quick-status {
           display: flex;
@@ -1376,6 +1396,7 @@ $border-light: #f1f5f9;
     }
   }
 }
+
 
 // ==================== TOASTS ====================
 .toast-container {

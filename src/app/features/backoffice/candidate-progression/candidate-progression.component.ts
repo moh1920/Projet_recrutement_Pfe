@@ -6,12 +6,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   CandidateService,
   CandidateDTO,
   StepDTO,
   StepStatus,
+  CandidateStatus
 } from '../../../core/services/candidate.service';
 
 // ─── Toast model ─────────────────────────────────────────────────────────────
@@ -37,6 +38,7 @@ interface Toast {
 })
 export class CandidateProgressionComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private candidateService = inject(CandidateService);
 
   // ─── State ──────────────────────────────────────────────────────────────────
@@ -101,8 +103,29 @@ export class CandidateProgressionComponent implements OnInit {
 
   private handleCandidatesLoaded(data: CandidateDTO[]): void {
     this.candidates = data || [];
-    if (this.candidates.length > 0) this.selectedCandidate = this.candidates[0];
-    this.loading = false;
+    if (this.candidates.length > 0) {
+      this.selectedCandidate = this.candidates[0];
+      // Always reload steps from /steps endpoint to get scores
+      this.loadStepsForCandidate(this.selectedCandidate);
+    } else {
+      this.loading = false;
+    }
+  }
+
+  /** Reload the steps for a candidate via the dedicated /steps endpoint
+   *  which always includes the score field */
+  private loadStepsForCandidate(candidate: CandidateDTO): void {
+    if (!candidate.id) { this.loading = false; return; }
+    this.candidateService.getSteps(candidate.id).subscribe({
+      next: (steps) => {
+        candidate.steps = steps;
+        // Sync the same object in the list
+        const idx = this.candidates.findIndex(c => c.id === candidate.id);
+        if (idx !== -1) this.candidates[idx].steps = steps;
+        this.loading = false;
+      },
+      error: () => { this.loading = false; }
+    });
   }
 
   private handleLoadError(err: any): void {
@@ -117,6 +140,8 @@ export class CandidateProgressionComponent implements OnInit {
     this.closeAddPanel();
     this.cancelEdit();
     this.cancelDelete();
+    // Reload steps with scores from dedicated endpoint
+    this.loadStepsForCandidate(candidate);
   }
 
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -282,7 +307,30 @@ export class CandidateProgressionComponent implements OnInit {
   }
 
   private emptyStep(): StepDTO {
-    return { name: '', status: StepStatus.pending, icon: '', date: '', description: '' };
+    return { name: '', status: StepStatus.pending, icon: '', date: '', description: '', score: undefined };
+  }
+
+  // ─── Final Decision ──────────────────────────────────────────────────────────
+
+  goToFinalDecision(): void {
+    if (!this.selectedCandidate?.id) return;
+    this.router.navigate(['/admin/final-decision', this.selectedCandidate.id], {
+      queryParams: { offerId: this.selectedCandidate.idOffre }
+    });
+  }
+
+  getAverageStepScore(): number {
+    if (!this.selectedCandidate?.steps || this.selectedCandidate.steps.length === 0) return 0;
+    const stepsWithScore = this.selectedCandidate.steps.filter(s => s.score !== undefined && s.score !== null);
+    if (stepsWithScore.length === 0) return 0;
+    
+    const total = stepsWithScore.reduce((sum, s) => sum + (s.score || 0), 0);
+    return total / stepsWithScore.length;
+  }
+
+  getAIScore(): number {
+    // Return mock score if not set
+    return this.selectedCandidate?.aiScore || 85;
   }
 
   // ─── Progress helpers ────────────────────────────────────────────────────────

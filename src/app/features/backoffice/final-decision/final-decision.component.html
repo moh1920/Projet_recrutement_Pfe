@@ -1,0 +1,122 @@
+<div class="decision-container">
+  <div class="header-banner">
+    <button mat-icon-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="title-wrap">
+      <mat-icon>gavel</mat-icon>
+      <h1>Décision Finale</h1>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Chargement des données...</p>
+  </div>
+
+  <div *ngIf="!loading && candidate" class="main-content">
+    
+    <div class="candidate-summary mat-elevation-z1">
+      <div class="info">
+        <h2>{{ candidate.fullName || 'Candidat' }}</h2>
+        <span class="role">{{ candidate.appliedPosition || 'Candidature' }}</span>
+        <span class="status-badge" [class]="'status-' + (candidate.status || 'NOUVEAU')">
+          {{ candidate.status || 'NOUVEAU' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="scores-section">
+      <h3>Résumé des Évaluations</h3>
+      <div class="scores-grid">
+        <!-- AI Matching Score -->
+        <mat-card class="score-card ai-card">
+          <mat-card-header>
+            <div mat-card-avatar class="card-icon"><mat-icon>smart_toy</mat-icon></div>
+            <mat-card-title>Score IA (Matching)</mat-card-title>
+            <mat-card-subtitle>Analyse sémantique du CV</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="score-value">{{ getAIScore() | number:'1.0-0' }}<span class="unit">%</span></div>
+            <p *ngIf="matchResult" class="details-text">
+              Correspondance basée sur l'expérience, la formation et les compétences.
+            </p>
+            <p *ngIf="!matchResult" class="details-text text-muted">
+              Aucun résultat de matching détaillé disponible.
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Interview Average Score -->
+        <mat-card class="score-card interview-card">
+          <mat-card-header>
+            <div mat-card-avatar class="card-icon"><mat-icon>record_voice_over</mat-icon></div>
+            <mat-card-title>Moyenne Entretiens</mat-card-title>
+            <mat-card-subtitle>Évaluations RH et Techniques</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="score-value">{{ getAverageStepScore() | number:'1.0-1' }}<span class="unit">/20</span></div>
+            <p class="details-text">
+              Basé sur les notes attribuées lors des étapes de progression.
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="decision-form-section mat-elevation-z1">
+      <h3>
+        <mat-icon>rate_review</mat-icon>
+        Votre Décision
+      </h3>
+      
+      <div class="form-field full-width comment-field">
+        <label>Commentaire du Chef de Département <span class="required">*</span></label>
+        <textarea
+          [(ngModel)]="decisionComment"
+          placeholder="Saisissez vos remarques finales justifiant la décision (ex: Le candidat possède les compétences techniques requises mais...)"
+          class="field-textarea"
+          rows="5"
+        ></textarea>
+      </div>
+
+      <div class="actions-footer">
+        <button mat-stroked-button (click)="goBack()">Annuler</button>
+        <div class="decision-buttons">
+          <button
+            mat-flat-button
+            class="btn-reject"
+            (click)="submitDecision('REFUSE')"
+            [disabled]="submittingDecision || !decisionComment.trim()"
+          >
+            <mat-icon>thumb_down</mat-icon>
+            Refuser le candidat
+          </button>
+          <button
+            mat-flat-button
+            class="btn-accept"
+            (click)="submitDecision('ACCEPTE')"
+            [disabled]="submittingDecision || !decisionComment.trim()"
+          >
+            <mat-icon>thumb_up</mat-icon>
+            Accepter le candidat
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !candidate" class="empty-state">
+    <mat-icon>error_outline</mat-icon>
+    <p>Candidat introuvable.</p>
+    <button mat-button (click)="goBack()">Retour</button>
+  </div>
+
+  <!-- TOASTS -->
+  <div class="toast-container">
+    <div class="toast" [class]="'toast-' + toast.type" *ngFor="let toast of toasts">
+      <mat-icon>{{ toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error_outline' : 'info' }}</mat-icon>
+      <span>{{ toast.message }}</span>
+    </div>
+  </div>
+</div>

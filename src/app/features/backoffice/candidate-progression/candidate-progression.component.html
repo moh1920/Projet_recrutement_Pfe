@@ -116,6 +116,15 @@
           </div>
           <div class="toolbar-right">
             <button
+              mat-flat-button
+              class="btn-decision-final"
+              (click)="goToFinalDecision()"
+              style="margin-right: 12px; background-color: #3f51b5; color: white;"
+            >
+              <mat-icon>gavel</mat-icon>
+              Décision Finale
+            </button>
+            <button
               mat-stroked-button
               class="btn-add-step"
               (click)="openAddStepPanel()"
@@ -180,6 +189,17 @@
                   [(ngModel)]="newStep.date"
                   placeholder="ex: 24 Mars 2026"
                   class="field-input"
+                />
+              </div>
+              <div class="form-field">
+                <label>Score (sur 20)</label>
+                <input
+                  type="number"
+                  [(ngModel)]="newStep.score"
+                  placeholder="ex: 15"
+                  class="field-input"
+                  min="0"
+                  max="20"
                 />
               </div>
             </div>
@@ -258,29 +278,32 @@
                     <span class="step-date" *ngIf="step.date">
                       <mat-icon>schedule</mat-icon>{{ step.date }}
                     </span>
+                    <span class="step-score" *ngIf="step.score !== undefined && step.score !== null">
+                      <mat-icon>star</mat-icon>{{ step.score }}/20
+                    </span>
                     <!-- Status quick-change buttons -->
                     <div class="quick-status">
-                      <!--                      <button mat-icon-button-->
-                      <!--                              class="qs-btn"-->
-                      <!--                              title="Marquer en attente"-->
-                      <!--                              *ngIf="step.status !== 'pending'"-->
-                      <!--                              (click)="quickUpdateStatus(step, 'pending')">-->
-                      <!--                        <mat-icon>schedule</mat-icon>-->
-                      <!--                      </button>-->
-                      <!--                      <button mat-icon-button-->
-                      <!--                              class="qs-btn current-btn"-->
-                      <!--                              title="Marquer en cours"-->
-                      <!--                              *ngIf="step.status !== 'current'"-->
-                      <!--                              (click)="quickUpdateStatus(step, 'current')">-->
-                      <!--                        <mat-icon>play_circle_outline</mat-icon>-->
-                      <!--                      </button>-->
-                      <!--                      <button mat-icon-button-->
-                      <!--                              class="qs-btn complete-btn"-->
-                      <!--                              title="Marquer complétée"-->
-                      <!--                              *ngIf="step.status !== 'completed'"-->
-                      <!--                              (click)="quickUpdateStatus(step, 'completed')">-->
-                      <!--                        <mat-icon>check_circle_outline</mat-icon>-->
-                      <!--                      </button>-->
+<!--                                            <button mat-icon-button-->
+<!--                                                    class="qs-btn"-->
+<!--                                                    title="Marquer en attente"-->
+<!--                                                    *ngIf="step.status !== 'pending'"-->
+<!--                                                    (click)="quickUpdateStatus(step, 'pending')">-->
+<!--                                              <mat-icon>schedule</mat-icon>-->
+<!--                                            </button>-->
+<!--                                            <button mat-icon-button-->
+<!--                                                    class="qs-btn current-btn"-->
+<!--                                                    title="Marquer en cours"-->
+<!--                                                    *ngIf="step.status !== 'current'"-->
+<!--                                                    (click)="quickUpdateStatus(step, 'current')">-->
+<!--                                              <mat-icon>play_circle_outline</mat-icon>-->
+<!--                                            </button>-->
+<!--                                            <button mat-icon-button-->
+<!--                                                    class="qs-btn complete-btn"-->
+<!--                                                    title="Marquer complétée"-->
+<!--                                                    *ngIf="step.status !== 'completed'"-->
+<!--                                                    (click)="quickUpdateStatus(step, 'completed')">-->
+<!--                                              <mat-icon>check_circle_outline</mat-icon>-->
+<!--                                            </button>-->
                       <div class="action-divider"></div>
                       <button
                         mat-icon-button
@@ -353,6 +376,17 @@
                       [(ngModel)]="editStep.date"
                       class="field-input"
                       placeholder="ex: 24 Mars 2026"
+                    />
+                  </div>
+                  <div class="form-field">
+                    <label>Score (sur 20)</label>
+                    <input
+                      type="number"
+                      [(ngModel)]="editStep.score"
+                      class="field-input"
+                      placeholder="ex: 15"
+                      min="0"
+                      max="20"
                     />
                   </div>
                 </div>

@@ -22,6 +22,7 @@ $dark-text: #f1f5f9;
       .page-title {
         color: $dark-text;
       }
+
       .menu-btn,
       .theme-btn,
       .notification-btn {
@@ -30,6 +31,7 @@ $dark-text: #f1f5f9;
 
       .user-menu {
         color: $dark-text;
+
         &:hover {
           background: rgba(255, 255, 255, 0.1);
         }
@@ -170,6 +172,7 @@ mat-nav-list {
       &:hover {
         background: rgba(255, 255, 255, 0.1);
         color: #fff;
+
         mat-icon {
           color: rgba(255, 255, 255, 0.9);
         }
@@ -178,6 +181,7 @@ mat-nav-list {
       &.active {
         background: rgba(255, 255, 255, 0.9);
         color: $esprit-red;
+
         mat-icon {
           color: $esprit-red;
         }
@@ -318,6 +322,7 @@ mat-nav-list {
 
     &.unread {
       background: rgba(139, 0, 0, 0.05);
+
       p {
         font-weight: 600;
       }
@@ -455,11 +460,13 @@ mat-nav-list {
         color: #ffd86f;
         border: 1px solid rgba(255, 215, 0, 0.22);
       }
+
       &.roles {
         background: rgba(100, 200, 255, 0.12);
         color: #7ed4ff;
         border: 1px solid rgba(100, 200, 255, 0.2);
       }
+
       &.tokens {
         background: rgba(120, 255, 150, 0.1);
         color: #7dff9a;
@@ -468,6 +475,7 @@ mat-nav-list {
     }
   }
 }
+
 // Content
 .content {
   padding: 24px;

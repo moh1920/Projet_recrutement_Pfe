@@ -276,6 +276,7 @@ export class UsersComponent implements AfterViewInit {
       if (result) {
         this.userService.createUser(result).subscribe(() => this.loadAllUsers());
       }
+      this.loadAllUsers();
     });
   }
 

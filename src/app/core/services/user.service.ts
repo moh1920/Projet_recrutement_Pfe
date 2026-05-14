@@ -52,7 +52,9 @@ export class UserService {
   }
 
   createUser(request: CreateUserRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/createUser`, request);
+    return this.http.post(`${this.apiUrl}/createUser`, request, {
+      responseType: 'text'
+    });
   }
 
   getAllUsers(): Observable<UserDTO[]> {

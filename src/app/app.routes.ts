@@ -184,6 +184,15 @@ export const routes: Routes = [
         data: { roles: ['admin', 'director', 'head_dept'] }, // ✅ Minuscules
       },
       {
+        path: 'final-decision/:candidateId',
+        loadComponent: () =>
+          import('./features/backoffice/final-decision/final-decision.component').then(
+            (m) => m.FinalDecisionComponent
+          ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'director', 'head_dept'] },
+      },
+      {
         path: 'interviews',
         loadComponent: () =>
           import('./features/backoffice/interviews/interviews.component').then(

@@ -32,6 +32,8 @@ export interface CandidateDTO {
   createdAt?: string;
   updatedAt?: string;
   fullName?: string;
+  aiScore?: number; // ✅ Added for AI score
+  finalComment?: string; // ✅ Added for final decision comment
 }
 
 export interface EducationDTO {
@@ -49,6 +51,7 @@ export interface StepDTO {
   date?: string;
   icon?: string;
   description?: string;
+  score?: number; // ✅ Added for step score
 }
 
 export enum CandidateStatus {
