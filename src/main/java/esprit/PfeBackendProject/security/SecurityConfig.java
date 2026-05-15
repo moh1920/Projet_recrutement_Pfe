@@ -54,7 +54,8 @@ public class SecurityConfig{
                                 "/meeting-email/**",
                                 "/api/matching/**",
                                 "/upload/documents/**",
-                                "/notifications/**"
+                                "/notifications/**",
+                                "/evaluations/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

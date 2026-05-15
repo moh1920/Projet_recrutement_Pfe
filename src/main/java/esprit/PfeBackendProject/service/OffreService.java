@@ -1,8 +1,10 @@
 package esprit.PfeBackendProject.service;
 
 import esprit.PfeBackendProject.configuration.OffreMapper;
+import esprit.PfeBackendProject.dto.EvaluationRequest;
 import esprit.PfeBackendProject.dto.OffreDTO;
 import esprit.PfeBackendProject.dto.OffreUpdateDto;
+import esprit.PfeBackendProject.dto.ScoreResult;
 import esprit.PfeBackendProject.entity.*;
 import esprit.PfeBackendProject.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -197,6 +197,77 @@ public class OffreService {
                 log.error("Offre avec id " + offre.getId() + " a été expirée automatiquement.");
             }
         }
+    }
+
+
+    public ScoreResult calculerScore(EvaluationRequest request) {
+
+        // 1. Récupérer l'offre avec ses critères
+        Offre offre = offreRepository.findById(request.getOffreId())
+                .orElseThrow(() -> new RuntimeException("Offre non trouvée"));
+
+        List<CriteresDeSelection> criteres = offre.getCriteresDeSelections();
+        if (criteres == null || criteres.isEmpty()) {
+            throw new RuntimeException("Aucun critère défini pour cette offre");
+        }
+
+        Map<String, Float> scoreParCritere = new LinkedHashMap<>();
+        float sommeScores = 0f;
+
+        // 2. Pour chaque critère, calculer le score
+        for (CriteresDeSelection critere : criteres) {
+
+            List<CategorieDeSelection> toutesCategories = critere.getCategorieDeSelections();
+            if (toutesCategories == null || toutesCategories.isEmpty()) continue;
+
+            // Poids total du critère (= le maximum atteignable)
+            float poidsTotal = toutesCategories.stream()
+                    .map(c -> c.getPoids() != null ? c.getPoids() : 0f)
+                    .reduce(0f, Float::sum);
+
+            if (poidsTotal == 0f) continue;
+
+            // Catégories satisfaites par le candidat pour CE critère
+            List<String> idsSatisfaites = request.getCategoriesSatisfaites()
+                    .getOrDefault(critere.getId(), Collections.emptyList());
+
+            // Poids obtenu = somme des poids des catégories satisfaites
+            float poidsObtenu = toutesCategories.stream()
+                    .filter(c -> idsSatisfaites.contains(c.getId()))
+                    .map(c -> c.getPoids() != null ? c.getPoids() : 0f)
+                    .reduce(0f, Float::sum);
+
+            float scoreCritere = (poidsObtenu / poidsTotal) * 100f;
+            scoreParCritere.put(critere.getNom(), scoreCritere);
+            sommeScores += scoreCritere;
+        }
+
+        // 3. Score final = moyenne des scores par critère
+        float scoreFinal = scoreParCritere.isEmpty() ? 0f
+                : sommeScores / scoreParCritere.size();
+
+        return ScoreResult.builder()
+                .candidatId(request.getCandidatId())
+                .offreId(request.getOffreId())
+                .scoreFinal(Math.round(scoreFinal * 100f) / 100f)
+                .scoreParCritere(scoreParCritere)
+                .appreciation(getAppreciation(scoreFinal))
+                .build();
+    }
+
+    // 4. Comparer tous les candidats d'une offre et les classer
+    public List<ScoreResult> classerCandidats(List<EvaluationRequest> evaluations) {
+        return evaluations.stream()
+                .map(this::calculerScore)
+                .sorted(Comparator.comparing(ScoreResult::getScoreFinal).reversed())
+                .collect(Collectors.toList());
+    }
+
+    private String getAppreciation(float score) {
+        if (score >= 80) return "Excellent";
+        if (score >= 60) return "Bon";
+        if (score >= 40) return "Moyen";
+        return "Insuffisant";
     }
 
 

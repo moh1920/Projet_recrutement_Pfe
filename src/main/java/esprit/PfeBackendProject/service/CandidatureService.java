@@ -122,7 +122,7 @@ public class CandidatureService {
         candidate.setUpdatedAt(LocalDateTime.now());
 
 
-        offre.setCandidateCount(offre.getCandidateCount() + 1);
+        offre.setCandidateCount(offre.getCandidateCount() != null ? offre.getCandidateCount() + 1 : 1);
         offreRepository.save(offre);
 
 

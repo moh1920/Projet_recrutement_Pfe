@@ -1,7 +1,9 @@
 package esprit.PfeBackendProject.controller;
 
+import esprit.PfeBackendProject.dto.EvaluationRequest;
 import esprit.PfeBackendProject.dto.N8nScoringResponse;
 import esprit.PfeBackendProject.dto.OffreUpdateDto;
+import esprit.PfeBackendProject.dto.ScoreResult;
 import esprit.PfeBackendProject.entity.Offre;
 import esprit.PfeBackendProject.service.N8nRecrutementService;
 import esprit.PfeBackendProject.service.OffreService;
@@ -143,4 +145,15 @@ public class OffreController {
     }
 
 
+
+    @PostMapping("/calculer")
+    public ResponseEntity<ScoreResult> calculerScore(@RequestBody EvaluationRequest request) {
+        return ResponseEntity.ok(offreService.calculerScore(request));
+    }
+
+    @PostMapping("/classement")
+    public ResponseEntity<List<ScoreResult>> classerCandidats(
+            @RequestBody List<EvaluationRequest> evaluations) {
+        return ResponseEntity.ok(offreService.classerCandidats(evaluations));
+    }
 }
