@@ -39,11 +39,6 @@
           Aujourd'hui
         </button>
 
-        <button mat-stroked-button class="btn-filter" [matMenuTriggerFor]="filterMenu">
-          <mat-icon>tune</mat-icon>
-          Filtres
-        </button>
-
         <button mat-stroked-button class="btn-export" [matMenuTriggerFor]="exportMenu">
           <mat-icon>download</mat-icon>
           Export
@@ -61,36 +56,6 @@
       </div>
     </div>
 
-    <!-- Menu Filtres -->
-    <mat-menu #filterMenu="matMenu" class="filter-menu">
-      <div class="filter-content" (click)="$event.stopPropagation()">
-        <h3>Filtres</h3>
-        <div class="filter-group">
-          <label>Statut</label>
-          <div class="filter-chips">
-            <mat-chip-option
-              *ngFor="let status of ['Planifié', 'En cours', 'Terminé', 'Annulé']"
-              (click)="updateFilter('status', status)"
-              >{{ status }}</mat-chip-option
-            >
-          </div>
-        </div>
-        <div class="filter-group">
-          <label>Type</label>
-          <div class="filter-chips">
-            <mat-chip-option
-              *ngFor="let type of ['interview', 'evaluation']"
-              (click)="updateFilter('type', type)"
-            >
-              {{ type === 'interview' ? 'Entretien' : 'Évaluation' }}
-            </mat-chip-option>
-          </div>
-        </div>
-        <div class="filter-actions">
-          <button mat-button (click)="clearFilters()">Réinitialiser les filtres</button>
-        </div>
-      </div>
-    </mat-menu>
 
     <!-- Menu Export -->
     <mat-menu #exportMenu="matMenu">
@@ -139,7 +104,7 @@
         <span class="badge-count">{{ (filteredInterviews$ | async)?.length || 0 }}</span>
       </div>
 
-      <!-- Barre de recherche -->
+      <!-- Barre de recherche Candidat -->
       <div class="search-bar">
         <mat-icon>search</mat-icon>
         <input
@@ -155,6 +120,60 @@
         >
           <mat-icon>close</mat-icon>
         </button>
+      </div>
+
+      <!-- Filtres avancés Inline -->
+      <div class="inline-filters">
+        <div class="filter-section">
+          <span class="filter-label">Statut</span>
+          <div class="chip-group">
+            <div 
+              class="filter-chip" 
+              *ngFor="let status of interviewStatuses"
+              [class.active]="filterOptions.status?.includes(status)"
+              (click)="toggleArrayFilter('status', status)">
+              {{ status }}
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <span class="filter-label">Type</span>
+          <div class="chip-group">
+            <div 
+              class="filter-chip" 
+              *ngFor="let type of interviewTypes"
+              [class.active]="filterOptions.type?.includes(type)"
+              (click)="toggleArrayFilter('type', type)">
+              {{ type === 'interview' ? 'Entretien' : 'Éval.' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <div class="search-bar mini-search">
+            <mat-icon>person_search</mat-icon>
+            <input
+              type="text"
+              placeholder="Membre du jury..."
+              [(ngModel)]="filterOptions.juryMember"
+              (ngModelChange)="updateFilter('juryMember', $event)"
+            />
+            <button
+              mat-icon-button
+              *ngIf="filterOptions.juryMember"
+              (click)="updateFilter('juryMember', '')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        
+        <div class="filter-actions" *ngIf="hasActiveFilters()">
+          <button class="btn-clear-filters" (click)="clearFilters()">
+            <mat-icon>clear_all</mat-icon> Réinitialiser
+          </button>
+        </div>
       </div>
 
       <!-- Liste des entretiens -->

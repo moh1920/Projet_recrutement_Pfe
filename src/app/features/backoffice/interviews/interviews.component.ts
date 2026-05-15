@@ -176,6 +176,9 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   showCurrentTimeIndicator = false;
   currentTimeTop = 0;
 
+  readonly interviewStatuses: InterviewStatus[] = ['Planifié', 'En cours', 'Terminé', 'Annulé'];
+  readonly interviewTypes: InterviewType[] = ['interview', 'evaluation'];
+
   // Expose window
   readonly window = window;
 
@@ -310,6 +313,30 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   updateFilter(key: keyof FilterOptions, value: any): void {
     this.filterOptions = { ...this.filterOptions, [key]: value };
     this.filterSubject$.next({ ...this.filterOptions });
+  }
+
+  toggleArrayFilter<K extends 'status' | 'type'>(key: K, value: NonNullable<FilterOptions[K]>[number]): void {
+    const currentArray = (this.filterOptions[key] as any[]) || [];
+    const index = currentArray.indexOf(value);
+    let newArray;
+
+    if (index === -1) {
+      newArray = [...currentArray, value];
+    } else {
+      newArray = currentArray.filter((item: any) => item !== value);
+    }
+
+    this.filterOptions = { ...this.filterOptions, [key]: newArray } as FilterOptions;
+    this.filterSubject$.next({ ...this.filterOptions });
+  }
+
+  hasActiveFilters(): boolean {
+    return (
+      (this.filterOptions.status && this.filterOptions.status.length > 0) ||
+      (this.filterOptions.type && this.filterOptions.type.length > 0) ||
+      !!this.filterOptions.searchTerm ||
+      !!this.filterOptions.juryMember
+    );
   }
 
   clearFilters(): void {

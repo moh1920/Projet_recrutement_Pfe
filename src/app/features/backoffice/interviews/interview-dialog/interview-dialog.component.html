@@ -153,6 +153,7 @@
                   matInput
                   [matDatepicker]="picker"
                   formControlName="date"
+                  [min]="minDate"
                   (click)="picker.open()"
                   (dateInput)="onDateSelected($event)"
                   (dateChange)="onDateChange($event)"

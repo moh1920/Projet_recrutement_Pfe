@@ -497,6 +497,109 @@ $calendar-header-height: 80px;
     }
   }
 
+  .inline-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed $border;
+    flex-shrink: 0;
+
+    .filter-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .filter-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: $text-secondary;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .chip-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+
+        .filter-chip {
+          padding: 4px 10px;
+          border-radius: 16px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: $text-secondary;
+          background: $bg-light;
+          border: 1px solid $border;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          user-select: none;
+
+          &:hover {
+            background: $esprit-cream;
+            color: $esprit-red;
+            border-color: rgba($esprit-red, 0.3);
+          }
+
+          &.active {
+            background: $esprit-red;
+            color: $white;
+            border-color: $esprit-red;
+          }
+        }
+      }
+
+      .mini-search {
+        margin-bottom: 0;
+        padding: 6px 10px;
+        border-radius: 8px;
+
+        input {
+          font-size: 0.8rem;
+        }
+
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
+    .filter-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 4px;
+
+      .btn-clear-filters {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        color: $text-muted;
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+
+        mat-icon {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+        }
+
+        &:hover {
+          color: $danger;
+          background: $danger-light;
+        }
+      }
+    }
+  }
+
   .interview-list {
     display: flex;
     flex-direction: column;

@@ -126,6 +126,7 @@ export class InterviewDialogComponent implements OnInit {
   isEditMode = false;
   isCandidatePreFilled = false;
   activeTabIndex = 0;
+  minDate = new Date();
 
   // ==================== Formulaire ====================
   interviewForm!: FormGroup;
