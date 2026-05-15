@@ -285,6 +285,24 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['admin', 'director'] },
       },
+      {
+        path: 'manual-evaluation/:offerId/:candidateId',
+        loadComponent: () =>
+          import('./features/backoffice/manual-evaluation/manual-evaluation.component').then(
+            (m) => m.ManualEvaluationComponent
+          ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'director', 'head_dept'] },
+      },
+      {
+        path: 'manual-ranking/:offerId',
+        loadComponent: () =>
+          import('./features/backoffice/manual-evaluation/manual-ranking/manual-ranking.component').then(
+            (m) => m.ManualRankingComponent
+          ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'director', 'head_dept'] },
+      },
     ],
   },
 

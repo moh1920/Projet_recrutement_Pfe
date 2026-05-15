@@ -1,0 +1,162 @@
+<div class="evaluation-container">
+
+  <!-- ======== HEADER BANNER ======== -->
+  <div class="header-banner">
+    <button class="back-btn" (click)="goBack()">
+      <lucide-icon [name]="ChevronLeft" [size]="20"></lucide-icon>
+    </button>
+    <div class="title-wrap">
+      <div class="title-icon">
+        <lucide-icon [name]="Save" [size]="26"></lucide-icon>
+      </div>
+      <div>
+        <h1>Évaluation Manuelle</h1>
+        <p class="subtitle">Attribuez une note pour chaque critère de sélection (0 – 100)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== MAIN CONTENT ======== -->
+  <div class="main-content">
+
+    <!-- LOADING -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement des critères...</p>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="!isLoading && errorMessage" class="alert-card alert-danger">
+      <lucide-icon [name]="AlertCircle" [size]="22"></lucide-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <!-- SUCCESS -->
+    <div *ngIf="!isLoading && submitSuccess" class="alert-card alert-success">
+      <lucide-icon [name]="CheckCircle" [size]="26"></lucide-icon>
+      <div>
+        <strong>Évaluation enregistrée avec succès !</strong>
+        <p>Redirection en cours...</p>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && !errorMessage && !submitSuccess">
+
+      <!-- AI SCORE CARD -->
+      <div class="ai-score-card">
+        <div class="ai-icon-wrap">
+          <lucide-icon [name]="BrainCircuit" [size]="28"></lucide-icon>
+        </div>
+        <div class="ai-score-body">
+          <h3>Score de Matching IA</h3>
+          <p>Analyse sémantique automatique du profil du candidat</p>
+          <div class="ai-chips" *ngIf="!aiLoading && aiDetails.length > 0">
+            <div class="ai-chip" *ngFor="let d of aiDetails">
+              <span class="chip-key">{{ d.key | titlecase }}</span>
+              <span class="chip-val">{{ d.value }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="ai-score-badge">
+          <ng-container *ngIf="!aiLoading && aiScore !== null">
+            <span class="score-num">{{ aiScore | number:'1.0-1' }}</span>
+            <span class="score-unit">%</span>
+          </ng-container>
+          <span *ngIf="aiLoading" class="spinner-small"></span>
+          <span *ngIf="!aiLoading && aiScore === null" class="score-na">N/A</span>
+        </div>
+      </div>
+
+      <!-- EXISTING EVALUATION BANNER -->
+      <div class="alert-card alert-info" *ngIf="existingEvaluation">
+        <lucide-icon [name]="CheckCircle" [size]="22"></lucide-icon>
+        <div>
+          <strong>Évaluation déjà soumise.</strong>
+          Score final : <strong>{{ existingEvaluation.scoreFinal | number:'1.0-1' }} / 100</strong>
+          — Appréciation : <strong>{{ existingEvaluation.appreciation }}</strong>
+        </div>
+      </div>
+
+      <!-- CRITERIA FORM -->
+      <div class="form-card">
+        <div class="form-card-header">
+          <span class="form-card-title">Critères de sélection</span>
+          <span class="form-card-count">{{ criteres.length }} critère(s)</span>
+        </div>
+
+        <form [formGroup]="evaluationForm" (ngSubmit)="onSubmit()">
+
+          <div class="criteres-list">
+            <div class="critere-item" *ngFor="let critere of criteres; let i = index">
+              <div class="critere-index">{{ i + 1 }}</div>
+              <div class="critere-body">
+                <div class="critere-header">
+                  <h4>{{ critere.nom }}</h4>
+                  <span class="poids-badge">Poids : {{ getPoidsTotal(critere) }}</span>
+                </div>
+                <p *ngIf="critere.description" class="critere-desc">{{ critere.description }}</p>
+
+                <!-- Sub-criteria pills -->
+                <div class="category-pills" *ngIf="critere.categorieDeSelections && critere.categorieDeSelections.length > 0">
+                  <div class="cat-pill" *ngFor="let cat of critere.categorieDeSelections">
+                    <span class="cat-name">{{ cat.nom }}</span>
+                    <span class="cat-poids">{{ cat.poids || 1 }}</span>
+                  </div>
+                </div>
+
+                <!-- Validation Error -->
+                <div
+                  *ngIf="evaluationForm.get(critere.id)?.invalid && (evaluationForm.get(critere.id)?.dirty || evaluationForm.get(critere.id)?.touched)"
+                  class="field-error"
+                >
+                  <span *ngIf="evaluationForm.get(critere.id)?.errors?.['required']">Ce champ est requis.</span>
+                  <span *ngIf="evaluationForm.get(critere.id)?.errors?.['min']">Minimum : 0</span>
+                  <span *ngIf="evaluationForm.get(critere.id)?.errors?.['max']">Maximum : 100</span>
+                </div>
+              </div>
+
+              <!-- Score Input -->
+              <div class="score-input-wrap">
+                <input
+                  [id]="critere.id"
+                  type="number"
+                  [formControlName]="critere.id"
+                  class="score-input"
+                  [class.input-disabled]="existingEvaluation"
+                  placeholder="--"
+                  min="0"
+                  max="100"
+                />
+                <span class="score-unit-label">/ 100</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="criteres.length === 0" class="empty-state">
+            <lucide-icon [name]="AlertCircle" [size]="36"></lucide-icon>
+            <p>Aucun critère de sélection défini pour cette offre.</p>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions" *ngIf="criteres.length > 0">
+            <button type="button" class="btn-secondary" (click)="goBack()">
+              {{ existingEvaluation ? 'Retour' : 'Annuler' }}
+            </button>
+            <button
+              *ngIf="!existingEvaluation"
+              type="submit"
+              class="btn-primary"
+              [disabled]="isSubmitting || evaluationForm.invalid"
+            >
+              <lucide-icon *ngIf="!isSubmitting" [name]="Save" [size]="18"></lucide-icon>
+              <span *ngIf="isSubmitting" class="spinner-small"></span>
+              {{ isSubmitting ? 'Enregistrement...' : 'Enregistrer l\'évaluation' }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

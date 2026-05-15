@@ -279,6 +279,12 @@
                 <mat-icon>timeline</mat-icon>
                 <span>Voir la progression</span>
               </button>
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="goToManualEvaluation(candidate)">
+                <mat-icon>assessment</mat-icon>
+                <span>Évaluer manuellement</span>
+              </button>
+              <mat-divider></mat-divider>
               <button mat-menu-item (click)="downloadResume(candidate)">
                 <mat-icon>description</mat-icon>
                 <span>Télécharger le CV</span>

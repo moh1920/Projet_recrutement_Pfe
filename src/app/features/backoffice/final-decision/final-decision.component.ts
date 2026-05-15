@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CandidateService, CandidateDTO, CandidateStatus } from '../../../core/services/candidate.service';
 import { MatchingService } from '../../../core/services/matching.service';
 import { MatchResult } from '../../../core/models/matching.model';
+import { ManualEvaluationService, ManualEvaluation } from '../../../core/services/manual-evaluation.service';
 
 @Component({
   selector: 'app-final-decision',
@@ -29,12 +30,14 @@ export class FinalDecisionComponent implements OnInit {
   private router = inject(Router);
   private candidateService = inject(CandidateService);
   private matchingService = inject(MatchingService);
+  private manualEvalService = inject(ManualEvaluationService);
 
   candidateId: string | null = null;
   offerId: string | null = null;
 
   candidate: CandidateDTO | null = null;
   matchResult: MatchResult | null = null;
+  manualEval: ManualEvaluation | null = null;
   
   loading = true;
   decisionComment = '';
@@ -105,10 +108,31 @@ export class FinalDecisionComponent implements OnInit {
         // Find the match result for our specific candidate
         const candidateProfileId = this.candidate?.idProfile;
         this.matchResult = matches.find(m => m.candidateId === candidateProfileId) || matches.find(m => m.candidateId === this.candidateId) || null;
-        this.loading = false;
+        this.loadManualEvaluationData();
       },
       error: (err) => {
         console.error('Error loading matching data', err);
+        this.loadManualEvaluationData();
+      }
+    });
+  }
+
+  loadManualEvaluationData(): void {
+    if (!this.candidateId) {
+      this.loading = false;
+      return;
+    }
+    
+    this.manualEvalService.getManualEvaluationByCandidatsId(this.candidateId).subscribe({
+      next: (evalData) => {
+        if (evalData && evalData.id) {
+          this.manualEval = evalData;
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        // Ignorer l'erreur 404 si pas d'évaluation
+        console.log('Aucune évaluation manuelle ou erreur', err);
         this.loading = false;
       }
     });
@@ -128,6 +152,15 @@ export class FinalDecisionComponent implements OnInit {
       return this.matchResult.globalScore;
     }
     return this.candidate?.aiScore || 0;
+  }
+
+  getAppreciationClass(): string {
+    if (!this.manualEval?.appreciation) return 'text-muted';
+    const lower = this.manualEval.appreciation.toLowerCase();
+    if (lower.includes('excellent')) return 'text-success';
+    if (lower.includes('bon')) return 'text-primary';
+    if (lower.includes('insuffisant')) return 'text-danger';
+    return 'text-warning';
   }
 
   submitDecision(status: string): void {

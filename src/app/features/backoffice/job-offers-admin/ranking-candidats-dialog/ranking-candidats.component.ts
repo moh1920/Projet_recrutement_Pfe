@@ -178,4 +178,8 @@ export class RankingCandidatsComponent implements OnInit, OnDestroy {
   goBack(): void {
     this.router.navigate(['admin/offres']);
   }
+
+  goToEvaluation(candidateId: string): void {
+    this.router.navigate(['admin/manual-evaluation', this.offerId, candidateId]);
+  }
 }

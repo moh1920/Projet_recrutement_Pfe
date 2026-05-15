@@ -1,0 +1,119 @@
+<div class="ranking-page">
+
+  <!-- ======== HEADER BANNER ======== -->
+  <div class="header-banner">
+    <button class="back-btn" (click)="goBack()">
+      <lucide-icon [name]="ChevronLeft" [size]="20"></lucide-icon>
+    </button>
+    <div class="title-wrap">
+      <div class="title-icon">
+        <lucide-icon [name]="Award" [size]="26"></lucide-icon>
+      </div>
+      <div>
+        <h1>Classement des Évaluations Manuelles</h1>
+        <p class="subtitle">Toutes les évaluations saisies pour cette offre, triées par score</p>
+      </div>
+    </div>
+    <div class="header-badge" *ngIf="!loading && evaluations.length > 0">
+      <span>{{ evaluations.length }}</span> évaluation(s)
+    </div>
+  </div>
+
+  <!-- ======== MAIN CONTENT ======== -->
+  <div class="main-content">
+
+    <!-- LOADING -->
+    <div *ngIf="loading" class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Chargement des évaluations...</p>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="!loading && error" class="alert-card alert-danger">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ error }}</span>
+      <button mat-stroked-button (click)="loadData()" class="retry-btn">Réessayer</button>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div *ngIf="!loading && !error && evaluations.length === 0" class="empty-state">
+      <div class="empty-icon-wrap">
+        <lucide-icon [name]="FileText" [size]="38"></lucide-icon>
+      </div>
+      <h3>Aucune évaluation manuelle</h3>
+      <p>Aucune évaluation n'a encore été saisie pour cette offre.</p>
+    </div>
+
+    <!-- RANKING TABLE -->
+    <div *ngIf="!loading && !error && evaluations.length > 0" class="table-card">
+      <div class="table-card-header">
+        <div class="table-card-title">
+          <mat-icon>format_list_numbered</mat-icon>
+          <span>Classement complet</span>
+        </div>
+        <span class="table-card-sub">Trié par score décroissant</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="eval-table">
+          <thead>
+            <tr>
+              <th class="col-rank">#</th>
+              <th class="col-candidate">Candidat</th>
+              <th class="col-score">Score Final</th>
+              <th class="col-app">Appréciation</th>
+              <th *ngFor="let c of criteres" class="col-critere">{{ c.nom }}</th>
+              <th class="col-date">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eval of evaluations; let i = index">
+
+              <!-- RANK simple number -->
+              <td class="col-rank">
+                <span class="rank-num">{{ i + 1 }}</span>
+              </td>
+
+              <!-- CANDIDATE -->
+              <td class="col-candidate">
+                <div class="candidate-cell">
+                  <div class="avatar" [style.background]="getAvatarColor(i)">
+                    {{ getAvatarLabel(eval.candidatId) }}
+                  </div>
+                  <span class="candidate-name">{{ getCandidateName(eval.candidatId) }}</span>
+                </div>
+              </td>
+
+              <!-- SCORE FINAL -->
+              <td class="col-score">
+                <div class="score-pill">
+                  <span class="score-num">{{ eval.scoreFinal | number:'1.0-1' }}</span>
+                  <span class="score-unit">/100</span>
+                </div>
+              </td>
+
+              <!-- APPRECIATION -->
+              <td class="col-app">
+                <span class="appreciation-badge" [ngClass]="getAppreciationClass(eval.appreciation)">
+                  {{ eval.appreciation }}
+                </span>
+              </td>
+
+              <!-- NOTES PAR CRITERE -->
+              <td *ngFor="let c of criteres" class="col-critere">
+                <span class="note-chip" *ngIf="eval.noteParCritere && eval.noteParCritere[c.id] !== undefined">
+                  {{ eval.noteParCritere[c.id] }}
+                </span>
+                <span class="note-na" *ngIf="!eval.noteParCritere || eval.noteParCritere[c.id] === undefined">—</span>
+              </td>
+
+              <!-- DATE -->
+              <td class="col-date">{{ eval.createdAt | date:'dd/MM/yy HH:mm' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

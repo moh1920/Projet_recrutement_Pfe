@@ -284,6 +284,11 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
   openRanking(offerId: string, offerTitle: string): void {
     this.router.navigate(['admin/rankingCandidats', offerId]);
   }
+
+  openManualRanking(offerId: string): void {
+    this.router.navigate(['admin/manual-ranking', offerId]);
+  }
+
   changerStatus(offerId: string, newStatus: string): void {
     this.jobOfferService
       .modifierStatusOffre(offerId, newStatus)

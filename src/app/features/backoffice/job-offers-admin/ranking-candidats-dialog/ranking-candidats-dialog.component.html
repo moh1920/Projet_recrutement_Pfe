@@ -95,6 +95,11 @@
               <span>{{ results[1].details[key] }}</span>
             </div>
           </div>
+          <div class="eval-btn-wrapper">
+            <button mat-flat-button color="primary" class="eval-btn" (click)="goToEvaluation(results[1].candidateId)">
+              Évaluer
+            </button>
+          </div>
         </div>
 
         <div class="podium-card rank-1" *ngIf="results.length >= 1">
@@ -121,6 +126,11 @@
               <span>{{ results[0].details[key] }}</span>
             </div>
           </div>
+          <div class="eval-btn-wrapper">
+            <button mat-flat-button color="primary" class="eval-btn" (click)="goToEvaluation(results[0].candidateId)">
+              Évaluer
+            </button>
+          </div>
         </div>
 
         <div class="podium-card rank-3" *ngIf="results.length >= 3">
@@ -146,6 +156,11 @@
               <span>{{ key }}</span>
               <span>{{ results[2].details[key] }}</span>
             </div>
+          </div>
+          <div class="eval-btn-wrapper">
+            <button mat-flat-button color="primary" class="eval-btn" (click)="goToEvaluation(results[2].candidateId)">
+              Évaluer
+            </button>
           </div>
         </div>
       </div>
@@ -175,16 +190,21 @@
           </div>
 
           <div class="list-right">
-            <div class="list-score" [ngClass]="getScoreColor(result.globalScore)">
-              {{ result.globalScore | number: '1.1-1' }}%
+            <div class="list-score-group">
+              <div class="list-score" [ngClass]="getScoreColor(result.globalScore)">
+                {{ result.globalScore | number: '1.1-1' }}%
+              </div>
+              <div class="list-bar-wrap">
+                <div
+                  class="list-bar"
+                  [ngClass]="getScoreColor(result.globalScore)"
+                  [style.width.%]="result.globalScore"
+                ></div>
+              </div>
             </div>
-            <div class="list-bar-wrap">
-              <div
-                class="list-bar"
-                [ngClass]="getScoreColor(result.globalScore)"
-                [style.width.%]="result.globalScore"
-              ></div>
-            </div>
+            <button mat-stroked-button color="primary" class="list-eval-btn" (click)="goToEvaluation(result.candidateId)">
+              Évaluer
+            </button>
           </div>
         </div>
       </div>

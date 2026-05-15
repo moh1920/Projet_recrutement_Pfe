@@ -224,6 +224,11 @@ $border: #e2e8f0;
 
     &.ai-card .score-value { color: $info; }
     &.interview-card .score-value { color: darken($warning, 10%); }
+    &.manual-card .card-icon {
+      background: rgba(139, 0, 0, 0.12); /* $esprit-red light */
+      color: #8b0000;
+    }
+    &.manual-card .score-value { color: #8b0000; }
   }
 }
 

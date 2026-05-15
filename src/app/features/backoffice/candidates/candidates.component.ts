@@ -281,6 +281,14 @@ export class CandidatesComponent implements OnInit, AfterViewInit {
     });
   }
 
+  goToManualEvaluation(candidate: CandidateDTO): void {
+    if (!candidate.idOffre || !candidate.id) {
+      this.showSnackBar('Identifiant de l\'offre ou du candidat manquant.', 'error');
+      return;
+    }
+    this.router.navigate(['/admin/manual-evaluation', candidate.idOffre, candidate.id]);
+  }
+
   downloadResume(candidate: CandidateDTO): void {
     if (!candidate.resume) {
       this.showSnackBar('Aucun CV disponible pour ce candidat', 'warning');

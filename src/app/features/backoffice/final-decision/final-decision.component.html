@@ -61,6 +61,29 @@
             </p>
           </mat-card-content>
         </mat-card>
+
+        <!-- Manual Evaluation Score -->
+        <mat-card class="score-card manual-card">
+          <mat-card-header>
+            <div mat-card-avatar class="card-icon"><mat-icon>assignment_turned_in</mat-icon></div>
+            <mat-card-title>Évaluation Manuelle</mat-card-title>
+            <mat-card-subtitle>Notes par critères</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ng-container *ngIf="manualEval">
+              <div class="score-value">{{ manualEval.scoreFinal | number:'1.0-1' }}<span class="unit">/100</span></div>
+              <p class="details-text" style="font-weight: 500;">
+                Appréciation : <span [ngClass]="getAppreciationClass() || ''">{{ manualEval.appreciation }}</span>
+              </p>
+            </ng-container>
+            <ng-container *ngIf="!manualEval">
+              <div class="score-value" style="color: #94a3b8;">--<span class="unit">/100</span></div>
+              <p class="details-text text-muted">
+                Aucune évaluation manuelle n'a été saisie pour ce candidat.
+              </p>
+            </ng-container>
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
 
