@@ -7,6 +7,7 @@ import esprit.PfeBackendProject.entity.InterviewStatus;
 import esprit.PfeBackendProject.entity.InterviewType;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
@@ -32,8 +33,9 @@ public class InterviewMapper {
                 .candidatePhone(entity.getCandidatePhone())
                 .position(entity.getPosition())
                 .department(entity.getDepartment())
-                .date(entity.getDate())
-                .time(entity.getTime())
+                // ✅ Dans toDTO() — String → LocalTime
+                .date(entity.getDate() != null ? LocalDate.parse(entity.getDate()) : null)
+                .time(entity.getTime() != null ? java.time.LocalTime.parse(entity.getTime()) : null)
                 .duration(entity.getDuration())
                 .type(entity.getType() != null ? entity.getType().getValue() : null)
                 .status(entity.getStatus() != null ? entity.getStatus().getLabel() : null)
@@ -71,8 +73,8 @@ public class InterviewMapper {
                 .candidatePhone(dto.getCandidatePhone())
                 .position(dto.getPosition())
                 .department(dto.getDepartment())
-                .date(dto.getDate())
-                .time(dto.getTime())
+                .date(dto.getDate() != null ? dto.getDate().toString() : null)
+                .time(dto.getTime() != null ? dto.getTime().toString() : null)
                 .duration(dto.getDuration())
                 .type(dto.getType() != null ? InterviewType.fromValue(dto.getType()) : null)
                 .status(dto.getStatus() != null ? InterviewStatus.fromLabel(dto.getStatus()) : null)

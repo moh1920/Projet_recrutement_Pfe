@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -29,6 +30,8 @@ public interface InterviewRepository extends MongoRepository<Interview, String> 
 
     // Find by date range
     List<Interview> findByDateBetween(LocalDate startDate, LocalDate endDate);
+    // InterviewRepository.java
+    List<Interview> findByDateBetween(LocalDateTime start, LocalDateTime end);
 
     // Find by candidate
     List<Interview> findByCandidateId(String candidateId);
