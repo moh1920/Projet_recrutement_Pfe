@@ -22,6 +22,7 @@ public class UserService {
     private final UserRepository userRepository ;
     private final UserMapper userMapper ;
     private final UserDetaisRepository userDetaisRepository ;
+    private final KeycloakAdminService keycloakAdminService ;
 
 
     public List<UserDTO> getAllUser() {
@@ -41,10 +42,20 @@ public class UserService {
                         .collect(Collectors.toMap(UserDetais::getId, d -> d));
 
         return users.stream()
-                .map(user -> userMapper.mapToDTO(
-                        user,
-                        detailsMap.get(user.getIdDetaisUsers())
-                ))
+                .map(user -> {
+                    UserDetais details = detailsMap.get(user.getIdDetaisUsers());
+
+                    // Récupérer le statut depuis Keycloak
+                    StatusUser status = keycloakAdminService.getStatusFromKeycloak(user.getKeycloakId());
+
+                    // Mettre à jour le statut en BDD si différent (optionnel)
+                    if (details != null && !status.equals(details.getStatusUser())) {
+                        details.setStatusUser(status);
+                        userDetaisRepository.save(details);
+                    }
+
+                    return userMapper.mapToDTOWithStatus(user, details, status);
+                })
                 .toList();
     }
 
@@ -110,6 +121,9 @@ public class UserService {
         userDetais.setStatusUser(status);
         userDetaisRepository.save(userDetais);
     }
+
+
+
 
 
 

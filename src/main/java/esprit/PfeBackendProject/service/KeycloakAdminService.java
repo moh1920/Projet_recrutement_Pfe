@@ -3,6 +3,7 @@ package esprit.PfeBackendProject.service;
 import ch.qos.logback.classic.Logger;
 import esprit.PfeBackendProject.dto.CreateUserRequest;
 import esprit.PfeBackendProject.dto.UserDTO;
+import esprit.PfeBackendProject.entity.StatusUser;
 import esprit.PfeBackendProject.entity.User;
 import esprit.PfeBackendProject.entity.UserDetais;
 import esprit.PfeBackendProject.repository.UserDetaisRepository;
@@ -14,6 +15,7 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.keycloak.representations.idm.UserSessionRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -234,5 +236,30 @@ log.info("✅ User sauvegardé MongoDB id: " + newUser.getId());
                 .dateDeCreation(details != null ? details.getDateDeCreation() : null)
                 .fullName(user.getFirstName() + " " + user.getLastName())
                 .build();
+    }
+    public StatusUser getStatusFromKeycloak(String keycloakId) {
+        try {
+            List<UserSessionRepresentation> sessions = keycloak
+                    .realm(realm)
+                    .users()
+                    .get(keycloakId)
+                    .getUserSessions();
+
+            if (sessions == null || sessions.isEmpty()) {
+                return StatusUser.Inactif;
+            }
+
+            long now = System.currentTimeMillis() / 1000; // timestamp en secondes
+
+            boolean hasActiveSession = sessions.stream()
+                    .anyMatch(session -> {
+                        long lastAccess = session.getLastAccess();
+                        return (now - lastAccess) < 1800;
+                    });
+
+            return hasActiveSession ? StatusUser.Actif : StatusUser.Inactif;
+        } catch (Exception e) {
+            return StatusUser.Inactif;
+        }
     }
 }
