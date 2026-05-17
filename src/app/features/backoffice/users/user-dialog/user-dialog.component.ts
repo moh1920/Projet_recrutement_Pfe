@@ -34,7 +34,7 @@ export class UserDialogComponent {
   isLoading = false;
   hidePassword = true;
 
-  roles = ['admin', 'DIRECTEUR', 'CHEF_DEPARTEMENT', 'CUP', 'ENSEIGNANT'];
+  roles = ['admin', 'DIRECTEUR', 'CHEF_DEPARTEMENT', 'CUP'];
 
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
@@ -78,7 +78,6 @@ export class UserDialogComponent {
       DIRECTEUR: 'Directeur',
       CHEF_DEPARTEMENT: 'Chef de Département',
       CUP: 'CUP',
-      ENSEIGNANT: 'Enseignant',
     };
     return map[role] || role;
   }

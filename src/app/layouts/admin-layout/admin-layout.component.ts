@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -15,6 +15,8 @@ import { Observable, map, shareReplay } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { AppKeycloakService } from '../../core/services/keycloak.service';
 import { environment } from '../../../environments/environment';
+import { MenuService } from '../../core/services/menu.service';
+import { MenuItemDTO as MenuItem } from '../../core/models/menu.model';
 
 interface Notification {
   icon: string;
@@ -22,20 +24,6 @@ interface Notification {
   time: string;
   color: string;
   read: boolean;
-}
-
-interface SubMenuItem {
-  icon: string;
-  label: string;
-  route: string;
-}
-
-interface MenuItem {
-  icon: string;
-  label: string;
-  route?: string;
-  children?: SubMenuItem[];
-  isExpanded?: boolean;
 }
 
 @Component({
@@ -57,10 +45,11 @@ interface MenuItem {
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.scss',
 })
-export class AdminLayoutComponent {
+export class AdminLayoutComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   authService = inject(AuthService);
   appKeycloakService = inject(AppKeycloakService);
+  menuService = inject(MenuService);
 
   currentUser$ = this.authService.currentUser$;
   isDarkMode = false;
@@ -71,27 +60,18 @@ export class AdminLayoutComponent {
     shareReplay()
   );
 
-  menuItems: MenuItem[] = [
-    { icon: 'dashboard', label: 'Dashboard', route: '/admin/dashboard' },
-    {
-      icon: 'work',
-      label: 'Offres',
-      isExpanded: false,
-      children: [
-        { icon: 'list', label: 'Liste des offres', route: '/admin/job-offers' },
-        { icon: 'checklist', label: 'Critères de sélection', route: '/admin/critereDeSelection' },
-        { icon: 'category', label: 'Catégories de sélection', route: '/admin/categorieSelection' },
-        { icon: 'travel_explore', label: 'Scoring LinkedIn', route: '/admin/linkedin-scoring' },
-        { icon: 'table_chart', label: 'Candidats Google Sheet', route: '/admin/google-sheet-candidats' },
-      ],
-    },
-    { icon: 'people', label: 'Dossiers candidats', route: '/admin/candidates' },
-    { icon: 'trending_up', label: 'Candidats-progression', route: '/admin/candidate-progression' },
-    { icon: 'event', label: 'Entretiens', route: '/admin/interviews' },
-    { icon: 'manage_accounts', label: 'Utilisateurs', route: '/admin/users' },
-    { icon: 'assignment_ind', label: 'candidats', route: '/admin/profileCandidats' },
-    { icon: 'email', label: 'Email Entretien', route: '/admin/emailSendMeeting' },
-  ];
+  menuItems: MenuItem[] = [];
+
+  ngOnInit(): void {
+    this.menuService.getSidebar().subscribe({
+      next: (menus) => {
+        this.menuItems = menus;
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des menus', err);
+      }
+    });
+  }
 
   notifications: Notification[] = [
     {

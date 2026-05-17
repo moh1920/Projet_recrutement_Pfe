@@ -1,0 +1,77 @@
+<div class="menu-management-container">
+  <div class="header">
+    <h2>Gestion des Menus (Sidebar)</h2>
+    <button mat-raised-button color="primary" (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+      Ajouter un Menu
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Icon Column -->
+    <ng-container matColumnDef="icon">
+      <th mat-header-cell *matHeaderCellDef> Icône </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon>{{element.icon}}</mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Label Column -->
+    <ng-container matColumnDef="label">
+      <th mat-header-cell *matHeaderCellDef> Label </th>
+      <td mat-cell *matCellDef="let element"> {{element.label}} </td>
+    </ng-container>
+
+    <!-- Route Column -->
+    <ng-container matColumnDef="route">
+      <th mat-header-cell *matHeaderCellDef> Route </th>
+      <td mat-cell *matCellDef="let element"> {{element.route || '-'}} </td>
+    </ng-container>
+
+    <!-- ParentId Column -->
+    <ng-container matColumnDef="parentId">
+      <th mat-header-cell *matHeaderCellDef> Menu Parent </th>
+      <td mat-cell *matCellDef="let element">
+        <span class="parent-label" [class.no-parent]="!element.parentId">
+          {{ getParentLabel(element.parentId) }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- SortOrder Column -->
+    <ng-container matColumnDef="sortOrder">
+      <th mat-header-cell *matHeaderCellDef> Ordre </th>
+      <td mat-cell *matCellDef="let element"> {{element.sortOrder}} </td>
+    </ng-container>
+
+    <!-- Active Column -->
+    <ng-container matColumnDef="active">
+      <th mat-header-cell *matHeaderCellDef> Actif </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon [color]="element.active ? 'primary' : 'warn'">
+          {{ element.active ? 'check_circle' : 'cancel' }}
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="openDialog(element)" matTooltip="Modifier">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteMenu(element.id)" matTooltip="Supprimer">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="dataSource.length === 0" class="no-data">
+    Aucun menu trouvé.
+  </div>
+</div>

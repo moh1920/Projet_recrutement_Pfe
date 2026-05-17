@@ -18,7 +18,7 @@
     <mat-nav-list>
       <ng-container *ngFor="let item of menuItems">
         <!-- Item avec sous-menu -->
-        <ng-container *ngIf="item.children; else simpleItem">
+        <ng-container *ngIf="item.children && item.children.length > 0; else simpleItem">
           <a
             mat-list-item
             class="parent-item"
