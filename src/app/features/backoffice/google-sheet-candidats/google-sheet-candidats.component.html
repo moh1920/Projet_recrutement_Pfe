@@ -1,0 +1,311 @@
+<div class="gs-page">
+
+  <!-- ══════════════════ HERO HEADER ══════════════════ -->
+  <div class="page-hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-icon-wrap">
+        <!-- Google Sheets icon -->
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="24" height="24" rx="4" fill="#34A853"/>
+          <path d="M6 8h12M6 12h12M6 16h8" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+          <rect x="14" y="13" width="4" height="5" rx="1" fill="white"/>
+        </svg>
+      </div>
+      <div class="hero-text">
+        <h1 class="hero-title">Candidats — Google Sheets</h1>
+        <p class="hero-subtitle">
+          Profils analysés et scorés via le workflow n8n · LinkedIn Scraping · IA Scoring.
+          Les données sont lues directement depuis votre feuille Google Sheets partagée.
+        </p>
+      </div>
+    </div>
+    <div class="hero-badges">
+      <span class="badge badge-sheets"><mat-icon>table_chart</mat-icon> Google Sheets</span>
+      <span class="badge badge-n8n"><mat-icon>hub</mat-icon> n8n Workflow</span>
+      <span class="badge badge-ai"><mat-icon>psychology</mat-icon> IA Scoring</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════ KPI CARDS ══════════════════ -->
+  <div class="kpi-grid" *ngIf="!isLoading">
+    <div class="kpi-card kpi-total">
+      <div class="kpi-icon"><mat-icon>people</mat-icon></div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ allCandidats.length }}</span>
+        <span class="kpi-label">Profils chargés</span>
+      </div>
+    </div>
+    <div class="kpi-card kpi-offres">
+      <div class="kpi-icon"><mat-icon>work_outline</mat-icon></div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ uniqueOffresCount }}</span>
+        <span class="kpi-label">Offres concernées</span>
+      </div>
+    </div>
+    <div class="kpi-card kpi-contacter">
+      <div class="kpi-icon"><mat-icon>call</mat-icon></div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ totalContacter }}</span>
+        <span class="kpi-label">À contacter</span>
+      </div>
+    </div>
+    <div class="kpi-card kpi-considerer">
+      <div class="kpi-icon"><mat-icon>thumbs_up_down</mat-icon></div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ totalConsiderer }}</span>
+        <span class="kpi-label">À considérer</span>
+      </div>
+    </div>
+    <div class="kpi-card kpi-score">
+      <div class="kpi-icon"><mat-icon>emoji_events</mat-icon></div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ bestScore }}<small>/100</small></span>
+        <span class="kpi-label">Meilleur score</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ FILTER BAR ══════════════════ -->
+  <div class="filter-bar" *ngIf="!isLoading">
+    <div class="filter-bar-inner">
+      <!-- Search -->
+      <div class="search-wrap">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input
+          class="search-input"
+          type="text"
+          placeholder="Rechercher par nom, titre, offre…"
+          [(ngModel)]="searchQuery"
+          id="gs-search"
+        />
+      </div>
+
+      <!-- Niveau match -->
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Niveau de match</mat-label>
+        <mat-select [(ngModel)]="selectedNiveauMatch" id="gs-filter-niveau">
+          <mat-option value="">Tous</mat-option>
+          <mat-option *ngFor="let n of niveauMatchOptions" [value]="n">{{ n }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Recommandation -->
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Recommandation</mat-label>
+        <mat-select [(ngModel)]="selectedRecommandation" id="gs-filter-rec">
+          <mat-option value="">Toutes</mat-option>
+          <mat-option *ngFor="let r of recommandationOptions" [value]="r">{{ r }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Offre -->
+      <mat-form-field appearance="outline" class="filter-field filter-field-wide">
+        <mat-label>Offre</mat-label>
+        <mat-select [(ngModel)]="selectedOffre" id="gs-filter-offre">
+          <mat-option value="">Toutes les offres</mat-option>
+          <mat-option *ngFor="let o of offreOptions" [value]="o">{{ o }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-stroked-button class="reset-btn" (click)="resetFilters()" matTooltip="Réinitialiser les filtres">
+        <mat-icon>filter_alt_off</mat-icon>
+        Réinitialiser
+      </button>
+    </div>
+
+    <div class="filter-count">
+      <mat-icon>table_rows</mat-icon>
+      {{ filteredCandidats.length }} résultat(s)
+    </div>
+  </div>
+
+  <!-- ══════════════════ LOADING ══════════════════ -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="loading-card">
+      <div class="loading-anim">
+        <mat-spinner diameter="56"></mat-spinner>
+        <div class="loading-ring"></div>
+      </div>
+      <h3>Chargement depuis Google Sheets…</h3>
+      <p>Lecture des données de scoring n8n</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════ CANDIDAT LIST ══════════════════ -->
+  <div class="candidats-list" *ngIf="!isLoading">
+
+    <!-- Section header -->
+    <div class="list-header">
+      <h2 class="list-title">
+        <mat-icon>leaderboard</mat-icon>
+        Profils scorés
+        <span class="count-badge">{{ filteredCandidats.length }}</span>
+      </h2>
+      <button mat-raised-button class="refresh-btn" (click)="loadCandidats()">
+        <mat-icon>refresh</mat-icon>
+        Actualiser
+      </button>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="filteredCandidats.length === 0">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <h3>Aucun résultat</h3>
+      <p>Essayez de modifier vos filtres ou cliquez sur Réinitialiser.</p>
+    </div>
+
+    <!-- Cards -->
+    <div class="candidat-card" *ngFor="let c of filteredCandidats; let idx = index">
+
+      <!-- ── Card Header ── -->
+      <div class="card-header">
+
+        <div class="candidat-avatar">
+          <span>{{ getInitials(c.nom) }}</span>
+        </div>
+
+        <div class="candidat-info">
+          <h3 class="candidat-name">{{ c.nom }}</h3>
+          <p class="candidat-titre">{{ c.titre }}</p>
+          <div class="candidat-meta">
+            <span class="meta-tag" *ngIf="c.offre_titre">
+              <mat-icon>work_outline</mat-icon>{{ c.offre_titre }}
+            </span>
+            <span class="meta-tag" *ngIf="c.offre_departement">
+              <mat-icon>apartment</mat-icon>{{ c.offre_departement }}
+            </span>
+            <span class="meta-tag" *ngIf="c.offre_type">
+              <mat-icon>badge</mat-icon>{{ c.offre_type }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Score ring -->
+        <div class="score-ring-wrap" *ngIf="c.score">
+          <div class="score-ring" [style.background]="getScoreGradient(+c.score)">
+            <div class="score-inner">
+              <span class="score-num">{{ c.score }}</span>
+              <span class="score-unit">/100</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chips -->
+        <div class="candidat-chips">
+          <span class="match-chip" [class]="getNiveauMatchClass(c.niveau_match)" *ngIf="c.niveau_match">
+            <mat-icon>{{ getNiveauMatchIcon(c.niveau_match) }}</mat-icon>
+            {{ c.niveau_match }}
+          </span>
+          <span class="rec-chip" [class]="getRecommandationClass(c.recommandation)" *ngIf="c.recommandation">
+            {{ c.recommandation }}
+          </span>
+        </div>
+
+        <!-- Actions -->
+        <div class="card-actions">
+          <button mat-stroked-button class="linkedin-btn" (click)="openLinkedIn(c.linkedin_url)" [disabled]="!c.linkedin_url" matTooltip="Voir profil LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+            </svg>
+            LinkedIn
+          </button>
+          <button mat-icon-button class="expand-btn" (click)="toggleExpand(idx)"
+            [matTooltip]="isExpanded(idx) ? 'Réduire' : 'Voir détails'">
+            <mat-icon>{{ isExpanded(idx) ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Expandable Detail ── -->
+      <div class="card-detail" [class.open]="isExpanded(idx)">
+        <mat-divider></mat-divider>
+        <div class="detail-grid">
+
+          <!-- Left: Resume + Points -->
+          <div class="detail-col">
+            <div class="detail-section" *ngIf="c.resume">
+              <div class="detail-section-title">
+                <mat-icon>description</mat-icon> Résumé LinkedIn
+              </div>
+              <p class="resume-text">{{ c.resume }}</p>
+            </div>
+
+            <div class="points-block points-forts" *ngIf="c.points_forts">
+              <div class="points-title">
+                <mat-icon>check_circle</mat-icon> Points forts
+              </div>
+              <p>{{ c.points_forts }}</p>
+            </div>
+
+            <div class="points-block points-faibles" *ngIf="c.points_faibles">
+              <div class="points-title">
+                <mat-icon>cancel</mat-icon> Points faibles
+              </div>
+              <p>{{ c.points_faibles }}</p>
+            </div>
+          </div>
+
+          <!-- Right: Offer details + Score breakdown -->
+          <div class="detail-col">
+            <div class="detail-section">
+              <div class="detail-section-title">
+                <mat-icon>work</mat-icon> Détails de l'offre
+              </div>
+              <div class="offer-details-grid">
+                <div class="od-item" *ngIf="c.offre_specialite">
+                  <span class="od-label">Spécialité</span>
+                  <span class="od-value">{{ c.offre_specialite }}</span>
+                </div>
+                <div class="od-item" *ngIf="c.offre_niveau">
+                  <span class="od-label">Niveau requis</span>
+                  <span class="od-value">{{ c.offre_niveau }}</span>
+                </div>
+                <div class="od-item" *ngIf="c.offre_experience">
+                  <span class="od-label">Expérience (ans)</span>
+                  <span class="od-value">{{ c.offre_experience }}</span>
+                </div>
+                <div class="od-item" *ngIf="c.offre_workload">
+                  <span class="od-label">Volume horaire</span>
+                  <span class="od-value">{{ c.offre_workload }}h</span>
+                </div>
+                <div class="od-item" *ngIf="c.offre_modules">
+                  <span class="od-label">Modules</span>
+                  <span class="od-value">{{ c.offre_modules }}</span>
+                </div>
+                <div class="od-item" *ngIf="c.offre_skills">
+                  <span class="od-label">Compétences</span>
+                  <span class="od-value">{{ c.offre_skills }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="scores-breakdown" *ngIf="c.score">
+              <div class="breakdown-title">
+                <mat-icon>bar_chart</mat-icon> Détail des scores
+              </div>
+              <div class="score-bar-row" *ngFor="let entry of getScoreBreakdown(c)">
+                <span class="bar-label">{{ entry.label }}</span>
+                <div class="bar-track">
+                  <div class="bar-fill"
+                    [style.width]="getBarWidth(entry.value, entry.max)"
+                    [style.background]="getScoreColor(entry.value / entry.max * 100)">
+                  </div>
+                </div>
+                <span class="bar-value">{{ entry.value }}/{{ entry.max }}</span>
+              </div>
+            </div>
+
+            <div class="date-analyse" *ngIf="c.date_analyse">
+              <mat-icon>schedule</mat-icon>
+              Analysé le {{ formatDate(c.date_analyse) }}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

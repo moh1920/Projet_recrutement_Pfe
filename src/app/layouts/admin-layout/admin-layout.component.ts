@@ -82,6 +82,7 @@ export class AdminLayoutComponent {
         { icon: 'checklist', label: 'Critères de sélection', route: '/admin/critereDeSelection' },
         { icon: 'category', label: 'Catégories de sélection', route: '/admin/categorieSelection' },
         { icon: 'travel_explore', label: 'Scoring LinkedIn', route: '/admin/linkedin-scoring' },
+        { icon: 'table_chart', label: 'Candidats Google Sheet', route: '/admin/google-sheet-candidats' },
       ],
     },
     { icon: 'people', label: 'Dossiers candidats', route: '/admin/candidates' },

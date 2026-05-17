@@ -286,6 +286,15 @@ export const routes: Routes = [
         data: { roles: ['admin', 'director'] },
       },
       {
+        path: 'google-sheet-candidats',
+        loadComponent: () =>
+          import('./features/backoffice/google-sheet-candidats/google-sheet-candidats.component').then(
+            (m) => m.GoogleSheetCandidatsComponent
+          ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'director'] },
+      },
+      {
         path: 'manual-evaluation/:offerId/:candidateId',
         loadComponent: () =>
           import('./features/backoffice/manual-evaluation/manual-evaluation.component').then(
