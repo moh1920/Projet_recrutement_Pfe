@@ -55,7 +55,8 @@ public class SecurityConfig{
                                 "/api/matching/**",
                                 "/upload/documents/**",
                                 "/notifications/**",
-                                "/evaluations/**"
+                                "/evaluations/**",
+                                "/googleSheetCandidats/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

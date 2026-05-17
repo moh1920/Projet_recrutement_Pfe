@@ -234,11 +234,10 @@ public class InterviewService {
         if (interviewDTO.getDepartment() != null)
             existingInterview.setDepartment(interviewDTO.getDepartment());
 
-        // ✅ LocalDate → String
+
         if (interviewDTO.getDate() != null)
             existingInterview.setDate(interviewDTO.getDate().toString());
 
-        // ✅ LocalTime → String
         if (interviewDTO.getTime() != null)
             existingInterview.setTime(interviewDTO.getTime().toString());
 
