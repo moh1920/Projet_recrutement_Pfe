@@ -522,6 +522,8 @@ jobs:
           file: ./docker/prometheus/Dockerfile
           push: true
           tags: sayarimohamed/pfe-prometheus:latest
+          cache-from: type=gha        # ← cache GitHub Actions
+          cache-to: type=gha,mode=max # ← sauvegarde le cache
 
       - name: Azure Login (OIDC)
         continue-on-error: true
@@ -543,7 +545,7 @@ jobs:
             --resource-group pfe-rg \
             --environment pfe-environment \
             --image sayarimohamed/pfe-prometheus:latest \
-            --target-port 9091  \
+            --target-port 9091 \
             --ingress internal \
             --min-replicas 1 --max-replicas 1 \
             --cpu 0.25 --memory 0.5Gi \
@@ -552,7 +554,8 @@ jobs:
               --resource-group pfe-rg \
               --image sayarimohamed/pfe-prometheus:latest
 
-      - name: Deploy Grafana
+      # ✅ SECRET EN PREMIER — avant la création du conteneur Grafana
+      - name: Create Grafana password secret
         continue-on-error: true
         run: |
           az containerapp create \
@@ -564,22 +567,14 @@ jobs:
             --ingress external \
             --min-replicas 1 --max-replicas 1 \
             --cpu 0.25 --memory 0.5Gi \
+            --secrets grafana-pass="${{ secrets.GRAFANA_ADMIN_PASSWORD }}" \
             --env-vars \
               GF_SECURITY_ADMIN_USER=admin \
-              GF_SECURITY_ADMIN_PASSWORD=secretref:grafana-pass \
-          || az containerapp update \
+              "GF_SECURITY_ADMIN_PASSWORD=secretref:grafana-pass" \
+          2>/dev/null || az containerapp update \
               --name pfe-grafana \
               --resource-group pfe-rg \
               --image grafana/grafana:latest
-
-      - name: Create Grafana password secret
-        continue-on-error: true
-        run: |
-          az containerapp secret set \
-            --name pfe-grafana \
-            --resource-group pfe-rg \
-            --secrets grafana-pass=${{ secrets.GRAFANA_ADMIN_PASSWORD }} \
-            2>/dev/null || true
 
       - name: Summary
         if: always()
@@ -593,4 +588,4 @@ jobs:
           echo "| Service | URL |" >> $GITHUB_STEP_SUMMARY
           echo "|---|---|" >> $GITHUB_STEP_SUMMARY
           echo "| Grafana | https://${GRAFANA_URL} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Prometheus | interne pfe-prometheus:9090 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Prometheus | interne pfe-prometheus:9091 |" >> $GITHUB_STEP_SUMMARY
