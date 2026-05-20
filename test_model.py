@@ -5,7 +5,7 @@ def test_model():
     model_dir = "./models/model_ner_cv"
     print(f"Loading trained NLP model from {model_dir}...")
     try:
-        nlp = spacy.load(model_dir)
+        nlp = spacy.load(model_dir, exclude=["vectors"])
     except OSError:
         print("Model not found! Please run train_model.py first.")
         return

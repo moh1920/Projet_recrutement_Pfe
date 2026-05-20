@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt .
 
-# Install Python deps + spaCy model en une seule couche pour réduire la taille
 RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir \
     https://github.com/explosion/spacy-models/releases/download/fr_core_news_lg-3.7.0/fr_core_news_lg-3.7.0-py3-none-any.whl && \
@@ -24,6 +23,15 @@ RUN pip install --no-cache-dir -r requirements.txt && \
     pip cache purge
 
 COPY . .
+
+# ✅ Télécharger le modèle NER une seule fois au BUILD
+ARG AZURE_STORAGE_KEY
+ENV AZURE_STORAGE_KEY=$AZURE_STORAGE_KEY
+
+RUN python -c "from utils_azure import download_model_from_blob; download_model_from_blob('./models/model_ner_cv')"
+
+# ✅ Supprimer la clé après usage — sécurité
+RUN unset AZURE_STORAGE_KEY
 
 EXPOSE 8000
 

@@ -1,0 +1,163 @@
+{
+  "entity_metrics": {
+    "simple_test": {
+      "entities_detected": 3,
+      "status": "success"
+    }
+  },
+  "extraction_metrics": {},
+  "samples_tested": 2,
+  "extraction_accuracies": [
+    0.6666666666666666,
+    0.8888888888888888
+  ],
+  "detailed_results": [
+    {
+      "sample": 1,
+      "accuracy": 0.6666666666666666,
+      "extracted": {
+        "identification": {
+          "nom": "Ahmed Ben",
+          "email": "ahmed.benali@example.com",
+          "telephone": "+216 98 123 456"
+        },
+        "formation": {
+          "niveau_diplome": null,
+          "specialite": null,
+          "universite": "Université De Tunis El Manar",
+          "annee_diplome": null,
+          "grade_academique": null
+        },
+        "experience": {
+          "nb_annees_experience": 8,
+          "experience_academique": true,
+          "institutions": [
+            "Université De Tunis El Manar"
+          ],
+          "modules_enseignes": []
+        },
+        "competences": {
+          "langages": [
+            "Python",
+            "Java"
+          ],
+          "frameworks": [
+            "Spring Boot",
+            "Angular"
+          ],
+          "data": [
+            "Power Bi"
+          ],
+          "ia": [
+            "Machine Learning"
+          ],
+          "erp": []
+        },
+        "publications": [],
+        "certifications": [],
+        "langues": [],
+        "indicateurs_ia": {
+          "score_competences": 30,
+          "score_experience": 80,
+          "score_global": 55
+        }
+      },
+      "expected": {
+        "identification": {
+          "email": "ahmed.benali@example.com"
+        },
+        "formation": {
+          "niveau_diplome": "Doctorat"
+        },
+        "competences": {
+          "langages": [
+            "Java",
+            "Python"
+          ],
+          "frameworks": [
+            "Spring Boot",
+            "Angular"
+          ],
+          "ia": [
+            "Machine Learning"
+          ],
+          "data": [
+            "Power BI"
+          ]
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "accuracy": 0.8888888888888888,
+      "extracted": {
+        "identification": {
+          "nom": "Marie Dupont",
+          "email": "marie.dupont@mail.com",
+          "telephone": null
+        },
+        "formation": {
+          "niveau_diplome": "Master",
+          "specialite": null,
+          "universite": "Université Paris Vi",
+          "annee_diplome": null,
+          "grade_academique": null
+        },
+        "experience": {
+          "nb_annees_experience": 5,
+          "experience_academique": true,
+          "institutions": [
+            "Université Paris Vi"
+          ],
+          "modules_enseignes": []
+        },
+        "competences": {
+          "langages": [
+            "Typescript",
+            "Javascript"
+          ],
+          "frameworks": [
+            "React"
+          ],
+          "data": [],
+          "ia": [
+            "Deep Learning"
+          ],
+          "erp": []
+        },
+        "publications": [],
+        "certifications": [],
+        "langues": [],
+        "indicateurs_ia": {
+          "score_competences": 20,
+          "score_experience": 50,
+          "score_global": 35
+        }
+      },
+      "expected": {
+        "identification": {
+          "email": "marie.dupont@mail.com"
+        },
+        "formation": {
+          "niveau_diplome": "Master"
+        },
+        "competences": {
+          "langages": [
+            "C++",
+            "JavaScript",
+            "TypeScript"
+          ],
+          "frameworks": [
+            "React",
+            "Vue.js"
+          ],
+          "ia": [
+            "Deep Learning"
+          ],
+          "data": []
+        }
+      }
+    }
+  ],
+  "avg_extraction_accuracy": 0.7777777777777777
+}

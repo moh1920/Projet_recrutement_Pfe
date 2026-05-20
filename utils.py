@@ -360,6 +360,7 @@ def extract_information_llm(text: str) -> dict:
         max_new_tokens=1024,
         timeout=120,
         return_full_text=False
+
     )
     llm = ChatHuggingFace(llm=llm_endpoint)
     
@@ -396,6 +397,8 @@ def extract_information_llm(text: str) -> dict:
     
     # Nettoyage rigoureux du texte brute renvoyé par le LLM
     cleaned_json_text = clean_llm_json(resultat_brut.content)
+    print("=== CLEANED JSON (first 300 chars) ===")
+    print(cleaned_json_text[:300])
     
     try:
         import json_repair

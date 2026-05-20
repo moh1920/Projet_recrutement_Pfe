@@ -2,9 +2,9 @@ name: CI/CD — Build and Deploy CV API
 
 on:
   push:
-    branches: [feature/cv-extraction-api]
-  pull_request:
-    branches: [feature/cv-extraction-api]
+ #   branches: [feature/cv-extraction-api]
+ # pull_request:
+ #   branches: [feature/cv-extraction-api]
 
 env:
   ACR_LOGIN_SERVER: acrcvapi.azurecr.io
@@ -47,6 +47,9 @@ jobs:
         with:
           context: .
           push: false
+          # ✅ Passer le secret au build
+          build-args: |
+            AZURE_STORAGE_KEY=${{ secrets.AZURE_STORAGE_KEY }}
           tags: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           outputs: type=docker,dest=/tmp/cv-api-image.tar
           cache-from: type=gha
