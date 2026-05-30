@@ -203,3 +203,15 @@ body {
   border-radius: 20px !important;
   font-weight: 500 !important;
 }
+
+/* Lucide Icon Reset & Scaling Fix */
+lucide-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+

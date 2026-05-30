@@ -120,8 +120,8 @@ export class ApplyComponent implements OnInit {
 
   get displaySkills(): Skill[] {
     if (!this.analysisResult) return this.mockAnalysis.skills;
-    const matched = this.analysisResult.breakdown.skillsMatch.matchedSkills ?? [];
-    const missing = this.analysisResult.breakdown.skillsMatch.missingSkills ?? [];
+    const matched = this.analysisResult.matchedSkills ?? [];
+    const missing = this.analysisResult.missingSkills ?? [];
     return [
       ...matched.map((s) => ({ name: s, level: 'expert' as const })),
       ...missing.map((s) => ({ name: s, level: 'beginner' as const })),
@@ -216,7 +216,7 @@ export class ApplyComponent implements OnInit {
     // Use the real offer data if available, otherwise fall back to a minimal object
     const offerPayload = this.offerData ?? { _id: this.offerId };
 
-    this.cvAnalysisService.evaluateCvFile(this.selectedFile, offerPayload).subscribe({
+    this.cvAnalysisService.smartEvaluateFile(this.selectedFile, offerPayload).subscribe({
       next: (result: EvaluationResult) => {
         clearInterval(interval);
         this.loadingProgress = 100;

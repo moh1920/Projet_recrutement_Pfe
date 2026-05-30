@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LucideAngularModule, Briefcase, Target, Clock, Zap, Users, CheckCircle, FileText } from 'lucide-angular';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 import { KpiCardComponent } from './components/kpi-card/kpi-card.component';
@@ -33,6 +34,10 @@ export class DashboardComponent implements OnInit {
   CheckCircleIcon = CheckCircle;
   FileTextIcon = FileText;
 
+  // Tab control
+  activeTab: 'overview' | 'powerbi' = 'overview';
+  powerBiUrl: SafeResourceUrl;
+
   // KPIs
   totalCandidatures = 0;
   totalOffres = 0;
@@ -53,8 +58,11 @@ export class DashboardComponent implements OnInit {
   constructor(
     private candidateService: CandidateService,
     private offreService: OffreService,
-    private interviewService: InterviewService
-  ) {}
+    private interviewService: InterviewService,
+    private sanitizer: DomSanitizer
+  ) {
+    this.powerBiUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://app.powerbi.com/reportEmbed?reportId=70d2541f-cbcb-4187-ba5f-f152387f59c9&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730&actionBarEnabled=true');
+  }
 
   ngOnInit() {
     this.loadData();
@@ -131,4 +139,30 @@ export class DashboardComponent implements OnInit {
       default: return 'bg-gray-100 text-gray-700';
     }
   }
+
+  getAvatarColorClass(firstName: string | undefined, lastName: string | undefined): string {
+    const name = (firstName || '') + (lastName || '');
+    if (!name) return 'avatar-blue';
+    const charCodeSum = name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const index = charCodeSum % 4;
+    const colors = ['avatar-blue', 'avatar-purple', 'avatar-amber', 'avatar-emerald'];
+    return colors[index];
+  }
+
+  getInitials(firstName: string | undefined, lastName: string | undefined): string {
+    const f = firstName ? firstName.charAt(0).toUpperCase() : '';
+    const l = lastName ? lastName.charAt(0).toUpperCase() : '';
+    return f + l || 'C';
+  }
+
+  getPremiumStatusClass(status: string | undefined): string {
+    switch (status) {
+      case 'ACCEPTE': return 'status-accept';
+      case 'REFUSE': return 'status-refuse';
+      case 'EN_ATTENTE': return 'status-waiting';
+      case 'EN_COURS': return 'status-progress';
+      default: return 'status-new';
+    }
+  }
 }
+

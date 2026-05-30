@@ -157,6 +157,15 @@ export const routes: Routes = [
         data: { roles: ['admin', 'DIRECTEUR', 'CHEF_DEPARTEMENT','CUP'] }, // ✅ Minuscules
       },
       {
+        path: 'powerbi-dashboard',
+        loadComponent: () =>
+          import('./features/backoffice/power-bi-dashboard/power-bi-dashboard.component').then(
+            (m) => m.PowerBiDashboardComponent
+          ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'DIRECTEUR', 'CHEF_DEPARTEMENT','CUP'] },
+      },
+      {
         path: 'job-offers',
         loadComponent: () =>
           import('./features/backoffice/job-offers-admin/job-offers-admin.component').then(

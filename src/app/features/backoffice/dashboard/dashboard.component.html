@@ -1,107 +1,151 @@
-<div class="space-y-6" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; background-color: #f8fafc; min-height: 100vh;">
+<div class="dashboard-container">
   <app-dashboard-header
     title="Tableau de Bord Recrutement"
     subtitle="Vue d'ensemble et statistiques en temps réel"
   ></app-dashboard-header>
 
-  <!-- KPI Cards -->
-  <div class="grid grid-cols-4 gap-4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem;">
-    <app-kpi-card
-      title="Total Candidatures"
-      [value]="totalCandidatures"
-      [icon]="UsersIcon"
-      color="text-blue-600"
-      bgColor="bg-blue-50"
-    ></app-kpi-card>
-    <app-kpi-card
-      title="Offres Actives"
-      [value]="totalOffres"
-      [icon]="BriefcaseIcon"
-      color="text-violet-600"
-      bgColor="bg-violet-50"
-    ></app-kpi-card>
-    <app-kpi-card
-      title="Entretiens"
-      [value]="totalInterviews"
-      [icon]="ClockIcon"
-      color="text-amber-600"
-      bgColor="bg-amber-50"
-    ></app-kpi-card>
-    <app-kpi-card
-      title="Candidats Admis"
-      [value]="admisCount"
-      [icon]="CheckCircleIcon"
-      color="text-emerald-600"
-      bgColor="bg-emerald-50"
-    ></app-kpi-card>
+  <!-- Navigation Tabs -->
+  <div class="tabs-navigation">
+    <button
+      (click)="activeTab = 'overview'"
+      class="tab-button"
+      [class.active]="activeTab === 'overview'"
+    >
+      Vue d'ensemble
+    </button>
+    <button
+      (click)="activeTab = 'powerbi'"
+      class="tab-button"
+      [class.active]="activeTab === 'powerbi'"
+    >
+      Rapport Power BI (Esprit PFE)
+    </button>
   </div>
 
-  <!-- Charts -->
-  <div class="grid grid-cols-2 gap-4" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem;">
-    
-    <!-- Bar Chart -->
-    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-4" style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem;">
-      <h3 class="text-sm font-semibold text-foreground mb-4" style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem;">Top 5 Postes par nombre de candidats</h3>
-      <div class="h-[280px] w-full" style="height: 280px; width: 100%;">
-        <ngx-charts-bar-horizontal
-          [results]="barData"
-          [xAxis]="true"
-          [yAxis]="true"
-          [customColors]="customColorsBar"
-          [showXAxisLabel]="false"
-          [showYAxisLabel]="false"
-        >
-        </ngx-charts-bar-horizontal>
+  <ng-container *ngIf="activeTab === 'overview'">
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <app-kpi-card
+        class="animate-fade-in animate-delay-1"
+        title="Total Candidatures"
+        [value]="totalCandidatures"
+        [icon]="UsersIcon"
+        color="text-blue-600"
+        bgColor="bg-blue-50"
+      ></app-kpi-card>
+      <app-kpi-card
+        class="animate-fade-in animate-delay-2"
+        title="Offres Actives"
+        [value]="totalOffres"
+        [icon]="BriefcaseIcon"
+        color="text-violet-600"
+        bgColor="bg-violet-50"
+      ></app-kpi-card>
+      <app-kpi-card
+        class="animate-fade-in animate-delay-3"
+        title="Entretiens"
+        [value]="totalInterviews"
+        [icon]="ClockIcon"
+        color="text-amber-600"
+        bgColor="bg-amber-50"
+      ></app-kpi-card>
+      <app-kpi-card
+        class="animate-fade-in animate-delay-4"
+        title="Candidats Admis"
+        [value]="admisCount"
+        [icon]="CheckCircleIcon"
+        color="text-emerald-600"
+        bgColor="bg-emerald-50"
+      ></app-kpi-card>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="charts-grid animate-fade-in animate-delay-3">
+      <!-- Bar Chart -->
+      <div class="premium-card">
+        <div class="card-header-bar">
+          <h3 class="card-title">Top 5 Postes par nombre de candidats</h3>
+        </div>
+        <div class="chart-wrapper">
+          <ngx-charts-bar-horizontal
+            [results]="barData"
+            [xAxis]="true"
+            [yAxis]="true"
+            [customColors]="customColorsBar"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="false"
+          >
+          </ngx-charts-bar-horizontal>
+        </div>
+      </div>
+
+      <!-- Donut Chart -->
+      <div class="premium-card">
+        <app-donut-chart
+          [data]="donutData"
+          [colors]="donutColors"
+          title="Répartition des statuts de candidature"
+        ></app-donut-chart>
       </div>
     </div>
 
-    <!-- Donut Chart -->
-    <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-4" style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem;">
-      <app-donut-chart
-        [data]="donutData"
-        [colors]="donutColors"
-        title="Répartition des statuts de candidature"
-      ></app-donut-chart>
-    </div>
-
-  </div>
-
-  <!-- Recent Candidates List -->
-  <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-4" style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem;">
-    <div class="flex items-center gap-2 mb-4">
-      <lucide-icon [img]="FileTextIcon" style="width: 20px; height: 20px; color: #64748b;"></lucide-icon>
-      <h3 class="text-sm font-semibold text-foreground" style="font-size: 0.875rem; font-weight: 600;">Candidats Récents</h3>
-    </div>
-    
-    <div class="overflow-auto space-y-2" style="display: flex; flex-direction: column; gap: 0.5rem;">
-      <div *ngIf="recentCandidates.length === 0" style="padding: 1rem; text-align: center; color: #64748b; font-size: 0.875rem;">
-        Aucun candidat récent.
+    <!-- Recent Candidates List -->
+    <div class="premium-card animate-fade-in animate-delay-4">
+      <div class="recent-header">
+        <lucide-icon [img]="FileTextIcon" class="header-icon"></lucide-icon>
+        <h3 class="header-title">Candidats Récents</h3>
       </div>
-      <div *ngFor="let c of recentCandidates" class="flex items-center justify-between p-2.5 rounded-lg transition-colors" style="display: flex; align-items: center; justify-content: space-between; padding: 0.625rem; border-radius: 0.5rem; background-color: #f8fafc;">
-        <div class="flex-1 min-w-0" style="flex: 1; min-width: 0;">
-          <div class="flex items-center gap-2" style="display: flex; align-items: center; gap: 0.5rem;">
-            <span class="text-xs font-semibold truncate" style="font-size: 0.875rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              {{ c.firstName }} {{ c.lastName }}
+
+      <div class="recent-list">
+        <div *ngIf="recentCandidates.length === 0" class="empty-state">
+          Aucun candidat récent.
+        </div>
+        <div *ngFor="let c of recentCandidates" class="candidate-row">
+          <div class="cand-profile">
+            <!-- Dynamic Avatar styling -->
+            <div class="cand-avatar" [ngClass]="getAvatarColorClass(c.firstName, c.lastName)">
+              {{ getInitials(c.firstName, c.lastName) }}
+            </div>
+            <div class="cand-details">
+              <h4 class="cand-name">{{ c.firstName }} {{ c.lastName }}</h4>
+              <span class="cand-position">
+                <lucide-icon [img]="BriefcaseIcon" class="position-icon"></lucide-icon>
+                <span>Poste: {{ c.appliedPosition || 'Non spécifié' }}</span>
+              </span>
+            </div>
+          </div>
+          <div class="cand-meta">
+            <span class="cand-date">{{ c.appliedDate | date:'dd/MM/yyyy' }}</span>
+            <span class="status-badge" [ngClass]="getPremiumStatusClass(c.status)">
+              {{ c.status || 'NOUVEAU' }}
             </span>
           </div>
-          <p class="text-[10px] text-muted-foreground mt-0.5" style="font-size: 0.75rem; color: #64748b; margin-top: 0.125rem;">
-            Poste: {{ c.appliedPosition || 'Non spécifié' }}
-          </p>
-        </div>
-        <div class="flex items-center gap-3 flex-shrink-0" style="display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0;">
-          <div class="text-right">
-            <p class="text-[10px] text-muted-foreground" style="font-size: 0.625rem; color: #64748b;">
-              {{ c.appliedDate | date:'dd/MM/yyyy' }}
-            </p>
-          </div>
-          <span class="inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-semibold"
-                style="display: inline-flex; align-items: center; border-radius: 0.375rem; padding: 0.125rem 0.5rem; font-size: 0.625rem; font-weight: 600;"
-                [ngClass]="getStatusClass(c.status)">
-            {{ c.status || 'NOUVEAU' }}
-          </span>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 
+  <ng-container *ngIf="activeTab === 'powerbi'">
+    <!-- Info Banner -->
+    <div class="powerbi-info-banner">
+      <lucide-icon [img]="FileTextIcon" class="banner-icon"></lucide-icon>
+      <div class="banner-content">
+        <h4 class="banner-title">Dashboard Décisionnel Power BI</h4>
+        <p class="banner-desc">
+          Ce rapport Power BI dynamique fournit des analyses avancées sur le processus de recrutement de l'Esprit PFE. Explorez les statistiques de candidatures, de scoring et d'admission de manière interactive.
+        </p>
+      </div>
+    </div>
+
+    <!-- Power BI Embed Container -->
+    <div class="powerbi-frame-card">
+      <div class="iframe-container">
+        <iframe
+          title="recrutementDashboardEspritPfe"
+          [src]="powerBiUrl"
+          allowFullScreen="true"
+        ></iframe>
+      </div>
+    </div>
+  </ng-container>
 </div>

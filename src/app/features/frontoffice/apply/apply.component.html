@@ -269,92 +269,122 @@
                     </div>
                   </div>
 
-                  <!-- Score breakdown (only shown when real API data is available) -->
+                  <!-- IA Detailed Analysis (LLM Summary Summary) -->
+                  <div class="analysis-summary-card" *ngIf="analysisResult && analysisResult.llmAnalysis">
+                    <div class="summary-card-header">
+                      <mat-icon>psychology</mat-icon>
+                      <h3>Synthèse de l'évaluation IA</h3>
+                    </div>
+                    <p class="summary-card-text">{{ analysisResult.llmAnalysis }}</p>
+                  </div>
+
+                  <!-- Scores Détaillés (IA/NLP) -->
                   <div class="breakdown-section" *ngIf="analysisResult">
-                    <h4><mat-icon>bar_chart</mat-icon> Détail du score</h4>
-                    <div class="breakdown-grid">
+                    <h4><mat-icon>analytics</mat-icon> Scores Multi-Modèles</h4>
+                    <div class="breakdown-grid sub-scores-grid">
+                      
                       <div class="breakdown-item">
                         <div class="breakdown-label">
-                          <mat-icon>school</mat-icon>
-                          <span>Niveau d'éducation</span>
+                          <mat-icon>settings_suggest</mat-icon>
+                          <span>Score Sémantique</span>
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
                             <div
                               class="breakdown-fill"
-                              [style.width.%]="
-                                (analysisResult.breakdown.educationLevel.score /
-                                  analysisResult.breakdown.educationLevel.max) *
-                                100
-                              "
+                              [style.width.%]="analysisResult.semanticScore"
                             ></div>
                           </div>
-                          <span class="breakdown-score">
-                            {{ analysisResult.breakdown.educationLevel.score }}/{{
-                              analysisResult.breakdown.educationLevel.max
-                            }}
-                          </span>
+                          <span class="breakdown-score">{{ analysisResult.semanticScore }}%</span>
                         </div>
-                        <small
-                          class="breakdown-comment"
-                          *ngIf="analysisResult.breakdown.educationLevel.comment"
-                        >
-                          {{ analysisResult.breakdown.educationLevel.comment }}
-                        </small>
                       </div>
 
                       <div class="breakdown-item">
                         <div class="breakdown-label">
-                          <mat-icon>code</mat-icon>
-                          <span>Compétences</span>
+                          <mat-icon>fitness_center</mat-icon>
+                          <span>Score Compétences</span>
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
                             <div
                               class="breakdown-fill"
-                              [style.width.%]="
-                                (analysisResult.breakdown.skillsMatch.score /
-                                  analysisResult.breakdown.skillsMatch.max) *
-                                100
-                              "
+                              [style.width.%]="analysisResult.skillsScore"
                             ></div>
                           </div>
-                          <span class="breakdown-score">
-                            {{ analysisResult.breakdown.skillsMatch.score }}/{{
-                              analysisResult.breakdown.skillsMatch.max
-                            }}
-                          </span>
+                          <span class="breakdown-score">{{ analysisResult.skillsScore }}%</span>
+                        </div>
+                      </div>
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>grid_on</mat-icon>
+                          <span>Score Structuré</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="analysisResult.structuredScore"
+                            ></div>
+                          </div>
+                          <span class="breakdown-score">{{ analysisResult.structuredScore }}%</span>
+                        </div>
+                      </div>
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>forum</mat-icon>
+                          <span>Score IA (LLM)</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="analysisResult.llmScore"
+                            ></div>
+                          </div>
+                          <span class="breakdown-score">{{ analysisResult.llmScore }}%</span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- Score breakdown per criteria -->
+                  <div class="breakdown-section" *ngIf="analysisResult && analysisResult.structuredBreakdown">
+                    <h4><mat-icon>bar_chart</mat-icon> Alignement par Critère Académique</h4>
+                    <div class="breakdown-grid">
+                      
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>school</mat-icon>
+                          <span>Niveau d'études</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="analysisResult.structuredBreakdown.educationScore"
+                            ></div>
+                          </div>
+                          <span class="breakdown-score">{{ analysisResult.structuredBreakdown.educationScore }}%</span>
                         </div>
                       </div>
 
                       <div class="breakdown-item">
                         <div class="breakdown-label">
                           <mat-icon>work_history</mat-icon>
-                          <span>Expérience</span>
+                          <span>Années d'expérience</span>
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
                             <div
                               class="breakdown-fill"
-                              [style.width.%]="
-                                (analysisResult.breakdown.experience.score /
-                                  analysisResult.breakdown.experience.max) *
-                                100
-                              "
+                              [style.width.%]="analysisResult.structuredBreakdown.experienceYearsScore"
                             ></div>
                           </div>
-                          <span class="breakdown-score">
-                            {{ analysisResult.breakdown.experience.score }}/{{
-                              analysisResult.breakdown.experience.max
-                            }}
-                          </span>
+                          <span class="breakdown-score">{{ analysisResult.structuredBreakdown.experienceYearsScore }}%</span>
                         </div>
-                        <small
-                          class="breakdown-comment"
-                          *ngIf="analysisResult.breakdown.experience.comment"
-                        >
-                          {{ analysisResult.breakdown.experience.comment }}
-                        </small>
                       </div>
 
                       <div class="breakdown-item">
@@ -366,68 +396,45 @@
                           <div class="breakdown-bar">
                             <div
                               class="breakdown-fill"
-                              [style.width.%]="
-                                (analysisResult.breakdown.academicExperience.score /
-                                  analysisResult.breakdown.academicExperience.max) *
-                                100
-                              "
+                              [style.width.%]="analysisResult.structuredBreakdown.academicExperienceScore"
                             ></div>
                           </div>
-                          <span class="breakdown-score">
-                            {{ analysisResult.breakdown.academicExperience.score }}/{{
-                              analysisResult.breakdown.academicExperience.max
-                            }}
-                          </span>
+                          <span class="breakdown-score">{{ analysisResult.structuredBreakdown.academicExperienceScore }}%</span>
+                        </div>
+                      </div>
+
+                      <div class="breakdown-item">
+                        <div class="breakdown-label">
+                          <mat-icon>code</mat-icon>
+                          <span>Matching compétences</span>
+                        </div>
+                        <div class="breakdown-bar-wrap">
+                          <div class="breakdown-bar">
+                            <div
+                              class="breakdown-fill"
+                              [style.width.%]="analysisResult.structuredBreakdown.skillsMatchScore"
+                            ></div>
+                          </div>
+                          <span class="breakdown-score">{{ analysisResult.structuredBreakdown.skillsMatchScore }}%</span>
                         </div>
                       </div>
 
                       <div class="breakdown-item">
                         <div class="breakdown-label">
                           <mat-icon>menu_book</mat-icon>
-                          <span>Modules</span>
+                          <span>Alignement modules</span>
                         </div>
                         <div class="breakdown-bar-wrap">
                           <div class="breakdown-bar">
                             <div
                               class="breakdown-fill"
-                              [style.width.%]="
-                                (analysisResult.breakdown.modulesAlignment.score /
-                                  analysisResult.breakdown.modulesAlignment.max) *
-                                100
-                              "
+                              [style.width.%]="analysisResult.structuredBreakdown.modulesAlignmentScore"
                             ></div>
                           </div>
-                          <span class="breakdown-score">
-                            {{ analysisResult.breakdown.modulesAlignment.score }}/{{
-                              analysisResult.breakdown.modulesAlignment.max
-                            }}
-                          </span>
+                          <span class="breakdown-score">{{ analysisResult.structuredBreakdown.modulesAlignmentScore }}%</span>
                         </div>
                       </div>
 
-                      <div class="breakdown-item">
-                        <div class="breakdown-label">
-                          <mat-icon>biotech</mat-icon>
-                          <span>Spécialité</span>
-                        </div>
-                        <div class="breakdown-bar-wrap">
-                          <div class="breakdown-bar">
-                            <div
-                              class="breakdown-fill"
-                              [style.width.%]="
-                                (analysisResult.breakdown.specialityFit.score /
-                                  analysisResult.breakdown.specialityFit.max) *
-                                100
-                              "
-                            ></div>
-                          </div>
-                          <span class="breakdown-score">
-                            {{ analysisResult.breakdown.specialityFit.score }}/{{
-                              analysisResult.breakdown.specialityFit.max
-                            }}
-                          </span>
-                        </div>
-                      </div>
                     </div>
                   </div>
 
@@ -445,15 +452,15 @@
                     </div>
 
                     <!-- Missing skills (only when real data) -->
-                    <div *ngIf="analysisResult?.breakdown?.skillsMatch?.missingSkills?.length">
-                      <h5 style="margin-top: 12px; color: #e57373">
-                        <mat-icon style="vertical-align: middle; font-size: 16px">warning</mat-icon>
-                        Compétences manquantes
+                    <div *ngIf="analysisResult && analysisResult.missingSkills && analysisResult.missingSkills.length">
+                      <h5 style="margin-top: 18px; color: #e57373">
+                        <mat-icon style="vertical-align: middle; font-size: 18px">warning</mat-icon>
+                        Compétences manquantes requises
                       </h5>
                       <div class="skills-cloud">
                         <span
                           class="skill-tag beginner"
-                          *ngFor="let skill of analysisResult!.breakdown.skillsMatch.missingSkills"
+                          *ngFor="let skill of analysisResult.missingSkills"
                         >
                           {{ skill }}
                         </span>
