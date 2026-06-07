@@ -1,10 +1,10 @@
 name: Frontend CI/CD Pipeline
 
-#on:
-#  push:
-#    branches: [pfe-dev]
-#  pull_request:
-#    branches: [pfe-dev]
+on:
+  push:
+    branches: [pfe-dev]
+  pull_request:
+    branches: [pfe-dev]
 
 defaults:
   run:
