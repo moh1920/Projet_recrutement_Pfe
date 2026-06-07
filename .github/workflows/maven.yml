@@ -468,31 +468,24 @@ jobs:
     needs: docker
     if: github.event_name == 'push'
 
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
-      - name: Azure Login (OIDC)
-        uses: azure/login@v2
-        with:
-          creds: |
-            {
-              "clientId": "${{ secrets.AZURE_CLIENT_USERNAME }}",
-              "clientSecret": "${{ secrets.AZURE_CLIENT_PASSWORD }}",
-              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
-              "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
-            }
+      - name: Install Azure CLI
+        run: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-      - name: Install containerapp extension
-        run: az extension add --name containerapp --upgrade -y
+      - name: Login to Azure with credentials
+        run: |
+          az login \
+            --username "${{ secrets.AZURE_USERNAME }}" \
+            --password "${{ secrets.AZURE_PASSWORD }}"
 
       - name: Deploy to Azure Container Apps
         run: |
+          az extension add --name containerapp --upgrade -y
           az containerapp update \
             --name pfe-backend \
             --resource-group pfe-rg \
-            --image sayarimohamed/pfe-backend:${{ github.sha }}
+            --image sayarimohamed/pfe-backend:${{ github.sha }} \
+            --subscription 91b251a3-dcd0-464c-b0c9-76fa8ffb16f7
   # ══════════════════════════════════════════════
   # JOB 8 — Prometheus + Grafana Monitoring
   # ══════════════════════════════════════════════
