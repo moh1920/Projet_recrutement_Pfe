@@ -58,7 +58,10 @@ public class SecurityConfig{
                                 "/evaluations/**",
                                 "/googleSheetCandidats/**",
                                 "permissions/**",
-                                "menu/**"
+                                "menu/**",
+                                "/actuator/**",
+                                "/actuator/prometheus"
+
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

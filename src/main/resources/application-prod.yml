@@ -70,24 +70,30 @@ cloudinary:
 
 # ============ MANAGEMENT / HEALTH ============
 management:
+  metrics:
+    tags:
+      application: pfe-backend
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,prometheus,metrics
       base-path: /actuator
   endpoint:
     health:
       probes:
         enabled: true
       show-details: always
+    prometheus:
+      enabled: true
   health:
     livenessstate:
       enabled: true
     readinessstate:
       enabled: true
 
-
 ai:
   matching:
     api:
       url: ${MATCHING_API_URL:https://matching-cv.graymoss-d46652df.francecentral.azurecontainerapps.io}
+
+

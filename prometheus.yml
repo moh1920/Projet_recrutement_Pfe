@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'pfe-backend'
+    metrics_path: '/actuator/prometheus'
+    scheme: 'https'
+    static_configs:
+      - targets:
+          - 'pfe-backend.graymoss-d46652df.francecentral.azurecontainerapps.io'
+    tls_config:
+      insecure_skip_verify: false
