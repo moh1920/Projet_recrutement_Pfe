@@ -270,25 +270,41 @@ jobs:
 
       - name: Deploy with auto-rollback
         run: |
-          PREV_REVISION=$(az containerapp revision list \
+          EXISTS=$(az containerapp show \
             --name pfe-frontend \
             --resource-group pfe-rg \
-            --query "[?properties.active].name | [0]" \
-            -o tsv)
+            --query "name" -o tsv 2>/dev/null || echo "")
 
-          echo "Révision précédente : $PREV_REVISION"
-
-          if ! az containerapp update \
-            --name pfe-frontend \
-            --resource-group pfe-rg \
-            --image sayarimohamed/pfe-frontend:${{ github.sha }}; then
-
-            echo "Déploiement échoué — rollback vers $PREV_REVISION"
-            az containerapp revision activate \
+          if [ -z "$EXISTS" ]; then
+            echo "Container App inexistant — création..."
+            az containerapp create \
               --name pfe-frontend \
               --resource-group pfe-rg \
-              --revision "$PREV_REVISION"
-            exit 1
+              --environment pfe-environment \
+              --image sayarimohamed/pfe-frontend:${{ github.sha }} \
+              --target-port 80 \
+              --ingress external \
+              --registry-server docker.io \
+              --registry-username ${{ secrets.DOCKERHUB_USERNAME }} \
+              --registry-password ${{ secrets.DOCKERHUB_TOKEN }}
+          else
+            echo "Container App existant — mise à jour..."
+            PREV_REVISION=$(az containerapp revision list \
+              --name pfe-frontend \
+              --resource-group pfe-rg \
+              --query "[?properties.active].name | [0]" -o tsv)
+
+            if ! az containerapp update \
+              --name pfe-frontend \
+              --resource-group pfe-rg \
+              --image sayarimohamed/pfe-frontend:${{ github.sha }}; then
+              echo "Échec — rollback vers $PREV_REVISION"
+              az containerapp revision activate \
+                --name pfe-frontend \
+                --resource-group pfe-rg \
+                --revision "$PREV_REVISION"
+              exit 1
+            fi
           fi
 
   # ══════════════════════════════════════════════
