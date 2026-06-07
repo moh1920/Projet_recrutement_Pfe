@@ -330,38 +330,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── Option A : cluster cloud (ex. GKE / EKS / AKS)
-      # Remplacez ce step par la bonne action selon votre provider :
-      #   GKE  → google-github-actions/get-gke-credentials@v2
-      #   EKS  → aws-actions/amazon-eks-update-kubeconfig
-      #   AKS  → azure/aks-set-context@v3
-      - name: Configure kubeconfig
-        uses: azure/k8s-set-context@v4        # ← remplacer si autre provider
+      - name: Start Minikube
+        uses: medyagh/setup-minikube@latest
         with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}   # secret contenant le fichier kubeconfig
+          minikube-version: 'latest'
+          kubernetes-version: 'stable'
 
-      # ── Substitue l'image dans le manifest avant apply
       - name: Set image tag in manifest
         run: |
           sed -i "s|sayarimohamed/pfe-backend:.*|sayarimohamed/pfe-backend:${{ github.sha }}|g" \
             k8s/backend/deployment.yaml
 
-      # ── Applique les manifests (Deployment + Service + Ingress)
       - name: Apply Kubernetes manifests
         run: |
-          kubectl apply --validate=false -f k8s/backend/deployment.yaml
-          kubectl apply --validate=false -f k8s/backend/service.yaml
+          kubectl apply -f k8s/backend/deployment.yaml
+          kubectl apply -f k8s/backend/service.yaml
 
-      # ── Attend la fin du rollout (timeout 5 min)
       - name: Wait for rollout
         run: |
           kubectl rollout status deployment/pfe-backend \
             --namespace=default \
-            --timeout=300s \
-            --validate=false || true
+            --timeout=300s || true
 
-      # ── Résumé
       - name: Summary
         if: always()
         run: |
@@ -369,10 +359,7 @@ jobs:
           echo "| Champ | Valeur |" >> $GITHUB_STEP_SUMMARY
           echo "|---|---|" >> $GITHUB_STEP_SUMMARY
           echo "| Image | \`sayarimohamed/pfe-backend:${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
-          EXTERNAL_IP=$(kubectl get svc pfe-backend \
-            --namespace=default \
-            -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "en attente")
-          echo "| External IP | ${EXTERNAL_IP} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Cluster | Minikube (GitHub Actions Runner) |" >> $GITHUB_STEP_SUMMARY
 
   # ══════════════════════════════════════════════
   # JOB 6 — Prometheus + Grafana Monitoring (K8s)
@@ -384,24 +371,21 @@ jobs:
     if: github.event_name == 'push'
     continue-on-error: true
 
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure kubeconfig
-        uses: azure/k8s-set-context@v4        # ← même provider que deploy-backend
+      - name: Start Minikube
+        uses: medyagh/setup-minikube@latest
         with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+          minikube-version: 'latest'
+          kubernetes-version: 'stable'
 
-      # ── Prometheus (ConfigMap + Deployment + Service)
       - name: Deploy Prometheus
         continue-on-error: true
         run: |
-          kubectl apply --validate=false -f k8s/monitoring/prometheus/
+          kubectl apply -f k8s/monitoring/prometheus/
 
-      # ── Grafana (Deployment + Service + Secret admin-password)
       - name: Create Grafana admin secret
         continue-on-error: true
         run: |
@@ -413,18 +397,13 @@ jobs:
       - name: Deploy Grafana
         continue-on-error: true
         run: |
-          kubectl apply --validate=false -f k8s/monitoring/grafana/
+          kubectl apply -f k8s/monitoring/grafana/
 
-      # ── Résumé
       - name: Summary
         if: always()
-        continue-on-error: true
         run: |
-          GRAFANA_IP=$(kubectl get svc grafana \
-            --namespace=default \
-            -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "en attente")
           echo "## Monitoring" >> $GITHUB_STEP_SUMMARY
-          echo "| Service | Adresse |" >> $GITHUB_STEP_SUMMARY
+          echo "| Service | Statut |" >> $GITHUB_STEP_SUMMARY
           echo "|---|---|" >> $GITHUB_STEP_SUMMARY
-          echo "| Grafana | http://${GRAFANA_IP}:3000 |" >> $GITHUB_STEP_SUMMARY
-          echo "| Prometheus | interne pfe-prometheus:9090 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Prometheus | Déployé sur Minikube |" >> $GITHUB_STEP_SUMMARY
+          echo "| Grafana | Déployé sur Minikube |" >> $GITHUB_STEP_SUMMARY
