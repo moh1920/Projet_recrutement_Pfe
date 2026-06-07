@@ -310,28 +310,28 @@ jobs:
   # ══════════════════════════════════════════════
   # JOB 7 — Notification échec
   # ══════════════════════════════════════════════
-  notify-failure:
-    name: Notify on Failure
-    runs-on: ubuntu-latest
-    needs: [build, test, sonar, docker, deploy-frontend]
-    if: failure()
-
-    steps:
-      - name: Slack Notification
-        uses: slackapi/slack-github-action@v1.26.0
-        with:
-          payload: |
-            {
-              "text": "❌ Pipeline échoué sur *${{ github.ref_name }}*",
-              "attachments": [{
-                "color": "danger",
-                "fields": [
-                  { "title": "Commit", "value": "${{ github.sha }}", "short": true },
-                  { "title": "Auteur", "value": "${{ github.actor }}", "short": true },
-                  { "title": "Lien", "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                ]
-              }]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+#  notify-failure:
+#    name: Notify on Failure
+#    runs-on: ubuntu-latest
+#    needs: [build, test, sonar, docker, deploy-frontend]
+#    if: failure()
+#
+#    steps:
+#      - name: Slack Notification
+#        uses: slackapi/slack-github-action@v1.26.0
+#        with:
+#          payload: |
+#            {
+#              "text": "❌ Pipeline échoué sur *${{ github.ref_name }}*",
+#              "attachments": [{
+#                "color": "danger",
+#                "fields": [
+#                  { "title": "Commit", "value": "${{ github.sha }}", "short": true },
+#                  { "title": "Auteur", "value": "${{ github.actor }}", "short": true },
+#                  { "title": "Lien", "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+#                ]
+#              }]
+#            }
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
