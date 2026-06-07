@@ -183,17 +183,17 @@ jobs:
                       result["ruleId"] = result["ruleId"][:255]
           with open(sarif_path, "w", encoding="utf-8") as f:
               json.dump(sarif, f)
-          print("SARIF corrigé avec succès.")
+          print("SARIF corrige avec succes.")
           EOF
 
-      - name: Upload SARIF → GitHub Security tab
+      - name: Upload SARIF -> GitHub Security tab
         uses: github/codeql-action/upload-sarif@v4
         if: always() && hashFiles('target/dependency-check-report.sarif') != ''
         with:
           sarif_file: target/dependency-check-report.sarif
           category: owasp-dependency-check
 
-      - name: Résumé OWASP dans le Summary
+      - name: Resume OWASP dans le Summary
         if: always()
         run: |
           echo "## OWASP Dependency-Check" >> $GITHUB_STEP_SUMMARY
@@ -203,14 +203,14 @@ jobs:
               | awk -F'>' '{if($2+0>=9) count++} END{print count+0}')
             HIGH=$(grep -o "cvss[^\"]*\">[0-9]\+\.[0-9]\+" /tmp/owasp.log \
               | awk -F'>' '{if($2+0>=7 && $2+0<9) count++} END{print count+0}')
-            echo "| Sévérité | Nombre |" >> $GITHUB_STEP_SUMMARY
+            echo "| Severite | Nombre |" >> $GITHUB_STEP_SUMMARY
             echo "|---|---|" >> $GITHUB_STEP_SUMMARY
             echo "| CRITICAL (>= 9) | ${CRITICAL} |" >> $GITHUB_STEP_SUMMARY
-            echo "| HIGH (7–9) | ${HIGH} |" >> $GITHUB_STEP_SUMMARY
+            echo "| HIGH (7-9) | ${HIGH} |" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "Rapport complet disponible dans les **Artifacts → owasp-report**" >> $GITHUB_STEP_SUMMARY
+            echo "Rapport complet disponible dans les **Artifacts -> owasp-report**" >> $GITHUB_STEP_SUMMARY
           else
-            echo ":warning: Rapport non généré — voir **owasp-maven-log** pour les détails." >> $GITHUB_STEP_SUMMARY
+            echo ":warning: Rapport non genere - voir **owasp-maven-log** pour les details." >> $GITHUB_STEP_SUMMARY
           fi
 
   # ══════════════════════════════════════════════
@@ -329,7 +329,7 @@ jobs:
     steps:
       - name: Azure Login
         run: |
-            az login --username "${{ secrets.AZURE_USERNAME }}" \
+          az login --username "${{ secrets.AZURE_USERNAME }}" \
                    --password "${{ secrets.AZURE_PASSWORD }}"
           az account set --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
 
