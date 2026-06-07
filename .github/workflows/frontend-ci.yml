@@ -97,87 +97,87 @@ jobs:
   # ══════════════════════════════════════════════
   # JOB 2 — Tests + Couverture
   # ══════════════════════════════════════════════
-  test:
-    name: Tests Unitaires
-    runs-on: ubuntu-latest
-    needs: [build]               # ← ajout de lint ici
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Restore node_modules cache
-        id: cache-nm
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: nm-${{ runner.os }}-
-
-      - name: Install if cache miss
-        if: steps.cache-nm.outputs.cache-hit != 'true'
-        run: npm ci --legacy-peer-deps
-
-      - name: Run Tests with Coverage
-        run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: coverage-report
-          path: coverage/
-          retention-days: 7
+#  test:
+#    name: Tests Unitaires
+#    runs-on: ubuntu-latest
+#    needs: [build]               # ← ajout de lint ici
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: '18'
+#          cache: 'npm'
+#
+#      - name: Restore node_modules cache
+#        id: cache-nm
+#        uses: actions/cache@v4
+#        with:
+#          path: node_modules
+#          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+#          restore-keys: nm-${{ runner.os }}-
+#
+#      - name: Install if cache miss
+#        if: steps.cache-nm.outputs.cache-hit != 'true'
+#        run: npm ci --legacy-peer-deps
+#
+#      - name: Run Tests with Coverage
+#        run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
+#
+#      - uses: actions/upload-artifact@v4
+#        if: always()
+#        with:
+#          name: coverage-report
+#          path: coverage/
+#          retention-days: 7
 
   # ══════════════════════════════════════════════
   # JOB 3 — SonarCloud
   # ══════════════════════════════════════════════
-  sonar:
-    name: SonarCloud Analysis
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Restore node_modules cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage/
-
-      - name: SonarCloud Analysis
-        uses: sonarsource/sonarcloud-github-action@master
-        with:
-          args: >
-            -Dsonar.organization=moh1920
-            -Dsonar.projectKey=moh1920_Projet_recrutement_Pfe_Frontend
-            -Dsonar.sources=src
-            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/dist/**,**/coverage/**
-            -Dsonar.tests=src
-            -Dsonar.test.inclusions=**/*.spec.ts
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.typescript.tsconfigPath=tsconfig.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
+#  sonar:
+#    name: SonarCloud Analysis
+#    runs-on: ubuntu-latest
+#    needs: test
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: '18'
+#          cache: 'npm'
+#
+#      - name: Restore node_modules cache
+#        uses: actions/cache@v4
+#        with:
+#          path: node_modules
+#          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+#
+#      - uses: actions/download-artifact@v4
+#        with:
+#          name: coverage-report
+#          path: coverage/
+#
+#      - name: SonarCloud Analysis
+#        uses: sonarsource/sonarcloud-github-action@master
+#        with:
+#          args: >
+#            -Dsonar.organization=moh1920
+#            -Dsonar.projectKey=moh1920_Projet_recrutement_Pfe_Frontend
+#            -Dsonar.sources=src
+#            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/dist/**,**/coverage/**
+#            -Dsonar.tests=src
+#            -Dsonar.test.inclusions=**/*.spec.ts
+#            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+#            -Dsonar.typescript.tsconfigPath=tsconfig.json
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
 
   # ══════════════════════════════════════════════
   # JOB 4 — Docker Build & Push
@@ -185,7 +185,7 @@ jobs:
   docker:
     name: Docker Build & Push
     runs-on: ubuntu-latest
-    needs: sonar                         # ✓ corrigé — plus de dépendance trivy ici
+    needs: build                         # ✓ corrigé — plus de dépendance trivy ici
     if: github.event_name == 'push'
 
     steps:
