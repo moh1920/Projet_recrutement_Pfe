@@ -327,11 +327,10 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - name: Azure Login
+      - name: Azure Login via Managed Identity
         run: |
-          az login --username "${{ secrets.AZURE_USERNAME }}" \
-                   --password "${{ secrets.AZURE_PASSWORD }}"
-          az account set --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          az login --identity --client-id 19624034-4dc0-4c6e-a038-b2266406f09f
+          az account set --subscription 91b251a3-dcd0-464c-b0c9-76fa8ffb16f7
 
       - name: Install containerapp extension
         run: az extension add --name containerapp --upgrade -y
@@ -387,9 +386,8 @@ jobs:
       - name: Azure Login
         continue-on-error: true
         run: |
-          az login --username "${{ secrets.AZURE_USERNAME }}" \
-                   --password "${{ secrets.AZURE_PASSWORD }}"
-          az account set --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          az login --identity --client-id 19624034-4dc0-4c6e-a038-b2266406f09f
+          az account set --subscription 91b251a3-dcd0-464c-b0c9-76fa8ffb16f7
 
       - name: Install containerapp extension
         continue-on-error: true
