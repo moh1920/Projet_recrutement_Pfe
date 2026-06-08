@@ -63,6 +63,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
   errorMessage = '';
   showParticipants = false;
   showChat = false;
+  isCopied = false;
 
   // ── Main levée ────────────────────────────────────────
   handRaised = false;
@@ -111,10 +112,25 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.roomCode = urlSegments[urlSegments.length - 1].split('?')[0].toUpperCase();
 
     try {
-      // Identité Keycloak
-      const profile = await this.keycloakService.loadUserProfile();
-      this.myUserId = profile.id ?? '';
-      this.myDisplayName = `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim();
+      // Identité Keycloak depuis le token décodé (évite les requêtes CORS vers /account)
+      const tokenParsed = this.keycloakService.getKeycloakInstance().tokenParsed;
+      this.myUserId = tokenParsed?.sub ?? '';
+      const firstName = tokenParsed?.['given_name'] ?? '';
+      const lastName = tokenParsed?.['family_name'] ?? '';
+      this.myDisplayName = `${firstName} ${lastName}`.trim();
+      if (!this.myDisplayName) {
+        this.myDisplayName = tokenParsed?.['preferred_username'] ?? 'Utilisateur';
+      }
+
+      // Charger les détails du meeting pour le titre réel
+      this.meetingApi.checkRoom(this.roomCode).subscribe({
+        next: (meeting) => {
+          this.meetingTitle = meeting.title;
+        },
+        error: () => {
+          this.meetingTitle = 'Entretien de Recrutement';
+        }
+      });
 
       // Stream local
       this.localStream = await this.webrtcService.initLocalStream(true, true);
@@ -174,8 +190,9 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.initSpeakingDetection();
 
       this.isConnecting = false;
-    } catch (err: any) {
-      this.errorMessage = err.message ?? 'Erreur de connexion au meeting';
+    } catch (err: unknown) {
+      this.errorMessage =
+        err instanceof Error ? err.message : 'Erreur de connexion au meeting';
       this.isConnecting = false;
       console.error('[Meeting] Erreur:', err);
     }
@@ -371,7 +388,7 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.screenStream = null;
     }
     // Restaurer la caméra
-    const camTrack = this.localStream.getVideoTracks()[0];
+    const camTrack = this.localStream?.getVideoTracks()[0];
     if (camTrack) {
       // this.webrtcService.replaceVideoTrack(camTrack);
     }
@@ -434,6 +451,32 @@ export class MeetingComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.router.navigate(['/meeting-lobby']);
     }
+  }
+
+  copyRoomCode(): void {
+    if (!this.roomCode) return;
+    navigator.clipboard.writeText(this.roomCode).then(() => {
+      this.isCopied = true;
+      setTimeout(() => (this.isCopied = false), 2000);
+    });
+  }
+
+  getUserColor(senderId: string): string {
+    if (senderId === this.myUserId) return '#c0392b';
+    const colors = [
+      '#2563eb', // blue
+      '#059669', // green
+      '#d97706', // amber
+      '#7c3aed', // purple
+      '#db2777', // pink
+      '#0891b2', // cyan
+    ];
+    let hash = 0;
+    for (let i = 0; i < senderId.length; i++) {
+      hash = senderId.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
   }
 
   ngOnDestroy(): void {
