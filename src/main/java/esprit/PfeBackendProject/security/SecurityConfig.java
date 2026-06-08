@@ -83,7 +83,8 @@ public class SecurityConfig{
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
                 "https://pfe-frontend.graymoss-d46652df.francecentral.azurecontainerapps.io",
-                "https://projet-recrutement-pfe.vercel.app"
+                "https://projet-recrutement-pfe.vercel.app",
+                "https://pfe-frontend.orangesand-21e6d03b.germanywestcentral.azurecontainerapps.io"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
