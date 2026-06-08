@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
   keycloakUrl:
-    'https://keycloak-espritrecrutement.graymoss-d46652df.francecentral.azurecontainerapps.io',
+    'https://pfe-keycloak-production.up.railway.app',
   keycloakRealm: 'espritRecrutement',
   keycloakClientId: 'espritRecrutement',
-  apiUrl: 'https://pfe-backend.graymoss-d46652df.francecentral.azurecontainerapps.io',
+  apiUrl: 'https://pfe-backend-latest-yvms.onrender.com',
   apiUrlFastApi:'https://cv-api.graymoss-d46652df.francecentral.azurecontainerapps.io'
 };
