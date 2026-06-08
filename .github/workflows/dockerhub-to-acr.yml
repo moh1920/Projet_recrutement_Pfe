@@ -40,7 +40,8 @@ jobs:
       - name: Build image
         run: |
           docker build -t sayarimohamed/pfe-backend:${{ steps.tag.outputs.tag }} \
-                       -t sayarimohamed/pfe-backend:${{ steps.tag.outputs.sha_tag }} .
+                       -t sayarimohamed/pfe-backend:${{ steps.tag.outputs.sha_tag }} \
+                       -f docker/backend/Dockerfile .
 
       - name: Save image to tar
         run: |
