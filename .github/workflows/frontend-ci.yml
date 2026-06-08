@@ -1,62 +1,106 @@
-name: Frontend CI/CD Pipeline
-
-on:
-  push:
-    branches: [pfe-dev]
-  pull_request:
-    branches: [pfe-dev]
-
-defaults:
-  run:
-    shell: bash
-
-jobs:
-
-  # ══════════════════════════════════════════════
-  # JOB 1 — Build
-  # ══════════════════════════════════════════════
-  build:
-    name: Build Angular
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Cache node_modules
-        id: cache-nm
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: nm-${{ runner.os }}-
-
-      - name: Install Dependencies
-        if: steps.cache-nm.outputs.cache-hit != 'true'
-        run: npm ci --legacy-peer-deps
-
-      - name: Build Application
-        run: npm run build -- --configuration production
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: frontend-build
-          path: dist/
-          retention-days: 7
-
-#   ══════════════════════════════════════════════
-#   JOB 2 — Lint & Format
-#   ══════════════════════════════════════════════
-#  lint:
-#    name: ESLint & Prettier
+#name: Frontend CI/CD Pipeline
+#
+#on:
+#  push:
+#    branches: [pfe-dev]
+#  pull_request:
+#    branches: [pfe-dev]
+#
+#defaults:
+#  run:
+#    shell: bash
+#
+#jobs:
+#
+#  # ══════════════════════════════════════════════
+#  # JOB 1 — Build
+#  # ══════════════════════════════════════════════
+#  build:
+#    name: Build Angular
 #    runs-on: ubuntu-latest
-#    needs: build
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: '18'
+#          cache: 'npm'
+#
+#      - name: Cache node_modules
+#        id: cache-nm
+#        uses: actions/cache@v4
+#        with:
+#          path: node_modules
+#          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+#          restore-keys: nm-${{ runner.os }}-
+#
+#      - name: Install Dependencies
+#        if: steps.cache-nm.outputs.cache-hit != 'true'
+#        run: npm ci --legacy-peer-deps
+#
+#      - name: Build Application
+#        run: npm run build -- --configuration production
+#
+#      - uses: actions/upload-artifact@v4
+#        with:
+#          name: frontend-build
+#          path: dist/
+#          retention-days: 7
+#
+##   ══════════════════════════════════════════════
+##   JOB 2 — Lint & Format
+##   ══════════════════════════════════════════════
+##  lint:
+##    name: ESLint & Prettier
+##    runs-on: ubuntu-latest
+##    needs: build
+##
+##    steps:
+##      - uses: actions/checkout@v4
+##        with:
+##          fetch-depth: 0
+##
+##      - uses: actions/setup-node@v4
+##        with:
+##          node-version: '18'
+##          cache: 'npm'
+##
+##      - name: Restore node_modules cache
+##        id: cache-nm
+##        uses: actions/cache@v4
+##        with:
+##          path: node_modules
+##          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+##          restore-keys: nm-${{ runner.os }}-
+##
+##      - name: Install if cache miss
+##        if: steps.cache-nm.outputs.cache-hit != 'true'
+##        run: npm ci --legacy-peer-deps
+##
+##      - name: Run ESLint
+##        run: npm run lint -- --max-warnings=999
+##
+##      - name: Run Prettier check
+##        run: npm run format:check
+##
+##      - name: Upload ESLint report
+##        uses: actions/upload-artifact@v4
+##        if: failure()                    # upload seulement si erreurs
+##        with:
+##          name: eslint-report
+##          path: eslint-report.txt
+##          retention-days: 7
+#
+##   ══════════════════════════════════════════════
+##   JOB 2 — Tests + Couverture
+##   ══════════════════════════════════════════════
+#  test:
+#    name: Tests Unitaires
+#    runs-on: ubuntu-latest
+#    needs: [build]               # ← ajout de lint ici
 #
 #    steps:
 #      - uses: actions/checkout@v4
@@ -80,211 +124,167 @@ jobs:
 #        if: steps.cache-nm.outputs.cache-hit != 'true'
 #        run: npm ci --legacy-peer-deps
 #
-#      - name: Run ESLint
-#        run: npm run lint -- --max-warnings=999
+#      - name: Run Tests with Coverage
+#        run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
 #
-#      - name: Run Prettier check
-#        run: npm run format:check
-#
-#      - name: Upload ESLint report
-#        uses: actions/upload-artifact@v4
-#        if: failure()                    # upload seulement si erreurs
+#      - uses: actions/upload-artifact@v4
+#        if: always()
 #        with:
-#          name: eslint-report
-#          path: eslint-report.txt
+#          name: coverage-report
+#          path: coverage/
 #          retention-days: 7
-
-#   ══════════════════════════════════════════════
-#   JOB 2 — Tests + Couverture
-#   ══════════════════════════════════════════════
-  test:
-    name: Tests Unitaires
-    runs-on: ubuntu-latest
-    needs: [build]               # ← ajout de lint ici
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Restore node_modules cache
-        id: cache-nm
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: nm-${{ runner.os }}-
-
-      - name: Install if cache miss
-        if: steps.cache-nm.outputs.cache-hit != 'true'
-        run: npm ci --legacy-peer-deps
-
-      - name: Run Tests with Coverage
-        run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: coverage-report
-          path: coverage/
-          retention-days: 7
-
-#   ══════════════════════════════════════════════
-#   JOB 3 — SonarCloud
-#   ══════════════════════════════════════════════
-  sonar:
-    name: SonarCloud Analysis
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Restore node_modules cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage/
-
-      - name: SonarCloud Analysis
-        uses: sonarsource/sonarcloud-github-action@master
-        with:
-          args: >
-            -Dsonar.organization=moh1920
-            -Dsonar.projectKey=moh1920_Projet_recrutement_Pfe_Frontend
-            -Dsonar.sources=src
-            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/dist/**,**/coverage/**
-            -Dsonar.tests=src
-            -Dsonar.test.inclusions=**/*.spec.ts
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.typescript.tsconfigPath=tsconfig.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
-
-  # ══════════════════════════════════════════════
-  # JOB 4 — Docker Build & Push
-  # ══════════════════════════════════════════════
-  docker:
-    name: Docker Build & Push
-    runs-on: ubuntu-latest
-    needs: sonar                         # ✓ corrigé — plus de dépendance trivy ici
-    if: github.event_name == 'push'
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - uses: docker/setup-buildx-action@v3
-
-      - uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./docker/frontend/Dockerfile
-          push: true
-          tags: |
-            sayarimohamed/pfe-frontend:latest
-            sayarimohamed/pfe-frontend:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  # ══════════════════════════════════════════════
-  # JOB 5 — Trivy Security Scan
-  # ══════════════════════════════════════════════
-#  trivy:
-#    name: Trivy Security Scan
+#
+##   ══════════════════════════════════════════════
+##   JOB 3 — SonarCloud
+##   ══════════════════════════════════════════════
+#  sonar:
+#    name: SonarCloud Analysis
 #    runs-on: ubuntu-latest
-#    needs: docker                        # ✓ corrigé — après docker, pas après test
+#    needs: test
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: '18'
+#          cache: 'npm'
+#
+#      - name: Restore node_modules cache
+#        uses: actions/cache@v4
+#        with:
+#          path: node_modules
+#          key: nm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+#
+#      - uses: actions/download-artifact@v4
+#        with:
+#          name: coverage-report
+#          path: coverage/
+#
+#      - name: SonarCloud Analysis
+#        uses: sonarsource/sonarcloud-github-action@master
+#        with:
+#          args: >
+#            -Dsonar.organization=moh1920
+#            -Dsonar.projectKey=moh1920_Projet_recrutement_Pfe_Frontend
+#            -Dsonar.sources=src
+#            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/dist/**,**/coverage/**
+#            -Dsonar.tests=src
+#            -Dsonar.test.inclusions=**/*.spec.ts
+#            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+#            -Dsonar.typescript.tsconfigPath=tsconfig.json
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
+#
+#  # ══════════════════════════════════════════════
+#  # JOB 4 — Docker Build & Push
+#  # ══════════════════════════════════════════════
+#  docker:
+#    name: Docker Build & Push
+#    runs-on: ubuntu-latest
+#    needs: sonar                         # ✓ corrigé — plus de dépendance trivy ici
 #    if: github.event_name == 'push'
 #
 #    steps:
-#      - name: Login to Docker Hub
-#        uses: docker/login-action@v3     # ✓ ajouté — nécessaire pour pull depuis DockerHub
+#      - uses: actions/checkout@v4
+#
+#      - uses: docker/login-action@v3
 #        with:
 #          username: ${{ secrets.DOCKERHUB_USERNAME }}
 #          password: ${{ secrets.DOCKERHUB_TOKEN }}
 #
-#      - name: Scan image avec Trivy
-#        uses: aquasecurity/trivy-action@master
-#        with:
-#          image-ref: docker.io/sayarimohamed/pfe-frontend:${{ github.sha }}
-#          format: table
-#          exit-code: 1
-#          ignore-unfixed: true
-#          severity: CRITICAL,HIGH
-#          output: trivy-report.txt
-#          image-src: remote              # ✓ ajouté — force le pull depuis DockerHub
+#      - uses: docker/setup-buildx-action@v3
 #
-#      - name: Upload rapport Trivy
-#        uses: actions/upload-artifact@v4
-#        if: always()
+#      - uses: docker/build-push-action@v5
 #        with:
-#          name: trivy-security-report
-#          path: trivy-report.txt
-#          retention-days: 30
-
-  # ══════════════════════════════════════════════
-  # JOB 6 — Deploy Azure + Rollback
-  # ══════════════════════════════════════════════
-  deploy-frontend:
-    name: Deploy Frontend Render
-    runs-on: ubuntu-latest
-    needs: docker
-    if: github.event_name == 'push'
-
-    steps:
-      - name: Trigger Render Deploy
-        run: |
-          curl -s --fail -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" \
-            -H "Content-Type: application/json" \
-            -d '{"imageUrl":"docker.io/sayarimohamed/pfe-frontend:${{ github.sha }}"}' \
-            || { echo "Render deploy failed"; exit 1; }
-  # ══════════════════════════════════════════════
-  # JOB 7 — Notification échec
-  # ══════════════════════════════════════════════
-#  notify-failure:
-#    name: Notify on Failure
+#          context: .
+#          file: ./docker/frontend/Dockerfile
+#          push: true
+#          tags: |
+#            sayarimohamed/pfe-frontend:latest
+#            sayarimohamed/pfe-frontend:${{ github.sha }}
+#          cache-from: type=gha
+#          cache-to: type=gha,mode=max
+#
+#  # ══════════════════════════════════════════════
+#  # JOB 5 — Trivy Security Scan
+#  # ══════════════════════════════════════════════
+##  trivy:
+##    name: Trivy Security Scan
+##    runs-on: ubuntu-latest
+##    needs: docker                        # ✓ corrigé — après docker, pas après test
+##    if: github.event_name == 'push'
+##
+##    steps:
+##      - name: Login to Docker Hub
+##        uses: docker/login-action@v3     # ✓ ajouté — nécessaire pour pull depuis DockerHub
+##        with:
+##          username: ${{ secrets.DOCKERHUB_USERNAME }}
+##          password: ${{ secrets.DOCKERHUB_TOKEN }}
+##
+##      - name: Scan image avec Trivy
+##        uses: aquasecurity/trivy-action@master
+##        with:
+##          image-ref: docker.io/sayarimohamed/pfe-frontend:${{ github.sha }}
+##          format: table
+##          exit-code: 1
+##          ignore-unfixed: true
+##          severity: CRITICAL,HIGH
+##          output: trivy-report.txt
+##          image-src: remote              # ✓ ajouté — force le pull depuis DockerHub
+##
+##      - name: Upload rapport Trivy
+##        uses: actions/upload-artifact@v4
+##        if: always()
+##        with:
+##          name: trivy-security-report
+##          path: trivy-report.txt
+##          retention-days: 30
+#
+#  # ══════════════════════════════════════════════
+#  # JOB 6 — Deploy Azure + Rollback
+#  # ══════════════════════════════════════════════
+#  deploy-frontend:
+#    name: Deploy Frontend Render
 #    runs-on: ubuntu-latest
-#    needs: [build, test, sonar, docker, deploy-frontend]
-#    if: failure()
+#    needs: docker
+#    if: github.event_name == 'push'
 #
 #    steps:
-#      - name: Slack Notification
-#        uses: slackapi/slack-github-action@v1.26.0
-#        with:
-#          payload: |
-#            {
-#              "text": "❌ Pipeline échoué sur *${{ github.ref_name }}*",
-#              "attachments": [{
-#                "color": "danger",
-#                "fields": [
-#                  { "title": "Commit", "value": "${{ github.sha }}", "short": true },
-#                  { "title": "Auteur", "value": "${{ github.actor }}", "short": true },
-#                  { "title": "Lien", "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-#                ]
-#              }]
-#            }
-#        env:
-#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-#          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+#      - name: Trigger Render Deploy
+#        run: |
+#          curl -s --fail -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" \
+#            -H "Content-Type: application/json" \
+#            -d '{"imageUrl":"docker.io/sayarimohamed/pfe-frontend:${{ github.sha }}"}' \
+#            || { echo "Render deploy failed"; exit 1; }
+#  # ══════════════════════════════════════════════
+#  # JOB 7 — Notification échec
+#  # ══════════════════════════════════════════════
+##  notify-failure:
+##    name: Notify on Failure
+##    runs-on: ubuntu-latest
+##    needs: [build, test, sonar, docker, deploy-frontend]
+##    if: failure()
+##
+##    steps:
+##      - name: Slack Notification
+##        uses: slackapi/slack-github-action@v1.26.0
+##        with:
+##          payload: |
+##            {
+##              "text": "❌ Pipeline échoué sur *${{ github.ref_name }}*",
+##              "attachments": [{
+##                "color": "danger",
+##                "fields": [
+##                  { "title": "Commit", "value": "${{ github.sha }}", "short": true },
+##                  { "title": "Auteur", "value": "${{ github.actor }}", "short": true },
+##                  { "title": "Lien", "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+##                ]
+##              }]
+##            }
+##        env:
+##          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+##          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
