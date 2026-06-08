@@ -10,7 +10,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200","https://pfe-frontend.graymoss-d46652df.francecentral.azurecontainerapps.io","https://projet-recrutement-pfe.vercel.app","https://pfe-frontend.orangesand-21e6d03b.germanywestcentral.azurecontainerapps.io")
+                .allowedOrigins("http://localhost:4200",
+                        "https://pfe-frontend.graymoss-d46652df.francecentral.azurecontainerapps.io",
+                        "https://pfe-frontend.orangesand-21e6d03b.germanywestcentral.azurecontainerapps.io")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
