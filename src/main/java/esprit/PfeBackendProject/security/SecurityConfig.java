@@ -82,7 +82,8 @@ public class SecurityConfig{
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
-                "https://pfe-frontend.graymoss-d46652df.francecentral.azurecontainerapps.io"
+                "https://pfe-frontend.graymoss-d46652df.francecentral.azurecontainerapps.io",
+                "https://projet-recrutement-pfe.vercel.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
