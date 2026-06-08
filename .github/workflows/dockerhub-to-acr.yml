@@ -1,0 +1,97 @@
+name: Docker Hub → ACR Sync
+
+on:
+  push:
+    branches: [ "backend" ]
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Tag Docker Hub à synchroniser (ex: latest, 1.0.0)'
+        required: false
+        default: 'latest'
+
+jobs:
+
+  # ══════════════════════════════════════════════
+  # JOB 1 — Pull Docker Hub → Push ACR
+  # ══════════════════════════════════════════════
+  sync-dockerhub-to-acr:
+    name: Sync Docker Hub → ACR
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKERHUB_IMAGE: sayarimohamed/pfe-backend
+      ACR_IMAGE: ${{ secrets.ACR_LOGIN_SERVER }}/pfe-backend
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Set image tag
+        id: tag
+        run: |
+          TAG=${{ github.event.inputs.image_tag || 'latest' }}
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "sha_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+
+      - name: Pull from Docker Hub
+        run: |
+          docker pull ${{ env.DOCKERHUB_IMAGE }}:${{ steps.tag.outputs.tag }}
+
+      - name: Re-tag for ACR
+        run: |
+          docker tag \
+            ${{ env.DOCKERHUB_IMAGE }}:${{ steps.tag.outputs.tag }} \
+            ${{ env.ACR_IMAGE }}:latest
+
+          docker tag \
+            ${{ env.DOCKERHUB_IMAGE }}:${{ steps.tag.outputs.tag }} \
+            ${{ env.ACR_IMAGE }}:${{ steps.tag.outputs.sha_tag }}
+
+      - name: Push to ACR
+        run: |
+          docker push ${{ env.ACR_IMAGE }}:latest
+          docker push ${{ env.ACR_IMAGE }}:${{ steps.tag.outputs.sha_tag }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Docker Hub → ACR Sync" >> $GITHUB_STEP_SUMMARY
+          echo "| Champ | Valeur |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| Source | \`${{ env.DOCKERHUB_IMAGE }}:${{ steps.tag.outputs.tag }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Destination | \`${{ env.ACR_IMAGE }}:latest\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| SHA Tag | \`${{ steps.tag.outputs.sha_tag }}\` |" >> $GITHUB_STEP_SUMMARY
+
+  # ══════════════════════════════════════════════
+  # JOB 2 — Deploy → Render
+  # ══════════════════════════════════════════════
+  deploy-backend:
+    name: Deploy Backend → Render
+    runs-on: ubuntu-latest
+    needs: sync-dockerhub-to-acr
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Trigger Render Deploy
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Deploy Backend → Render.com" >> $GITHUB_STEP_SUMMARY
+          echo "| Champ | Valeur |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| Image ACR | \`${{ secrets.ACR_LOGIN_SERVER }}/pfe-backend:latest\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| URL | \`https://pfe-backend-latest-yvms.onrender.com\` |" >> $GITHUB_STEP_SUMMARY
