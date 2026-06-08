@@ -106,11 +106,17 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     steps:
-      - name: Azure CLI Login
+      - name: Install Azure CLI + containerapp extension
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az extension add --name containerapp --upgrade -y
+
+      - name: Login to Azure via Service Principal (ACR credentials)
         run: |
           az login \
-            --username "${{ secrets.AZURE_USERNAME }}" \
-            --password "${{ secrets.AZURE_PASSWORD }}" \
+            --service-principal \
+            --username "${{ secrets.ACR_USERNAME }}" \
+            --password "${{ secrets.ACR_PASSWORD }}" \
             --tenant "${{ secrets.AZURE_TENANT_ID }}"
           az account set --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
 
@@ -120,6 +126,7 @@ jobs:
             --resource-group pfe-rg \
             --name pfe-backend \
             --image ${{ secrets.ACR_LOGIN_SERVER }}/pfe-backend:latest \
+            --set-env-vars "SPRING_DATA_MONGODB_URI=${{ secrets.MONGODB_URI }}"
 
       - name: Summary
         if: always()
