@@ -11,7 +11,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideNativeDateAdapter } from '@angular/material/core';
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes,
+
+    ),
     provideNativeDateAdapter(),
     provideAnimations(),
     KeycloakService, // ← IMPORTANT: Ajouter le service

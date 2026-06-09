@@ -330,8 +330,14 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['admin'] },
       },
+      // Avant la route permissions
       {
         path: 'settings/Permissions',
+        redirectTo: 'settings/permissions',
+        pathMatch: 'full'
+      },
+      {
+        path: 'settings/permissions',
         loadComponent: () =>
           import('./features/backoffice/settings/permission-management/permission-management.component').then(
             (m) => m.PermissionManagementComponent

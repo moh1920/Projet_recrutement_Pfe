@@ -22,8 +22,14 @@ export const roleGuard: CanActivateFn = async (route, state) => {
       return true;
     }
 
-    // Récupérer les rôles de l'utilisateur et les convertir en minuscules
-    const userRoles = keycloak.getUserRoles().map((role) => role.toLowerCase());
+
+    const realmRoles = keycloak.getUserRoles(false); // realm roles
+    const clientRoles = keycloak.getUserRoles(true);  // realm + client roles
+
+    console.log('Realm roles:', realmRoles);
+    console.log('Realm + Client roles:', clientRoles);
+
+    const userRoles = clientRoles.map((role) => role.toLowerCase());
     const normalizedRequiredRoles = requiredRoles.map((role) => role.toLowerCase());
 
     console.log('Rôles requis (normalisés):', normalizedRequiredRoles);
