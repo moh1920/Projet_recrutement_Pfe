@@ -109,19 +109,27 @@ public class UserService {
 
     public void updateStatusUser(String id, StatusUser status) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable : " + id));
+
+        UserDetais userDetais;
 
         if (user.getIdDetaisUsers() == null) {
-            throw new RuntimeException("UserDetais not found for this user");
+            // Créer un UserDetais manquant
+            userDetais = new UserDetais();
+            userDetais.setStatusUser(status);
+            userDetais.setDateDeCreation(LocalDate.now());
+            userDetais = userDetaisRepository.save(userDetais);
+
+            user.setIdDetaisUsers(userDetais.getId());
+            userRepository.save(user);
+        } else {
+            userDetais = userDetaisRepository.findById(user.getIdDetaisUsers())
+                    .orElseThrow(() -> new RuntimeException("UserDetais introuvable : " + user.getIdDetaisUsers()));
+
+            userDetais.setStatusUser(status);
+            userDetaisRepository.save(userDetais);
         }
-
-        UserDetais userDetais = userDetaisRepository.findById(user.getIdDetaisUsers())
-                .orElseThrow(() -> new RuntimeException("UserDetais not found"));
-
-        userDetais.setStatusUser(status);
-        userDetaisRepository.save(userDetais);
     }
-
 
 
 

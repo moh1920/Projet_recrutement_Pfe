@@ -46,11 +46,17 @@ public class UserController {
     }
 
     @PutMapping("updateStatusUser/{id}/{status}")
-    public void updateStatusUser(@PathVariable String id,@PathVariable StatusUser status) {
+    public ResponseEntity<?> updateStatusUser(
+            @PathVariable String id,
+            @PathVariable StatusUser status) {
         try {
             userService.updateStatusUser(id, status);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur mise à jour status : " + e.getMessage());
         }
     }
 
