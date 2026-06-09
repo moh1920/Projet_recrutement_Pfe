@@ -10,7 +10,8 @@ export interface CreateUserRequest {
   phone: string;
   statusUser: StatusUser;
 }
+// create-user-request.model.ts
 export enum StatusUser {
-  ACTIF = 'Actif',
-  INACTIF = 'Inactif',
+  ACTIF = 'Actif',      // ← correspond exactement à l'enum Java
+  INACTIF = 'Inactif'
 }
