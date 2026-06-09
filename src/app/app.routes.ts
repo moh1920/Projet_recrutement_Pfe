@@ -331,7 +331,7 @@ export const routes: Routes = [
         data: { roles: ['admin'] },
       },
       {
-        path: 'settings/permissions',
+        path: 'settings/Permissions',
         loadComponent: () =>
           import('./features/backoffice/settings/permission-management/permission-management.component').then(
             (m) => m.PermissionManagementComponent
