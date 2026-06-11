@@ -6,5 +6,5 @@ export const environment = {
   keycloakClientId: 'espritRecrutement',
   apiUrl: 'https://pfe-backend.orangesand-21e6d03b.germanywestcentral.azurecontainerapps.io',
 
-  apiUrlFastApi:'https://cv-api.graymoss-d46652df.francecentral.azurecontainerapps.io'
+  apiUrlFastApi:'https://sayaru-cvextraction.hf.space'
 };

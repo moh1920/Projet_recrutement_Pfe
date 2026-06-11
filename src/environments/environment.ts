@@ -4,6 +4,6 @@ export const environment = {
   keycloakRealm: 'espritRecrutement',
   keycloakClientId: 'espritRecrutement',
   apiUrl: 'http://localhost:8020',
-  apiUrlFastApi:'https://sayaru-matchingpfe.hf.space/api/match'
+  apiUrlFastApi:'http://localhost:8000'
   //apiUrlFastApi:'https://cv-api.graymoss-d46652df.francecentral.azurecontainerapps.io'
 };
