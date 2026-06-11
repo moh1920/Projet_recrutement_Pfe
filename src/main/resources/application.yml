@@ -114,4 +114,4 @@ management:
 ai:
   matching:
     api:
-      url: ${MATCHING_API_URL:http://127.0.0.1:8001}
+      url: ${MATCHING_API_URL:https://sayaru-matchingpfe.hf.space}

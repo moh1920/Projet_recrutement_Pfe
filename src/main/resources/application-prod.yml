@@ -94,6 +94,6 @@ management:
 ai:
   matching:
     api:
-      url: ${MATCHING_API_URL:https://matching-cv.graymoss-d46652df.francecentral.azurecontainerapps.io}
+      url: ${MATCHING_API_URL:https://sayaru-matchingpfe.hf.space}
 
 
