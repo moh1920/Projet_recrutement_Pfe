@@ -10,9 +10,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { PermissionService } from '../../../../core/services/permission.service';
 import { MenuService } from '../../../../core/services/menu.service';
-import { MenuItem } from '../../../../core/models/menu.model';
+import {MenuItem, MenuItemDTO} from '../../../../core/models/menu.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
+import {BehaviorSubject, Observable} from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-permission-management',
@@ -53,7 +55,7 @@ export class PermissionManagementComponent implements OnInit {
     // Note: The authenticated user MUST have 'view-realm' or 'view-users' Keycloak admin role for this to work.
     // Otherwise, this will return a 403 Forbidden error.
     const url = `${environment.keycloakUrl}/admin/realms/${environment.keycloakRealm}/roles`;
-    
+
     this.http.get<any[]>(url).subscribe({
       next: (data) => {
         // Filter out default keycloak roles to only show relevant application roles
@@ -127,11 +129,20 @@ export class PermissionManagementComponent implements OnInit {
     this.permissionService.saveOrUpdatePermission(request).subscribe({
       next: () => {
         this.snackBar.open('Permissions sauvegardées avec succès', 'Fermer', { duration: 3000 });
+        this.menuService.refreshSidebar(); // ← Ajouter cette ligne
+
+
+
       },
       error: (err) => {
         this.snackBar.open('Erreur lors de la sauvegarde', 'Fermer', { duration: 3000 });
         console.error(err);
       }
     });
+
+
+
   }
+
+
 }

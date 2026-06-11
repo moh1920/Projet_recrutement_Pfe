@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { MenuItem, MenuItemDTO } from '../models/menu.model';
 
@@ -11,12 +11,20 @@ export class MenuService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/menu`;
 
+  private refreshTrigger$ = new BehaviorSubject<void>(undefined);
+
   getFullTree(): Observable<MenuItemDTO[]> {
     return this.http.get<MenuItemDTO[]>(`${this.apiUrl}/tree`);
   }
 
   getSidebar(): Observable<MenuItemDTO[]> {
-    return this.http.get<MenuItemDTO[]>(`${this.apiUrl}/sidebar`);
+    return this.refreshTrigger$.pipe(
+      switchMap(() => this.http.get<MenuItemDTO[]>(`${this.apiUrl}/sidebar`))
+    );
+  }
+
+  refreshSidebar(): void {
+    this.refreshTrigger$.next();
   }
 
   getAllItems(): Observable<MenuItem[]> {
