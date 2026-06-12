@@ -302,4 +302,36 @@ export class JobOffersAdminComponent implements OnInit, AfterViewInit {
         }
       });
   }
+
+  // Dans le composant
+  publishingId:  string | null = null;
+  publishToLinkedIn(offre: Offre): void {
+    if (!confirm(`Publier "${offre.title}" sur LinkedIn ?`)) return;
+
+    // 👈 Ouvrir la fenêtre AVANT l'appel async (évite le blocage navigateur)
+    const linkedInWindow = window.open('', '_blank');
+
+    this.publishingId = offre.id!;
+    this.jobOfferService.publishToLinkedIn(offre.id!).subscribe({
+      next: () => {
+        this.publishingId = null;
+        // 👈 Rediriger la fenêtre déjà ouverte
+        if (linkedInWindow) {
+          linkedInWindow.location.href = 'https://www.linkedin.com/in/sayari-mohamed-991377257/recent-activity/all/';
+        }
+      },
+      error: (err) => {
+        this.publishingId = null;
+        // Fermer la fenêtre si erreur
+        if (linkedInWindow) linkedInWindow.close();
+
+        const message = err.error || err.message;
+        if (message?.includes('DUPLICATE_POST')) {
+          alert('⚠️ Ce post a déjà été publié sur LinkedIn !');
+        } else {
+          alert('❌ Erreur : ' + message);
+        }
+      }
+    });
+  }
 }

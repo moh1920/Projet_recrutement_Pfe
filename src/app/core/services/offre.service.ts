@@ -72,6 +72,14 @@
       return this.http.post<any>(`${this.baseUrl}/create`, toBackend(offre)).pipe(map(toFrontend));
     }
 
+
+    // Nouvelle méthode
+    publishToLinkedIn(id: number | string): Observable<string> {
+      return this.http.post(`${this.baseUrl}/${id}/publish-linkedin`, {}, {
+        responseType: 'text'  // 👈 ajouter ça
+      });
+    }
+
     getAllOffres(page = 0, size = 5): Observable<any> {
       const params = new HttpParams().set('page', page).set('size', size);
 

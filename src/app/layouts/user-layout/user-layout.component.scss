@@ -49,7 +49,30 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 }
+.logo-area {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .logo-img {
+    height: 56px;
+    width: auto;
+    object-fit: contain;
+    // Si votre image a un fond noir, utilisez mix-blend-mode
+    // pour l'intégrer proprement sur fond blanc
+    mix-blend-mode: multiply;
+  }
+}
+.footer-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
 .toolbar-content {
   display: flex;
   align-items: center;

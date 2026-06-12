@@ -131,9 +131,8 @@ export class JobOfferDialogComponent {
 
     request$.subscribe({
       next: (result) => {
-        console.log('✅ résultat:', result); // 🔍 DIAGNOSTIC
         this.loading = false;
-        this.dialogRef.close(result);
+        this.dialogRef.close(result); // ✅ reçoit bien l'Offre
       },
       error: (err) => {
         this.loading = false;

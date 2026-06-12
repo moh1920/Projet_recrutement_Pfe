@@ -249,6 +249,13 @@
                   <span>Progression des candidats</span>
                 </button>
 
+
+                <button mat-menu-item (click)="publishToLinkedIn(offer)"
+                        [disabled]="publishingId === offer.id">
+                  <mat-icon style="color: #0077b5">linkedin</mat-icon>
+                  <span>{{ publishingId === offer.id ? 'Publication...' : 'Publier sur LinkedIn' }}</span>
+                </button>
+
                 <button mat-menu-item (click)="archiveOffer(offer)">
                   <mat-icon>archive</mat-icon><span>Archiver</span>
                 </button>

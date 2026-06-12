@@ -55,23 +55,21 @@ $dark-text: #f1f5f9;
 
 // Header
 .sidenav-header {
-  padding: 20px;
+  padding: 16px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
   .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
-    color: #fff;
+    justify-content: center;
   }
 
   .logo-img {
-    width: 100px;
-    height: 60px;
+    width: 160px;
+    height: 80px;
     object-fit: contain;
   }
 }
-
 // Navigation
 mat-nav-list {
   padding: 16px 8px;
