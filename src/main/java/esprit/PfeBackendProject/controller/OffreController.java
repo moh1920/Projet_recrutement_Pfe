@@ -5,6 +5,7 @@ import esprit.PfeBackendProject.dto.N8nScoringResponse;
 import esprit.PfeBackendProject.dto.OffreUpdateDto;
 import esprit.PfeBackendProject.dto.ScoreResult;
 import esprit.PfeBackendProject.entity.Offre;
+import esprit.PfeBackendProject.service.JobPostingService;
 import esprit.PfeBackendProject.service.N8nRecrutementService;
 import esprit.PfeBackendProject.service.OffreService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/offre")
@@ -22,15 +25,22 @@ public class OffreController {
 
     private final OffreService offreService;
     private final N8nRecrutementService n8nService;
+    private final JobPostingService jobPostingService;
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Offre offre) {
         try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(offreService.save(offre));
+            Offre savedOffre = offreService.save(offre);
+            String linkedInUrl = jobPostingService.createDraftAndGetUrl(savedOffre);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("offre", savedOffre);
+            response.put("linkedInShareUrl", linkedInUrl);
+
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Erreur lors de la création de l'offre : " + e.getMessage());
+                    .body("Erreur : " + e.getMessage());
         }
     }
 
@@ -155,5 +165,19 @@ public class OffreController {
     public ResponseEntity<List<ScoreResult>> classerCandidats(
             @RequestBody List<EvaluationRequest> evaluations) {
         return ResponseEntity.ok(offreService.classerCandidats(evaluations));
+    }
+
+
+    @PostMapping("/{id}/publish-linkedin")
+    public ResponseEntity<?> publishToLinkedIn(@PathVariable String id) {
+        try {
+            Offre offre = offreService.findById(id);
+            jobPostingService.publishToLinkedIn(offre);
+            return ResponseEntity.ok("Publié sur LinkedIn avec succès !");
+        } catch (Exception e) {
+            // 👈 retourner le message lisible
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 }
