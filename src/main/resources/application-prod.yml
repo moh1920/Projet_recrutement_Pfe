@@ -97,3 +97,15 @@ ai:
       url: ${MATCHING_API_URL:https://sayaru-matchingpfe.hf.space}
 
 
+google:
+  credentials:
+    base64: ${GOOGLE_CREDENTIALS_BASE64}
+  sheets:
+    id: 1jpdx5dTNzxN9yV4SxlVeLj8d_3z3eeEEe1Mok-6r488
+    range: "'Feuille 3'!A:AF"
+
+n8n:
+  webhook:
+    url: https://sayari1233.app.n8n.cloud/webhook-test/offre-recrutement
+    connect-timeout: 10000
+    read-timeout: 120000

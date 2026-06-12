@@ -73,3 +73,10 @@ ai:
   matching:
     api:
       url: http://127.0.0.1:8001
+
+google:
+  credentials:
+    path: serene-segment-496522-j8-b3c2874910f0.json
+  sheets:
+    id: 1jpdx5dTNzxN9yV4SxlVeLj8d_3z3eeEEe1Mok-6r488
+    range: "'Feuille 3'!A:AF"

@@ -81,7 +81,7 @@ cloudinary:
 
 google:
   credentials:
-    path: src/main/resources/serene-segment-496522-j8-b3c2874910f0.json
+    path: serene-segment-496522-j8-b3c2874910f0.json
   sheets:
     id: 1jpdx5dTNzxN9yV4SxlVeLj8d_3z3eeEEe1Mok-6r488
     range: "'Feuille 3'!A:AF"

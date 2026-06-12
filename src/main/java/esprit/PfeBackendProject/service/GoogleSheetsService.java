@@ -10,7 +10,9 @@ import com.google.auth.oauth2.GoogleCredentials;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +26,26 @@ public class GoogleSheetsService {
     @Value("${google.sheets.range}")
     private String range;
 
-    @Value("${google.credentials.path}")
+    @Value("${google.credentials.path:}")
     private String credentialsPath;
+
+    @Value("${google.credentials.base64:}")
+    private String credentialsBase64;
+
+    private InputStream getCredentialsStream() throws Exception {
+        if (credentialsBase64 != null && !credentialsBase64.isEmpty()) {
+            // Prod (Azure) — variable d'environnement base64
+            byte[] decoded = Base64.getDecoder().decode(credentialsBase64);
+            return new ByteArrayInputStream(decoded);
+        } else {
+            // Local — fichier dans resources
+            return getClass().getClassLoader().getResourceAsStream(credentialsPath);
+        }
+    }
 
     public List<Map<String, String>> getCandidats() throws Exception {
         GoogleCredentials credentials = GoogleCredentials
-                .fromStream(new FileInputStream(credentialsPath))
+                .fromStream(getCredentialsStream())
                 .createScoped(List.of(SheetsScopes.SPREADSHEETS_READONLY));
 
         Sheets service = new Sheets.Builder(
