@@ -69,7 +69,7 @@ server:
 gemini:
   api:
     key: ${GEMINI_API_KEY}
-  model: gemini-3-flash-preview
+  model: gemini-3.5-flash
   max-output-tokens: 1500
   temperature: 0.3
 
