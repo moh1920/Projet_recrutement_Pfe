@@ -4,10 +4,7 @@ import esprit.PfeBackendProject.configuration.InterviewMapper;
 import esprit.PfeBackendProject.dto.InterviewDTO;
 import esprit.PfeBackendProject.dto.InterviewFilterDTO;
 import esprit.PfeBackendProject.dto.InterviewStatisticsDTO;
-import esprit.PfeBackendProject.entity.Interview;
-import esprit.PfeBackendProject.entity.InterviewStatus;
-import esprit.PfeBackendProject.entity.InterviewType;
-import esprit.PfeBackendProject.entity.JuryMember;
+import esprit.PfeBackendProject.entity.*;
 import esprit.PfeBackendProject.exceptions.ResourceNotFoundException;
 import esprit.PfeBackendProject.repository.InterviewRepository;
 import esprit.PfeBackendProject.repository.JuryMemberRepository;
@@ -34,6 +31,7 @@ public class InterviewService {
     private final InterviewMapper interviewMapper;
     private final EmailService emailService;
     private final EmailSenderService emailSenderService;
+    private final MeetingService meetingService;
 
     // ==================== GET Operations ====================
 
@@ -547,5 +545,137 @@ public class InterviewService {
         if (interview.getLocation() != null && !interview.getLocation().isBlank())
             return interview.getLocation();
         return "À confirmer";
+    }
+
+    // ==================== Scheduled - Auto Meeting Room ====================
+
+    @Transactional
+    @Scheduled(cron = "0 0 7 * * *") // Tous les jours à 7h00
+    //@Scheduled(cron = "0 */1 * * * *")   // Toutes les 1 minute
+    public void autoCreateMeetingRoomsForTodayInterviews() {
+        LocalDate today = LocalDate.now();
+        String todayStr = today.toString();
+
+        log.info("Scheduler - Création automatique des rooms pour les entretiens du {}", today);
+
+        List<Interview> todayVisioInterviews = interviewRepository.findAll().stream()
+                .filter(i -> todayStr.equals(i.getDate()))
+                .filter(i -> i.getStatus() == InterviewStatus.PLANIFIE)
+                .filter(i -> (i.getMeetLink() == null || i.getMeetLink().isBlank())) // Pas déjà une room assignée
+                .collect(Collectors.toList());
+
+        if (todayVisioInterviews.isEmpty()) {
+            log.info("Scheduler - Aucun entretien visio aujourd'hui sans room.");
+            return;
+        }
+
+        DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("HH:mm");
+
+        for (Interview interview : todayVisioInterviews) {
+            try {
+                // 1. Créer la room via MeetingService
+                // L'hostId = premier juryId ou fallback "system"
+                String hostId = (interview.getJuryIds() != null && !interview.getJuryIds().isEmpty())
+                        ? interview.getJuryIds().get(0)
+                        : "system";
+
+                String title = "Entretien – " + interview.getCandidateName()
+                        + " – " + interview.getPosition();
+
+                Meeting meeting = meetingService.createMeeting(hostId, title);
+                String roomCode = meeting.getRoomCode();
+
+                // 2. Sauvegarder le roomCode dans le meetLink de l'interview
+                interview.setMeetLink(roomCode);
+                interview.setUpdatedAt(LocalDateTime.now());
+                interviewRepository.save(interview);
+
+                // 3. Préparer les infos communes
+                String dateStr = today.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                String timeStr = LocalTime.parse(interview.getTime()).format(timeFmt);
+
+                // 4. Envoyer le code au candidat
+                if (interview.getCandidateEmail() != null && !interview.getCandidateEmail().isBlank()) {
+                    String subject = "Votre code de réunion – Entretien du " + dateStr;
+                    String body = String.format("""
+                        Bonjour %s,
+
+                        Votre entretien pour le poste de **%s** aura lieu aujourd'hui.
+                        Voici votre code de salon de réunion :
+
+                        🔑 Code de réunion : %s
+
+                        📅 Date    : %s
+                        🕐 Heure   : %s
+                        ⏱ Durée   : %d min
+
+                        Veuillez utiliser ce code pour rejoindre la réunion à l'heure prévue.
+
+                        Cordialement,
+                        L'équipe RH
+                        """,
+                            interview.getCandidateName(),
+                            interview.getPosition(),
+                            roomCode,
+                            dateStr,
+                            timeStr,
+                            interview.getDuration());
+
+                    emailService.sendEmail(interview.getCandidateEmail(), subject, body);
+                    log.info("Code room envoyé au candidat : {}", interview.getCandidateEmail());
+                }
+
+                // 5. Envoyer le code à chaque membre du jury (responsables)
+                if (interview.getJuryEmails() != null && !interview.getJuryEmails().isEmpty()) {
+                    List<String> juryNames = interview.getJury() != null
+                            ? interview.getJury()
+                            : Collections.emptyList();
+
+                    for (int i = 0; i < interview.getJuryEmails().size(); i++) {
+                        String juryEmail = interview.getJuryEmails().get(i);
+                        String juryName = i < juryNames.size() ? juryNames.get(i) : "Membre du jury";
+
+                        String subject = "Code de réunion – Entretien avec " + interview.getCandidateName();
+                        String body = String.format("""
+                            Bonjour %s,
+
+                            Un salon de réunion a été créé automatiquement pour l'entretien d'aujourd'hui.
+
+                            👤 Candidat        : %s
+                            📋 Poste           : %s
+                            📅 Date            : %s
+                            🕐 Heure           : %s
+                            ⏱ Durée           : %d min
+
+                            🔑 Code de réunion : %s
+
+                            En tant que membre du jury, vous pouvez rejoindre le salon avec ce code.
+
+                            Merci de préparer vos questions et grilles d'évaluation.
+
+                            Cordialement,
+                            L'équipe RH
+                            """,
+                                juryName,
+                                interview.getCandidateName(),
+                                interview.getPosition(),
+                                dateStr,
+                                timeStr,
+                                interview.getDuration(),
+                                roomCode);
+
+                        emailService.sendEmail(juryEmail, subject, body);
+                        log.info("Code room envoyé au jury : {}", juryEmail);
+                    }
+                }
+
+                log.info("Room créée et notifications envoyées pour l'entretien {}", interview.getId());
+
+            } catch (Exception e) {
+                log.error("Échec création room pour l'entretien {} : {}", interview.getId(), e.getMessage());
+            }
+        }
+
+        log.info("Scheduler - Création rooms terminée : {} entretien(s) traité(s)", todayVisioInterviews.size());
     }
 }
