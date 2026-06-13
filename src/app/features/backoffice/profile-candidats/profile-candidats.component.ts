@@ -46,7 +46,7 @@ export class ProfileCandidatsComponent implements OnInit {
 
   // ── UI State ──────────────────────────────────────────────────────────────
   loading = true;
-  viewMode: 'grid' | 'list' = 'list';
+  viewMode: 'list' | 'grid' = 'grid';
   selectedProfile: ProfileResponseDTO | null = null;
 
   // ── Filters ───────────────────────────────────────────────────────────────

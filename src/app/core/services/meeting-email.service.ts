@@ -59,12 +59,8 @@ export class MeetingEmailService {
   }
 
   sendEmailContact(sendRequest: EmailSendRequest): Observable<any> {
-    // const email = {
-    //   recipientEmail: toEmail,
-    //   confirmedSubject: subject,
-    //   confirmedBody: body
-    // };
-
-    return this.http.post(`${this.API_URL}/sendEmail`, sendRequest);
+    return this.http.post(`${this.API_URL}/sendEmail`, sendRequest, {
+      responseType: 'text'
+    });
   }
 }

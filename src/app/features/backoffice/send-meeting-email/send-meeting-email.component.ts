@@ -98,7 +98,15 @@ export class SendMeetingEmailComponent {
         this.isGenerating = false;
       },
       error: (err) => {
-        this.errorMessage = err.error || 'Erreur lors de la génération IA.';
+        if (typeof err.error === 'string') {
+          this.errorMessage = err.error;
+        } else if (err.error?.message) {
+          this.errorMessage = err.error.message;
+        } else if (err.message) {
+          this.errorMessage = err.message;
+        } else {
+          this.errorMessage = 'Erreur lors de l\'envoi de l\'email.';
+        }
         this.isGenerating = false;
       },
     });
