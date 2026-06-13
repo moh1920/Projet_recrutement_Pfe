@@ -5,6 +5,7 @@ import esprit.PfeBackendProject.dto.N8nScoringResponse;
 import esprit.PfeBackendProject.dto.OffreUpdateDto;
 import esprit.PfeBackendProject.dto.ScoreResult;
 import esprit.PfeBackendProject.entity.Offre;
+import esprit.PfeBackendProject.service.AiOffreGeneratorService;
 import esprit.PfeBackendProject.service.JobPostingService;
 import esprit.PfeBackendProject.service.N8nRecrutementService;
 import esprit.PfeBackendProject.service.OffreService;
@@ -26,15 +27,24 @@ public class OffreController {
     private final OffreService offreService;
     private final N8nRecrutementService n8nService;
     private final JobPostingService jobPostingService;
-
+    private final AiOffreGeneratorService aiOffreGeneratorService;
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Offre offre) {
         try {
+            // 1. Sauvegarde l'offre brute
             Offre savedOffre = offreService.save(offre);
-            String linkedInUrl = jobPostingService.createDraftAndGetUrl(savedOffre);
+
+            // 2. AI structure l'offre avant LinkedIn
+            Offre enrichedOffre = aiOffreGeneratorService.generateAndStructure(savedOffre);
+
+            // 3. Sauvegarde l'offre enrichie
+            Offre finalOffre = offreService.save(enrichedOffre);
+
+            // 4. Publie sur LinkedIn avec le texte généré par AI
+            String linkedInUrl = jobPostingService.createDraftAndGetUrl(finalOffre);
 
             Map<String, Object> response = new HashMap<>();
-            response.put("offre", savedOffre);
+            response.put("offre", finalOffre);
             response.put("linkedInShareUrl", linkedInUrl);
 
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -180,4 +190,7 @@ public class OffreController {
                     .body(e.getMessage());
         }
     }
+
+
+
 }

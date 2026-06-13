@@ -33,6 +33,7 @@ public class InterviewService {
     private final JuryMemberRepository juryMemberRepository;
     private final InterviewMapper interviewMapper;
     private final EmailService emailService;
+    private final EmailSenderService emailSenderService;
 
     // ==================== GET Operations ====================
 
@@ -190,6 +191,29 @@ public class InterviewService {
         }
 
         Interview savedInterview = interviewRepository.save(interview);
+        emailSenderService.send(interview.getCandidateEmail(),
+                "Confirmation de votre entretien",
+                String.format("""
+                    Bonjour %s,
+
+                    Votre entretien pour le poste de %s a été programmé.
+
+                    📅 Date         : %s
+                    🕐 Heure        : %s
+                    ⏱ Durée        : %d min
+                    📍 Lieu/Lien    : %s
+
+                    Merci de vous présenter quelques minutes avant l'heure prévue.
+
+                    Cordialement,
+                    L'équipe RH
+                    """,
+                        interview.getCandidateName(),
+                        interview.getPosition(),
+                        interview.getDate(),
+                        interview.getTime(),
+                        interview.getDuration(),
+                        buildLocationString(interview)));
         log.info("Interview created successfully with id: {}", savedInterview.getId());
         return interviewMapper.toDTO(savedInterview);
     }

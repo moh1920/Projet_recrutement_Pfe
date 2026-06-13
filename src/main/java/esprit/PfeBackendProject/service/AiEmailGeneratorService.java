@@ -23,7 +23,7 @@ public class AiEmailGeneratorService {
             2 Rue de l'Artisanat, Cité Ghazala, Ariana 2083, Tunisie
             Tél : +216 71 857 000
             Email : rh@esprit.tn
-            Web : www.esprit.tn
+            Web : https://pfe-frontend.orangesand-21e6d03b.germanywestcentral.azurecontainerapps.io/
             """;
 
     public EmailGenerateResponse generateEmail(EmailRequest request) {

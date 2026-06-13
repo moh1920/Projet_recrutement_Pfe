@@ -43,6 +43,8 @@ public class Offre {
 
     private Integer candidateCount;
 
+    private String linkedinPostText;
+
     @DBRef
     private List<CriteresDeSelection> criteresDeSelections;
 

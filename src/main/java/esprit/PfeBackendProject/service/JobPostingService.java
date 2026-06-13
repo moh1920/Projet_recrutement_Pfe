@@ -60,6 +60,14 @@ public class JobPostingService {
     }
 
     private String buildPostText(Offre offre) {
+        // Si l'AI a généré un texte LinkedIn → on l'utilise
+        if (offre.getLinkedinPostText() != null && !offre.getLinkedinPostText().isBlank()) {
+            return offre.getLinkedinPostText()
+                    + "\n\n#Recrutement #ESPRIT #Emploi"
+                    + "\nRéf : " + offre.getId()
+                    + " | " + java.time.LocalDateTime.now();
+        }
+        // Sinon fallback texte manuel
         return "🚀 Nouvelle offre d'emploi : " + offre.getTitle() + "\n\n"
                 + offre.getDescription() + "\n\n"
                 + "Type : " + offre.getType() + "\n"
@@ -67,7 +75,7 @@ public class JobPostingService {
                 + "Postulez maintenant !\n"
                 + "#Recrutement #ESPRIT #Emploi\n"
                 + "Réf : " + offre.getId() + " | "
-                + java.time.LocalDateTime.now(); // 👈 timestamp unique
+                + java.time.LocalDateTime.now();
     }
     public void publishToLinkedIn(Offre offre) {
         String url = "https://api.linkedin.com/v2/ugcPosts";

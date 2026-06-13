@@ -122,3 +122,7 @@ linkedin:
     token: AQWZnfWwoMnL_aDttPqFljGSJWQf33nuVR-BUtu0ypz21dtuaKg2VuCajSdz2CSk4dlA8fT4J8gCx_yC2OPViiiAdsWyNePKAKhEZ8_XuGjwFY-zkwi2UCIrVHQCmf1jRSzSHzZrQEiyPZQn04D_1F97gDan1ql992SXv-DM7ikqWZ7QQ3U5j48eSOL7UsCrvUy4_k8HUrTnNQyR-G9chIvNcY09pKmGqjH7R8BfTs64UCKQZgmNkNTNRfv41OA51qA6uGywfW9YXEgAqsHKG3fL9zbPKDc6Eq5hdfp1M9yNBAFJGrfRRwMJ-Rfdfu6KrRwcJ_dIxP9zGoGN0GRcEy4kseEVNA
   person:
     urn: urn:li:person:bU-CvNRdj0
+
+groq:
+  api:
+    key: ${GROQ_API_KEY}
