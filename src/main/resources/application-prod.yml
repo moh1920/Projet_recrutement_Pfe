@@ -106,7 +106,7 @@ google:
 
 n8n:
   webhook:
-    url: https://sayari1233.app.n8n.cloud/webhook-test/offre-recrutement
+    url: https://sayari1234.app.n8n.cloud/webhook-test/offre-recrutement
     connect-timeout: 10000
     read-timeout: 120000
 linkedin:
